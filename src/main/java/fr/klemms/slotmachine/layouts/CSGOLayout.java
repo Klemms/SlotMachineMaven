@@ -64,6 +64,7 @@ public class CSGOLayout implements InventoryProvider {
 							Bukkit.getScheduler().runTaskLaterAsynchronously(SlotPlugin.pl, new ThreadPullLever(player, machine, contents, callback -> {
 								machine.setPlayerRolling(player, false);
 							}), 0);
+							machine.openMachine(player, false);
 						}
 					}
 				});

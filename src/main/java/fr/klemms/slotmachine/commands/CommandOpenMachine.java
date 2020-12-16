@@ -3,7 +3,6 @@ package fr.klemms.slotmachine.commands;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -41,7 +40,7 @@ public class CommandOpenMachine implements CommandExecutor {
 							}
 						} else {
 							player.closeInventory();
-							slotMachine.openMachine(player);
+							slotMachine.openMachine(player, true);
 							player.playSound(player.getLocation(), slotMachine.getMachineOpeningSound(), 1.9f, 1.2f);
 						}
 					} else if(sender instanceof Player) {

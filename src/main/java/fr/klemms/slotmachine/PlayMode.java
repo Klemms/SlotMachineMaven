@@ -20,7 +20,7 @@ public enum PlayMode {
 			PlayerHeadsUtil.EARTH),
 	LIMITED_MACHINE(
 			"Machine Limited", 
-			"Only one player can play on this machine at a time (Spectating is not supported yet)", 
+			"Only one player can play on this machine at a time (Spectating is not supported)", 
 			PlayerHeadsUtil.QUEUE_SCREEN);
 	
 	public String title;

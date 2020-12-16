@@ -249,10 +249,12 @@ public abstract class SlotMachine {
 		return this.inventory;
 	}
 	
-	public void openMachine(Player player) {
-		this.row_0.put(player.getUniqueId(), this.createRandomItemPool(false));
-		this.row_1.put(player.getUniqueId(), this.createRandomItemPool(false));
-		this.row_2.put(player.getUniqueId(), this.createRandomItemPool(false));
+	public void openMachine(Player player, boolean updateItems) {
+		if (updateItems) {
+			this.row_0.put(player.getUniqueId(), this.createRandomItemPool(false));
+			this.row_1.put(player.getUniqueId(), this.createRandomItemPool(false));
+			this.row_2.put(player.getUniqueId(), this.createRandomItemPool(false));
+		}
 		this.inventory.open(player);
 	}
 
