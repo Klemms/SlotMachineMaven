@@ -231,7 +231,7 @@ public class SlotPlugin extends JavaPlugin {
 				ExceptionCollector.sendException(SlotPlugin.pl, e);
 			}
 			try {
-				this.getLogger().log(Level.INFO, "Creating a backup of /machines to /machinesLastBakup");
+				this.getLogger().log(Level.INFO, "Creating a backup of /machines to /machinesLastBackup");
 				FileUtils.copyDirectory(this.getDataFolder().toPath().resolve("machines").toFile(), this.getDataFolder().toPath().resolve("machinesLastBackup").toFile(), false);
 			} catch (IOException e) {
 				this.getLogger().log(Level.INFO, "Backup creation failed");
