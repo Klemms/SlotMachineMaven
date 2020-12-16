@@ -41,7 +41,7 @@ public class ChangeItemWeight {
 								ChatContent.AQUA + "Decrement weight"
 								)), event -> {
 									if (item.getWeight() - 1 >= 0) {
-										player.playSound(player.getLocation(), Sound.BLOCK_BONE_BLOCK_PLACE, 1F, 0.8F);
+										player.playSound(player.getLocation(), Sound.ENTITY_PAINTING_PLACE, 1F, 0.7F);
 										item.setWeight(item.getWeight() - 1);
 										SlotPlugin.saveToDisk();
 										ChangeItemWeight.changeItemWeight(player, machine, item, backpage);
@@ -53,7 +53,7 @@ public class ChangeItemWeight {
 								ChatContent.AQUA + "Increment weight"
 								)), event -> {
 									if (item.getWeight() + 1 <= 999) {
-										player.playSound(player.getLocation(), Sound.BLOCK_BONE_BLOCK_PLACE, 1F, 1.2F);
+										player.playSound(player.getLocation(), Sound.ENTITY_PAINTING_PLACE, 1F, 1.3F);
 										item.setWeight(item.getWeight() + 1);
 										SlotPlugin.saveToDisk();
 										ChangeItemWeight.changeItemWeight(player, machine, item, backpage);
