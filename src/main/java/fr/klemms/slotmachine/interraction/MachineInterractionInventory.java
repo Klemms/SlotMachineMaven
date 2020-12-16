@@ -64,7 +64,7 @@ public class MachineInterractionInventory {
 		SmartInventory inv = SmartInventory.builder()
 				.manager(SlotPlugin.invManager)
 				.id(machine == null ? "managment" : machine.getMachineUUID().toString())
-				.title(machine == null ? "Slot Machine" : machine.getSlotMachineName())
+				.title(machine == null ? ("Slot Machine on " + (entity != null ? entity.getType().toString() : block.getType().toString())) : machine.getSlotMachineName())
 				.size(6, 9)
 				.closeable(true)
 				.provider(new InventoryProvider() {
