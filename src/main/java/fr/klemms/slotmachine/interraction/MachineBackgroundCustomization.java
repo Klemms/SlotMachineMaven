@@ -3,6 +3,7 @@ package fr.klemms.slotmachine.interraction;
 import java.util.Arrays;
 
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -13,6 +14,7 @@ import fr.klemms.slotmachine.SlotMachineBlock;
 import fr.klemms.slotmachine.SlotMachineEntity;
 import fr.klemms.slotmachine.SlotPlugin;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
+import fr.klemms.slotmachine.utils.PlayerHeadsUtil;
 import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.InventoryListener;
 import fr.minuskube.inv.SmartInventory;
@@ -63,21 +65,21 @@ public class MachineBackgroundCustomization {
 						contents.fillRow(3, ClickableItem.empty(null));
 						contents.fillRow(4, ClickableItem.empty(null));
 						
-						contents.set(2, 1, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(SlotPlugin.SIGN_UNIVERSAL, 1), ChatContent.GOLD + "Background Item")));
+						contents.set(2, 1, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.SMALL_INFOS), ChatContent.GOLD + "Background Item")));
 						contents.set(3, 1, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(machine.getBackgroundItem(), 1), " ")));
 
-						contents.set(2, 3, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(SlotPlugin.SIGN_UNIVERSAL, 1), ChatContent.GOLD + "Emphasis Item")));
+						contents.set(2, 3, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.SMALL_INFOS), ChatContent.GOLD + "Emphasis Item")));
 						contents.set(3, 3, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(machine.getEmphasisItem(), 1), " ")));
 
-						contents.set(2, 5, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(SlotPlugin.SIGN_UNIVERSAL, 1), ChatContent.GOLD + "Lever Item")));
+						contents.set(2, 5, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.SMALL_INFOS), ChatContent.GOLD + "Lever Item")));
 						contents.set(3, 5, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(machine.getLeverItem(), 1), " ")));
 
-						contents.set(2, 7, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(SlotPlugin.SIGN_UNIVERSAL, 1), ChatContent.GOLD + "Item-List Item")));
+						contents.set(2, 7, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.SMALL_INFOS), ChatContent.GOLD + "Item-List Item")));
 						contents.set(3, 7, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(machine.getItemListItem(), 1), " ")));
 						
-						contents.set(0, 2, ClickableItem.empty(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.PAINTING, 1), ChatContent.GOLD + "Informations"), Arrays.asList(
+						contents.set(0, 2, ClickableItem.empty(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.INFOS), ChatContent.GOLD + "Informations"), Arrays.asList(
 								ChatContent.AQUA + "Drag and Drop an item on another item",
-								ChatContent.AQUA + "to replace it, hover a sign",
+								ChatContent.AQUA + "to replace it, hover information icons",
 								ChatContent.AQUA + "to get a description of the item",
 								ChatContent.AQUA + "",
 								ChatContent.GRAY + "Note : This will destroy the item",
@@ -90,6 +92,7 @@ public class MachineBackgroundCustomization {
 							)), event -> {
 								ConfirmInventory.confirmWindow(player, "Reset customization ?", "No, cancel", "Yes, reset", callback -> {
 									if (callback) {
+										player.playSound(player.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1F, 1F);
 										machine.resetBackgroundCustomization();
 										SlotPlugin.saveToDisk();
 									}
@@ -98,7 +101,8 @@ public class MachineBackgroundCustomization {
 								
 						}));
 
-						contents.set(5, 1, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(Material.COMPASS), "<- Back"), event -> {
+						contents.set(5, 1, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.BACK), "<- Back"), event -> {
+							player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 							if (machine instanceof SlotMachineEntity)
 								MachineInterractionInventory.manageMachine(player, machine, ((SlotMachineEntity) machine).getEntity(), null, 0);
 							else if (machine instanceof SlotMachineBlock)

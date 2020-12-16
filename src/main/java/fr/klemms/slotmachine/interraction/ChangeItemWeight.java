@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -40,20 +41,24 @@ public class ChangeItemWeight {
 								ChatContent.AQUA + "Decrement weight"
 								)), event -> {
 									if (item.getWeight() - 1 >= 0) {
+										player.playSound(player.getLocation(), Sound.BLOCK_BONE_BLOCK_PLACE, 1F, 0.8F);
 										item.setWeight(item.getWeight() - 1);
 										SlotPlugin.saveToDisk();
 										ChangeItemWeight.changeItemWeight(player, machine, item, backpage);
-									}
+									} else
+										player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1F, 1F);
 								}));
 						
 						contents.set(2, 7, ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.PLUS_SIGN), ChatContent.GOLD + "Plus (+)"), Arrays.asList(
 								ChatContent.AQUA + "Increment weight"
 								)), event -> {
 									if (item.getWeight() + 1 <= 999) {
+										player.playSound(player.getLocation(), Sound.BLOCK_BONE_BLOCK_PLACE, 1F, 1.2F);
 										item.setWeight(item.getWeight() + 1);
 										SlotPlugin.saveToDisk();
 										ChangeItemWeight.changeItemWeight(player, machine, item, backpage);
-									}
+									} else
+										player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1F, 1F);
 								}));
 						
 						if (item.getWeight() > 999 || item.getWeight() < 0) {
@@ -65,6 +70,7 @@ public class ChangeItemWeight {
 									"",
 									ChatContent.DARK_AQUA + "Click to reset its weight to 1"
 									)), event -> {
+										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 										item.setWeight(1);
 										SlotPlugin.saveToDisk();
 										ChangeItemWeight.changeItemWeight(player, machine, item, backpage);
@@ -86,7 +92,7 @@ public class ChangeItemWeight {
 									))));
 						}
 						
-						contents.set(0, 2, ClickableItem.empty(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.PAINTING, 1), ChatContent.GOLD + "Informations"), Arrays.asList(
+						contents.set(0, 2, ClickableItem.empty(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.INFOS), ChatContent.GOLD + "Informations"), Arrays.asList(
 								ChatContent.AQUA + "Click on + or - to increment and",
 								ChatContent.AQUA + "decrement the item's weight",
 								ChatContent.AQUA + "",
@@ -104,7 +110,8 @@ public class ChangeItemWeight {
 								
 						}));
 
-						contents.set(4, 1, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(Material.COMPASS), "<- Back"), event -> {
+						contents.set(4, 1, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.BACK), "<- Back"), event -> {
+							player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 							MachineItemsInterractionInventory.manageItems(player, machine, backpage);
 						}));
 						

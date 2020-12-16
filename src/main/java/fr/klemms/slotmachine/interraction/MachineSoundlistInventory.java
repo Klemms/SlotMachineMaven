@@ -13,6 +13,7 @@ import fr.klemms.slotmachine.ChatContent;
 import fr.klemms.slotmachine.SlotMachine;
 import fr.klemms.slotmachine.SlotPlugin;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
+import fr.klemms.slotmachine.utils.PlayerHeadsUtil;
 import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
@@ -59,7 +60,7 @@ public class MachineSoundlistInventory {
 						pagination.setItems(items.toArray(new ClickableItem[items.size()]));
 						pagination.addToIterator(contents.newIterator(Type.HORIZONTAL, 1, 0));
 						
-						contents.set(0, 2, ClickableItem.empty(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.PAINTING, 1), ChatContent.GOLD + "Informations"), Arrays.asList(
+						contents.set(0, 2, ClickableItem.empty(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.INFOS), ChatContent.GOLD + "Informations"), Arrays.asList(
 								ChatContent.AQUA + "Left click on a Note Block to",
 								ChatContent.AQUA + "pick this sound",
 								"",
@@ -69,18 +70,21 @@ public class MachineSoundlistInventory {
 								ChatContent.AQUA + "To cancel click on back"
 								))));
 
-						contents.set(5, 1, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(Material.COMPASS), "<- Back"), event -> {
+						contents.set(5, 1, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.BACK), "<- Back"), event -> {
+							player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 							MachineSoundCustomization.customizeSounds(player, machine);
 						}));
 						
 						
 						if (!pagination.isFirst())
-							contents.set(5, 3, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(Material.ARROW), "< Previous Page"), event -> {
+							contents.set(5, 3, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.LEFT), "< Previous Page"), event -> {
+								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								openSoundlist(player, machine, page - 1, callback, volume, pitch);
 							}));
 
 						if (!pagination.isLast())
-							contents.set(5, 5, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(Material.ARROW), "Next Page >"), event -> {
+							contents.set(5, 5, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.RIGHT), "Next Page >"), event -> {
+								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								openSoundlist(player, machine, page + 1, callback, volume, pitch);
 							}));
 						

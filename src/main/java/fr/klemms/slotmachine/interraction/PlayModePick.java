@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -14,6 +15,7 @@ import fr.klemms.slotmachine.SlotMachineBlock;
 import fr.klemms.slotmachine.SlotMachineEntity;
 import fr.klemms.slotmachine.SlotPlugin;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
+import fr.klemms.slotmachine.utils.PlayerHeadsUtil;
 import fr.klemms.slotmachine.utils.Util;
 import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.SmartInventory;
@@ -59,6 +61,7 @@ public class PlayModePick {
 							ItemStackUtil.setItemStackLore(is, lore);
 							
 							items.add(ClickableItem.of(is, event -> {
+								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								machine.setPlayMode(mode);
 								player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully changed play mode to : " + mode.title);
 								SlotPlugin.saveToDisk();
@@ -73,7 +76,8 @@ public class PlayModePick {
 						pagination.setItems(items.toArray(new ClickableItem[items.size()]));
 						pagination.addToIterator(contents.newIterator(Type.HORIZONTAL, 1, 0));
 
-						contents.set(5, 1, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(Material.COMPASS), "<- Back"), event -> {
+						contents.set(5, 1, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.BACK), "<- Back"), event -> {
+							player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 							if (machine instanceof SlotMachineEntity)
 								MachineInterractionInventory.manageMachine(player, machine, ((SlotMachineEntity) machine).getEntity(), null, 0);
 							else if (machine instanceof SlotMachineBlock)
@@ -81,12 +85,14 @@ public class PlayModePick {
 						}));
 						
 						if (!pagination.isFirst())
-							contents.set(5, 3, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(Material.ARROW), "< Previous Page"), event -> {
+							contents.set(5, 3, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.LEFT), "< Previous Page"), event -> {
+								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								pickPlayMode(player, machine, page - 1);
 							}));
 
 						if (!pagination.isLast())
-							contents.set(5, 5, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(Material.ARROW), "Next Page >"), event -> {
+							contents.set(5, 5, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.RIGHT), "Next Page >"), event -> {
+								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								pickPlayMode(player, machine, page + 1);
 							}));
 						

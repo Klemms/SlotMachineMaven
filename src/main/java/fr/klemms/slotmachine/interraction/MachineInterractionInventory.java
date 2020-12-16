@@ -8,6 +8,7 @@ import java.util.logging.Level;
 
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -101,8 +102,9 @@ public class MachineInterractionInventory {
 								createMachineLore.add(ChatContent.AQUA + ChatContent.ITALIC + "/openmachine is available if you don't want to");
 								createMachineLore.add(ChatContent.AQUA + ChatContent.ITALIC + "right click this machine");
 							}
-							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.BLAZE_ROD, 1), ChatContent.GOLD + "Create Slot Machine"), createMachineLore), event -> {
+							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.PLUS_SIGN), ChatContent.GOLD + "Create Slot Machine"), createMachineLore), event -> {
 								player.closeInventory();
+								player.playSound(player.getLocation(), Sound.BLOCK_END_PORTAL_SPAWN, 0.3F, 1.3F);
 								if (entity != null) {
 									MachineMethods.createSlotMachineEntity(player, entity);
 									player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully created this Slot Machine");
@@ -112,10 +114,11 @@ public class MachineInterractionInventory {
 								}
 							}));
 						} else {
-							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.NETHER_STAR, 1), ChatContent.GOLD + "Machine Informations"), Arrays.asList(
+							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.INFOS), ChatContent.GOLD + "Machine Informations"), Arrays.asList(
 									ChatContent.AQUA + ChatContent.ITALIC + "Display this machine's",
 									ChatContent.AQUA + ChatContent.ITALIC + "informations in chat"
 									)), event -> {
+										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 										player.closeInventory();
 										MachineMethods.sendSlotMachineInformations(player, machine);
 							}));
@@ -125,15 +128,19 @@ public class MachineInterractionInventory {
 									ChatContent.AQUA + ChatContent.ITALIC + "Current name :",
 									ChatContent.RESET + machine.getSlotMachineName()
 									)), event -> {
+										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 										player.closeInventory();
 										PlayerUtil.resetPlayerData(player);
 										player.setMetadata("slotmachine_changename", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
 										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.rename"));
 										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
 							}));
-							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.CHEST, 1), ChatContent.GOLD + "Manage Machine Inventory"), Arrays.asList(
-									ChatContent.AQUA + ChatContent.ITALIC + "Add or remove items from this machine"
+							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.CHEST, 1), ChatContent.GOLD + "Item Editor & Statistics"), Arrays.asList(
+									ChatContent.AQUA + ChatContent.ITALIC + " - Add and remove items",
+									ChatContent.AQUA + ChatContent.ITALIC + " - Edit items' weights",
+									ChatContent.AQUA + ChatContent.ITALIC + " - View statistics"
 									)), event -> {
+										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 										MachineItemsInterractionInventory.manageItems(player, machine, 0);
 							}));
 							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.GOLD_BLOCK, 1), ChatContent.GOLD + "Change Permission"), Arrays.asList(
@@ -143,6 +150,7 @@ public class MachineInterractionInventory {
 									ChatContent.AQUA + ChatContent.ITALIC + "Current permission : ",
 									ChatContent.RESET + machine.getGuiPermission()
 									)), event -> {
+										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 										player.closeInventory();
 										PlayerUtil.resetPlayerData(player);
 										player.setMetadata("slotmachine_changepermission", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
@@ -160,6 +168,7 @@ public class MachineInterractionInventory {
 									ChatContent.AQUA + ChatContent.ITALIC + "Current Play Mode :",
 									ChatContent.DARK_PURPLE + ChatContent.ITALIC + machine.getPlayMode().title
 									)), event -> {
+										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 										PlayModePick.pickPlayMode(player, machine, 0);
 							}));
 							if (machine.getVisualType() != VisualType.SLOTMACHINE)
@@ -170,6 +179,7 @@ public class MachineInterractionInventory {
 										ChatContent.AQUA + ChatContent.ITALIC + "Current layout :",
 										ChatContent.RESET + machine.getVisualType().name
 										)), event -> {
+											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 											machine.setVisualType(VisualType.SLOTMACHINE);
 											player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.slotmachine"));
 											SlotPlugin.saveToDisk();
@@ -183,6 +193,7 @@ public class MachineInterractionInventory {
 										ChatContent.AQUA + ChatContent.ITALIC + "Current layout :",
 										ChatContent.RESET + machine.getVisualType().name
 										)), event -> {
+											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 											machine.setVisualType(VisualType.CSGOWHEEL);
 											player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.csgowheel"));
 											SlotPlugin.saveToDisk();
@@ -196,6 +207,7 @@ public class MachineInterractionInventory {
 										ChatContent.AQUA + ChatContent.ITALIC + "Current layout :",
 										ChatContent.RESET + machine.getVisualType().name
 										)), event -> {
+											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 											machine.setVisualType(VisualType.CSGOWHEEL_VERTICAL);
 											player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.csgowheelvertical"));
 											SlotPlugin.saveToDisk();
@@ -210,6 +222,7 @@ public class MachineInterractionInventory {
 										ChatContent.AQUA + ChatContent.ITALIC + "Current payment :",
 										ChatContent.RESET + machine.getPriceType().name
 										)), event -> {
+											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 											machine.setPriceType(PriceType.TOKEN);
 											player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.paymenttokens"));
 											SlotPlugin.saveToDisk();
@@ -225,6 +238,7 @@ public class MachineInterractionInventory {
 											ChatContent.AQUA + ChatContent.ITALIC + "Current payment :",
 											ChatContent.RESET + machine.getPriceType().name
 											)), event -> {
+												player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 												machine.setPriceType(PriceType.MONEY);
 												player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.paymentmoney"));
 												SlotPlugin.saveToDisk();
@@ -237,6 +251,7 @@ public class MachineInterractionInventory {
 											"",
 											ChatContent.AQUA + ChatContent.ITALIC + "Click to show Vault's download link"
 											)), event -> {
+												player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 												player.closeInventory();
 												player.spigot().sendMessage(new ComponentBuilder("https://dev.bukkit.org/projects/vault").color(ChatColor.AQUA).event(new ClickEvent(Action.OPEN_URL, "https://dev.bukkit.org/projects/vault")).create());
 									}));
@@ -250,6 +265,7 @@ public class MachineInterractionInventory {
 										ChatContent.AQUA + ChatContent.ITALIC + "Current payment :",
 										ChatContent.RESET + machine.getPriceType().name
 										)), event -> {
+											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 											machine.setPriceType(PriceType.TOKENMANAGER);
 											player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.paymenttokenmanager"));
 											SlotPlugin.saveToDisk();
@@ -264,6 +280,7 @@ public class MachineInterractionInventory {
 										ChatContent.AQUA + ChatContent.ITALIC + "Current payment :",
 										ChatContent.RESET + machine.getPriceType().name
 										)), event -> {
+											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 											machine.setPriceType(PriceType.PLAYERPOINTS);
 											player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.paymentplayerpoints"));
 											SlotPlugin.saveToDisk();
@@ -278,6 +295,7 @@ public class MachineInterractionInventory {
 										ChatContent.AQUA + ChatContent.ITALIC + "Current payment :",
 										ChatContent.RESET + machine.getPriceType().name
 										)), event -> {
+											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 											machine.setPriceType(PriceType.EXPERIENCE);
 											player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.paymentexperience"));
 											SlotPlugin.saveToDisk();
@@ -292,6 +310,7 @@ public class MachineInterractionInventory {
 										ChatContent.AQUA + ChatContent.ITALIC + "Current Token :",
 										ChatContent.RESET + machine.getTokenIdentifier()
 										)), event -> {
+											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 											TokensInventory.showManagementScreen(player, 0, "Pick this machine's Token", "Left click to choose this Token", new TokenSelectionListener() {
 
 												@Override
@@ -311,6 +330,7 @@ public class MachineInterractionInventory {
 									ChatContent.AQUA + ChatContent.ITALIC + "Current price :",
 									ChatContent.RESET + machine.getPullPrice()
 									)), event -> {
+										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 										player.closeInventory();
 										PlayerUtil.resetPlayerData(player);
 										player.setMetadata("slotmachine_changeprice", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
@@ -331,6 +351,7 @@ public class MachineInterractionInventory {
 									ChatContent.GREEN + "Luck : " + (Config.luckLevelToPercentConversion >= 0 ? "+" : "-") + Math.abs(Config.luckLevelToPercentConversion) + "% chance per level",
 									ChatContent.RED + "Bad Luck : " + (Config.badLuckLevelToPercentConversion >= 0 ? "+" : "-") + Math.abs(Config.badLuckLevelToPercentConversion) + "% chance per level"
 									)), event -> {
+										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 										machine.setAffectedByLuck(!machine.isAffectedByLuck());
 										player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully switched luck effect");
 										SlotPlugin.saveToDisk();
@@ -343,6 +364,7 @@ public class MachineInterractionInventory {
 									ChatContent.AQUA + ChatContent.ITALIC + "Current chance :",
 									ChatContent.RESET + (machine.getChanceToWin() * 100) + "%"
 									)), event -> {
+										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 										player.closeInventory();
 										PlayerUtil.resetPlayerData(player);
 										player.setMetadata("slotmachine_changechance", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
@@ -359,6 +381,7 @@ public class MachineInterractionInventory {
 									ChatContent.AQUA + ChatContent.ITALIC + "Current duration (min 1s) :",
 									ChatContent.RESET + machine.getSecondsBeforePrize() + "s"
 									)), event -> {
+										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 										player.closeInventory();
 										PlayerUtil.resetPlayerData(player);
 										player.setMetadata("slotmachine_changeduration", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
@@ -372,6 +395,7 @@ public class MachineInterractionInventory {
 									ChatContent.AQUA + ChatContent.ITALIC + "Current message :",
 									ChatContent.RESET + ChatContent.translateColorCodes(machine.getFinalWinMessage())
 									)), event -> {
+										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 										player.closeInventory();
 										PlayerUtil.resetPlayerData(player);
 										player.setMetadata("slotmachine_setwinmessage", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
@@ -387,6 +411,7 @@ public class MachineInterractionInventory {
 									ChatContent.AQUA + ChatContent.ITALIC + "Current message :",
 									ChatContent.RESET + ChatContent.translateColorCodes(machine.getFinalLossMessage())
 									)), event -> {
+										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 										player.closeInventory();
 										PlayerUtil.resetPlayerData(player);
 										player.setMetadata("slotmachine_setlossmessage", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
@@ -402,6 +427,7 @@ public class MachineInterractionInventory {
 									"",
 									ChatContent.AQUA + ChatContent.ITALIC + "Current : " + (machine.isDisplayWonItemInChat() ? ChatContent.GREEN + Language.translate("basic.yes") : ChatContent.RED + Language.translate("basic.no"))
 									)), event -> {
+										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 										machine.setDisplayWonItemInChat(!machine.isDisplayWonItemInChat());
 										SlotPlugin.saveToDisk();
 										player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + (machine.isDisplayWonItemInChat() ? "Enabled" : "Disabled") + " item name in chat");
@@ -413,12 +439,13 @@ public class MachineInterractionInventory {
 									ChatContent.AQUA + ChatContent.ITALIC + "Current name :",
 									ChatContent.RESET + Variables.getFormattedString(machine.getLeverTitle(), player, machine)
 									)), event -> {
+										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 										player.closeInventory();
 										PlayerUtil.resetPlayerData(player);
 										player.setMetadata("slotmachine_setlevertitle", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
 										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.levertitle") + " :");
 										for(int a = 0; a < Variables.values().length; a++) {
-											player.sendMessage(ChatContent.DARK_AQUA + " - $" + Variables.values()[a].variableName + " - " + Language.translate(Variables.values()[a].variableDescription));
+											player.sendMessage(ChatContent.AQUA + " - $" + Variables.values()[a].variableName + ChatContent.DARK_AQUA + " - " + Language.translate(Variables.values()[a].variableDescription));
 										}
 										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.levertitle.current").replace("%leverTitle%", ChatContent.RESET + machine.getLeverTitle()));
 										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
@@ -429,6 +456,7 @@ public class MachineInterractionInventory {
 							leverDescLore.add(ChatContent.AQUA + ChatContent.ITALIC + "Current description :");
 							leverDescLore.addAll(Variables.getFormattedStrings(machine.getLeverDescription(), player, machine));
 							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.TRIPWIRE_HOOK, 1), ChatContent.GOLD + "Change Lever Description"), leverDescLore), event -> {
+								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								player.closeInventory();
 								PlayerUtil.resetPlayerData(player);
 								player.setMetadata("slotmachine_setleverdescription", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
@@ -445,6 +473,7 @@ public class MachineInterractionInventory {
 										ChatContent.AQUA + ChatContent.ITALIC + "Disable the Ender Chest icon",
 										ChatContent.AQUA + ChatContent.ITALIC + "on this machine's interface"
 										)), event -> {
+											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 											machine.allowContentPreview(false);
 											SlotPlugin.saveToDisk();
 											player.sendMessage(ChatContent.GREEN + "[Slot Machine] Disabled item preview");
@@ -455,6 +484,7 @@ public class MachineInterractionInventory {
 										ChatContent.AQUA + ChatContent.ITALIC + "Enable the Ender Chest icon",
 										ChatContent.AQUA + ChatContent.ITALIC + "on this machine's interface"
 										)), event -> {
+											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 											machine.allowContentPreview(true);
 											SlotPlugin.saveToDisk();
 											player.sendMessage(ChatContent.GREEN + "[Slot Machine] Enabled item preview");
@@ -466,6 +496,7 @@ public class MachineInterractionInventory {
 											ChatContent.AQUA + ChatContent.ITALIC + "Hide the item's weight on",
 											ChatContent.AQUA + ChatContent.ITALIC + "a machine's item preview"
 											)), event -> {
+												player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 												machine.showItemWeightOnPreview(false);
 												SlotPlugin.saveToDisk();
 												player.sendMessage(ChatContent.GREEN + "[Slot Machine] Disabled item weight");
@@ -476,6 +507,7 @@ public class MachineInterractionInventory {
 											ChatContent.AQUA + ChatContent.ITALIC + "Show the item's weight on",
 											ChatContent.AQUA + ChatContent.ITALIC + "a machine's item preview"
 											)), event -> {
+												player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 												machine.showItemWeightOnPreview(true);
 												SlotPlugin.saveToDisk();
 												player.sendMessage(ChatContent.GREEN + "[Slot Machine] Enabled item weight");
@@ -489,6 +521,7 @@ public class MachineInterractionInventory {
 											ChatContent.GRAY + "Note : chance is calculated using the following equation :",
 											ChatContent.WHITE + "1 / allItemsWeight * weight * (machineChance / 100) * 100"
 											)), event -> {
+												player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 												machine.showChanceOfItemOnPreview(false);
 												SlotPlugin.saveToDisk();
 												player.sendMessage(ChatContent.GREEN + "[Slot Machine] Disabled item chance");
@@ -501,6 +534,7 @@ public class MachineInterractionInventory {
 											ChatContent.GRAY + "Note : chance is calculated using the following equation :",
 											ChatContent.WHITE + "1 / allItemsWeight * weight * (machineChance / 100) * 100"
 											)), event -> {
+												player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 												machine.showChanceOfItemOnPreview(true);
 												SlotPlugin.saveToDisk();
 												player.sendMessage(ChatContent.GREEN + "[Slot Machine] Enabled item chance");
@@ -512,12 +546,14 @@ public class MachineInterractionInventory {
 									ChatContent.AQUA + ChatContent.ITALIC + "background items, lever",
 									ChatContent.AQUA + ChatContent.ITALIC + "and enderchest icon"
 									)), event -> {
+										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 										MachineBackgroundCustomization.customizeBackground(player, machine);
 							}));
 							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.JUKEBOX, 1), ChatContent.GOLD + "Customize sounds"), Arrays.asList(
 									ChatContent.AQUA + ChatContent.ITALIC + "Allows you to customize all",
 									ChatContent.AQUA + ChatContent.ITALIC + "sounds played by this Slot Machine"
 									)), event -> {
+										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 										MachineSoundCustomization.customizeSounds(player, machine);
 							}));
 							if (block != null) {
@@ -527,6 +563,7 @@ public class MachineInterractionInventory {
 											ChatContent.AQUA + ChatContent.ITALIC + "Make this block breakable",
 											ChatContent.AQUA + ChatContent.ITALIC + "You will be able to break it"
 											)), event -> {
+												player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 												machineBlock.setLocked(false);
 												player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.breakable"));
 												SlotPlugin.saveToDisk();
@@ -537,6 +574,7 @@ public class MachineInterractionInventory {
 											ChatContent.AQUA + ChatContent.ITALIC + "Make this block unbreakable",
 											ChatContent.AQUA + ChatContent.ITALIC + "No one will be able to break this block"
 											)), event -> {
+												player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 												machineBlock.setLocked(true);
 												player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.unbreakable"));
 												SlotPlugin.saveToDisk();
@@ -551,6 +589,7 @@ public class MachineInterractionInventory {
 										ChatContent.AQUA + ChatContent.ITALIC + "Turn on this entity's AI",
 										ChatContent.AQUA + ChatContent.ITALIC + "It will start moving again"
 										)), event -> {
+											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 											livingEntity.setAI(true);
 											player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.turnonai"));
 											manageMachine(player, machine, entity, block, pagination.getPage());
@@ -560,6 +599,7 @@ public class MachineInterractionInventory {
 										ChatContent.AQUA + ChatContent.ITALIC + "Turn off this entity's AI",
 										ChatContent.AQUA + ChatContent.ITALIC + "It will stop moving"
 										)), event -> {
+											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 											livingEntity.setAI(false);
 											player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.turnoffai"));
 											manageMachine(player, machine, entity, block, pagination.getPage());
@@ -569,6 +609,7 @@ public class MachineInterractionInventory {
 								items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.NOTE_BLOCK, 1), ChatContent.GOLD + "Enable Sounds"), Arrays.asList(
 										ChatContent.AQUA + ChatContent.ITALIC + "Allow this entity to make sound"
 										)), event -> {
+											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 											livingEntity.setSilent(false);
 											player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.turnonsound"));
 											manageMachine(player, machine, entity, block, pagination.getPage());
@@ -578,6 +619,7 @@ public class MachineInterractionInventory {
 										ChatContent.AQUA + ChatContent.ITALIC + "Make this entity silent",
 										ChatContent.AQUA + ChatContent.ITALIC + "It will stop making any sound"
 										)), event -> {
+											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 											livingEntity.setSilent(true);
 											player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.turnoffsound"));
 											manageMachine(player, machine, entity, block, pagination.getPage());
@@ -588,6 +630,7 @@ public class MachineInterractionInventory {
 								items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.MAP, 1), ChatContent.GOLD + "Turn Off Name Visibility"), Arrays.asList(
 										ChatContent.AQUA + ChatContent.ITALIC + "Stop showing this machine's name"
 										)), event -> {
+											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 											entity.setCustomNameVisible(false);
 											player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.turnoffname"));
 											manageMachine(player, machine, entity, block, pagination.getPage());
@@ -600,6 +643,7 @@ public class MachineInterractionInventory {
 										ChatContent.GRAY + "Note : This is bugged in",
 										ChatContent.GRAY + "some Minecraft versions"
 										)), event -> {
+											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 											entity.setCustomNameVisible(true);
 											player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.turnonname"));
 											manageMachine(player, machine, entity, block, pagination.getPage());
@@ -613,6 +657,7 @@ public class MachineInterractionInventory {
 											ChatContent.AQUA + ChatContent.ITALIC + "Disable gravity for this machine",
 											ChatContent.AQUA + ChatContent.ITALIC + "It will not fall"
 											)), event -> {
+												player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 												try {
 													entity.getClass().getMethod("setGravity", boolean.class).invoke(entity, false);
 													player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.turnoffgravity"));
@@ -627,6 +672,7 @@ public class MachineInterractionInventory {
 											ChatContent.AQUA + ChatContent.ITALIC + "Enable gravity for this machine",
 											ChatContent.AQUA + ChatContent.ITALIC + "It will fall on the ground"
 											)), event -> {
+												player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 												try {
 													entity.getClass().getMethod("setGravity", boolean.class).invoke(entity, true);
 													player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.turnongravity"));
@@ -650,7 +696,7 @@ public class MachineInterractionInventory {
 						pagination.addToIterator(contents.newIterator(Type.HORIZONTAL, 1, 0));
 						
 						if (machine != null)
-							contents.set(0, 7, ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.BARRIER, 1), ChatContent.GOLD + "Remove this Slot Machine"), Arrays.asList(
+							contents.set(0, 7, ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.TRASH_CAN), ChatContent.GOLD + "Remove this Slot Machine"), Arrays.asList(
 									ChatContent.AQUA + ChatContent.ITALIC + "This entity or block will no",
 									ChatContent.AQUA + ChatContent.ITALIC + "longer be a Slot Machine, you will",
 									ChatContent.AQUA + ChatContent.ITALIC + "be able to kill or break it",
@@ -659,20 +705,23 @@ public class MachineInterractionInventory {
 									ChatContent.RED + ChatContent.BOLD + "PERMANENT, you can't go back"
 									)), event -> {
 										ConfirmInventory.confirmWindow(player, "Confirm Machine Deletion ?", "No, cancel", "Yes, delete", callback -> {
-											if (callback)
+											if (callback) {
+												player.playSound(player.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1F, 1F);
 												MachineMethods.removeSlotMachine(player, machine.getMachineUUID());
-											else
+											} else
 												player.sendMessage(ChatContent.GREEN + "[Slot Machine] This Slot Machine has NOT been removed");
 										}, true);
 							}));
 						
 						if (!pagination.isFirst())
-							contents.set(5, 3, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(Material.ARROW), "< Previous Page"), event -> {
+							contents.set(5, 3, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.LEFT), "< Previous Page"), event -> {
+								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								manageMachine(player, machine, entity, block, page - 1);
 							}));
 
 						if (!pagination.isLast())
-							contents.set(5, 5, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(Material.ARROW), "Next Page >"), event -> {
+							contents.set(5, 5, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.RIGHT), "Next Page >"), event -> {
+								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								manageMachine(player, machine, entity, block, page + 1);
 							}));
 						

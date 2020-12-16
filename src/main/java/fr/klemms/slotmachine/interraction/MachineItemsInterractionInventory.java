@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -32,7 +33,7 @@ public class MachineItemsInterractionInventory {
 	public static void manageItems(Player player, SlotMachine machine, int page) {
 		SmartInventory inv = SmartInventory.builder()
 				.manager(SlotPlugin.invManager)
-				.title("Items & Stats (Painting for infos)")
+				.title("Items & Stats (Hover Infos)")
 				.size(6, 9)
 				.closeable(true)
 				.listener(new InventoryListener<InventoryClickEvent>(InventoryClickEvent.class, event -> {
@@ -71,6 +72,7 @@ public class MachineItemsInterractionInventory {
 							}
 							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(new ItemStack(item.getItemStack()), isLore), event -> {
 								if (event.isRightClick()) {
+									player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 									if (player.getInventory().firstEmpty() < 0)
 										player.sendMessage(ChatContent.RED + "[Slot Machine] You need a free slot in your inventory");
 									else {
@@ -81,6 +83,7 @@ public class MachineItemsInterractionInventory {
 										manageItems(player, machine, page);
 									}
 								} else if (event.isLeftClick() && event.getCursor().getType() == Material.AIR) {
+									player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 									ChangeItemWeight.changeItemWeight(player, machine, item, page);
 								}
 							}));
@@ -89,7 +92,7 @@ public class MachineItemsInterractionInventory {
 						pagination.setItems(items.toArray(new ClickableItem[items.size()]));
 						pagination.addToIterator(contents.newIterator(SlotIterator.Type.HORIZONTAL, 1, 0));
 						
-						contents.set(0, 2, ClickableItem.empty(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.PAINTING, 1), ChatContent.GOLD + "Informations"), Arrays.asList(
+						contents.set(0, 2, ClickableItem.empty(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.INFOS), ChatContent.GOLD + "Informations"), Arrays.asList(
 								ChatContent.AQUA + "Right click an item to remove it from",
 								ChatContent.AQUA + "the Slot Machine, it will be given back",
 								ChatContent.AQUA + "to you",
@@ -102,7 +105,7 @@ public class MachineItemsInterractionInventory {
 								"",
 								ChatContent.AQUA + "You can hover items to see each item's",
 								ChatContent.AQUA + "statistics (weight, chance and times won).",
-								ChatContent.AQUA + "Hover the animated numbers to see this",
+								ChatContent.AQUA + "Hover the yellow info icon to see this",
 								ChatContent.AQUA + "machine's statistics",
 								"",
 								ChatContent.GRAY + "Note : Times used stat for machines",
@@ -111,7 +114,7 @@ public class MachineItemsInterractionInventory {
 								ChatContent.GRAY + "added in Slot Machine 6.3.0"
 								))));
 						
-						contents.set(0, 4, ClickableItem.empty(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.ZERO_BLACKBG), ChatContent.GOLD + "Machine Statistics"), Arrays.asList(
+						contents.set(0, 4, ClickableItem.empty(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.SMALL_INFOS), ChatContent.GOLD + "Machine Statistics"), Arrays.asList(
 								ChatContent.AQUA + "This machine has been used " + ChatContent.DARK_AQUA + machine.getTimesUsed() + ChatContent.AQUA + " times",
 								"",
 								ChatContent.GRAY + "Note : Times used stat has been",
@@ -124,6 +127,7 @@ public class MachineItemsInterractionInventory {
 							)), event -> {
 								ConfirmInventory.confirmWindow(player, "Clear all items ?", "No, cancel", "Yes, clear them", callback -> {
 									if (callback) {
+										player.playSound(player.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1F, 1F);
 										machine.setSlotMachineItems(new ArrayList<MachineItem>());
 										SlotPlugin.saveToDisk();
 										manageItems(player, machine, 0);
@@ -139,6 +143,7 @@ public class MachineItemsInterractionInventory {
 							)), event -> {
 								ConfirmInventory.confirmWindow(player, "Reset all Statistics ?", "No, cancel", "Yes, reset", callback -> {
 									if (callback) {
+										player.playSound(player.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1F, 1F);
 										for(MachineItem it : machine.getSlotMachineItems()) {
 											it.itemStats.timesWon = 0;
 										}
@@ -150,7 +155,8 @@ public class MachineItemsInterractionInventory {
 								
 						}));
 
-						contents.set(5, 1, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(Material.COMPASS), "<- Back"), event -> {
+						contents.set(5, 1, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.BACK), "<- Back"), event -> {
+							player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 							if (machine instanceof SlotMachineEntity)
 								MachineInterractionInventory.manageMachine(player, machine, ((SlotMachineEntity) machine).getEntity(), null, 0);
 							else if (machine instanceof SlotMachineBlock)
@@ -159,12 +165,14 @@ public class MachineItemsInterractionInventory {
 						
 						
 						if (!pagination.isFirst())
-							contents.set(5, 3, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(Material.ARROW), "< Previous Page"), event -> {
+							contents.set(5, 3, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.LEFT), "< Previous Page"), event -> {
+								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								manageItems(player, machine, page - 1);
 							}));
 
 						if (!pagination.isLast())
-							contents.set(5, 5, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(Material.ARROW), "Next Page >"), event -> {
+							contents.set(5, 5, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.RIGHT), "Next Page >"), event -> {
+								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								manageItems(player, machine, page + 1);
 							}));
 						

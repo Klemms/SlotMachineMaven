@@ -3,6 +3,7 @@ package fr.klemms.slotmachine.layouts;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -48,6 +49,7 @@ public class CSGOLayout implements InventoryProvider {
 		
 		if (machine.allowContentPreview())
 			contents.set(4, 1, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(machine.getItemListItem(), 1), ChatContent.GOLD + Language.translate("machine.preview")), event -> {
+				player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 				ItemPreviewInventory.showPreview(player, machine, 0);
 			}));
 		

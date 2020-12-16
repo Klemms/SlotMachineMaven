@@ -3,6 +3,7 @@ package fr.klemms.slotmachine.interraction;
 import java.util.Arrays;
 
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -12,6 +13,7 @@ import fr.klemms.slotmachine.SlotMachineBlock;
 import fr.klemms.slotmachine.SlotMachineEntity;
 import fr.klemms.slotmachine.SlotPlugin;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
+import fr.klemms.slotmachine.utils.PlayerHeadsUtil;
 import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
@@ -36,11 +38,12 @@ public class MachineSoundCustomization {
 						contents.fillRow(3, ClickableItem.empty(null));
 						contents.fillRow(4, ClickableItem.empty(null));
 						
-						contents.set(2, 1, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(SlotPlugin.SIGN_UNIVERSAL, 1), ChatContent.GOLD + "Machine Interraction Sound"), event -> {
+						contents.set(2, 1, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.HEADSET), ChatContent.GOLD + "Machine Interraction Sound"), event -> {
 							player.playSound(player.getLocation(), machine.getMachineOpeningSound(), 1.9f, 1.2f);
 						}));
 						contents.set(3, 1, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(Material.NOTE_BLOCK, 1), machine.getMachineOpeningSound().toString()), event -> {
 							if (event.isLeftClick()) {
+								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								MachineSoundlistInventory.openSoundlist(player, machine, 0, (sound) -> {
 									machine.setMachineOpeningSound(sound);
 									player.sendMessage(ChatContent.GREEN + "[SlotMachine] Successfully changed sound to '" + sound.toString() + "'");
@@ -59,11 +62,12 @@ public class MachineSoundCustomization {
 							}
 						}));
 
-						contents.set(2, 2, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(SlotPlugin.SIGN_UNIVERSAL, 1), ChatContent.GOLD + "Lever Sound"), event -> {
+						contents.set(2, 2, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.HEADSET), ChatContent.GOLD + "Lever Sound"), event -> {
 							player.playSound(player.getLocation(), machine.getLeverSound(), 1.9f, 1.2f);
 						}));
 						contents.set(3, 2, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(Material.NOTE_BLOCK, 2), machine.getLeverSound().toString()), event -> {
 							if (event.isLeftClick()) {
+								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								MachineSoundlistInventory.openSoundlist(player, machine, 0, (sound) -> {
 									machine.setLeverSound(sound);
 									player.sendMessage(ChatContent.GREEN + "[SlotMachine] Successfully changed sound to '" + sound.toString() + "'");
@@ -82,11 +86,12 @@ public class MachineSoundCustomization {
 							}
 						}));
 
-						contents.set(2, 3, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(SlotPlugin.SIGN_UNIVERSAL, 1), ChatContent.GOLD + "Win Sound"), event -> {
+						contents.set(2, 3, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.HEADSET), ChatContent.GOLD + "Win Sound"), event -> {
 							player.playSound(player.getLocation(), machine.getWinSound(), 1.9f, 0.9f);
 						}));
 						contents.set(3, 3, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(Material.NOTE_BLOCK, 3), machine.getWinSound().toString()), event -> {
 							if (event.isLeftClick()) {
+								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								MachineSoundlistInventory.openSoundlist(player, machine, 0, (sound) -> {
 									machine.setWinSound(sound);
 									player.sendMessage(ChatContent.GREEN + "[SlotMachine] Successfully changed sound to '" + sound.toString() + "'");
@@ -105,11 +110,12 @@ public class MachineSoundCustomization {
 							}
 						}));
 
-						contents.set(2, 5, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(SlotPlugin.SIGN_UNIVERSAL, 1), ChatContent.GOLD + "Loss Sound"), event -> {
+						contents.set(2, 5, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.HEADSET), ChatContent.GOLD + "Loss Sound"), event -> {
 							player.playSound(player.getLocation(), machine.getLossSound(), 0.3f, 0.7f);
 						}));
 						contents.set(3, 5, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(Material.NOTE_BLOCK, 4), machine.getLossSound().toString()), event -> {
 							if (event.isLeftClick()) {
+								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								MachineSoundlistInventory.openSoundlist(player, machine, 0, (sound) -> {
 									machine.setLossSound(sound);
 									player.sendMessage(ChatContent.GREEN + "[SlotMachine] Successfully changed sound to '" + sound.toString() + "'");
@@ -128,7 +134,7 @@ public class MachineSoundCustomization {
 							}
 						}));
 						
-						contents.set(2, 6, ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.PAINTING, 1), ChatContent.GOLD + "Slot Machine Layout Sound"), Arrays.asList(
+						contents.set(2, 6, ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.HEADSET), ChatContent.GOLD + "Slot Machine Layout Sound"), Arrays.asList(
 								ChatContent.AQUA + "The sound items make when spinning",
 								ChatContent.AQUA + "in a Slot Machine with the default",
 								ChatContent.AQUA + "'Slot Machine' layout"
@@ -137,6 +143,7 @@ public class MachineSoundCustomization {
 								}));
 						contents.set(3, 6, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(Material.NOTE_BLOCK, 5), machine.getSlotmachineSpinSound().toString()), event -> {
 							if (event.isLeftClick()) {
+								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								MachineSoundlistInventory.openSoundlist(player, machine, 0, (sound) -> {
 									machine.setSlotmachineSpinSound(sound);
 									player.sendMessage(ChatContent.GREEN + "[SlotMachine] Successfully changed sound to '" + sound.toString() + "'");
@@ -155,7 +162,7 @@ public class MachineSoundCustomization {
 							}
 						}));
 
-						contents.set(2, 7, ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.PAINTING, 1), ChatContent.GOLD + "CSGO Layout Sound"), Arrays.asList(
+						contents.set(2, 7, ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.HEADSET), ChatContent.GOLD + "CSGO Layout Sound"), Arrays.asList(
 								ChatContent.AQUA + "The sound items make when spinning",
 								ChatContent.AQUA + "in a Slot Machine with a CSGO-like",
 								ChatContent.AQUA + "layout"
@@ -164,6 +171,7 @@ public class MachineSoundCustomization {
 								}));
 						contents.set(3, 7, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(Material.NOTE_BLOCK, 6), machine.getCsgoSpinSound().toString()), event -> {
 							if (event.isLeftClick()) {
+								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								MachineSoundlistInventory.openSoundlist(player, machine, 0, (sound) -> {
 									machine.setCsgoSpinSound(sound);
 									player.sendMessage(ChatContent.GREEN + "[SlotMachine] Successfully changed sound to '" + sound.toString() + "'");
@@ -183,8 +191,8 @@ public class MachineSoundCustomization {
 						}));
 						
 						
-						contents.set(0, 2, ClickableItem.empty(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.PAINTING, 1), ChatContent.GOLD + "Informations"), Arrays.asList(
-								ChatContent.AQUA + "Click on a sign/painting to hear",
+						contents.set(0, 2, ClickableItem.empty(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.INFOS), ChatContent.GOLD + "Informations"), Arrays.asList(
+								ChatContent.AQUA + "Click on any sound icon to hear",
 								ChatContent.AQUA + "a preview of the sound (Pitch and",
 								ChatContent.AQUA + "volume may not be accurate)",
 								ChatContent.AQUA + "",
@@ -208,6 +216,7 @@ public class MachineSoundCustomization {
 							)), event -> {
 								ConfirmInventory.confirmWindow(player, "Reset all sounds to default ?", "No, cancel", "Yes, reset", callback -> {
 									if (callback) {
+										player.playSound(player.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1F, 1F);
 										machine.resetSoundCustomization();
 										player.sendMessage(ChatContent.GREEN + "[SlotMachine] Successfully reset all sounds to default");
 										SlotPlugin.saveToDisk();
@@ -217,7 +226,8 @@ public class MachineSoundCustomization {
 								
 						}));
 
-						contents.set(5, 1, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(Material.COMPASS), "<- Back"), event -> {
+						contents.set(5, 1, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.BACK), "<- Back"), event -> {
+							player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 							if (machine instanceof SlotMachineEntity)
 								MachineInterractionInventory.manageMachine(player, machine, ((SlotMachineEntity) machine).getEntity(), null, 0);
 							else if (machine instanceof SlotMachineBlock)
