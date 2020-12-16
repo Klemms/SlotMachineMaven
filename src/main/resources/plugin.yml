@@ -1,0 +1,51 @@
+name: SlotMachine
+main: fr.klemms.slotmachine.SlotPlugin
+version: 6.2.1
+softdepend: [Vault, Multiverse-Core, MultiWorld, PlayerPoints, TokenManager, Citizens, ReWorld, UltraRegions]
+load: POSTWORLD
+author: Klemms
+api-version: 1.13
+commands:
+    slotmachineversion:
+        description: Tells you Slot Machine's version
+        usage: /slotmachineversion
+    slotmachinereload:
+        description: Reloads configuration, please make sure no Slot Machine is opened
+        usage: /slotmachinereload
+        permission: slotmachine.reload
+        permission-message: You do not have permission
+    slotmachine:
+        description: Gives the Slot Machine maker tool
+        usage: /slotmachine
+        permission: slotmachine.slotmachine
+        permission-message: You do not have permission
+    slotmachineaction:
+        description: Internal Command
+        usage: /slotmachineaction
+        permission: slotmachine.slotmachine
+        permission-message: You do not have permission
+    openmachine:
+        description: Opens a Slot Machine for a player
+        usage: /openmachine <Player Name> <Machine UUID> [true/false | true to override the machine's permission]
+        permission: slotmachine.openmachine
+        permission-message: You do not have permission
+    tpmachine:
+        description: Teleports a machine to you, at the same exact position
+        usage: /tpmachine <Entity UUID>
+        permission: slotmachine.tpmachine
+        permission-message: You do not have permission
+    givetokens:
+        description: Gives the player the amount of tokens, omitting or mistyping the Token ID will bring up a UI that lets you pick the Token you want
+        usage: /givetokens <Player Name> <Amount of Tokens> [Token ID]
+        permission: slotmachine.givetokens
+        permission-message: You do not have permission
+    slotmachinetoken:
+        description: Helps you manage your tokens
+        usage: /slotmachinetoken list OR /slotmachinetoken add <unique name (lower case, one word)>
+        permission: slotmachine.tokenmanagement
+        permission-message: You do not have permission
+    smsavetodisk:
+        description: Forces Slot Machine to write any change you've made to disk
+        usage: /smsavetodisk
+        permission: slotmachine.slotmachine
+        permission-message: You do not have permission
