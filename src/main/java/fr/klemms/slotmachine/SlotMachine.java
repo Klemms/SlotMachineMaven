@@ -22,6 +22,20 @@ public abstract class SlotMachine {
 	
 	public static volatile List<SlotMachine> slotMachines = new ArrayList<SlotMachine>();
 	
+	/**
+	 * Returns true if the player is rolling in a machine with the 'LIMITED_PLAYER_GLOBAL' play mode
+	 * @param player
+	 * @return
+	 */
+	public static boolean isPlayerRollingGlobally(Player player) {
+		for (SlotMachine sm : SlotMachine.getSlotMachines()) {
+			if (sm.getPlayMode() == PlayMode.LIMITED_PLAYER_GLOBAL && sm.isPlayerRolling(player))
+				return true;
+		}
+		
+		return false;
+	}
+	
 	public static synchronized SlotMachine getSlotMachineByUUID(UUID machineUUID) {
 		for(SlotMachine slotMachine : slotMachines) {
 			if(slotMachine.getMachineUUID().compareTo(machineUUID) == 0) {
@@ -189,6 +203,21 @@ public abstract class SlotMachine {
 	
 	public void resetSoundLoss() {
 		this.machineOpeningSound = Sound.BLOCK_ANVIL_LAND;
+	}
+	
+	public boolean canPlay(Player player) {
+		switch (this.getPlayMode()) {
+			case LIMITED_MACHINE:
+				return !this.hasSomeoneRolling();
+			case LIMITED_PLAYER:
+				return !this.isPlayerRolling(player);
+			case LIMITED_PLAYER_GLOBAL:
+				return !SlotMachine.isPlayerRollingGlobally(player);
+			case UNLIMITED:
+				return true;
+			default:
+				return true;
+		}
 	}
 	
 	public void makeInventory() {

@@ -55,7 +55,7 @@ public class CSGOLayout implements InventoryProvider {
 				Variables.getFormattedString(machine.getLeverTitle(), player, machine)),
 				Variables.getFormattedStrings(machine.getLeverDescription(), player, machine)),
 				event -> {
-					if (!machine.isPlayerRolling(player)) {
+					if (machine.canPlay(player)) {
 						if (CommonLayout.triggerLever(player, machine)) {
 							machine.addUse();
 							machine.setPlayerRolling(player, true);
