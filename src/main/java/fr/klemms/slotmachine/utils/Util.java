@@ -1,5 +1,6 @@
 package fr.klemms.slotmachine.utils;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -81,6 +82,10 @@ public class Util {
 			return String.format("%.0f", number);
 		}
 		return String.valueOf(number);
+	}
+
+	public static String formatNumberTwoDigits(double number) {
+		return new DecimalFormat("###.##").format(number);
 	}
 	
 	public static boolean isValidSound(String sound) {

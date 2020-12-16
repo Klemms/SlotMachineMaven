@@ -13,6 +13,7 @@ import fr.klemms.slotmachine.SlotMachine;
 import fr.klemms.slotmachine.SlotPlugin;
 import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
+import fr.klemms.slotmachine.utils.Util;
 import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
@@ -42,7 +43,7 @@ public class ItemPreviewInventory {
 						for(final MachineItem item : machine.getSlotMachineItems())  {
 							List<String> isLore = new ArrayList<String>();
 							if (machine.showItemWeightOnPreview() || machine.showChanceOfItemOnPreview()) {
-								isLore.add(ChatContent.DARK_AQUA + " " + (machine.showItemWeightOnPreview() ? Language.translate("basic.weight") + " : " + item.getWeight() : "") + (machine.showItemWeightOnPreview() && machine.showChanceOfItemOnPreview() ? "  -  " : "") + (machine.showChanceOfItemOnPreview() ? Language.translate("basic.chance") + " : " + (int)(machine.getItemChance(item) * 100) + "% " : " ")) ;
+								isLore.add(ChatContent.DARK_AQUA + " " + (machine.showItemWeightOnPreview() ? Language.translate("basic.weight") + " : " + item.getWeight() : "") + (machine.showItemWeightOnPreview() && machine.showChanceOfItemOnPreview() ? "  -  " : "") + (machine.showChanceOfItemOnPreview() ? Language.translate("basic.chance") + " : " + Util.formatNumberTwoDigits(machine.getItemChance(item) * 100) + "% " : " ")) ;
 								isLore.add("");
 								if (item.getItemStack().getItemMeta().hasLore() && item.getItemStack().getItemMeta().getLore().size() > 0)
 									isLore.add("");
