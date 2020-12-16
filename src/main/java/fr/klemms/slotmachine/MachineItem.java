@@ -16,6 +16,7 @@ public class MachineItem {
 	private ItemStack itemStack;
 	private int weight;
 	private List<Reward> rewards;
+	public ItemStat itemStats;
 
 	public MachineItem(ItemStack itemStack, int weight) {
 		this(itemStack, weight, Arrays.asList(new Reward(itemStack)));
@@ -25,6 +26,7 @@ public class MachineItem {
 		this.itemStack = itemStack;
 		this.weight = weight;
 		this.rewards = rewards;
+		this.itemStats = new ItemStat();
 	}
 
 	public BaseComponent[] getRewardName() {

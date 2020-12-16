@@ -329,6 +329,8 @@ public class SlotPlugin extends JavaPlugin {
 							yamlFile.set("items." + b + ".rewards." + c + ".command", reward.commandReward);
 						}
 					}
+
+					yamlFile.set("items." + b + ".stats.timesWon", item.itemStats.timesWon);
 				}
 				try {
 					yamlFile.save(pl.getDataFolder().toPath().resolve("machines").resolve(slotMachine.getMachineUUID().toString() + ".yml").toFile());

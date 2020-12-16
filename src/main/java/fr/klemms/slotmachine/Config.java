@@ -234,6 +234,7 @@ public class Config {
 						
 						List<MachineItem> slotMachineItems = new ArrayList<MachineItem>();
 						for(int b = 0; b < ymlFile.getInt("itemCount"); b++) {
+							
 							if(ymlFile.isSet("items." + b + ".reward")) {
 								MachineItem.RewardType rewardType = ymlFile.isSet("items." + b + ".rewardType") ? MachineItem.RewardType.valueOf(ymlFile.getString("items." + b + ".rewardType")) : null;
 								if (rewardType != null) {
@@ -260,8 +261,13 @@ public class Config {
 										Bukkit.getLogger().log(Level.SEVERE, "Machine " + slotMachine.getMachineUUID().toString() + " has a malformed item reward (" + str + "), we're not loading this reward");
 									}
 								}
+								MachineItem it = new MachineItem(ymlFile.getItemStack("items." + b + ".item"), ymlFile.getInt("items." + b + ".weight"), rewards);
+
+								if (ymlFile.isSet("items." + b + ".stats.timesWon")) {
+									it.itemStats.timesWon = ymlFile.getInt("items." + b + ".stats.timesWon");
+								}
 								
-								slotMachineItems.add(new MachineItem(ymlFile.getItemStack("items." + b + ".item"), ymlFile.getInt("items." + b + ".weight"), rewards));
+								slotMachineItems.add(it);
 							} else {
 								slotMachineItems.add(
 								        new MachineItem(

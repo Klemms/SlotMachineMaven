@@ -17,6 +17,8 @@ import fr.klemms.slotmachine.SlotMachineEntity;
 import fr.klemms.slotmachine.SlotPlugin;
 import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
+import fr.klemms.slotmachine.utils.PlayerHeadsUtil;
+import fr.klemms.slotmachine.utils.Util;
 import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.InventoryListener;
 import fr.minuskube.inv.SmartInventory;
@@ -30,7 +32,7 @@ public class MachineItemsInterractionInventory {
 	public static void manageItems(Player player, SlotMachine machine, int page) {
 		SmartInventory inv = SmartInventory.builder()
 				.manager(SlotPlugin.invManager)
-				.title("Items (Hover Painting for Infos)")
+				.title("Items & Stats (Painting for infos)")
 				.size(6, 9)
 				.closeable(true)
 				.listener(new InventoryListener<InventoryClickEvent>(InventoryClickEvent.class, event -> {
@@ -56,12 +58,13 @@ public class MachineItemsInterractionInventory {
 						
 						for(final MachineItem item : machine.getSlotMachineItems())  {
 							List<String> isLore = new ArrayList<String>();
-							isLore.add(ChatContent.AQUA + ChatContent.ITALIC + "-----------------------------");
-							isLore.add(ChatContent.AQUA + ChatContent.ITALIC + "  Right click to take back this item");
-							//isLore.add(ChatContent.AQUA + ChatContent.ITALIC + " Middle click to customize this item");
-							isLore.add(ChatContent.AQUA + ChatContent.ITALIC + "    ------------------------");
-							isLore.add(ChatContent.AQUA + ChatContent.ITALIC + "  " + Language.translate("basic.weight") + " : " + item.getWeight() + " (" + (int)(machine.getItemChance(item) * 100) + "% chance)");
-							isLore.add(ChatContent.AQUA + ChatContent.ITALIC + "-----------------------------");
+							isLore.add(ChatContent.DARK_AQUA + ChatContent.ITALIC + " - Right click to take this item back");
+							isLore.add(ChatContent.DARK_AQUA + ChatContent.ITALIC + " - Left click to change this item's weight");
+							isLore.add(ChatContent.DARK_AQUA + " ------------ Statistics ------------");
+							isLore.add(ChatContent.DARK_AQUA + " - " + Language.translate("basic.weight") + " : " + item.getWeight() + " (" + Util.formatNumberTwoDigits(machine.getItemChance(item) * 100) + "% chance to win)");
+							isLore.add(ChatContent.DARK_AQUA + " - Times won : " + item.itemStats.timesWon);
+							if (isLore.size() > 5)
+								isLore.add("");
 							if (item.getItemStack().getItemMeta().hasLore() && item.getItemStack().getItemMeta().getLore().size() > 0) {
 								isLore.add("");
 								isLore.addAll(item.getItemStack().getItemMeta().getLore());
@@ -77,6 +80,8 @@ public class MachineItemsInterractionInventory {
 										player.updateInventory();
 										manageItems(player, machine, page);
 									}
+								} else if (event.isLeftClick() && event.getCursor().getType() == Material.AIR) {
+									ChangeItemWeight.changeItemWeight(player, machine, item, page);
 								}
 							}));
 						}
@@ -90,11 +95,27 @@ public class MachineItemsInterractionInventory {
 								ChatContent.AQUA + "to you",
 								"",
 								ChatContent.AQUA + "Drag and Drop an item inside this space",
-								ChatContent.AQUA + "to add it to the Slot Machine"/*,
+								ChatContent.AQUA + "to add it to the Slot Machine",
 								"",
-								ChatContent.AQUA + "Middle Click (Scroll Wheel click) to edit",
-								ChatContent.AQUA + "an item settings (Add a command as a reward,",
-								ChatContent.AQUA + "change an item weight...)"*/
+								ChatContent.AQUA + "Left Click (Scroll Wheel click) to edit",
+								ChatContent.AQUA + "an item's weight",
+								"",
+								ChatContent.AQUA + "You can hover items to see each item's",
+								ChatContent.AQUA + "statistics (weight, chance and times won).",
+								ChatContent.AQUA + "Hover the animated numbers to see this",
+								ChatContent.AQUA + "machine's statistics",
+								"",
+								ChatContent.GRAY + "Note : Times used stat for machines",
+								ChatContent.GRAY + "was added in Slot Machine 6.2.1",
+								ChatContent.GRAY + "Times won stat for items has been",
+								ChatContent.GRAY + "added in Slot Machine 6.3.0"
+								))));
+						
+						contents.set(0, 4, ClickableItem.empty(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.ZERO_BLACKBG), ChatContent.GOLD + "Machine Statistics"), Arrays.asList(
+								ChatContent.AQUA + "This machine has been used " + ChatContent.DARK_AQUA + machine.getTimesUsed() + ChatContent.AQUA + " times",
+								"",
+								ChatContent.GRAY + "Note : Times used stat has been",
+								ChatContent.GRAY + "added in Slot machine 6.2.1"
 								))));
 						
 						contents.set(0, 6, ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.BARRIER), ChatContent.RED + "Clear ALL Items"), Arrays.asList(
@@ -108,6 +129,23 @@ public class MachineItemsInterractionInventory {
 										manageItems(player, machine, 0);
 									} else
 										manageItems(player, machine, page);
+								}, false);
+								
+						}));
+						
+						contents.set(0, 7, ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.TRASH_CAN), ChatContent.RED + "Reset all Statistics"), Arrays.asList(
+								ChatContent.GRAY + "This will reset this machine's and all",
+								ChatContent.GRAY + "items statistics to 0"
+							)), event -> {
+								ConfirmInventory.confirmWindow(player, "Reset all Statistics ?", "No, cancel", "Yes, reset", callback -> {
+									if (callback) {
+										for(MachineItem it : machine.getSlotMachineItems()) {
+											it.itemStats.timesWon = 0;
+										}
+										machine.setTimesUsed(0);
+										SlotPlugin.saveToDisk();
+										manageItems(player, machine, page);
+									}
 								}, false);
 								
 						}));

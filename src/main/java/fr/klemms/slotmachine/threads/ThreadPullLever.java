@@ -156,6 +156,7 @@ public class ThreadPullLever extends Thread {
 				}
 			}
 			if(hasWon) {
+				wonItem.itemStats.timesWon++;
 				Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadPlaySound(machine.getWinSound(), 1.9F, 0.9F, player), 4);
 				givePrize(wonItem);
 			}
