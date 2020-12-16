@@ -1,4 +1,4 @@
-version=14
+version=15
 
 metrics.cantconnect=SlotMachine couldn't connect to Metrics (mcstats)
 update.available=An update for %pluginName% is available at %url%
@@ -49,6 +49,10 @@ slotmachine.access.missingtokenmanager=This Slot Machine cannot be accessed beca
 slotmachine.access.missingvault=This Slot Machine cannot be accessed because Vault and/or an economy plugin is missing
 slotmachine.access.alreadyopenned=A player openned a Slot Machine, with a slot machine openned
 slotmachine.access.notsetup=This Slot Machine is not yet set up, please add items
+
+slotmachine.roll.restricted.playerlimited=You must wait for your current roll on this machine to end
+slotmachine.roll.restricted.playerlimitedglobal=You must wait for your other roll to end
+slotmachine.roll.restricted.machinelimited=Only one player can roll at once on this machine
 
 slotmachine.instructions.setitems=Set Slot Machine Items
 slotmachine.instructions.line1=Right Click a chest with items

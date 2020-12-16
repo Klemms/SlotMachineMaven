@@ -1,4 +1,4 @@
-version=13
+version=14
 
 metrics.cantconnect=SlotMachine n'a pas pu se connecter à Metrics (mcstats)
 update.available=Une mise à jour de %pluginName% est disponible à l'adresse %url%
@@ -49,6 +49,10 @@ slotmachine.access.missingtokenmanager=Cette Slot Machine ne peut pas être acc�
 slotmachine.access.missingvault=Cette Slot Machine ne peut être accédée car Vault et/ou aucun plugin économique n'est présent
 slotmachine.access.alreadyopenned=un joueur a ouvert une Slot Machine alors qu'une autre était ouverte
 slotmachine.access.notsetup=Cette Slot machine n'est pas encore prête, ajoutez des items
+
+slotmachine.roll.restricted.playerlimited=Vous devez attendre la fin de votre roll sur cette machine
+slotmachine.roll.restricted.playerlimitedglobal=Vous devez attendre la fin de vos roll pour jouer
+slotmachine.roll.restricted.machinelimited=Un seul joueur peut jouer sur cette machine à la fois
 
 slotmachine.instructions.setitems=Définir les items d'une Slot Machine
 slotmachine.instructions.line1=Clic droit sur un coffre avec des items
