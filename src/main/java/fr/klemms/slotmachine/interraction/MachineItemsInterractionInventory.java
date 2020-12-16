@@ -1,0 +1,146 @@
+package fr.klemms.slotmachine.interraction;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
+
+import fr.klemms.slotmachine.ChatContent;
+import fr.klemms.slotmachine.MachineItem;
+import fr.klemms.slotmachine.SlotMachine;
+import fr.klemms.slotmachine.SlotMachineBlock;
+import fr.klemms.slotmachine.SlotMachineEntity;
+import fr.klemms.slotmachine.SlotPlugin;
+import fr.klemms.slotmachine.translation.Language;
+import fr.klemms.slotmachine.utils.ItemStackUtil;
+import fr.minuskube.inv.ClickableItem;
+import fr.minuskube.inv.InventoryListener;
+import fr.minuskube.inv.SmartInventory;
+import fr.minuskube.inv.content.InventoryContents;
+import fr.minuskube.inv.content.InventoryProvider;
+import fr.minuskube.inv.content.Pagination;
+import fr.minuskube.inv.content.SlotIterator.Type;
+
+public class MachineItemsInterractionInventory {
+
+	public static void manageItems(Player player, SlotMachine machine, int page) {
+		SmartInventory inv = SmartInventory.builder()
+				.manager(SlotPlugin.invManager)
+				.title("Items (Hover Painting for Infos)")
+				.size(6, 9)
+				.closeable(true)
+				.listener(new InventoryListener<InventoryClickEvent>(InventoryClickEvent.class, event -> {
+					if (event.getCursor().getType() != Material.AIR && event.isLeftClick()) {
+						MachineItem item = new MachineItem(new ItemStack(event.getCursor()), 1);
+						machine.addItem(item);
+						SlotPlugin.saveToDisk();
+						event.setCursor(null);
+						event.setCancelled(true);
+						manageItems(player, machine, page);
+					}
+				}))
+				.provider(new InventoryProvider() {
+
+					@Override
+					public void init(Player player, InventoryContents contents) {
+						Pagination pagination = contents.pagination();
+
+						contents.fill(ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(Material.BLACK_STAINED_GLASS_PANE, 1), " ")));
+						
+						pagination.setItemsPerPage(4 * 9);
+						List<ClickableItem> items = new ArrayList<ClickableItem>();
+						
+						for(final MachineItem item : machine.getSlotMachineItems())  {
+							List<String> isLore = new ArrayList<String>();
+							isLore.add(ChatContent.AQUA + ChatContent.ITALIC + "-----------------------------");
+							isLore.add(ChatContent.AQUA + ChatContent.ITALIC + "  Right click to take back this item");
+							//isLore.add(ChatContent.AQUA + ChatContent.ITALIC + " Middle click to customize this item");
+							isLore.add(ChatContent.AQUA + ChatContent.ITALIC + "    ------------------------");
+							isLore.add(ChatContent.AQUA + ChatContent.ITALIC + "  " + Language.translate("basic.weight") + " : " + item.getWeight());
+							isLore.add(ChatContent.AQUA + ChatContent.ITALIC + "-----------------------------");
+							if (item.getItemStack().getItemMeta().hasLore() && item.getItemStack().getItemMeta().getLore().size() > 0) {
+								isLore.add("");
+								isLore.addAll(item.getItemStack().getItemMeta().getLore());
+							}
+							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(new ItemStack(item.getItemStack()), isLore), event -> {
+								if (event.isRightClick()) {
+									if (player.getInventory().firstEmpty() < 0)
+										player.sendMessage(ChatContent.RED + "[Slot Machine] You need a free slot in your inventory");
+									else {
+										player.getInventory().addItem(new ItemStack(item.getItemStack()));
+										machine.removeItem(item);
+										SlotPlugin.saveToDisk();
+										player.updateInventory();
+										manageItems(player, machine, page);
+									}
+								}
+							}));
+						}
+						
+						pagination.setItems(items.toArray(new ClickableItem[items.size()]));
+						pagination.addToIterator(contents.newIterator(Type.HORIZONTAL, 1, 0));
+						
+						contents.set(0, 2, ClickableItem.empty(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.PAINTING, 1), ChatContent.GOLD + "Informations"), Arrays.asList(
+								ChatContent.AQUA + "Right click an item to remove it from",
+								ChatContent.AQUA + "the Slot Machine, it will be given back",
+								ChatContent.AQUA + "to you",
+								"",
+								ChatContent.AQUA + "Drag and Drop an item inside this space",
+								ChatContent.AQUA + "to add it to the Slot Machine"/*,
+								"",
+								ChatContent.AQUA + "Middle Click (Scroll Wheel click) to edit",
+								ChatContent.AQUA + "an item settings (Add a command as a reward,",
+								ChatContent.AQUA + "change an item weight...)"*/
+								))));
+						
+						contents.set(0, 6, ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.BARRIER), ChatContent.RED + "Clear ALL Items"), Arrays.asList(
+								ChatContent.GRAY + "Remove ALL items from this machine",
+								ChatContent.GRAY + "This will NOT give you back the items"
+							)), event -> {
+								ConfirmInventory.confirmWindow(player, "Clear all items ?", "No, cancel", "Yes, clear them", callback -> {
+									if (callback) {
+										machine.setSlotMachineItems(new ArrayList<MachineItem>());
+										SlotPlugin.saveToDisk();
+										manageItems(player, machine, 0);
+									} else
+										manageItems(player, machine, page);
+								}, false);
+								
+						}));
+
+						contents.set(5, 1, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(Material.COMPASS), "<- Back"), event -> {
+							if (machine instanceof SlotMachineEntity)
+								MachineInterractionInventory.manageMachine(player, machine, ((SlotMachineEntity) machine).getEntity(), null, 0);
+							else if (machine instanceof SlotMachineBlock)
+								MachineInterractionInventory.manageMachine(player, machine, null, ((SlotMachineBlock) machine).getBlock(), 0);
+						}));
+						
+						
+						if (!pagination.isFirst())
+							contents.set(5, 3, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(Material.ARROW), "< Previous Page"), event -> {
+								manageItems(player, machine, page - 1);
+							}));
+
+						if (!pagination.isLast())
+							contents.set(5, 5, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(Material.ARROW), "Next Page >"), event -> {
+								manageItems(player, machine, page + 1);
+							}));
+						
+						contents.set(5, 4, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(Material.PAPER), "Page " + (pagination.getPage() + 1) + "/" + (pagination.last().getPage() + 1))));
+					}
+
+					@Override
+					public void update(Player player, InventoryContents contents) {
+						
+					}
+					
+				})
+				.build();
+		
+		inv.open(player, page);
+	}
+}
