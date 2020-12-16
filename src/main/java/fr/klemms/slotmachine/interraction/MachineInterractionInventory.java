@@ -54,6 +54,11 @@ public class MachineInterractionInventory {
 			return;
 		}
 		
+		if (entity != null && entity instanceof Player) {
+			player.sendMessage("[Slot Machine] You can't create a machine on a player");
+			return;
+		}
+		
 		LivingEntity livingEntity = entity instanceof LivingEntity ? (LivingEntity) entity : null;
 		
 		SmartInventory inv = SmartInventory.builder()
