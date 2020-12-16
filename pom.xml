@@ -3,8 +3,23 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ovh.klemms</groupId>
-	<artifactId>ovh.klemms.slotmachine</artifactId>
+	<artifactId>slotmachine</artifactId>
 	<version>6.3-SPIGOTLIVE</version>
+
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.2.2</version>
+			</plugin>
+		</plugins>
+	</build>
 
 	<repositories>
 		<repository>
@@ -79,7 +94,7 @@
 			<version>1.7</version>
 			<scope>provided</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.github.Realizedd</groupId>
 			<artifactId>TokenManager</artifactId>
@@ -93,5 +108,4 @@
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
-
 </project>
