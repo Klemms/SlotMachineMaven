@@ -31,6 +31,7 @@ import fr.klemms.slotmachine.tokens.TokenSelectionListener;
 import fr.klemms.slotmachine.tokens.TokensInventory;
 import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
+import fr.klemms.slotmachine.utils.PlayerHeadsUtil;
 import fr.klemms.slotmachine.utils.PlayerUtil;
 import fr.klemms.slotmachine.utils.PotionUtil;
 import fr.klemms.slotmachine.utils.Util;
@@ -55,7 +56,7 @@ public class MachineInterractionInventory {
 		}
 		
 		if (entity != null && entity instanceof Player) {
-			player.sendMessage("[Slot Machine] You can't create a machine on a player");
+			player.sendMessage(ChatContent.RED + "[Slot Machine] You can't create a machine on a player");
 			return;
 		}
 		
@@ -147,6 +148,19 @@ public class MachineInterractionInventory {
 										player.setMetadata("slotmachine_changepermission", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
 										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.changepermission"));
 										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
+							}));
+							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.PLAY_BUTTON), ChatContent.GOLD + "Change play mode"), Arrays.asList(
+									ChatContent.AQUA + ChatContent.ITALIC + "Play Mode affects the way players",
+									ChatContent.AQUA + ChatContent.ITALIC + "interact with this machine, it can",
+									ChatContent.AQUA + ChatContent.ITALIC + "restrict them from playing while other",
+									ChatContent.AQUA + ChatContent.ITALIC + "players play and more...",
+									"",
+									ChatContent.AQUA + ChatContent.ITALIC + "Click to change",
+									"",
+									ChatContent.AQUA + ChatContent.ITALIC + "Current Play Mode :",
+									ChatContent.DARK_PURPLE + ChatContent.ITALIC + machine.getPlayMode().title
+									)), event -> {
+										PlayModePick.pickPlayMode(player, machine, 0);
 							}));
 							if (machine.getVisualType() != VisualType.SLOTMACHINE)
 								items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.BRICKS, 1), ChatContent.GOLD + "Change Layout"), Arrays.asList(

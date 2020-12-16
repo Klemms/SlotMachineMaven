@@ -193,6 +193,9 @@ public class Config {
 						if(ymlFile.isSet("timesUsed")) {
 							slotMachine.setTimesUsed(ymlFile.getInt("timesUsed"));
 						}
+						if(ymlFile.isSet("playMode")) {
+							slotMachine.setPlayMode(PlayMode.valueOf(ymlFile.getString("playMode")));
+						}
 						
 						if(ymlFile.isSet("backgroundItem") && ItemStackUtil.isValidMaterial(ymlFile.getString("backgroundItem"))) {
 							slotMachine.setBackgroundItem(Material.getMaterial(ymlFile.getString("backgroundItem")));

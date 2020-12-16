@@ -291,6 +291,7 @@ public class SlotPlugin extends JavaPlugin {
 				yamlFile.set("itemWeightOnPreview", slotMachine.showItemWeightOnPreview());
 				yamlFile.set("isCitizensNPC", slotMachine.isCitizensNPC());
 				yamlFile.set("timesUsed", slotMachine.getTimesUsed());
+				yamlFile.set("playMode", slotMachine.getPlayMode().toString());
 				
 				yamlFile.set("backgroundItem", slotMachine.getBackgroundItem().toString());
 				yamlFile.set("emphasisItem", slotMachine.getEmphasisItem().toString());

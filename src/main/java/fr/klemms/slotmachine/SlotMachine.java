@@ -79,6 +79,7 @@ public abstract class SlotMachine {
 	private String leverDescription;
 	private VisualType visualType;
 	private PriceType priceType;
+	private PlayMode playMode;
 	private double pullPrice;
 	private double chanceToWin;
 	private boolean isLeverCustom;
@@ -117,6 +118,7 @@ public abstract class SlotMachine {
 		this.chunkZ = chunkZ;
 		this.visualType = VisualType.SLOTMACHINE;
 		this.priceType = PriceType.MONEY;
+		this.playMode = PlayMode.LIMITED_PLAYER;
 		this.tokenIdentifier = "default";
 		this.pullPrice = 10D;
 		this.chanceToWin = 0.40D;
@@ -480,6 +482,15 @@ public abstract class SlotMachine {
 	
 	public void setPlayerRolling(Player player, boolean rolling) {
 		this.isRolling.put(player.getUniqueId(), rolling);
+	}
+	
+	public boolean hasSomeoneRolling() {
+		for (Boolean bool : this.isRolling.values()) {
+			if (bool)
+				return true;
+		}
+		
+		return false;
 	}
 
 	public int getChunkX() {
@@ -864,5 +875,13 @@ public abstract class SlotMachine {
 	public void addUse() {
 		this.setTimesUsed(this.getTimesUsed() + 1);
 		SlotPlugin.saveToDisk();
+	}
+
+	public PlayMode getPlayMode() {
+		return playMode;
+	}
+
+	public void setPlayMode(PlayMode playMode) {
+		this.playMode = playMode;
 	}
 }

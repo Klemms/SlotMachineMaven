@@ -11,6 +11,14 @@ import org.bukkit.map.MinecraftFont;
 
 public class Util {
 	
+	public static List<String> addToStartOfLines(String textToAdd, List<String> lines) {
+		for (int i = 0; i < lines.size(); i++) {
+			lines.set(i, textToAdd + lines.get(i));
+		}
+		
+		return lines;
+	}
+	
 	/**
 	 * This has flaws
 	 * @param text
