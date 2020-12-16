@@ -178,6 +178,9 @@ public class Config {
 						if(ymlFile.isSet("itemWeightOnPreview")) {
 							slotMachine.showItemWeightOnPreview(ymlFile.getBoolean("itemWeightOnPreview"));
 						}
+						if(ymlFile.isSet("itemChanceOnPreview")) {
+							slotMachine.showChanceOfItemOnPreview(ymlFile.getBoolean("itemChanceOnPreview"));
+						}
 						if(ymlFile.isSet("isCitizensNPC")) {
 							slotMachine.setCitizensNPC(ymlFile.getBoolean("isCitizensNPC"));
 						}

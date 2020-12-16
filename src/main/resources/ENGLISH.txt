@@ -25,6 +25,7 @@ machine.preview=See All Possible Items
 basic.yes=Yes
 basic.no=No
 basic.weight=Weight
+basic.chance=Chance
 
 permission.denied=&6You can't access this slot machine :(
 money.notenough=&cYou don't have enough money

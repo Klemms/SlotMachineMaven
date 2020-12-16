@@ -41,10 +41,9 @@ public class ItemPreviewInventory {
 						
 						for(final MachineItem item : machine.getSlotMachineItems())  {
 							List<String> isLore = new ArrayList<String>();
-							if (machine.showItemWeightOnPreview()) {
-								isLore.add(ChatContent.AQUA + ChatContent.ITALIC + "------------");
-								isLore.add(ChatContent.AQUA + ChatContent.ITALIC + "   " + Language.translate("basic.weight") + " : " + item.getWeight());
-								isLore.add(ChatContent.AQUA + ChatContent.ITALIC + "------------");
+							if (machine.showItemWeightOnPreview() || machine.showChanceOfItemOnPreview()) {
+								isLore.add(ChatContent.DARK_AQUA + " " + (machine.showItemWeightOnPreview() ? Language.translate("basic.weight") + " : " + item.getWeight() : "") + (machine.showItemWeightOnPreview() && machine.showChanceOfItemOnPreview() ? "  -  " : "") + (machine.showChanceOfItemOnPreview() ? Language.translate("basic.chance") + " : " + (int)(machine.getItemChance(item) * 100) + "% " : " ")) ;
+								isLore.add("");
 								if (item.getItemStack().getItemMeta().hasLore() && item.getItemStack().getItemMeta().getLore().size() > 0)
 									isLore.add("");
 							}
@@ -57,7 +56,7 @@ public class ItemPreviewInventory {
 						pagination.addToIterator(contents.newIterator(Type.HORIZONTAL, 1, 0));
 
 						contents.set(5, 1, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(Material.COMPASS), "<- Back"), event -> {
-							machine.openMachine(player);
+							machine.openMachine(player, true);
 						}));
 						
 						if (!pagination.isFirst())

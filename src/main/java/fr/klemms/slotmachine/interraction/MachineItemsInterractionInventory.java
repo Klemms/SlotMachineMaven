@@ -23,7 +23,7 @@ import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
 import fr.minuskube.inv.content.InventoryProvider;
 import fr.minuskube.inv.content.Pagination;
-import fr.minuskube.inv.content.SlotIterator.Type;
+import fr.minuskube.inv.content.SlotIterator;
 
 public class MachineItemsInterractionInventory {
 
@@ -60,7 +60,7 @@ public class MachineItemsInterractionInventory {
 							isLore.add(ChatContent.AQUA + ChatContent.ITALIC + "  Right click to take back this item");
 							//isLore.add(ChatContent.AQUA + ChatContent.ITALIC + " Middle click to customize this item");
 							isLore.add(ChatContent.AQUA + ChatContent.ITALIC + "    ------------------------");
-							isLore.add(ChatContent.AQUA + ChatContent.ITALIC + "  " + Language.translate("basic.weight") + " : " + item.getWeight());
+							isLore.add(ChatContent.AQUA + ChatContent.ITALIC + "  " + Language.translate("basic.weight") + " : " + item.getWeight() + " (" + (int)(machine.getItemChance(item) * 100) + "% chance)");
 							isLore.add(ChatContent.AQUA + ChatContent.ITALIC + "-----------------------------");
 							if (item.getItemStack().getItemMeta().hasLore() && item.getItemStack().getItemMeta().getLore().size() > 0) {
 								isLore.add("");
@@ -82,7 +82,7 @@ public class MachineItemsInterractionInventory {
 						}
 						
 						pagination.setItems(items.toArray(new ClickableItem[items.size()]));
-						pagination.addToIterator(contents.newIterator(Type.HORIZONTAL, 1, 0));
+						pagination.addToIterator(contents.newIterator(SlotIterator.Type.HORIZONTAL, 1, 0));
 						
 						contents.set(0, 2, ClickableItem.empty(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.PAINTING, 1), ChatContent.GOLD + "Informations"), Arrays.asList(
 								ChatContent.AQUA + "Right click an item to remove it from",

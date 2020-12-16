@@ -463,7 +463,7 @@ public class MachineInterractionInventory {
 							if (machine.allowContentPreview()) {
 								if (machine.showItemWeightOnPreview())
 									items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.LIGHT_WEIGHTED_PRESSURE_PLATE, 1), ChatContent.GOLD + "Hide Item Weight"), Arrays.asList(
-											ChatContent.AQUA + ChatContent.ITALIC + "Hide the item weight on",
+											ChatContent.AQUA + ChatContent.ITALIC + "Hide the item's weight on",
 											ChatContent.AQUA + ChatContent.ITALIC + "a machine's item preview"
 											)), event -> {
 												machine.showItemWeightOnPreview(false);
@@ -473,12 +473,37 @@ public class MachineInterractionInventory {
 									}));
 								else
 									items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(ItemStackUtil.addGlow(new ItemStack(Material.HEAVY_WEIGHTED_PRESSURE_PLATE, 1)), ChatContent.GOLD + "Show Item Weight"), Arrays.asList(
-											ChatContent.AQUA + ChatContent.ITALIC + "Show the item weight on",
+											ChatContent.AQUA + ChatContent.ITALIC + "Show the item's weight on",
 											ChatContent.AQUA + ChatContent.ITALIC + "a machine's item preview"
 											)), event -> {
 												machine.showItemWeightOnPreview(true);
 												SlotPlugin.saveToDisk();
 												player.sendMessage(ChatContent.GREEN + "[Slot Machine] Enabled item weight");
+												manageMachine(player, machine, entity, block, pagination.getPage());
+									}));
+
+								if (machine.showChanceOfItemOnPreview())
+									items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.LUCKY_BLOCK_RED), ChatContent.GOLD + "Hide Item Chance"), Arrays.asList(
+											ChatContent.AQUA + ChatContent.ITALIC + "Hide the item's chance to be won on the item preview",
+											"",
+											ChatContent.GRAY + "Note : chance is calculated using the following equation :",
+											ChatContent.WHITE + "1 / allItemsWeight * weight * (machineChance / 100) * 100"
+											)), event -> {
+												machine.showChanceOfItemOnPreview(false);
+												SlotPlugin.saveToDisk();
+												player.sendMessage(ChatContent.GREEN + "[Slot Machine] Disabled item chance");
+												manageMachine(player, machine, entity, block, pagination.getPage());
+									}));
+								else
+									items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.LUCKY_BLOCK), ChatContent.GOLD + "Show Item Chance"), Arrays.asList(
+											ChatContent.AQUA + ChatContent.ITALIC + "Show the item's chance to be won on the item preview",
+											"",
+											ChatContent.GRAY + "Note : chance is calculated using the following equation :",
+											ChatContent.WHITE + "1 / allItemsWeight * weight * (machineChance / 100) * 100"
+											)), event -> {
+												machine.showChanceOfItemOnPreview(true);
+												SlotPlugin.saveToDisk();
+												player.sendMessage(ChatContent.GREEN + "[Slot Machine] Enabled item chance");
 												manageMachine(player, machine, entity, block, pagination.getPage());
 									}));
 							}

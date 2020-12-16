@@ -289,6 +289,7 @@ public class SlotPlugin extends JavaPlugin {
 				yamlFile.set("affectedByLuck", slotMachine.isAffectedByLuck());
 				yamlFile.set("allowContentPreview", slotMachine.allowContentPreview());
 				yamlFile.set("itemWeightOnPreview", slotMachine.showItemWeightOnPreview());
+				yamlFile.set("itemChanceOnPreview", slotMachine.showChanceOfItemOnPreview());
 				yamlFile.set("isCitizensNPC", slotMachine.isCitizensNPC());
 				yamlFile.set("timesUsed", slotMachine.getTimesUsed());
 				yamlFile.set("playMode", slotMachine.getPlayMode().toString());

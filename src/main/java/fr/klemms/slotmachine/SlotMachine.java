@@ -100,6 +100,7 @@ public abstract class SlotMachine {
 	private boolean isAffectedByLuck;
 	private boolean allowContentPreview;
 	private boolean showItemWeightOnPreview;
+	private boolean showChanceOfItemOnPreview;
 	private boolean isCitizensNPC;
 	private boolean displayWonItemInChat;
 	private int secondsBeforePrize;
@@ -141,6 +142,7 @@ public abstract class SlotMachine {
 		this.isLeverCustom = false;
 		this.allowContentPreview = true;
 		this.showItemWeightOnPreview = true;
+		this.showChanceOfItemOnPreview = true;
 		this.winMessage = "";
 		this.hasWinMessage = true;
 		this.lossMessage = "";
@@ -406,6 +408,22 @@ public abstract class SlotMachine {
 	
 	public ItemStack getToken() {
 		return Config.tokens.get(this.getTokenIdentifier());
+	}
+	
+	public double getItemChance(MachineItem item) {
+		int totalWeight = getAllWeightCombined();
+		
+		return 1F / totalWeight * item.getWeight() * this.getChanceToWin();
+	}
+	
+	public int getAllWeightCombined() {
+		int weight = 0;
+		
+		for (MachineItem item : this.getSlotMachineItems()) {
+			weight += item.getWeight();
+		}
+		
+		return weight;
 	}
 	
 	public boolean canAnItemBeWon() {
@@ -914,5 +932,13 @@ public abstract class SlotMachine {
 
 	public void setPlayMode(PlayMode playMode) {
 		this.playMode = playMode;
+	}
+
+	public boolean showChanceOfItemOnPreview() {
+		return showChanceOfItemOnPreview;
+	}
+
+	public void showChanceOfItemOnPreview(boolean showChanceOfItemOnPreview) {
+		this.showChanceOfItemOnPreview = showChanceOfItemOnPreview;
 	}
 }

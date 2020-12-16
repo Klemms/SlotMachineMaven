@@ -25,6 +25,7 @@ machine.preview=Voir tous les items possibles
 basic.yes=Oui
 basic.no=Non
 basic.weight=Poids
+basic.chance=Chance
 
 permission.denied=&6Vous ne pouvez pas accéder à cette Slot Machine :(
 money.notenough=&cVous n'avez pas assez d'argent
