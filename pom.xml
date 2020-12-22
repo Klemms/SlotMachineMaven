@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ovh.klemms</groupId>
 	<artifactId>slotmachine</artifactId>
-	<version>6.3-SPIGOTLIVE</version>
+	<version>6.3.1-SPIGOTLIVE</version>
 
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
