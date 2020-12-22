@@ -36,6 +36,10 @@ public class MachineMethods {
 				player.sendMessage(ChatContent.RED + "[Slot Machine] " + Language.translate("slotmachine.access.missingtokenmanager"));
 				return;
 			}
+			if(machine.getPriceType() == PriceType.VOTINGPLUGIN && SlotPlugin.votingPlugin == null) {
+				player.sendMessage(ChatContent.RED + "[Slot Machine] " + Language.translate("slotmachine.access.missingvotingplugin"));
+				return;
+			}
 			if(machine.getPriceType() == PriceType.MONEY && SlotPlugin.econ == null) {
 				player.sendMessage(ChatContent.RED + "[Slot Machine] " + Language.translate("slotmachine.access.missingvault"));
 				return;

@@ -30,12 +30,15 @@ public class VariableBalance implements Variable {
 			case EXPERIENCE:
 				return player.getLevel() + " levels";
 			case VOTINGPLUGIN:
-				VotingPluginUser user = UserManager.getInstance().getVotingPluginUser(player);
-				
-				if (user == null)
-					return "0";
-				
-				return "" + user.getPoints();
+				if (SlotPlugin.votingPlugin != null) {
+					VotingPluginUser user = UserManager.getInstance().getVotingPluginUser(player);
+					
+					if (user == null)
+						return "0";
+					
+					return "" + user.getPoints();
+				}
+				break;
 			case TOKENMANAGER:
 				if(SlotPlugin.tokenManager != null) {
 					return SlotPlugin.tokenManager.getTokens(player).getAsLong() + " TM Tokens";

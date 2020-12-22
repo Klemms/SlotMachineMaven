@@ -49,6 +49,7 @@ slotmachine.giveitem.noroom=There are no slots free in your inventory. Slot mach
 slotmachine.access.missingplayerpoints=This Slot Machine cannot be accessed because the plugin PlayerPoints is not installed
 slotmachine.access.missingtokenmanager=This Slot Machine cannot be accessed because the plugin TokensManager is not installed
 slotmachine.access.missingvault=This Slot Machine cannot be accessed because Vault and/or an economy plugin is missing
+slotmachine.access.missingvotingplugin=This Slot Machine cannot be accessed because the plugin VotingPlugin is not installed
 slotmachine.access.alreadyopenned=A player openned a Slot Machine, with a slot machine openned
 slotmachine.access.notsetup=This Slot Machine is not yet set up, please add items
 

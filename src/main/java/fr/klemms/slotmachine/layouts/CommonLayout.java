@@ -42,19 +42,24 @@ public class CommonLayout {
 					return false;
 				}
 			case VOTINGPLUGIN:
-				VotingPluginUser user = UserManager.getInstance().getVotingPluginUser(player);
-				
-				if (user == null) {
-					player.sendMessage(Variables.getFormattedString(Language.translate("votingplugin.notenough"), player, machine));
-					player.playSound(player.getLocation(), machine.getMachineOpeningSound(), 1.9f, 0.3f);
-					return false;
-				}
-				if(user.getPoints() >= (int)machine.getPullPrice()) {
-					user.setPoints(user.getPoints() - (int)machine.getPullPrice());
-					return true;
+				if (SlotPlugin.votingPlugin != null) {
+					VotingPluginUser user = UserManager.getInstance().getVotingPluginUser(player);
+					
+					if (user == null) {
+						player.sendMessage(Variables.getFormattedString(Language.translate("votingplugin.notenough"), player, machine));
+						player.playSound(player.getLocation(), machine.getMachineOpeningSound(), 1.9f, 0.3f);
+						return false;
+					}
+					if(user.getPoints() >= (int)machine.getPullPrice()) {
+						user.setPoints(user.getPoints() - (int)machine.getPullPrice());
+						return true;
+					} else {
+						player.sendMessage(Variables.getFormattedString(Language.translate("votingplugin.notenough"), player, machine));
+						player.playSound(player.getLocation(), machine.getMachineOpeningSound(), 1.9f, 0.3f);
+						return false;
+					}
 				} else {
-					player.sendMessage(Variables.getFormattedString(Language.translate("votingplugin.notenough"), player, machine));
-					player.playSound(player.getLocation(), machine.getMachineOpeningSound(), 1.9f, 0.3f);
+					player.sendMessage(ChatContent.RED + machine.getChatName() + Language.translate("slotmachine.access.missingvotingplugin"));
 					return false;
 				}
 			case PLAYERPOINTS:

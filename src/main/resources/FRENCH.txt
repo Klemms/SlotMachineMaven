@@ -1,4 +1,4 @@
-version=14
+version=17
 
 metrics.cantconnect=SlotMachine n'a pas pu se connecter à Metrics (mcstats)
 update.available=Une mise à jour de %pluginName% est disponible à l'adresse %url%
@@ -49,6 +49,7 @@ slotmachine.giveitem.noroom=Il n'y a pas de slots libres dans votre inventaire. 
 slotmachine.access.missingplayerpoints=Cette Slot Machine ne peut pas être accédée car le plugin PlayerPoints n'est pas installé
 slotmachine.access.missingtokenmanager=Cette Slot Machine ne peut pas être accédée car le plugin TokensManager n'est pas installé
 slotmachine.access.missingvault=Cette Slot Machine ne peut être accédée car Vault et/ou aucun plugin économique n'est présent
+slotmachine.access.missingvotingplugin=Cette Slot Machine ne peut pas être accédée car le plugin VotingPlugin n'est pas installé
 slotmachine.access.alreadyopenned=un joueur a ouvert une Slot Machine alors qu'une autre était ouverte
 slotmachine.access.notsetup=Cette Slot machine n'est pas encore prête, ajoutez des items
 

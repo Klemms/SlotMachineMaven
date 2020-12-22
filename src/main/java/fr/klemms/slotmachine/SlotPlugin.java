@@ -147,6 +147,7 @@ public class SlotPlugin extends JavaPlugin {
 		getCommand("smsavetodisk").setExecutor(new CommandSMSaveToDisk());
 		
 		Setup.setupEconomy(this);
+		Setup.setupVotingPlugin(this);
 		
 		this.getServer().getPluginManager().registerEvents(new PluginListener(), this);
 		
