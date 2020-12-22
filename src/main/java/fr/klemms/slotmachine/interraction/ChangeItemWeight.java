@@ -114,6 +114,13 @@ public class ChangeItemWeight {
 							player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 							MachineItemsInterractionInventory.manageItems(player, machine, backpage);
 						}));
+
+						contents.set(4, 6, ClickableItem.empty(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.SMALL_INFOS), ChatContent.GOLD + "Item Being Edited"), Arrays.asList(
+								ChatContent.AQUA + "The item on the right is the item",
+								ChatContent.AQUA + "currently being edited"
+								))));
+						
+						contents.set(4, 7, ClickableItem.empty(new ItemStack(item.getItemStack())));
 						
 					}
 

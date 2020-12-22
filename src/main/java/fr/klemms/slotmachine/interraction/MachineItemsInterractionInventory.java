@@ -150,7 +150,8 @@ public class MachineItemsInterractionInventory {
 										machine.setTimesUsed(0);
 										SlotPlugin.saveToDisk();
 										manageItems(player, machine, page);
-									}
+									} else
+										manageItems(player, machine, page);
 								}, false);
 								
 						}));
@@ -176,7 +177,14 @@ public class MachineItemsInterractionInventory {
 								manageItems(player, machine, page + 1);
 							}));
 						
-						contents.set(5, 4, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(Material.PAPER), "Page " + (pagination.getPage() + 1) + "/" + (pagination.last().getPage() + 1))));
+						if (pagination.getItems().length > 0 && (pagination.getItems().length % pagination.getItemsPerPage()) == 0)
+							contents.set(5, 7, ClickableItem.empty(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.SMALL_INFOS), ChatContent.GOLD + "Adding Items"), Arrays.asList(
+									ChatContent.AQUA + "You can continue adding items by",
+									ChatContent.AQUA + "dropping them on this info icon,",
+									ChatContent.AQUA + "this will create a new page."
+									))));
+						
+						contents.set(5, 4, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(Material.PAPER), "Page " + (pagination.getPage() + 1))));
 					}
 
 					@Override

@@ -21,6 +21,7 @@ public interface Pagination {
 
     Pagination addToIterator(SlotIterator iterator);
 
+    ClickableItem[] getItems();
     Pagination setItems(ClickableItem... items);
     Pagination setItemsPerPage(int itemsPerPage);
     
@@ -112,6 +113,11 @@ public interface Pagination {
         public Pagination setItems(ClickableItem... items) {
             this.items = items;
             return this;
+        }
+
+        @Override
+        public ClickableItem[] getItems() {
+            return this.items;
         }
 
         @Override
