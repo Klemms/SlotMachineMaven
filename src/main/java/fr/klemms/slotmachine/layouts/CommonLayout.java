@@ -4,6 +4,9 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import com.bencodez.votingplugin.user.UserManager;
+import com.bencodez.votingplugin.user.VotingPluginUser;
+
 import fr.klemms.slotmachine.ChatContent;
 import fr.klemms.slotmachine.Config;
 import fr.klemms.slotmachine.SlotMachine;
@@ -35,6 +38,22 @@ public class CommonLayout {
 					return true;
 				} else {
 					player.sendMessage(Variables.getFormattedString(Language.translate("experience.notenough"), player, machine));
+					player.playSound(player.getLocation(), machine.getMachineOpeningSound(), 1.9f, 0.3f);
+					return false;
+				}
+			case VOTINGPLUGIN:
+				VotingPluginUser user = UserManager.getInstance().getVotingPluginUser(player);
+				
+				if (user == null) {
+					player.sendMessage(Variables.getFormattedString(Language.translate("votingplugin.notenough"), player, machine));
+					player.playSound(player.getLocation(), machine.getMachineOpeningSound(), 1.9f, 0.3f);
+					return false;
+				}
+				if(user.getPoints() >= (int)machine.getPullPrice()) {
+					user.setPoints(user.getPoints() - (int)machine.getPullPrice());
+					return true;
+				} else {
+					player.sendMessage(Variables.getFormattedString(Language.translate("votingplugin.notenough"), player, machine));
 					player.playSound(player.getLocation(), machine.getMachineOpeningSound(), 1.9f, 0.3f);
 					return false;
 				}

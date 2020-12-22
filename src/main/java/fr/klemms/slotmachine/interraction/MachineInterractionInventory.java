@@ -286,6 +286,22 @@ public class MachineInterractionInventory {
 											SlotPlugin.saveToDisk();
 											manageMachine(player, machine, entity, block, pagination.getPage());
 								}));
+
+							if (machine.getPriceType() != PriceType.VOTINGPLUGIN && SlotPlugin.votingPlugin != null)
+								items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.THUMBS_UP), ChatContent.GOLD + "VotingPlugin"), Arrays.asList(
+										ChatContent.AQUA + ChatContent.ITALIC + "Change this machine's",
+										ChatContent.AQUA + ChatContent.ITALIC + "payment to",
+										ChatContent.GREEN + ChatContent.ITALIC + "VotingPlugin",
+										"",
+										ChatContent.AQUA + ChatContent.ITALIC + "Current payment :",
+										ChatContent.RESET + machine.getPriceType().name
+										)), event -> {
+											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+											machine.setPriceType(PriceType.VOTINGPLUGIN);
+											player.sendMessage(ChatContent.GREEN + "[Slot Machine] This machine will now use VotingPlugin as a currency");
+											SlotPlugin.saveToDisk();
+											manageMachine(player, machine, entity, block, pagination.getPage());
+								}));
 							if (machine.getPriceType() != PriceType.EXPERIENCE)
 								items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.EXPERIENCE_BOTTLE, 1), ChatContent.GOLD + "Change Payment"), Arrays.asList(
 										ChatContent.AQUA + ChatContent.ITALIC + "Change this machine's",

@@ -1,4 +1,4 @@
-version=15
+version=16
 
 metrics.cantconnect=SlotMachine couldn't connect to Metrics (mcstats)
 update.available=An update for %pluginName% is available at %url%
@@ -33,6 +33,7 @@ tokens.notenough=&cYou don't have enough Tokens
 playerpoints.notenough=&cYou don't have enough PlayerPoints
 tokenmanager.notenough=&cYou don't have enough Tokens from TokensManager
 experience.notenough=&cYou don't have enough Exprience levels
+votingplugin.notenough=&cYou don't have enough voting points
 play.goodluck=&bGood luck ! &r&3(Balance : $balance)
 
 slotmachine.created=Slot Machine created (Entity UUID : %entityUUID%)
@@ -100,7 +101,8 @@ placeholders.chanceToWin=Adds the Slot Machine chance to win
 placeholders.tmTokensPlayer=Adds the amount of TokensManager Tokens the player has (Will only work if TokensManager is installed)
 placeholders.tokenName=Adds the Token identifier
 placeholders.tokens=Adds the amount of Tokens the player has
-placeholders.experience= Adds the player's experience levels
+placeholders.experience=Adds the player's experience levels
+placeholders.votingplugin=Adds the player's voting points
 
 magicwand.chatinstructions=Click on a button below
 

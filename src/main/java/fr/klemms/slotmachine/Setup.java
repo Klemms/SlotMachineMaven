@@ -15,6 +15,8 @@ import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.bencodez.votingplugin.VotingPluginHooks;
+
 import fr.klemms.slotmachine.exceptioncollector.ExceptionCollector;
 import fr.klemms.slotmachine.translation.Language;
 import net.milkbowl.vault.economy.Economy;
@@ -89,6 +91,16 @@ public class Setup {
             return true;
         }
         plugin.getLogger().log(Level.WARNING, "Vault could not be detected. Transactions using money will not work");
+        return false;
+    }
+	
+	public static boolean setupVotingPlugin(JavaPlugin plugin) {
+        if (plugin.getServer().getPluginManager().getPlugin("VotingPlugin") != null) {
+        	SlotPlugin.votingPlugin = VotingPluginHooks.getInstance();
+            plugin.getLogger().log(Level.INFO, "VotingPlugin support enabled");
+            return true;
+        }
+        plugin.getLogger().log(Level.INFO, "VotingPlugin support disabled");
         return false;
     }
 }

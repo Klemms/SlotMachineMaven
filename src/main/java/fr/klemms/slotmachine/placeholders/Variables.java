@@ -20,7 +20,8 @@ public enum Variables {
 	TM_TOKENS(new VariableTMTokens(), "tmTokensPlayer", "placeholders.tmTokensPlayer"),
 	TOKENNAME(new VariableTokenName(), "tokenName", "placeholders.tokenName"),
 	TOKENS(new VariableTokens(), "tkens", "placeholders.tokens"),
-	EXPERIENCE(new VariableExperience(), "experience", "placeholders.experience");
+	EXPERIENCE(new VariableExperience(), "experience", "placeholders.experience"),
+	VOTINGPLUGIN(new VariableVotingPlugin(), "votingplugin", "placeholders.votingplugin");
 	
 	public Variable variable;
 	public String variableName;

@@ -708,6 +708,12 @@ public abstract class SlotMachine {
 				this.setLeverDescription("$machineName$newline&a&oCurrent Balance :&r&b $balance");
 			}
 		}
+		if(priceType == PriceType.VOTINGPLUGIN) {
+			if(!this.isLeverCustom()) {
+				this.setLeverTitle("&6Play for $price voting points");
+				this.setLeverDescription("$machineName$newline&a&oCurrent Balance :&r&b $balance VP");
+			}
+		}
 		if(priceType == PriceType.PLAYERPOINTS) {
 			if(!this.isLeverCustom()) {
 				this.setLeverTitle("&6Play for $price PlayerPoints");

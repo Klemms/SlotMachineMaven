@@ -33,6 +33,7 @@ tokens.notenough=&cVous n'avez pas assez de Tokens
 playerpoints.notenough=&cVous n'avez pas assez de PlayerPoints
 tokenmanager.notenough=&cVous n'avez pas assez de Tokens (De TokensManager)
 experience.notenough=&cVous n'avez pas assez de niveau d'Expérience
+votingplugin.notenough=&cVous n'avez pas assez de points de vote
 play.goodluck=&bBonne chance ! &r&3(Solde : $balance)
 
 slotmachine.created=Slot Machine créée (UUID d'entité : %entityUUID%)
@@ -101,6 +102,7 @@ placeholders.tmTokensPlayer=Ajoute le nombre de Tokens de TokensManager Tokens q
 placeholders.tokenName=Ajoute l'identifiant du Token
 placeholders.tokens=Ajoute le nombre de Tokens que le joueur a
 placeholders.experience=Ajoute le nombre de niveaux d'expérience du joueur
+placeholders.votingplugin=Ajoute le nombre de points de vote du joueur
 
 magicwand.chatinstructions=Cliquez sur un bouton en dessous
 

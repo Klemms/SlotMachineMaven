@@ -12,6 +12,8 @@ public class VariablePrice implements Variable {
 		switch(slotMachine.getPriceType()) {
 			case EXPERIENCE:
 				return String.valueOf((int)slotMachine.getPullPrice());
+			case VOTINGPLUGIN:
+				return String.valueOf((int)slotMachine.getPullPrice());
 			case MONEY:
 				return Util.formatNumber(slotMachine.getPullPrice());
 			case PLAYERPOINTS:

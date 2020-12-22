@@ -6,7 +6,8 @@ public enum PriceType {
 	TOKEN("Tokens"),
 	PLAYERPOINTS("PlayerPoints"),
 	TOKENMANAGER("Tokens (TokenManager)"),
-	EXPERIENCE("Experience");
+	EXPERIENCE("Experience"),
+	VOTINGPLUGIN("VotingPlugin");
 	
 	public String name;
 	

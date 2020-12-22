@@ -20,6 +20,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.bencodez.votingplugin.VotingPluginHooks;
+
 import fr.klemms.slotmachine.MachineItem.RewardType;
 import fr.klemms.slotmachine.commands.CommandGiveTokens;
 import fr.klemms.slotmachine.commands.CommandOpenMachine;
@@ -50,6 +52,7 @@ public class SlotPlugin extends JavaPlugin {
 	
 	public static volatile SlotPlugin pl;
 	public static Economy econ = null;
+	public static VotingPluginHooks votingPlugin = null;
 	public static final String BRANCH = "release";
 	public static final int VERSION = 57;
 	public static final String PLUGIN_NAME = "Slot Machine";
