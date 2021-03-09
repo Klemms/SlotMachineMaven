@@ -100,7 +100,7 @@ public class MachineItemsInterractionInventory {
 								ChatContent.AQUA + "Drag and Drop an item inside this space",
 								ChatContent.AQUA + "to add it to the Slot Machine",
 								"",
-								ChatContent.AQUA + "Left Click (Scroll Wheel click) to edit",
+								ChatContent.AQUA + "Left Click to edit",
 								ChatContent.AQUA + "an item's weight",
 								"",
 								ChatContent.AQUA + "You can hover items to see each item's",
