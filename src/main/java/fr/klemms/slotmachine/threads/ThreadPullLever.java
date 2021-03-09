@@ -47,9 +47,9 @@ public class ThreadPullLever extends Thread {
 			}
 			
 			if (machine.isAffectedByLuck() && player.hasPotionEffect(PotionEffectType.LUCK))
-				chanceToWin += (PotionUtil.getPotionEffect(player, PotionEffectType.LUCK).getAmplifier() + 1F) / 100 * Config.luckLevelToPercentConversion;
+				chanceToWin += (PotionUtil.getPotionEffect(player, PotionEffectType.LUCK).getAmplifier() + 1) * Config.luckLevelToPercentConversion / 100;
 			if (machine.isAffectedByLuck() && player.hasPotionEffect(PotionEffectType.UNLUCK))
-				chanceToWin += (PotionUtil.getPotionEffect(player, PotionEffectType.UNLUCK).getAmplifier() + 1F) / 100 * Config.badLuckLevelToPercentConversion;
+				chanceToWin += (PotionUtil.getPotionEffect(player, PotionEffectType.UNLUCK).getAmplifier() + 1) * Config.badLuckLevelToPercentConversion / 100;
 			
 			boolean hasWon = chance >= 0D && chance < chanceToWin && machine.canAnItemBeWon();
 			MachineItem wonItem = machine.getRandomItemFromPoolWithWeight();
