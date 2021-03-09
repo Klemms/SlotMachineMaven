@@ -1,6 +1,7 @@
 package fr.klemms.slotmachine.interraction;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.Material;
@@ -57,6 +58,16 @@ public class ItemPreviewInventory {
 						
 						pagination.setItems(items.toArray(new ClickableItem[items.size()]));
 						pagination.addToIterator(contents.newIterator(Type.HORIZONTAL, 1, 0));
+						
+						if (machine.isAffectedByLuck()) {
+							contents.set(0, 1, ClickableItem.empty(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.INFOS), ChatContent.GOLD + "Informations"), Arrays.asList(
+									ChatContent.AQUA + "Potion effects will affect",
+									ChatContent.AQUA + "your chances on this machine",
+									ChatContent.AQUA + "",
+									ChatContent.DARK_GRAY + ChatContent.ITALIC + "Note : Chances don't include",
+									ChatContent.DARK_GRAY + ChatContent.ITALIC + "potion effects"
+									))));
+						}
 
 						contents.set(5, 1, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.BACK), "<- Back"), event -> {
 							player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
