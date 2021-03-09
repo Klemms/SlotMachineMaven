@@ -9,12 +9,14 @@ import java.util.concurrent.ThreadLocalRandom;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 
 import fr.klemms.slotmachine.layouts.CSGOLayout;
 import fr.klemms.slotmachine.layouts.CSGOVerticalLayout;
 import fr.klemms.slotmachine.layouts.SlotMachineLayout;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
+import fr.minuskube.inv.InventoryListener;
 import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryProvider;
 
@@ -244,6 +246,13 @@ public abstract class SlotMachine {
 				.title(this.getSlotMachineName())
 				.size(this.getVisualType().rows, this.getVisualType().columns)
 				.provider(provider)
+				.listener(new InventoryListener<InventoryCloseEvent>(InventoryCloseEvent.class, event -> {
+					if (event.getPlayer() instanceof Player) {
+						Player player = (Player)event.getPlayer();
+						
+						player.stopSound(this.getMachineOpeningSound());
+					}
+				}))
 				.build();
 	}
 	
