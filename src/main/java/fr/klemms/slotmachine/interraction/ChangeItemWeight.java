@@ -56,7 +56,7 @@ public class ChangeItemWeight {
 									} else {
 										item.setWeight(999);
 										SlotPlugin.saveToDisk();
-										player.playSound(player.getLocation(), Sound.BLOCK_BELL_RESONATE, 1F, 1.7F);
+										player.playSound(player.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 1F, 1.6F);
 										ChangeItemWeight.changeItemWeight(player, machine, item, backpage);
 									}
 								}));
@@ -80,7 +80,7 @@ public class ChangeItemWeight {
 									} else {
 										item.setWeight(0);
 										SlotPlugin.saveToDisk();
-										player.playSound(player.getLocation(), Sound.BLOCK_BELL_RESONATE, 1F, 2F);
+										player.playSound(player.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 1F, 2F);
 										ChangeItemWeight.changeItemWeight(player, machine, item, backpage);
 									}
 								}));
