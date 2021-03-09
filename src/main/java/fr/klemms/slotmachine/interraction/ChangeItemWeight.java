@@ -38,27 +38,51 @@ public class ChangeItemWeight {
 						contents.fillRow(3, ClickableItem.empty(null));
 						
 						contents.set(2, 1, ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.MINUS_SIGN), ChatContent.GOLD + "Minus (-)"), Arrays.asList(
-								ChatContent.AQUA + "Decrement weight"
+								ChatContent.AQUA + "Decrement weight",
+								ChatContent.AQUA + "",
+								ChatContent.GRAY + "Left Click  : -1",
+								ChatContent.GRAY + "Right Click : -10"
 								)), event -> {
-									if (item.getWeight() - 1 >= 0) {
-										player.playSound(player.getLocation(), Sound.ENTITY_PAINTING_PLACE, 1F, 0.7F);
+									if (event.isLeftClick() && item.getWeight() - 1 >= 0) {
 										item.setWeight(item.getWeight() - 1);
 										SlotPlugin.saveToDisk();
+										player.playSound(player.getLocation(), Sound.ENTITY_PAINTING_PLACE, 1F, 0.7F);
 										ChangeItemWeight.changeItemWeight(player, machine, item, backpage);
-									} else
-										player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1F, 1F);
+									} else if(event.isRightClick() && item.getWeight() - 10 >= 0) {
+										item.setWeight(item.getWeight() - 10);
+										SlotPlugin.saveToDisk();
+										player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1F, 1.7F);
+										ChangeItemWeight.changeItemWeight(player, machine, item, backpage);
+									} else {
+										item.setWeight(999);
+										SlotPlugin.saveToDisk();
+										player.playSound(player.getLocation(), Sound.BLOCK_BELL_RESONATE, 1F, 1.7F);
+										ChangeItemWeight.changeItemWeight(player, machine, item, backpage);
+									}
 								}));
 						
 						contents.set(2, 7, ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.PLUS_SIGN), ChatContent.GOLD + "Plus (+)"), Arrays.asList(
-								ChatContent.AQUA + "Increment weight"
+								ChatContent.AQUA + "Increment weight",
+								ChatContent.AQUA + "",
+								ChatContent.GRAY + "Left Click  : +1",
+								ChatContent.GRAY + "Right Click : +10"
 								)), event -> {
-									if (item.getWeight() + 1 <= 999) {
-										player.playSound(player.getLocation(), Sound.ENTITY_PAINTING_PLACE, 1F, 1.3F);
+									if (event.isLeftClick() && item.getWeight() + 1 <= 999) {
 										item.setWeight(item.getWeight() + 1);
 										SlotPlugin.saveToDisk();
+										player.playSound(player.getLocation(), Sound.ENTITY_PAINTING_PLACE, 1F, 1.3F);
 										ChangeItemWeight.changeItemWeight(player, machine, item, backpage);
-									} else
-										player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1F, 1F);
+									} else if(event.isRightClick() && item.getWeight() + 10 <= 999) {
+										item.setWeight(item.getWeight() + 10);
+										SlotPlugin.saveToDisk();
+										player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1F, 2F);
+										ChangeItemWeight.changeItemWeight(player, machine, item, backpage);
+									} else {
+										item.setWeight(0);
+										SlotPlugin.saveToDisk();
+										player.playSound(player.getLocation(), Sound.BLOCK_BELL_RESONATE, 1F, 2F);
+										ChangeItemWeight.changeItemWeight(player, machine, item, backpage);
+									}
 								}));
 						
 						if (item.getWeight() > 999 || item.getWeight() < 0) {
@@ -70,10 +94,17 @@ public class ChangeItemWeight {
 									"",
 									ChatContent.DARK_AQUA + "Click to reset its weight to 1"
 									)), event -> {
-										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-										item.setWeight(1);
-										SlotPlugin.saveToDisk();
-										ChangeItemWeight.changeItemWeight(player, machine, item, backpage);
+										ConfirmInventory.confirmWindow(player, "Reset to 1 ?", "No, don't reset", "Yes, reset to 1", result -> {
+											if (result) {
+												item.setWeight(1);
+												SlotPlugin.saveToDisk();
+												player.playSound(player.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 1F, 2F);
+												ChangeItemWeight.changeItemWeight(player, machine, item, backpage);
+											} else {
+												player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+												ChangeItemWeight.changeItemWeight(player, machine, item, backpage);
+											}
+										}, false);
 									}));
 						} else {
 							int hundredsDigit = hundredsDigit(item.getWeight());
@@ -96,6 +127,11 @@ public class ChangeItemWeight {
 								ChatContent.AQUA + "Click on + or - to increment and",
 								ChatContent.AQUA + "decrement the item's weight",
 								ChatContent.AQUA + "",
+								ChatContent.AQUA + "Left Click  : -1/+1",
+								ChatContent.AQUA + "Right Click : -10/+10",
+								ChatContent.AQUA + ChatContent.ITALIC + "Weight will loop back to 999 when",
+								ChatContent.AQUA + ChatContent.ITALIC + "going under 0 and vice-versa",
+								ChatContent.AQUA + "",
 								ChatContent.AQUA + "Item weight can go from 0 (unwinnable)",
 								ChatContent.AQUA + "to 2 billions however this editor will",
 								ChatContent.AQUA + "only allow you to edit it up to 999"
@@ -104,9 +140,17 @@ public class ChangeItemWeight {
 						contents.set(0, 6, ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.ONE_BLACKBG), ChatContent.RED + "Reset to 1"), Arrays.asList(
 								ChatContent.GRAY + "Resets the weight to 1"
 							)), event -> {
-								item.setWeight(1);
-								SlotPlugin.saveToDisk();
-								MachineItemsInterractionInventory.manageItems(player, machine, backpage);
+								ConfirmInventory.confirmWindow(player, "Reset to 1 ?", "No, don't reset", "Yes, reset to 1", result -> {
+									if (result) {
+										item.setWeight(1);
+										SlotPlugin.saveToDisk();
+										player.playSound(player.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 1F, 2F);
+										ChangeItemWeight.changeItemWeight(player, machine, item, backpage);
+									} else {
+										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+										ChangeItemWeight.changeItemWeight(player, machine, item, backpage);
+									}
+								}, false);
 								
 						}));
 
