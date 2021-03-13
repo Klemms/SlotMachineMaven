@@ -222,8 +222,8 @@ command.setslotmachinetoken.cannotbeair=Token cannot be AIR
 command.setslotmachinetoken.cannotbenull=Token cannot be be nothing
 command.setslotmachinetoken.fromgameonly=You must be a Player
 
-command.slotmachine=Slot Machine Magic Wand
-command.slotmachine.line1=Right click any entity
+command.slotmachine=Slot Machine
+command.slotmachine.line1=Right click any entity or block
 command.slotmachine.line2=to show the Slot Machine menu
 
 command.slotmachineaction.rename=Please type the name you want this Slot Machine to have in the chat

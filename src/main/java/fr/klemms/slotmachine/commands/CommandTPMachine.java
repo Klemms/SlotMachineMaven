@@ -23,13 +23,13 @@ public class CommandTPMachine implements CommandExecutor {
 					slotMachine.setChunkX(((Player)sender).getLocation().getChunk().getX());
 					slotMachine.setChunkZ(((Player)sender).getLocation().getChunk().getZ());
 					SlotPlugin.saveToDisk();
-					sender.sendMessage(ChatContent.RED + "[SlotMachine] " + Language.translate("command.tpmachine.successful"));
+					sender.sendMessage(ChatContent.RED + "[Slot Machine] " + Language.translate("command.tpmachine.successful"));
 					return true;
 				}
-				sender.sendMessage(ChatContent.RED + "[SlotMachine] " + Language.translate("command.tpmachine.cantfindentity"));
+				sender.sendMessage(ChatContent.RED + "[Slot Machine] " + Language.translate("command.tpmachine.cantfindentity"));
 				return false;
 			}
-			sender.sendMessage(ChatContent.RED + "[SlotMachine] " + Language.translate("command.tpmachine.cantfindmachine"));
+			sender.sendMessage(ChatContent.RED + "[Slot Machine] " + Language.translate("command.tpmachine.cantfindmachine"));
 			return false;
 		}
 		return false;

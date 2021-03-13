@@ -16,15 +16,14 @@ import fr.klemms.slotmachine.exceptioncollector.ExceptionCollector;
 import fr.klemms.slotmachine.interraction.MachineInterractionInventory;
 import fr.klemms.slotmachine.translation.Language;
 import net.citizensnpcs.api.CitizensAPI;
-import net.md_5.bungee.api.ChatColor;
 
 public class MachineMethods {
 	
-	private static ChatColor nextButtonColor = ChatColor.AQUA;
+	/*private static ChatColor nextButtonColor = ChatColor.AQUA;
 	
 	private static ChatColor getButtonColor() {
 		return nextButtonColor == ChatColor.AQUA ? (nextButtonColor = ChatColor.DARK_AQUA) : (nextButtonColor = ChatColor.AQUA);
-	}
+	}*/
 	
 	public static void openmachine(Player player, SlotMachine machine) {
 		
@@ -313,16 +312,16 @@ public class MachineMethods {
 			SlotMachineEntity slotMachineEntity = new SlotMachineEntity(uuid, entity.getWorld().getUID(), entity.getLocation().getChunk().getX(), entity.getLocation().getChunk().getZ());
 			slotMachineEntity.setCitizensNPC(isCitizensNPC);
 			SlotMachineEntity.addSlotMachineEntity(slotMachineEntity);
-			player.sendMessage(ChatContent.GREEN + "[SlotMachine] " + Language.translate("slotmachine.created").replace("%entityUUID%", uuid.toString()));
+			player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("slotmachine.created").replace("%entityUUID%", uuid.toString()));
 			
 			if(SlotPlugin.econ == null) {
-				player.sendMessage(ChatContent.BOLD + ChatContent.AQUA + "[SlotMachine] " + Language.translate("slotmachine.tokensfallback"));
+				player.sendMessage(ChatContent.BOLD + ChatContent.AQUA + "[Slot Machine] " + Language.translate("slotmachine.tokensfallback"));
 			}
 			
 			Bukkit.getLogger().log(Level.INFO, "New SlotMachine (Entity)" + (isCitizensNPC ? " (Citizens NPC)" : "") + " (Created by : " + player.getName() + ") : '" + entity.getType().toString() + "' with UUID '" + uuid.toString() + "' in world '" + entity.getWorld().getName() + "' at '" + entity.getLocation().getX() + " " + entity.getLocation().getY() + " " + entity.getLocation().getZ() + "'");
 			SlotPlugin.saveToDisk();
 		} else {
-			player.sendMessage(ChatContent.RED + ChatContent.BOLD + "[SlotMachine] " + Language.translate("slotmachine.alreadyslotmachine"));
+			player.sendMessage(ChatContent.RED + ChatContent.BOLD + "[Slot Machine] " + Language.translate("slotmachine.alreadyslotmachine"));
 		}
 	}
 
@@ -330,16 +329,16 @@ public class MachineMethods {
 		if(SlotMachineBlock.getSlotMachineByBlock(block) == null) {
 			SlotMachineBlock slotMachineBlock = new SlotMachineBlock(block.getX(), block.getY(), block.getZ(), true, block.getWorld().getUID(), block.getLocation().getChunk().getX(), block.getLocation().getChunk().getZ());
 			SlotMachineBlock.addSlotMachineBlock(slotMachineBlock);
-			player.sendMessage(ChatContent.GREEN + "[SlotMachine] " + Language.translate("slotmachine.created.block").replace("%location%", block.getX() + "," + block.getY() + "," + block.getZ()));
+			player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("slotmachine.created.block").replace("%location%", block.getX() + "," + block.getY() + "," + block.getZ()));
 			
 			if(SlotPlugin.econ == null) {
-				player.sendMessage(ChatContent.BOLD + ChatContent.AQUA + "[SlotMachine] " + Language.translate("slotmachine.tokensfallback"));
+				player.sendMessage(ChatContent.BOLD + ChatContent.AQUA + "[Slot Machine] " + Language.translate("slotmachine.tokensfallback"));
 			}
 			
 			Bukkit.getLogger().log(Level.INFO, "New SlotMachine (Block) (Created by : " + player.getName() + ") : '" + block.getType().toString() + "' in world '" + block.getWorld().getName() + "' at '" + block.getLocation().getX() + " " + block.getLocation().getY() + " " + block.getLocation().getZ() + "'");
 			SlotPlugin.saveToDisk();
 		} else {
-			player.sendMessage(ChatContent.RED + ChatContent.BOLD + "[SlotMachine] " + Language.translate("slotmachine.alreadyslotmachine"));
+			player.sendMessage(ChatContent.RED + ChatContent.BOLD + "[Slot Machine] " + Language.translate("slotmachine.alreadyslotmachine"));
 		}
 	}
 	
@@ -347,7 +346,7 @@ public class MachineMethods {
 		if(SlotMachine.getSlotMachineByUUID(machineUUID) != null) {
 			SlotMachine slotMachine = SlotMachine.getSlotMachineByUUID(machineUUID);
 			SlotMachine.removeSlotMachine(slotMachine);
-			player.sendMessage(ChatContent.GREEN + "[SlotMachine] " + Language.translate("slotmachine.removed"));
+			player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("slotmachine.removed"));
 			SlotPlugin.pl.getLogger().log(Level.INFO, Language.translate("slotmachine.removed.logs"));
 			try {
 				Files.deleteIfExists(SlotPlugin.pl.getDataFolder().toPath().resolve("machines").resolve(slotMachine.getMachineUUID().toString() + ".yml"));
@@ -358,7 +357,7 @@ public class MachineMethods {
 			}
 			SlotPlugin.saveToDisk();
 		} else {
-			player.sendMessage(ChatContent.RED + ChatContent.BOLD + "[SlotMachine] " + Language.translate("slotmachine.notslotmachine"));
+			player.sendMessage(ChatContent.RED + ChatContent.BOLD + "[Slot Machine] " + Language.translate("slotmachine.notslotmachine"));
 		}
 	}
 	

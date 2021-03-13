@@ -222,9 +222,9 @@ command.setslotmachinetoken.cannotbeair=Le Token ne peut pas être de l'air
 command.setslotmachinetoken.cannotbenull=Le Token ne peut pas ne rien être
 command.setslotmachinetoken.fromgameonly=Vous devez être un joueur
 
-command.slotmachine=Slot Machine Magic Wand
+command.slotmachine=Slot Machine
 command.slotmachine.line1=Clic droit sur n'importe quelle entité
-command.slotmachine.line2=pour ouvrir le menu Slot Machine
+command.slotmachine.line2=ou bloc pour ouvrir le menu Slot Machine
 
 command.slotmachineaction.rename=Veuillez taper le nom souhaité de cette Slot Machine dans le chat
 command.slotmachineaction.changepermission=Veuillez taper la permission souhaitée de cette Slot Machine dans le chat

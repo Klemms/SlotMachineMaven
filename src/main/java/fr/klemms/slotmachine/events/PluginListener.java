@@ -75,7 +75,7 @@ public class PluginListener implements Listener {
 					openSlotMachine = false;
 					MachineMethods.magicWand(event.getPlayer(), event.getRightClicked(), null);
 				} else if(Config.debug) {
-					event.getPlayer().sendMessage(ChatContent.RED + "[SlotMachine] You don't have the required permissions to edit this Slot Machine");
+					event.getPlayer().sendMessage(ChatContent.RED + "[Slot Machine] You don't have the required permissions to edit this Slot Machine");
 				}
 			}
 			UUID uuid = event.getRightClicked().getUniqueId();
@@ -174,7 +174,7 @@ public class PluginListener implements Listener {
 						event.getPlayer().sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("slotmachine.informations.new.spinduration") + " : " + ChatContent.RESET + slotMachine.getSecondsBeforePrize());
 					}
 				} else {
-					event.getPlayer().sendMessage(ChatContent.RED + ChatContent.BOLD + "[SlotMachine] " + Language.translate("error.notvalidinteger"));
+					event.getPlayer().sendMessage(ChatContent.RED + ChatContent.BOLD + "[Slot Machine] " + Language.translate("error.notvalidinteger"));
 				}
 			}
 			SlotPlugin.saveToDisk();
@@ -190,7 +190,7 @@ public class PluginListener implements Listener {
 						event.getPlayer().sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("slotmachine.informations.new.chancetowin") + " : " + ChatContent.RESET + (int)(slotMachine.getChanceToWin() * 100) + "%");
 					}
 				} else {
-					event.getPlayer().sendMessage(ChatContent.RED + ChatContent.BOLD + "[SlotMachine] " + Language.translate("error.notvaliddecimal"));
+					event.getPlayer().sendMessage(ChatContent.RED + ChatContent.BOLD + "[Slot Machine] " + Language.translate("error.notvaliddecimal"));
 				}
 			}
 			SlotPlugin.saveToDisk();
@@ -225,7 +225,7 @@ public class PluginListener implements Listener {
 					slotMachine.setPullPrice(Double.parseDouble(event.getMessage().replace("\"", "")));
 					event.getPlayer().sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("slotmachine.informations.new.price") + " : " + ChatContent.RESET + Util.formatNumber(slotMachine.getPullPrice()));
 				} else {
-					event.getPlayer().sendMessage(ChatContent.RED + ChatContent.BOLD + "[SlotMachine] " + Language.translate("error.notvaliddecimal"));
+					event.getPlayer().sendMessage(ChatContent.RED + ChatContent.BOLD + "[Slot Machine] " + Language.translate("error.notvaliddecimal"));
 				}
 			}
 			SlotPlugin.saveToDisk();
