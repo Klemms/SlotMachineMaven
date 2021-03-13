@@ -9,11 +9,6 @@ commands:
     slotmachineversion:
         description: Tells you Slot Machine's version
         usage: /slotmachineversion
-    slotmachinereload:
-        description: Reloads configuration, please make sure no Slot Machine is opened
-        usage: /slotmachinereload
-        permission: slotmachine.reload
-        permission-message: You do not have permission
     slotmachine:
         description: Gives the Slot Machine maker tool
         usage: /slotmachine

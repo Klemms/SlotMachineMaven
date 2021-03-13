@@ -28,7 +28,6 @@ import com.bencodez.votingplugin.VotingPluginHooks;
 import fr.klemms.slotmachine.MachineItem.RewardType;
 import fr.klemms.slotmachine.commands.CommandGiveTokens;
 import fr.klemms.slotmachine.commands.CommandOpenMachine;
-import fr.klemms.slotmachine.commands.CommandReload;
 import fr.klemms.slotmachine.commands.CommandSMSaveToDisk;
 import fr.klemms.slotmachine.commands.CommandSlotMachine;
 import fr.klemms.slotmachine.commands.CommandSlotMachineAction;
@@ -156,7 +155,6 @@ public class SlotPlugin extends JavaPlugin {
 		getCommand("openmachine").setExecutor(new CommandOpenMachine());
 		getCommand("tpmachine").setExecutor(new CommandTPMachine());
 		getCommand("givetokens").setExecutor(new CommandGiveTokens());
-		getCommand("slotmachinereload").setExecutor(new CommandReload());
 		getCommand("slotmachineversion").setExecutor(new CommandSlotMachineVersion());
 		getCommand("slotmachinetoken").setExecutor(new CommandSlotMachineTokens());
 		getCommand("smsavetodisk").setExecutor(new CommandSMSaveToDisk());
