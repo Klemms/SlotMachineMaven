@@ -136,10 +136,10 @@ public class CommandSlotMachineAction implements CommandExecutor {
 							}
 						}
 						break;
-					case "paymentplayerpoints":
+					case "paymentgamepoints":
 						if(slotMachine != null) {
-							slotMachine.setPriceType(PriceType.PLAYERPOINTS);
-							player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.paymentplayerpoints"));
+							slotMachine.setPriceType(PriceType.GAMEPOINTS);
+							player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.paymentgamepoints"));
 							SlotPlugin.saveToDisk();
 							if(slotMachineEntity != null || block != null) {
 								MachineMethods.magicWand(player, slotMachineEntity, block);

@@ -43,7 +43,7 @@ public class Config {
 	public static volatile String noAccessDefaultString = "permission.denied";
 	public static volatile String notEnoughMoneyDefaultString = "money.notenough";
 	public static volatile String notEnoughTokensDefaultString = "tokens.notenough";
-	public static volatile String notEnoughPlayerPointsDefaultString = "playerpoints.notenough";
+	public static volatile String notEnoughGamePointsDefaultString = "gamepoints.notenough";
 	public static volatile String notEnoughTokensManagerDefaultString = "tokenmanager.notenough";
 	
 	public static volatile String defaultWinMessage = "&a&lYou Won !";
@@ -69,7 +69,7 @@ public class Config {
 		plugin.getConfig().addDefault("permissionDenied", noAccessDefaultString);
 		plugin.getConfig().addDefault("notEnoughMoney", notEnoughMoneyDefaultString);
 		plugin.getConfig().addDefault("notEnoughTokens", notEnoughTokensDefaultString);
-		plugin.getConfig().addDefault("notEnoughPlayerPoints", notEnoughPlayerPointsDefaultString);
+		plugin.getConfig().addDefault("notEnoughGamePoints", notEnoughGamePointsDefaultString);
 		plugin.getConfig().addDefault("notEnoughTokensManager", notEnoughTokensManagerDefaultString);
 		plugin.getConfig().addDefault("showItemName", showItemName);
 		plugin.getConfig().addDefault("defaultWinMessage", defaultWinMessage);
@@ -95,7 +95,7 @@ public class Config {
 		noAccessDefaultString = SlotPlugin.pl.getConfig().getString("permissionDenied");
 		notEnoughMoneyDefaultString = SlotPlugin.pl.getConfig().getString("notEnoughMoney");
 		notEnoughTokensDefaultString = SlotPlugin.pl.getConfig().getString("notEnoughTokens");
-		notEnoughPlayerPointsDefaultString = SlotPlugin.pl.getConfig().getString("notEnoughPlayerPoints");
+		notEnoughGamePointsDefaultString = SlotPlugin.pl.getConfig().getString("notEnoughGamePoints");
 		notEnoughTokensManagerDefaultString = SlotPlugin.pl.getConfig().getString("notEnoughTokensManager");
 		showItemName = SlotPlugin.pl.getConfig().getBoolean("showItemName");
 		defaultWinMessage = SlotPlugin.pl.getConfig().getString("defaultWinMessage");

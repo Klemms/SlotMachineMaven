@@ -1,4 +1,4 @@
-version=16
+version=17
 
 metrics.cantconnect=SlotMachine couldn't connect to Metrics (mcstats)
 update.available=An update for %pluginName% is available at %url%
@@ -7,6 +7,8 @@ update.uptodate=%pluginName% is up-to-date
 
 error.notvalidinteger=This is not a valid number (Must be an integer)
 error.notvaliddecimal=This is not a valid number (Decimals must be separated with a dot : 13.37)
+
+issues.writeexception.title=An important exception occured when saving files : 
 
 load.slotmachine.entitynotfound=A Slot Machine Entity (%entityUUID%) coudln't be found on its original chunk, this Slot Machine has been loaded but may not work correctly. If you use a different plugin than Multiverse-Core or MultiWorld to handle multi-world please tell Slot Machine developper
 load.slotmachine.loading=Loading file %file%
@@ -30,7 +32,7 @@ basic.chance=Chance
 permission.denied=&6You can't access this slot machine :(
 money.notenough=&cYou don't have enough money
 tokens.notenough=&cYou don't have enough Tokens
-playerpoints.notenough=&cYou don't have enough PlayerPoints
+gamepoints.notenough=&cYou don't have enough Game Points
 tokenmanager.notenough=&cYou don't have enough Tokens from TokensManager
 experience.notenough=&cYou don't have enough Exprience levels
 votingplugin.notenough=&cYou don't have enough voting points
@@ -46,7 +48,7 @@ slotmachine.notslotmachine=This entity is not a Slot Machine !
 slotmachine.breakblock.cant=You can't break a block that is a Slot Machine
 slotmachine.giveitem.noroom=There are no slots free in your inventory. Slot machine will try to give you your prize in 10 seconds
 
-slotmachine.access.missingplayerpoints=This Slot Machine cannot be accessed because the plugin PlayerPoints is not installed
+slotmachine.access.missinggamepoints=This Slot Machine cannot be accessed because the plugin GamePoints is not installed
 slotmachine.access.missingtokenmanager=This Slot Machine cannot be accessed because the plugin TokensManager is not installed
 slotmachine.access.missingvault=This Slot Machine cannot be accessed because Vault and/or an economy plugin is missing
 slotmachine.access.missingvotingplugin=This Slot Machine cannot be accessed because the plugin VotingPlugin is not installed
@@ -97,7 +99,7 @@ placeholders.balance=Adds the player's balance
 placeholders.price=Adds the Slot Machine's price
 placeholders.items=Adds the number of items in the Slot Machine
 placeholders.machineName=Adds the Slot Machine name (formatted)
-placeholders.pointsPlayer=Adds the amount of PlayerPoints the player has (Will only work if PlayerPoints is installed)
+placeholders.gamePoints=Adds the amount of Game Points the player has (Will only work if GamePoints is installed)
 placeholders.chanceToWin=Adds the Slot Machine chance to win
 placeholders.tmTokensPlayer=Adds the amount of TokensManager Tokens the player has (Will only work if TokensManager is installed)
 placeholders.tokenName=Adds the Token identifier
@@ -143,8 +145,8 @@ magicwand.chatinstructions.paymentmoney.description=Changes the way to pay to pl
 magicwand.chatinstructions.paymentmoney.unable=Payment Method : MONEY (Install Vault and an economy plugin)
 magicwand.chatinstructions.paymentmoney.unable.description=Please install Vault and an economy plugin for this to work
 
-magicwand.chatinstructions.paymentplayerpoints=Change Payment Method to : PLAYER POINTS
-magicwand.chatinstructions.paymentplayerpoints.description=Changes the way to pay to play
+magicwand.chatinstructions.paymentgamepoints=Change Payment Method to : GAME POINTS
+magicwand.chatinstructions.paymentgamepoints.description=Changes the way to pay to play
 
 magicwand.chatinstructions.paymenttokenmanager=Change Payment Method to : TOKENMANAGER
 magicwand.chatinstructions.paymenttokenmanager.description=Changes the way to pay to play
@@ -229,7 +231,7 @@ command.slotmachineaction.changepermission=Please type the permission you want t
 command.slotmachineaction.csgowheel=Visual changed to CSGO-WHEEL for this Slot Machine
 command.slotmachineaction.csgowheelvertical=Visual changed to CSGO-WHEEL (Vertical) for this Slot Machine
 command.slotmachineaction.slotmachine=Visual changed to SLOT MACHINE for this Slot Machine
-command.slotmachineaction.paymentplayerpoints=Payment changed to PLAYER POINTS for this Slot Machine
+command.slotmachineaction.paymentgamepoints=Payment changed to GAME POINTS for this Slot Machine
 command.slotmachineaction.paymenttokenmanager=Payment changed to TOKENSMANAGER for this Slot Machine
 command.slotmachineaction.paymenttokens=Payment changed to TOKENS for this Slot Machine
 command.slotmachineaction.paymentmoney=Payment changed to MONEY for this Slot Machine

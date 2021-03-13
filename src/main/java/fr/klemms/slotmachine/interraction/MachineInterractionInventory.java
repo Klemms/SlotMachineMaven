@@ -271,18 +271,18 @@ public class MachineInterractionInventory {
 											SlotPlugin.saveToDisk();
 											manageMachine(player, machine, entity, block, pagination.getPage());
 								}));
-							if (machine.getPriceType() != PriceType.PLAYERPOINTS && SlotPlugin.playerPoints != null)
+							if (machine.getPriceType() != PriceType.GAMEPOINTS && SlotPlugin.isGamePointsEnabled)
 								items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.GHAST_TEAR, 1), ChatContent.GOLD + "Change Payment"), Arrays.asList(
 										ChatContent.AQUA + ChatContent.ITALIC + "Change this machine's",
 										ChatContent.AQUA + ChatContent.ITALIC + "payment to",
-										ChatContent.GREEN + ChatContent.ITALIC + "Player Points from PlayerPoints",
+										ChatContent.GREEN + ChatContent.ITALIC + "Game Points from GamePoints",
 										"",
 										ChatContent.AQUA + ChatContent.ITALIC + "Current payment :",
 										ChatContent.RESET + machine.getPriceType().name
 										)), event -> {
 											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-											machine.setPriceType(PriceType.PLAYERPOINTS);
-											player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.paymentplayerpoints"));
+											machine.setPriceType(PriceType.GAMEPOINTS);
+											player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.paymentgamepoints"));
 											SlotPlugin.saveToDisk();
 											manageMachine(player, machine, entity, block, pagination.getPage());
 								}));

@@ -9,6 +9,8 @@ import fr.klemms.slotmachine.SlotMachine;
 import fr.klemms.slotmachine.SlotPlugin;
 import fr.klemms.slotmachine.utils.PlayerUtil;
 import me.realized.tm.api.TMAPI;
+import su.nightexpress.gamepoints.GamePointsAPI;
+import su.nightexpress.gamepoints.data.objects.StoreUser;
 
 public class VariableBalance implements Variable {
 
@@ -20,9 +22,12 @@ public class VariableBalance implements Variable {
 					return SlotPlugin.econ.format(SlotPlugin.econ.getBalance(player));
 				}
 				break;
-			case PLAYERPOINTS:
-				if(SlotPlugin.playerPoints != null) {
-					return SlotPlugin.playerPoints.getAPI().look(player.getUniqueId()) + " PlayerPoints";
+			case GAMEPOINTS:
+				if(SlotPlugin.isGamePointsEnabled) {
+					StoreUser user = GamePointsAPI.getUserData(player);
+					if (user != null)
+						return String.valueOf(user.getBalance());
+					return "null";
 				}
 				break;
 			case TOKEN:

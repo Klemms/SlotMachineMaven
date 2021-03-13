@@ -16,7 +16,7 @@ public class VariablePrice implements Variable {
 				return String.valueOf((int)slotMachine.getPullPrice());
 			case MONEY:
 				return Util.formatNumber(slotMachine.getPullPrice());
-			case PLAYERPOINTS:
+			case GAMEPOINTS:
 				return String.valueOf((int)slotMachine.getPullPrice());
 			case TOKEN:
 				return String.valueOf((int)slotMachine.getPullPrice());

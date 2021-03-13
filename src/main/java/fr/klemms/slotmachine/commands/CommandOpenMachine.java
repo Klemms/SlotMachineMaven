@@ -30,9 +30,9 @@ public class CommandOpenMachine implements CommandExecutor {
 			if(player != null && slotMachine != null) {
 				if(player.hasPermission(slotMachine.getGuiPermission()) || player.isOp() || overridePermission) {
 					if(slotMachine.getSlotMachineItems().size() > 0) {
-						if(slotMachine.getPriceType() == PriceType.PLAYERPOINTS && SlotPlugin.playerPoints == null) {
+						if(slotMachine.getPriceType() == PriceType.GAMEPOINTS && !SlotPlugin.isGamePointsEnabled) {
 							if(sender instanceof Player) {
-								((Player)sender).sendMessage(ChatContent.GOLD + ChatContent.BOLD + slotMachine.getChatName() + Language.translate("slotmachine.access.missingplayerpoints"));
+								((Player)sender).sendMessage(ChatContent.GOLD + ChatContent.BOLD + slotMachine.getChatName() + Language.translate("slotmachine.access.missinggamepoints"));
 							}
 						} else if(slotMachine.getPriceType() == PriceType.MONEY && SlotPlugin.econ == null) {
 							if(sender instanceof Player) {

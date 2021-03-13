@@ -28,8 +28,8 @@ public class MachineMethods {
 	public static void openmachine(Player player, SlotMachine machine) {
 		
 		if(machine.getSlotMachineItems().size() > 0) {
-			if(machine.getPriceType() == PriceType.PLAYERPOINTS && SlotPlugin.playerPoints == null) {
-				player.sendMessage(ChatContent.RED + "[Slot Machine] " + Language.translate("slotmachine.access.missingplayerpoints"));
+			if(machine.getPriceType() == PriceType.GAMEPOINTS && !SlotPlugin.isGamePointsEnabled) {
+				player.sendMessage(ChatContent.RED + "[Slot Machine] " + Language.translate("slotmachine.access.missinggamepoints"));
 				return;
 			}
 			if(machine.getPriceType() == PriceType.TOKENMANAGER && !SlotPlugin.oldTokenManagerWorks && SlotPlugin.tokenManager == null) {
@@ -150,11 +150,11 @@ public class MachineMethods {
 				}
 			}
 			
-			if(machine.getPriceType() != PriceType.PLAYERPOINTS && SlotPlugin.playerPoints != null) {
-				player.spigot().sendMessage(new ComponentBuilder("[" + Language.translate("magicwand.chatinstructions.paymentplayerpoints") + "]")
+			if(machine.getPriceType() != PriceType.GAMEPOINTS && SlotPlugin.isGamePointsEnabled) {
+				player.spigot().sendMessage(new ComponentBuilder("[" + Language.translate("magicwand.chatinstructions.paymentgamepoints") + "]")
 						.color(getButtonColor())
-						.event(new ClickEvent(Action.RUN_COMMAND, "/slotmachineaction paymentplayerpoints " + machine.getMachineUUID().toString()))
-						.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(Language.translate("magicwand.chatinstructions.paymentplayerpoints.description")).color(ChatColor.AQUA).create()))
+						.event(new ClickEvent(Action.RUN_COMMAND, "/slotmachineaction paymentgamepoints " + machine.getMachineUUID().toString()))
+						.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(Language.translate("magicwand.chatinstructions.paymentgamepoints.description")).color(ChatColor.AQUA).create()))
 						.create());
 			}
 			

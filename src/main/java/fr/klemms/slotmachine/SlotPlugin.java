@@ -3,25 +3,29 @@ package fr.klemms.slotmachine;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
 
 import org.apache.commons.io.FileUtils;
-import org.black_ixx.playerpoints.PlayerPoints;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.bencodez.votingplugin.VotingPluginHooks;
 
+import fr.klemms.slotmachine.Issue.IssueType;
 import fr.klemms.slotmachine.MachineItem.RewardType;
 import fr.klemms.slotmachine.commands.CommandGiveTokens;
 import fr.klemms.slotmachine.commands.CommandOpenMachine;
@@ -68,8 +72,7 @@ public class SlotPlugin extends JavaPlugin {
 	
 	public static InventoryManager invManager;
 	
-	public static PlayerPoints playerPoints;
-	
+	public static boolean isGamePointsEnabled = false;
 	public static boolean isCitizensEnabled = false;
 	
 	public static boolean oldTokenManagerWorks = false;
@@ -158,8 +161,8 @@ public class SlotPlugin extends JavaPlugin {
 		
 		this.getServer().getPluginManager().registerEvents(new PluginListener(), this);
 		
-		if(this.getServer().getPluginManager().getPlugin("PlayerPoints") != null) {
-			SlotPlugin.playerPoints = (PlayerPoints)this.getServer().getPluginManager().getPlugin("PlayerPoints");
+		if(this.getServer().getPluginManager().getPlugin("GamePoints") != null) {
+			SlotPlugin.isGamePointsEnabled = true;
 		}
 		
 		if(this.getServer().getPluginManager().getPlugin("TokenManager") != null) {

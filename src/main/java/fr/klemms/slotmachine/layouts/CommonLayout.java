@@ -18,6 +18,8 @@ import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
 import fr.minuskube.inv.ClickableItem;
 import me.realized.tm.api.TMAPI;
+import su.nightexpress.gamepoints.GamePointsAPI;
+import su.nightexpress.gamepoints.data.objects.StoreUser;
 
 public class CommonLayout {
 	
@@ -70,18 +72,19 @@ public class CommonLayout {
 					player.sendMessage(ChatContent.RED + machine.getChatName() + Language.translate("slotmachine.access.missingvotingplugin"));
 					return false;
 				}
-			case PLAYERPOINTS:
-				if(SlotPlugin.playerPoints != null) {
-					if(SlotPlugin.playerPoints.getAPI().look(player.getUniqueId()) >= (int)machine.getPullPrice()) {
-						SlotPlugin.playerPoints.getAPI().take(player.getUniqueId(), (int)machine.getPullPrice());
+			case GAMEPOINTS:
+				if(SlotPlugin.isGamePointsEnabled) {
+					StoreUser user = GamePointsAPI.getUserData(player);
+					if(user != null && user.getBalance() >= (int)machine.getPullPrice()) {
+						user.takePoints((int)machine.getPullPrice());
 						return true;
 					} else {
-						player.sendMessage(Variables.getFormattedString(Language.translate(Config.notEnoughPlayerPointsDefaultString), player, machine));
+						player.sendMessage(Variables.getFormattedString(Language.translate(Config.notEnoughGamePointsDefaultString), player, machine));
 						player.playSound(player.getLocation(), machine.getMachineOpeningSound(), 1.9f, 0.3f);
 						return false;
 					}
 				} else {
-					player.sendMessage(ChatContent.RED + machine.getChatName() + Language.translate("slotmachine.access.missingplayerpoints"));
+					player.sendMessage(ChatContent.RED + machine.getChatName() + Language.translate("slotmachine.access.missinggamepoints"));
 					return false;
 				}
 			case TOKEN:

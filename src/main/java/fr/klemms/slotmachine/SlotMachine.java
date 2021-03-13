@@ -725,10 +725,10 @@ public abstract class SlotMachine {
 				this.setLeverDescription("$machineName$newline&a&oCurrent Balance :&r&b $balance VP");
 			}
 		}
-		if(priceType == PriceType.PLAYERPOINTS) {
+		if(priceType == PriceType.GAMEPOINTS) {
 			if(!this.isLeverCustom()) {
-				this.setLeverTitle("&6Play for $price PlayerPoints");
-				this.setLeverDescription("$machineName$newline&a&oCurrent Balance :&r&b $pointsPlayer PlayerPoints");
+				this.setLeverTitle("&6Play for $price GamePoints");
+				this.setLeverDescription("$machineName$newline&a&oCurrent Balance :&r&b $pointsPlayer GamePoints");
 			}
 		}
 		if(priceType == PriceType.TOKENMANAGER) {

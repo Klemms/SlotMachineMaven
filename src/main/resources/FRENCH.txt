@@ -1,4 +1,4 @@
-version=17
+version=18
 
 metrics.cantconnect=SlotMachine n'a pas pu se connecter à Metrics (mcstats)
 update.available=Une mise à jour de %pluginName% est disponible à l'adresse %url%
@@ -7,6 +7,8 @@ update.uptodate=%pluginName% est à jour
 
 error.notvalidinteger=Ceci n'est pas un nombre valide (Doit être un entier)
 error.notvaliddecimal=Ceci n'est pas un nombre valide (Les décimales doivent être séparées par un point : 13.37)
+
+issues.writeexception.title=Une exception importante s'est produite lors de la sauvegarde de fichiers : 
 
 load.slotmachine.entitynotfound=Une Entité Slot Machine (%entityUUID%) n'a pas pu être trouvée , cette Slot Machine a été chargée mais pourrait ne pas fonctionner correctement. Si vous utiliez un plugin autre que Multiverse-Core ou MultiWorld pour le multi-monde veuillez prévenir le développeur de Slot Machine
 load.slotmachine.loading=Chargement du fichier %file%
@@ -30,7 +32,7 @@ basic.chance=Chance
 permission.denied=&6Vous ne pouvez pas accéder à cette Slot Machine :(
 money.notenough=&cVous n'avez pas assez d'argent
 tokens.notenough=&cVous n'avez pas assez de Tokens
-playerpoints.notenough=&cVous n'avez pas assez de PlayerPoints
+gamepoints.notenough=&cVous n'avez pas assez de GamePoints
 tokenmanager.notenough=&cVous n'avez pas assez de Tokens (De TokensManager)
 experience.notenough=&cVous n'avez pas assez de niveau d'Expérience
 votingplugin.notenough=&cVous n'avez pas assez de points de vote
@@ -46,7 +48,7 @@ slotmachine.notslotmachine=Cette entitée n'est pas une Slot Machine
 slotmachine.breakblock.cant=Vous ne pouvez pas casser un block qui est une Slot Machine
 slotmachine.giveitem.noroom=Il n'y a pas de slots libres dans votre inventaire. Slot machin essaiera de vous redonner votre prix dans 10 secondes
 
-slotmachine.access.missingplayerpoints=Cette Slot Machine ne peut pas être accédée car le plugin PlayerPoints n'est pas installé
+slotmachine.access.missinggamepoints=Cette Slot Machine ne peut pas être accédée car le plugin GamePoints n'est pas installé
 slotmachine.access.missingtokenmanager=Cette Slot Machine ne peut pas être accédée car le plugin TokensManager n'est pas installé
 slotmachine.access.missingvault=Cette Slot Machine ne peut être accédée car Vault et/ou aucun plugin économique n'est présent
 slotmachine.access.missingvotingplugin=Cette Slot Machine ne peut pas être accédée car le plugin VotingPlugin n'est pas installé
@@ -97,7 +99,7 @@ placeholders.balance=Ajoute l'argent du joueur
 placeholders.price=Ajoute le prix de la Slot Machine
 placeholders.items=Ajoute le nombre d'items dans cette Slot Machine
 placeholders.machineName=Ajoute le nom de la machine (formatté)
-placeholders.pointsPlayer=Ajoute le nombre de PlayerPoints que le joueur a (Ne fonctionnera que si le plugin PlayerPoints est installé)
+placeholders.gamePoints=Ajoute le nombre de Game Points que le joueur a (Ne fonctionnera que si le plugin GamePoints est installé)
 placeholders.chanceToWin=Ajoute la chance de gagner
 placeholders.tmTokensPlayer=Ajoute le nombre de Tokens de TokensManager Tokens que le joueur a (Ne fonctionnera que si le plugin TokensManager est installé)
 placeholders.tokenName=Ajoute l'identifiant du Token
@@ -143,14 +145,14 @@ magicwand.chatinstructions.paymentmoney.description=Les joueurs utiliserons de l
 magicwand.chatinstructions.paymentmoney.unable=Moyen de paiement : MONEY (Installez Vault et un plugin économique)
 magicwand.chatinstructions.paymentmoney.unable.description=Installez Vault et un plugin économique pour que cette option soit disponible
 
-magicwand.chatinstructions.paymentplayerpoints=Changer le moyen de paiement : PLAYER POINTS
-magicwand.chatinstructions.paymentplayerpoints.description=Les joueurs utiliserons des PlayerPoints pour payer
+magicwand.chatinstructions.paymentgamepoints=Changer le moyen de paiement : GAME POINTS
+magicwand.chatinstructions.paymentgamepoints.description=Les joueurs utiliserons des Game Points pour payer
 
 magicwand.chatinstructions.paymenttokenmanager=Changer le moyen de paiement : TOKENMANAGER
 magicwand.chatinstructions.paymenttokenmanager.description=Changes the way to pay to play
 
 magicwand.chatinstructions.changeprice=Changer le prix
-magicwand.chatinstructions.changeprice.description=Change le prix (sera arrondi pour les Tokens et les PlayerPoints)
+magicwand.chatinstructions.changeprice.description=Change le prix (sera arrondi pour les Tokens et les Game Points)
 
 magicwand.chatinstructions.setitems=Définir les items de cette Slot Machine
 magicwand.chatinstructions.setitems.description=Vous donne un outil pour définir les items de cette Slot Machine
@@ -229,7 +231,7 @@ command.slotmachineaction.changepermission=Veuillez taper la permission souhait�
 command.slotmachineaction.csgowheel=Visuel changé en CSGO-WHEEL pour cette Slot Machine
 command.slotmachineaction.csgowheelvertical=Visuel changé en CSGO-WHEEL (Vertical) pour cette Slot Machine
 command.slotmachineaction.slotmachine=Visuel changé en SLOT MACHINE pour cette Slot Machine
-command.slotmachineaction.paymentplayerpoints=Méthode de paiement changée en PLAYER POINTS pour cette Slot Machine
+command.slotmachineaction.paymentgamepoints=Méthode de paiement changée en GAME POINTS pour cette Slot Machine
 command.slotmachineaction.paymenttokenmanager=Méthode de paiement changée en TOKENSMANAGER pour cette Slot Machine
 command.slotmachineaction.paymenttokens=Méthode de paiement changée en TOKENS pour cette Slot Machine
 command.slotmachineaction.paymentmoney=Méthode de paiement changée en MONEY pour cette Slot Machine
