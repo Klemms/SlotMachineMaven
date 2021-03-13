@@ -96,6 +96,9 @@ public class SlotPlugin extends JavaPlugin {
 			return;
 		}
 		
+		invManager = new InventoryManager(this);
+		invManager.init();
+		
 		if (Util.getMCVersion().startsWith("1.13")) {
 			try {
 				SIGN_UNIVERSAL = (Material) Material.class.getDeclaredField("SIGN").get(null);
@@ -142,6 +145,7 @@ public class SlotPlugin extends JavaPlugin {
 			SlotPlugin.readTokens();
 			SlotPlugin.writeTokens();
 			Config.loadMachines(this);
+			//PlayerConfig.loadPlayerConfig();
 		} catch(Exception e) {
 			e.printStackTrace();
 			ExceptionCollector.sendException(this, e);
@@ -242,7 +246,8 @@ public class SlotPlugin extends JavaPlugin {
 				boolean remove = false;
 				for (Player player : Bukkit.getOnlinePlayers()) {
 					if (player.isOp()) {
-						player.sendMessage(ChatContent.DARK_RED + ChatContent.BOLD + "[Slot Machine] " + ChatContent.RED + issue.getLocalizedTitle());
+						player.sendMessage(ChatContent.DARK_RED + ChatContent.BOLD + "[Slot Machine] " + ChatContent.RED
+								+ (issue.amount > 1 ? ChatContent.ITALIC + "(" + issue.amount + "x) " + ChatContent.RED : "") + issue.getLocalizedTitle());
 						player.sendMessage(ChatContent.DARK_RED + ChatContent.BOLD + "[Slot Machine] " + ChatContent.RED + issue.description);
 						remove = true;
 					}
