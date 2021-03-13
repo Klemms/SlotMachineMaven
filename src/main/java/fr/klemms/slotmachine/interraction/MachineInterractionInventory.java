@@ -107,10 +107,8 @@ public class MachineInterractionInventory {
 								player.playSound(player.getLocation(), Sound.BLOCK_END_PORTAL_SPAWN, 0.3F, 1.3F);
 								if (entity != null) {
 									MachineMethods.createSlotMachineEntity(player, entity);
-									player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully created this Slot Machine");
 								} else if (block != null) {
 									MachineMethods.createSlotMachineBlock(player, block);
-									player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully created this Slot Machine");
 								}
 							}));
 						} else {
@@ -451,38 +449,56 @@ public class MachineInterractionInventory {
 							}));
 							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(ItemStackUtil.addGlow(new ItemStack(Material.TRIPWIRE_HOOK, 1)), ChatContent.GOLD + "Change Lever Name"), Arrays.asList(
 									ChatContent.AQUA + ChatContent.ITALIC + "Change the lever's name",
+									ChatContent.AQUA + ChatContent.ITALIC + "Right Click to reset to ",
+									ChatContent.AQUA + ChatContent.ITALIC + "default name and description",
 									"",
 									ChatContent.AQUA + ChatContent.ITALIC + "Current name :",
 									ChatContent.RESET + Variables.getFormattedString(machine.getLeverTitle(), player, machine)
 									)), event -> {
 										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-										player.closeInventory();
-										PlayerUtil.resetPlayerData(player);
-										player.setMetadata("slotmachine_setlevertitle", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
-										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.levertitle") + " :");
-										for(int a = 0; a < Variables.values().length; a++) {
-											player.sendMessage(ChatContent.AQUA + " - $" + Variables.values()[a].variableName + ChatContent.DARK_AQUA + " - " + Language.translate(Variables.values()[a].variableDescription));
+										if (event.isLeftClick()) {
+											player.closeInventory();
+											PlayerUtil.resetPlayerData(player);
+											player.setMetadata("slotmachine_setlevertitle", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
+											player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.levertitle") + " :");
+											for(int a = 0; a < Variables.values().length; a++) {
+												player.sendMessage(ChatContent.AQUA + " - $" + Variables.values()[a].variableName + ChatContent.DARK_AQUA + " - " + Language.translate(Variables.values()[a].variableDescription));
+											}
+											player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.levertitle.current").replace("%leverTitle%", ChatContent.RESET + machine.getLeverTitle()));
+											player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
+										} else if (event.isRightClick()) {
+											machine.setLeverCustom(false);
+											machine.setPriceType(machine.getPriceType());
+											SlotPlugin.saveToDisk();
+											manageMachine(player, machine, entity, block, pagination.getPage());
 										}
-										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.levertitle.current").replace("%leverTitle%", ChatContent.RESET + machine.getLeverTitle()));
-										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
 							}));
 							List<String> leverDescLore = new ArrayList<String>();
 							leverDescLore.add(ChatContent.AQUA + ChatContent.ITALIC + "Change the lever's description");
+							leverDescLore.add(ChatContent.AQUA + ChatContent.ITALIC + "Right Click to reset to");
+							leverDescLore.add(ChatContent.AQUA + ChatContent.ITALIC + "default name and description");
 							leverDescLore.add("");
 							leverDescLore.add(ChatContent.AQUA + ChatContent.ITALIC + "Current description :");
 							leverDescLore.addAll(Variables.getFormattedStrings(machine.getLeverDescription(), player, machine));
 							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.TRIPWIRE_HOOK, 1), ChatContent.GOLD + "Change Lever Description"), leverDescLore), event -> {
 								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-								player.closeInventory();
-								PlayerUtil.resetPlayerData(player);
-								player.setMetadata("slotmachine_setleverdescription", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
-								player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.leverdescription") + " :");
-								for(int a = 0; a < Variables.values().length; a++) {
-									player.sendMessage(ChatContent.DARK_AQUA + " - $" + Variables.values()[a].variableName + " - " + Language.translate(Variables.values()[a].variableDescription));
+								if (event.isLeftClick()) {
+									player.closeInventory();
+									PlayerUtil.resetPlayerData(player);
+									player.setMetadata("slotmachine_setleverdescription", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
+									player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.leverdescription") + " :");
+									for(int a = 0; a < Variables.values().length; a++) {
+										player.sendMessage(ChatContent.DARK_AQUA + " - $" + Variables.values()[a].variableName + " - " + Language.translate(Variables.values()[a].variableDescription));
+									}
+									player.sendMessage(ChatContent.DARK_AQUA + " - $newline - " + Language.translate("command.slotmachineaction.leverdescription.newline"));
+									player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.leverdescription.current").replace("%leverDescription%", ChatContent.RESET + machine.getLeverDescription()));
+									player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
+								} else if (event.isRightClick()) {
+									machine.setLeverCustom(false);
+									machine.setPriceType(machine.getPriceType());
+									SlotPlugin.saveToDisk();
+									manageMachine(player, machine, entity, block, pagination.getPage());
 								}
-								player.sendMessage(ChatContent.DARK_AQUA + " - $newline - " + Language.translate("command.slotmachineaction.leverdescription.newline"));
-								player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.leverdescription.current").replace("%leverDescription%", ChatContent.RESET + machine.getLeverDescription()));
-								player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
 							}));
 							if (machine.allowContentPreview())
 								items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.ENDER_CHEST, 1), ChatContent.GOLD + "Disable Item Preview"), Arrays.asList(
@@ -724,9 +740,12 @@ public class MachineInterractionInventory {
 											if (callback) {
 												player.playSound(player.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1F, 1F);
 												MachineMethods.removeSlotMachine(player, machine.getMachineUUID());
-											} else
+												player.closeInventory();
+											} else {
+												manageMachine(player, machine, entity, block, page);
 												player.sendMessage(ChatContent.GREEN + "[Slot Machine] This Slot Machine has NOT been removed");
-										}, true);
+											}
+										}, false);
 							}));
 						
 						if (!pagination.isFirst())

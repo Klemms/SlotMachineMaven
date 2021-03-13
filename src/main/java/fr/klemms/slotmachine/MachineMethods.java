@@ -330,7 +330,7 @@ public class MachineMethods {
 		if(SlotMachineBlock.getSlotMachineByBlock(block) == null) {
 			SlotMachineBlock slotMachineBlock = new SlotMachineBlock(block.getX(), block.getY(), block.getZ(), true, block.getWorld().getUID(), block.getLocation().getChunk().getX(), block.getLocation().getChunk().getZ());
 			SlotMachineBlock.addSlotMachineBlock(slotMachineBlock);
-			player.sendMessage(ChatContent.GREEN + ChatContent.BOLD + "[SlotMachine] " + Language.translate("slotmachine.created.block").replace("%location%", block.getX() + "," + block.getY() + "," + block.getZ()));
+			player.sendMessage(ChatContent.GREEN + "[SlotMachine] " + Language.translate("slotmachine.created.block").replace("%location%", block.getX() + "," + block.getY() + "," + block.getZ()));
 			
 			if(SlotPlugin.econ == null) {
 				player.sendMessage(ChatContent.BOLD + ChatContent.AQUA + "[SlotMachine] " + Language.translate("slotmachine.tokensfallback"));
@@ -347,7 +347,7 @@ public class MachineMethods {
 		if(SlotMachine.getSlotMachineByUUID(machineUUID) != null) {
 			SlotMachine slotMachine = SlotMachine.getSlotMachineByUUID(machineUUID);
 			SlotMachine.removeSlotMachine(slotMachine);
-			player.sendMessage(ChatContent.GREEN + ChatContent.BOLD + "[SlotMachine] " + Language.translate("slotmachine.removed"));
+			player.sendMessage(ChatContent.GREEN + "[SlotMachine] " + Language.translate("slotmachine.removed"));
 			SlotPlugin.pl.getLogger().log(Level.INFO, Language.translate("slotmachine.removed.logs"));
 			try {
 				Files.deleteIfExists(SlotPlugin.pl.getDataFolder().toPath().resolve("machines").resolve(slotMachine.getMachineUUID().toString() + ".yml"));

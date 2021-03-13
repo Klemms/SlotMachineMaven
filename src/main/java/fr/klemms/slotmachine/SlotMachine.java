@@ -728,7 +728,7 @@ public abstract class SlotMachine {
 		if(priceType == PriceType.GAMEPOINTS) {
 			if(!this.isLeverCustom()) {
 				this.setLeverTitle("&6Play for $price GamePoints");
-				this.setLeverDescription("$machineName$newline&a&oCurrent Balance :&r&b $pointsPlayer GamePoints");
+				this.setLeverDescription("$machineName$newline&a&oCurrent Balance :&r&b $gamePoints GamePoints");
 			}
 		}
 		if(priceType == PriceType.TOKENMANAGER) {
