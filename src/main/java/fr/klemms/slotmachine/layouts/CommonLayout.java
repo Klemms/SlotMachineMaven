@@ -1,8 +1,10 @@
 package fr.klemms.slotmachine.layouts;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import com.bencodez.votingplugin.user.UserManager;
 import com.bencodez.votingplugin.user.VotingPluginUser;
@@ -22,6 +24,12 @@ public class CommonLayout {
 	public static final ClickableItem leverNoPermission = ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(Material.BARRIER, 1), ChatContent.translateColorCodes(Language.translate(Config.noAccessDefaultString))));
 
 	public static boolean triggerLever(Player player, SlotMachine machine) {
+		player.setMetadata("slotmachine_soundremovalprevention", new FixedMetadataValue(SlotPlugin.pl, true));
+		Bukkit.getScheduler().runTask(SlotPlugin.pl, () -> {
+			if (player.hasMetadata("slotmachine_soundremovalprevention"))
+				player.removeMetadata("slotmachine_soundremovalprevention", SlotPlugin.pl);
+		});
+		
 		switch(machine.getPriceType()) {
 			case MONEY:
 				if(SlotPlugin.econ.getBalance(player) >= machine.getPullPrice()) {

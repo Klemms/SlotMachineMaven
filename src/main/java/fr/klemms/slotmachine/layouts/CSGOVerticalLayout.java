@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import fr.klemms.slotmachine.ChatContent;
 import fr.klemms.slotmachine.Config;
@@ -47,6 +48,12 @@ public class CSGOVerticalLayout implements InventoryProvider {
 		
 		if (machine.allowContentPreview())
 			contents.set(1, 6, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(machine.getItemListItem(), 1), ChatContent.GOLD + Language.translate("machine.preview")), event -> {
+				player.setMetadata("slotmachine_soundremovalprevention", new FixedMetadataValue(SlotPlugin.pl, true));
+				Bukkit.getScheduler().runTask(SlotPlugin.pl, () -> {
+					if (player.hasMetadata("slotmachine_soundremovalprevention"))
+						player.removeMetadata("slotmachine_soundremovalprevention", SlotPlugin.pl);
+				});
+				
 				player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 				ItemPreviewInventory.showPreview(player, machine, 0);
 			}));

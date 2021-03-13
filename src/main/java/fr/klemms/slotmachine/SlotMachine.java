@@ -247,10 +247,12 @@ public abstract class SlotMachine {
 				.size(this.getVisualType().rows, this.getVisualType().columns)
 				.provider(provider)
 				.listener(new InventoryListener<InventoryCloseEvent>(InventoryCloseEvent.class, event -> {
-					if (event.getPlayer() instanceof Player) {
-						Player player = (Player)event.getPlayer();
-						
-						player.stopSound(this.getMachineOpeningSound());
+					if (!event.getPlayer().hasMetadata("slotmachine_soundremovalprevention")) {
+						if (event.getPlayer() instanceof Player) {
+							Player player = (Player)event.getPlayer();
+							
+							player.stopSound(this.getMachineOpeningSound());
+						}
 					}
 				}))
 				.build();
