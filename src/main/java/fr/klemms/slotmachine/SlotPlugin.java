@@ -25,7 +25,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.bencodez.votingplugin.VotingPluginHooks;
 
-import fr.klemms.slotmachine.Issue.IssueType;
 import fr.klemms.slotmachine.MachineItem.RewardType;
 import fr.klemms.slotmachine.commands.CommandGiveTokens;
 import fr.klemms.slotmachine.commands.CommandOpenMachine;
@@ -77,14 +76,16 @@ public class SlotPlugin extends JavaPlugin {
 	
 	public static boolean oldTokenManagerWorks = false;
 	public static TokenManager tokenManager;
+	
+	protected static HashMap<UUID, PlayerConfig> playerConfigs;
+	
+	public static List<Issue> issues;
 
 	@Override
 	public void onEnable() {
 		pl = this;
-		
-		invManager = new InventoryManager(this);
-		invManager.init();
-		
+		issues = new ArrayList<Issue>();
+
 		this.getLogger().log(Level.INFO, "Detected Minecraft version " + Util.getMCVersion());
 		this.getLogger().log(Level.INFO, "Slot Machine version " + this.getDescription().getVersion() + " (" + VERSION + ") for " + MC_FOR);
 		if (Util.getMCVersion().startsWith("1.7") || Util.getMCVersion().startsWith("1.8") || Util.getMCVersion().startsWith("1.9") ||
@@ -231,6 +232,26 @@ public class SlotPlugin extends JavaPlugin {
 			}
 			
 		}));
+		
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
+			Iterator<Issue> iss = issues.iterator();
+			
+			while (iss.hasNext()) {
+				Issue issue = iss.next();
+				
+				boolean remove = false;
+				for (Player player : Bukkit.getOnlinePlayers()) {
+					if (player.isOp()) {
+						player.sendMessage(ChatContent.DARK_RED + ChatContent.BOLD + "[Slot Machine] " + ChatContent.RED + issue.getLocalizedTitle());
+						player.sendMessage(ChatContent.DARK_RED + ChatContent.BOLD + "[Slot Machine] " + ChatContent.RED + issue.description);
+						remove = true;
+					}
+				}
+				
+				if (remove)
+					iss.remove();
+			}
+		}, 10 * 20, 30 * 20);
 	}
 
 	@Override
