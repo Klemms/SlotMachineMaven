@@ -23,6 +23,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import fr.klemms.slotmachine.Issue.IssueType;
 import fr.klemms.slotmachine.MachineItem.Reward;
 import fr.klemms.slotmachine.MachineItem.RewardType;
 import fr.klemms.slotmachine.exceptioncollector.ExceptionCollector;
@@ -129,6 +130,7 @@ public class Config {
 									}
 								}
 							} else {
+								Issue.newIssue(IssueType.MACHINE_READING_ISSUE, "Machine in file " + file.getName() + " has no, or a wrong 'machineType'", true);
 								Bukkit.getLogger().log(Level.SEVERE, "Machine in file " + file.getName() + " has no, or a wrong 'machineType', it will be loaded as an ENTITY");
 							}
 						} catch(Exception e) {
@@ -258,6 +260,7 @@ public class Config {
 											rewards.add(new MachineItem.Reward(ymlFile.getString("items." + b + ".rewards." + str + ".command")));
 										}
 									} else {
+										Issue.newIssue(IssueType.MACHINE_READING_ISSUE, "Machine " + slotMachine.getMachineUUID().toString() + " has a malformed item reward (" + str + ")", true);
 										Bukkit.getLogger().log(Level.SEVERE, "Machine " + slotMachine.getMachineUUID().toString() + " has a malformed item reward (" + str + "), we're not loading this reward");
 									}
 								}
@@ -286,6 +289,7 @@ public class Config {
 						}
 					} catch(Exception e) {
 						e.printStackTrace();
+						Issue.newIssue(IssueType.MACHINE_READING_ISSUE, e.getMessage() + " // " + Language.translate("load.slotmachine.exception").replace("%file%", file.getName()), true);
 						plugin.getLogger().log(Level.SEVERE, Language.translate("load.slotmachine.exception").replace("%file%", file.getName()));
 						ExceptionCollector.sendException(SlotPlugin.pl, e);
 					}

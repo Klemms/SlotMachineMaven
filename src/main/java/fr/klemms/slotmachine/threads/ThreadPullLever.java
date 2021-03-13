@@ -11,6 +11,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
 import fr.klemms.slotmachine.Config;
+import fr.klemms.slotmachine.Issue;
+import fr.klemms.slotmachine.Issue.IssueType;
 import fr.klemms.slotmachine.MachineItem;
 import fr.klemms.slotmachine.SlotMachine;
 import fr.klemms.slotmachine.SlotPlugin;
@@ -210,6 +212,7 @@ public class ThreadPullLever extends Thread {
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
+			Issue.newIssue(IssueType.REWARD_EXCEPTION, e.getMessage() + " // Reward : " + wonItem.getRealName() + " to " + player.getName(), true);
 			Bukkit.getLogger().log(Level.WARNING, "Couldn't give reward (" + wonItem.getRealName() + ") to " + player.getName());
 			ExceptionCollector.sendException(SlotPlugin.pl, e);
 		}

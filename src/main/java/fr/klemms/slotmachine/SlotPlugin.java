@@ -248,7 +248,7 @@ public class SlotPlugin extends JavaPlugin {
 					if (player.isOp()) {
 						player.sendMessage(ChatContent.DARK_RED + ChatContent.BOLD + "[Slot Machine] " + ChatContent.RED
 								+ (issue.amount > 1 ? ChatContent.ITALIC + "(" + issue.amount + "x) " + ChatContent.RED : "") + issue.getLocalizedTitle());
-						player.sendMessage(ChatContent.DARK_RED + ChatContent.BOLD + "[Slot Machine] " + ChatContent.RED + issue.description);
+						player.sendMessage(ChatContent.DARK_RED + ChatContent.BOLD + " - " + ChatContent.RED + issue.description);
 						remove = true;
 					}
 				}

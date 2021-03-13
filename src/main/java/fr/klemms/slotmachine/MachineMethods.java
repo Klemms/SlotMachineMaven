@@ -11,6 +11,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
+import fr.klemms.slotmachine.Issue.IssueType;
 import fr.klemms.slotmachine.exceptioncollector.ExceptionCollector;
 import fr.klemms.slotmachine.interraction.MachineInterractionInventory;
 import fr.klemms.slotmachine.translation.Language;
@@ -352,6 +353,7 @@ public class MachineMethods {
 				Files.deleteIfExists(SlotPlugin.pl.getDataFolder().toPath().resolve("machines").resolve(slotMachine.getMachineUUID().toString() + ".yml"));
 			} catch (IOException e) {
 				e.printStackTrace();
+				Issue.newIssue(IssueType.MACHINE_REMOVAL_EXCEPTION, e.getMessage(), true);
 				ExceptionCollector.sendException(SlotPlugin.pl, e);
 			}
 			SlotPlugin.saveToDisk();

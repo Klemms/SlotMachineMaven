@@ -32,7 +32,10 @@ public class Issue {
 		return Language.translate(this.type.title);
 	}
 	
-	enum IssueType {
+	public enum IssueType {
+		MACHINE_REMOVAL_EXCEPTION("An important exception occured when removing a machine : "),
+		MACHINE_READING_ISSUE("An issue occured when loading a machine : "),
+		REWARD_EXCEPTION("An important exception occured giving a reward to a player : "),
 		WRITE_EXCEPTION("An important exception occured when saving files : ");
 		
 		public String title;
