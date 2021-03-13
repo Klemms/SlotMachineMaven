@@ -151,7 +151,6 @@ public class SlotPlugin extends JavaPlugin {
 		}
 
 		getCommand("slotmachine").setExecutor(new CommandSlotMachine());
-		getCommand("slotmachineaction").setExecutor(new CommandSlotMachineAction());
 		getCommand("openmachine").setExecutor(new CommandOpenMachine());
 		getCommand("tpmachine").setExecutor(new CommandTPMachine());
 		getCommand("givetokens").setExecutor(new CommandGiveTokens());

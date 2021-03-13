@@ -14,11 +14,6 @@ commands:
         usage: /slotmachine
         permission: slotmachine.slotmachine
         permission-message: You do not have permission
-    slotmachineaction:
-        description: Internal Command
-        usage: /slotmachineaction
-        permission: slotmachine.slotmachine
-        permission-message: You do not have permission
     openmachine:
         description: Opens a Slot Machine for a player
         usage: /openmachine <Player Name> <Machine UUID> [true/false | true to override the machine's permission]
