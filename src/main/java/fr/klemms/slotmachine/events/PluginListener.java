@@ -23,6 +23,7 @@ import org.bukkit.event.player.PlayerFishEvent.State;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -47,6 +48,13 @@ import fr.klemms.slotmachine.utils.Util;
 import net.citizensnpcs.api.CitizensAPI;
 
 public class PluginListener implements Listener {
+	
+	@EventHandler
+	public void onPlayerJoin(PlayerJoinEvent event) {
+		if (event.getPlayer().isOp() && SlotPlugin.supportEnding) {
+			event.getPlayer().sendMessage(ChatContent.AQUA + "[Slot Machine] " + ChatContent.PINK + SlotPlugin.supportMessage);
+		}
+	}
 	
 	@EventHandler
 	public void onArmorStandClick(PlayerInteractAtEntityEvent event) {

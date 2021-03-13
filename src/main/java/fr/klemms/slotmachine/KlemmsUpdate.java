@@ -88,9 +88,10 @@ public class KlemmsUpdate implements Listener {
 									if(player.isOp()) {
 										player.spigot().sendMessage(new ComponentBuilder("[" + version.get("formatted_name").toString() + "] Update " + version.get("formatted_version").toString() + " is available for your version of Spigot. Click Here")
 											.event(new ClickEvent(Action.OPEN_URL, version.get("url").toString()))
+											//.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(new ComponentBuilder(version.get("url").toString()).create()))) 1.16 only
 											.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(version.get("url").toString()).create()))
 											.color(ChatColor.AQUA).create());
-									}
+									} 
 								}
 							}
 						}
@@ -113,6 +114,7 @@ public class KlemmsUpdate implements Listener {
 		if (event.getPlayer().isOp() && notice_admins && needsUpdate && latestVersion != null) {
 			event.getPlayer().spigot().sendMessage(new ComponentBuilder("[" + latestVersion.get("formatted_name").toString() + "] Update " + latestVersion.get("formatted_version").toString() + " is available for your version of Spigot. Click Here")
 					.event(new ClickEvent(Action.OPEN_URL, latestVersion.get("url").toString()))
+					//.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(new ComponentBuilder(latestVersion.get("url").toString()).create()))) 1.16 only
 					.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(latestVersion.get("url").toString()).create()))
 					.color(ChatColor.AQUA).create());
 		}

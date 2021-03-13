@@ -58,8 +58,10 @@ public class SlotPlugin extends JavaPlugin {
 	public static final String PLUGIN_NAME = "Slot Machine";
 	public static volatile int webVersion = 0;
 	public static volatile String webURL = "https://www.spigotmc.org/resources/slotmachine.22023/";
-	public static boolean is116 = false;
 	public static Metrics metrics;
+	public static boolean is116 = false;
+	public static boolean supportEnding = false;
+	public static String supportMessage = "";
 	
 	public static Material SIGN_UNIVERSAL;
 	public static HashMap<Sound, Material> soundMaterialMap;
@@ -104,6 +106,11 @@ public class SlotPlugin extends JavaPlugin {
 				e.printStackTrace();
 				ExceptionCollector.sendException(this, e);
 			}
+		}
+		
+		if (Util.getMCVersion().startsWith("1.13") || Util.getMCVersion().startsWith("1.14")) {
+			supportEnding = true;
+			supportMessage = "Minecraft 1.13 and 1.14 will stop being supported with the upcoming release of Minecraft 1.17 and Slot Machine 6.4.0";
 		}
 		
 		if (Util.getMCVersion().startsWith("1.13")) {
