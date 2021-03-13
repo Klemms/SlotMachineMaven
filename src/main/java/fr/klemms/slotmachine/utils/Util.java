@@ -20,6 +20,14 @@ public class Util {
 		return lines;
 	}
 	
+	public static List<String> addLines(List<String> lines, String... strs) {
+		for (String str : strs) {
+			lines.add(str);
+		}
+		
+		return lines;
+	}
+	
 	/**
 	 * This has flaws
 	 * @param text

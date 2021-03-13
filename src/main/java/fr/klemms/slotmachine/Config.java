@@ -201,6 +201,9 @@ public class Config {
 						if(ymlFile.isSet("playMode")) {
 							slotMachine.setPlayMode(PlayMode.valueOf(ymlFile.getString("playMode")));
 						}
+						if(ymlFile.isSet("cooldown")) {
+							slotMachine.setCooldown(ymlFile.getInt("cooldown"));
+						}
 						
 						if(ymlFile.isSet("backgroundItem") && ItemStackUtil.isValidMaterial(ymlFile.getString("backgroundItem"))) {
 							slotMachine.setBackgroundItem(Material.getMaterial(ymlFile.getString("backgroundItem")));
@@ -223,6 +226,9 @@ public class Config {
 						}
 						if(ymlFile.isSet("slotmachineSpinSound") && Util.isValidSound(ymlFile.getString("slotmachineSpinSound"))) {
 							slotMachine.setSlotmachineSpinSound(Sound.valueOf(ymlFile.getString("slotmachineSpinSound")));
+						}
+						if(ymlFile.isSet("errorSound") && Util.isValidSound(ymlFile.getString("errorSound"))) {
+							slotMachine.setErrorSound(Sound.valueOf(ymlFile.getString("errorSound")));
 						}
 						if(ymlFile.isSet("csgoSpinSound") && Util.isValidSound(ymlFile.getString("csgoSpinSound"))) {
 							slotMachine.setCsgoSpinSound(Sound.valueOf(ymlFile.getString("csgoSpinSound")));

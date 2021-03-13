@@ -16,6 +16,7 @@ public class PlayerUtil {
 				player.hasMetadata("slotmachine_changechance") ||
 				player.hasMetadata("slotmachine_changename") ||
 				player.hasMetadata("slotmachine_changepermission") ||
+				player.hasMetadata("slotmachine_setcooldown") ||
 				player.hasMetadata("slotmachine_changeprice")) {
 			return true;
 		} else {
@@ -32,6 +33,7 @@ public class PlayerUtil {
 		player.removeMetadata("slotmachine_changechance", SlotPlugin.pl);
 		player.removeMetadata("slotmachine_changename", SlotPlugin.pl);
 		player.removeMetadata("slotmachine_changepermission", SlotPlugin.pl);
+		player.removeMetadata("slotmachine_setcooldown", SlotPlugin.pl);
 		player.removeMetadata("slotmachine_changeprice", SlotPlugin.pl);
 	}
 	

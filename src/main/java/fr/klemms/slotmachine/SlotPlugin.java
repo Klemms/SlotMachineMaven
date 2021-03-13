@@ -30,7 +30,6 @@ import fr.klemms.slotmachine.commands.CommandGiveTokens;
 import fr.klemms.slotmachine.commands.CommandOpenMachine;
 import fr.klemms.slotmachine.commands.CommandSMSaveToDisk;
 import fr.klemms.slotmachine.commands.CommandSlotMachine;
-import fr.klemms.slotmachine.commands.CommandSlotMachineAction;
 import fr.klemms.slotmachine.commands.CommandSlotMachineTokens;
 import fr.klemms.slotmachine.commands.CommandSlotMachineVersion;
 import fr.klemms.slotmachine.commands.CommandTPMachine;
@@ -144,7 +143,7 @@ public class SlotPlugin extends JavaPlugin {
 			SlotPlugin.readTokens();
 			SlotPlugin.writeTokens();
 			Config.loadMachines(this);
-			//PlayerConfig.loadPlayerConfig();
+			PlayerConfig.loadPlayerConfig();
 		} catch(Exception e) {
 			e.printStackTrace();
 			ExceptionCollector.sendException(this, e);
@@ -254,6 +253,31 @@ public class SlotPlugin extends JavaPlugin {
 					iss.remove();
 			}
 		}, 10 * 20, 30 * 20);
+
+		// Cooldown
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
+			for (PlayerConfig plc : SlotPlugin.playerConfigs.values()) {
+				for (SMPlayerConfig smpc : plc.getMachinesConfig().values()) {
+					if (smpc.getCooldown() > 0) {
+						smpc.setCooldown(smpc.getCooldown() - 1);
+					}
+				}
+			}
+		}, 1 * 20, 1 * 20);
+		
+		// Saving
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
+			for (PlayerConfig plc : SlotPlugin.playerConfigs.values()) {
+				boolean write = false;
+				for (SMPlayerConfig smpc : plc.getMachinesConfig().values()) {
+					if (smpc.changed)
+						write = true;
+					smpc.changed = false;
+				}
+				if (write)
+					PlayerConfig.writeSpecificPlayerConfig(plc);
+			}
+		}, 10 * 20, 60 * 20);
 	}
 
 	@Override
@@ -330,6 +354,7 @@ public class SlotPlugin extends JavaPlugin {
 				yamlFile.set("isCitizensNPC", slotMachine.isCitizensNPC());
 				yamlFile.set("timesUsed", slotMachine.getTimesUsed());
 				yamlFile.set("playMode", slotMachine.getPlayMode().toString());
+				yamlFile.set("cooldown", slotMachine.getCooldown());
 				
 				yamlFile.set("backgroundItem", slotMachine.getBackgroundItem().toString());
 				yamlFile.set("emphasisItem", slotMachine.getEmphasisItem().toString());

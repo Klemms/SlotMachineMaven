@@ -7,6 +7,7 @@ update.uptodate=%pluginName% is up-to-date
 
 error.notvalidinteger=This is not a valid number (Must be an integer)
 error.notvaliddecimal=This is not a valid number (Decimals must be separated with a dot : 13.37)
+error.cooldown=You can't play yet, cooldown : %cooldown%s
 
 issues.writeexception.title=An important exception occured when saving files : 
 
@@ -28,6 +29,8 @@ basic.yes=Yes
 basic.no=No
 basic.weight=Weight
 basic.chance=Chance
+basic.cooldown=Cooldown : %cooldown%s
+basic.nocooldown=No Cooldown
 
 permission.denied=&6You can't access this slot machine :(
 money.notenough=&cYou don't have enough money

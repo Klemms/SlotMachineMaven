@@ -230,6 +230,20 @@ public class PluginListener implements Listener {
 			}
 			SlotPlugin.saveToDisk();
 		}
+		if(event.getPlayer().hasMetadata("slotmachine_setcooldown")) {
+			event.setCancelled(true);
+			SlotMachine slotMachine = SlotMachine.getSlotMachineByUUID(UUID.fromString(event.getPlayer().getMetadata("slotmachine_setcooldown").get(0).asString()));
+			if(slotMachine != null) {
+				
+				if(NumberUtils.isNumber(event.getMessage())) {
+					slotMachine.setCooldown(Integer.valueOf(event.getMessage()));
+					event.getPlayer().sendMessage(ChatContent.GREEN + "[Slot Machine] New machine's cooldown : " + slotMachine.getCooldown() + "s");
+				} else {
+					event.getPlayer().sendMessage(ChatContent.RED + "[Slot Machine] " + Language.translate("error.notvalidinteger"));
+				}
+			}
+			SlotPlugin.saveToDisk();
+		}
 		PlayerUtil.resetPlayerData(event.getPlayer());
 	}
 	

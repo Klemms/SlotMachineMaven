@@ -7,6 +7,7 @@ update.uptodate=%pluginName% est à jour
 
 error.notvalidinteger=Ceci n'est pas un nombre valide (Doit être un entier)
 error.notvaliddecimal=Ceci n'est pas un nombre valide (Les décimales doivent être séparées par un point : 13.37)
+error.cooldown=Vous ne pouvez pas jouer pour le moment, temps de récupération : %cooldown%s
 
 issues.writeexception.title=Une exception importante s'est produite lors de la sauvegarde de fichiers : 
 
@@ -28,6 +29,8 @@ basic.yes=Oui
 basic.no=Non
 basic.weight=Poids
 basic.chance=Chance
+basic.cooldown=Temps de récupération : %cooldown%s
+basic.nocooldown=Pas de temps de récupération
 
 permission.denied=&6Vous ne pouvez pas accéder à cette Slot Machine :(
 money.notenough=&cVous n'avez pas assez d'argent

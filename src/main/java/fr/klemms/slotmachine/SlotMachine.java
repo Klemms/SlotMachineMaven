@@ -108,6 +108,7 @@ public abstract class SlotMachine {
 	private int secondsBeforePrize;
 	private int spinSpeed;
 	private int timesUsed;
+	private int cooldown;
 	private List<MachineItem> slotMachineItems;
 	private String tokenIdentifier;
 	private HashMap<UUID, Boolean> isRolling;
@@ -123,6 +124,7 @@ public abstract class SlotMachine {
 	private Sound machineOpeningSound;
 	private Sound leverSound;
 	private Sound slotmachineSpinSound;
+	private Sound errorSound;
 	private Sound csgoSpinSound;
 	private Sound winSound;
 	private Sound lossSound;
@@ -152,6 +154,7 @@ public abstract class SlotMachine {
 		this.displayWonItemInChat = true;
 		this.spinSpeed = 6;
 		this.timesUsed = 0;
+		this.cooldown = 0;
 		this.leverTitle = "&6Play for $price$";
 		this.leverDescription = "$machineName$newline&a&oCurrent Balance :&r&b $balance$";
 		this.setSlotMachineName("Slot Machine");
@@ -180,6 +183,7 @@ public abstract class SlotMachine {
 		this.machineOpeningSound = Sound.ENTITY_EXPERIENCE_ORB_PICKUP;
 		this.leverSound = Sound.BLOCK_LAVA_POP;
 		this.slotmachineSpinSound = Sound.ENTITY_EXPERIENCE_ORB_PICKUP;
+		this.errorSound = Sound.ENTITY_VILLAGER_NO;
 		this.csgoSpinSound = Sound.ENTITY_HORSE_STEP_WOOD;
 		this.winSound = Sound.ENTITY_PLAYER_LEVELUP;
 		this.lossSound = Sound.BLOCK_ANVIL_LAND;
@@ -898,6 +902,14 @@ public abstract class SlotMachine {
 		this.leverSound = leverSound;
 	}
 
+	public Sound getErrorSound() {
+		return errorSound;
+	}
+
+	public void setErrorSound(Sound errorSound) {
+		this.errorSound = errorSound;
+	}
+
 	public Sound getSlotmachineSpinSound() {
 		return slotmachineSpinSound;
 	}
@@ -957,5 +969,30 @@ public abstract class SlotMachine {
 
 	public void showChanceOfItemOnPreview(boolean showChanceOfItemOnPreview) {
 		this.showChanceOfItemOnPreview = showChanceOfItemOnPreview;
+	}
+
+	public int getPlayerCooldown(Player player) {
+		SMPlayerConfig plc = PlayerConfig.getSMPlayerConfig(player, this);
+		
+		if (plc != null) {
+			return plc.getCooldown();
+		}
+		
+		return 0;
+	}
+
+	public void setPlayerCooldown(Player player, int cooldown) {
+		SMPlayerConfig plc = PlayerConfig.getOrCreateSMPlayerConfig(player, this, true);
+		
+		plc.setCooldown(cooldown);
+		plc.saveToDisk();
+	}
+
+	public int getCooldown() {
+		return cooldown;
+	}
+
+	public void setCooldown(int cooldown) {
+		this.cooldown = cooldown;
 	}
 }

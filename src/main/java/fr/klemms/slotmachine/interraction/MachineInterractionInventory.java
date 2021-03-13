@@ -588,6 +588,20 @@ public class MachineInterractionInventory {
 										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 										MachineSoundCustomization.customizeSounds(player, machine);
 							}));
+							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(PlayerHeadsUtil.CLOCK, ChatContent.GOLD + "Set Cooldown"), Arrays.asList(
+									ChatContent.AQUA + ChatContent.ITALIC + "Sets this machine cooldown.",
+									ChatContent.AQUA + ChatContent.ITALIC + "",
+									ChatContent.AQUA + ChatContent.ITALIC + "- Value is in seconds",
+									ChatContent.AQUA + ChatContent.ITALIC + "- Cooldown is per-player"
+									)), event -> {
+										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+										player.closeInventory();
+										PlayerUtil.resetPlayerData(player);
+										player.setMetadata("slotmachine_setcooldown", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
+										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Write the cooldown you want this machine to have in seconds (integer), 0 means no cooldown :");
+										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Current cooldown : " + machine.getCooldown() + "s");
+										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
+							}));
 							if (block != null) {
 								SlotMachineBlock machineBlock = ((SlotMachineBlock) machine);
 								if (machineBlock.isLocked())

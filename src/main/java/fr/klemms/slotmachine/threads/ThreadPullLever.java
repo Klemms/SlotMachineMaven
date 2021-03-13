@@ -123,7 +123,7 @@ public class ThreadPullLever extends Thread {
 						finishTime = (40 - (6 * 4 - machine.getSpinSpeed() * 4)) * (a - (machine.getSecondsBeforePrize() * 10 - 10));
 					}
 					try {
-						Thread.sleep(10 + 15 * machine.getSpinSpeed() + finishTime);
+						Thread.sleep(8 + 15 * machine.getSpinSpeed() + finishTime);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 						ExceptionCollector.sendException(SlotPlugin.pl, e);

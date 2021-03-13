@@ -1,5 +1,6 @@
 package fr.klemms.slotmachine.layouts;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -25,9 +26,11 @@ import fr.minuskube.inv.content.InventoryProvider;
 public class CSGOLayout implements InventoryProvider {
 	
 	public SlotMachine machine;
+	private int update;
 	
 	public CSGOLayout(SlotMachine machine) {
 		this.machine = machine;
+		update = 20;
 	}
 
 	@Override
@@ -59,10 +62,27 @@ public class CSGOLayout implements InventoryProvider {
 				player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 				ItemPreviewInventory.showPreview(player, machine, 0);
 			}));
-		
+
+		ClickableItem lever = generateLever(player, contents);
+		if (!machine.playerHasPermission(player))
+			lever = CommonLayout.leverNoPermission;
+		contents.set(4, 7, lever);
+	}
+	
+	public ClickableItem generateLever(Player player, InventoryContents contents) {
+		List<String> lore = new ArrayList<String>();
+		lore.addAll(Variables.getFormattedStrings(machine.getLeverDescription(), player, machine));
+		if (machine.getCooldown() > 0) {
+			lore.add("");
+			if (machine.getPlayerCooldown(player) > 0) {
+				lore.add(ChatContent.DARK_GRAY + "Cooldown : " + ChatContent.GRAY + ChatContent.ITALIC + machine.getPlayerCooldown(player) + "s/" + machine.getCooldown() + "s");
+			} else {
+				lore.add(ChatContent.DARK_GRAY + Language.translate("basic.cooldown").replace("%cooldown%", ChatContent.GRAY + ChatContent.ITALIC + String.valueOf(machine.getCooldown())));
+			}
+		}
 		ClickableItem lever = ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(machine.getLeverItem(), 1),
 				Variables.getFormattedString(machine.getLeverTitle(), player, machine)),
-				Variables.getFormattedStrings(machine.getLeverDescription(), player, machine)),
+				lore),
 				event -> {
 					if (machine.canPlay(player)) {
 						if (CommonLayout.triggerLever(player, machine)) {
@@ -78,12 +98,19 @@ public class CSGOLayout implements InventoryProvider {
 						}
 					}
 				});
-		if (!machine.playerHasPermission(player))
-			lever = CommonLayout.leverNoPermission;
-		contents.set(4, 7, lever);
+		
+		return lever;
 	}
 
 	@Override
-	public void update(Player player, InventoryContents contents) { }
+	public void update(Player player, InventoryContents contents) {
+		if (update <= 0) {
+			if (machine.getCooldown() > 0) {
+				contents.set(4, 7, generateLever(player, contents));
+			}
+			update = 20;
+		} else
+			update--;
+	}
 	
 }

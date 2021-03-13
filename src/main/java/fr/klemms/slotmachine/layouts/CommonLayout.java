@@ -32,6 +32,14 @@ public class CommonLayout {
 				player.removeMetadata("slotmachine_soundremovalprevention", SlotPlugin.pl);
 		});
 		
+		if (machine.getPlayerCooldown(player) > 0 && machine.getCooldown() > 0) {
+			player.sendMessage(Variables.getFormattedString(ChatContent.GOLD +  "[" + machine.getSlotMachineName() + "] " + Language.translate("error.cooldown").replace("%cooldown%", String.valueOf(machine.getPlayerCooldown(player))), player, machine));
+			player.playSound(player.getLocation(), machine.getErrorSound(), 1.3f, 1f);
+			return false;
+		} else if (machine.getCooldown() > 0) {
+			machine.setPlayerCooldown(player, machine.getCooldown());
+		}
+		
 		switch(machine.getPriceType()) {
 			case MONEY:
 				if(SlotPlugin.econ.getBalance(player) >= machine.getPullPrice()) {
@@ -39,7 +47,7 @@ public class CommonLayout {
 					return true;
 				} else {
 					player.sendMessage(Variables.getFormattedString(Language.translate(Config.notEnoughMoneyDefaultString), player, machine));
-					player.playSound(player.getLocation(), machine.getMachineOpeningSound(), 1.9f, 0.3f);
+					player.playSound(player.getLocation(), machine.getErrorSound(), 1.3f, 1f);
 					return false;
 				}
 			case EXPERIENCE:
@@ -48,7 +56,7 @@ public class CommonLayout {
 					return true;
 				} else {
 					player.sendMessage(Variables.getFormattedString(Language.translate("experience.notenough"), player, machine));
-					player.playSound(player.getLocation(), machine.getMachineOpeningSound(), 1.9f, 0.3f);
+					player.playSound(player.getLocation(), machine.getErrorSound(), 1.3f, 1f);
 					return false;
 				}
 			case VOTINGPLUGIN:
@@ -57,7 +65,7 @@ public class CommonLayout {
 					
 					if (user == null) {
 						player.sendMessage(Variables.getFormattedString(Language.translate("votingplugin.notenough"), player, machine));
-						player.playSound(player.getLocation(), machine.getMachineOpeningSound(), 1.9f, 0.3f);
+						player.playSound(player.getLocation(), machine.getErrorSound(), 1.3f, 1f);
 						return false;
 					}
 					if(user.getPoints() >= (int)machine.getPullPrice()) {
@@ -65,11 +73,12 @@ public class CommonLayout {
 						return true;
 					} else {
 						player.sendMessage(Variables.getFormattedString(Language.translate("votingplugin.notenough"), player, machine));
-						player.playSound(player.getLocation(), machine.getMachineOpeningSound(), 1.9f, 0.3f);
+						player.playSound(player.getLocation(), machine.getErrorSound(), 1.3f, 1f);
 						return false;
 					}
 				} else {
 					player.sendMessage(ChatContent.RED + machine.getChatName() + Language.translate("slotmachine.access.missingvotingplugin"));
+					player.playSound(player.getLocation(), machine.getErrorSound(), 1.3f, 1f);
 					return false;
 				}
 			case GAMEPOINTS:
@@ -80,11 +89,12 @@ public class CommonLayout {
 						return true;
 					} else {
 						player.sendMessage(Variables.getFormattedString(Language.translate(Config.notEnoughGamePointsDefaultString), player, machine));
-						player.playSound(player.getLocation(), machine.getMachineOpeningSound(), 1.9f, 0.3f);
+						player.playSound(player.getLocation(), machine.getErrorSound(), 1.3f, 1f);
 						return false;
 					}
 				} else {
 					player.sendMessage(ChatContent.RED + machine.getChatName() + Language.translate("slotmachine.access.missinggamepoints"));
+					player.playSound(player.getLocation(), machine.getErrorSound(), 1.3f, 1f);
 					return false;
 				}
 			case TOKEN:
@@ -93,7 +103,7 @@ public class CommonLayout {
 					return true;
 				} else {
 					player.sendMessage(Variables.getFormattedString(Language.translate(Config.notEnoughTokensDefaultString), player, machine));
-					player.playSound(player.getLocation(), machine.getMachineOpeningSound(), 1.9f, 0.3f);
+					player.playSound(player.getLocation(), machine.getErrorSound(), 1.3f, 1f);
 					return false;
 				}
 			case TOKENMANAGER:
@@ -106,14 +116,16 @@ public class CommonLayout {
 						return true;
 					} else {	
 						player.sendMessage(Variables.getFormattedString(Language.translate(Config.notEnoughTokensManagerDefaultString), player, machine));
-						player.playSound(player.getLocation(), machine.getMachineOpeningSound(), 1.9f, 0.3f);
+						player.playSound(player.getLocation(), machine.getErrorSound(), 1.3f, 1f);
 						return false;
 					}
 				} else {
 					player.sendMessage(ChatContent.RED + "[Slot Machine] " + Language.translate("slotmachine.access.missingtokenmanager"));
+					player.playSound(player.getLocation(), machine.getErrorSound(), 1.3f, 1f);
 					return false;
 				}
 			default:
+				player.playSound(player.getLocation(), machine.getErrorSound(), 1.3f, 1f);
 				return false;
 		}
 	}
