@@ -11,20 +11,20 @@ import java.util.logging.Level;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 
 import fr.klemms.slotmachine.exceptioncollector.ExceptionCollector;
 
 public class PlayerConfig {
 
-	public static SMPlayerConfig getOrCreateSMPlayerConfig(Player player, SlotMachine machine, boolean createIfMissing) {
+	public static SMPlayerConfig getOrCreateSMPlayerConfig(OfflinePlayer player, SlotMachine machine, boolean createIfMissing) {
 		PlayerConfig plc = getPlayerConfig(player, createIfMissing);
 		
 		return plc.getMachineConfig(machine.getMachineUUID(), createIfMissing);
 	}
 	
-	public static SMPlayerConfig getSMPlayerConfig(Player player, SlotMachine machine) {
+	public static SMPlayerConfig getSMPlayerConfig(OfflinePlayer player, SlotMachine machine) {
 		PlayerConfig plc = getPlayerConfig(player, false);
 		
 		if (plc != null) {
@@ -34,7 +34,7 @@ public class PlayerConfig {
 		return null;
 	}
 	
-	public static PlayerConfig getPlayerConfig(Player player, boolean createIfMissing) {
+	public static PlayerConfig getPlayerConfig(OfflinePlayer player, boolean createIfMissing) {
 		PlayerConfig plc = SlotPlugin.playerConfigs.get(player.getUniqueId());
 		
 		if (plc == null && createIfMissing) {
@@ -44,6 +44,9 @@ public class PlayerConfig {
 		}
 		
 		return plc;
+	}
+	public static Collection<PlayerConfig> getPlayerConfigs() {
+		return SlotPlugin.playerConfigs.values();
 	}
 
 	public static void loadPlayerConfig() {

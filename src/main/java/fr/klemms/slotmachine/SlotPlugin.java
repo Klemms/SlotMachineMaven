@@ -26,6 +26,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.bencodez.votingplugin.VotingPluginHooks;
 
 import fr.klemms.slotmachine.MachineItem.RewardType;
+import fr.klemms.slotmachine.commands.CommandCooldown;
 import fr.klemms.slotmachine.commands.CommandGiveTokens;
 import fr.klemms.slotmachine.commands.CommandOpenMachine;
 import fr.klemms.slotmachine.commands.CommandSMSaveToDisk;
@@ -156,6 +157,7 @@ public class SlotPlugin extends JavaPlugin {
 		getCommand("slotmachineversion").setExecutor(new CommandSlotMachineVersion());
 		getCommand("slotmachinetoken").setExecutor(new CommandSlotMachineTokens());
 		getCommand("smsavetodisk").setExecutor(new CommandSMSaveToDisk());
+		getCommand("smcooldown").setExecutor(new CommandCooldown());
 		
 		Setup.setupEconomy(this);
 		Setup.setupVotingPlugin(this);
@@ -267,16 +269,7 @@ public class SlotPlugin extends JavaPlugin {
 		
 		// Saving
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
-			for (PlayerConfig plc : SlotPlugin.playerConfigs.values()) {
-				boolean write = false;
-				for (SMPlayerConfig smpc : plc.getMachinesConfig().values()) {
-					if (smpc.changed)
-						write = true;
-					smpc.changed = false;
-				}
-				if (write)
-					PlayerConfig.writeSpecificPlayerConfig(plc);
-			}
+			saveCooldownsToDisk();
 		}, 10 * 20, 60 * 20);
 	}
 
@@ -299,6 +292,19 @@ public class SlotPlugin extends JavaPlugin {
 				e.printStackTrace();
 				ExceptionCollector.sendException(SlotPlugin.pl, e);
 			}
+		}
+	}
+	
+	public static void saveCooldownsToDisk() {
+		for (PlayerConfig plc : SlotPlugin.playerConfigs.values()) {
+			boolean write = false;
+			for (SMPlayerConfig smpc : plc.getMachinesConfig().values()) {
+				if (smpc.changed)
+					write = true;
+				smpc.changed = false;
+			}
+			if (write)
+				PlayerConfig.writeSpecificPlayerConfig(plc);
 		}
 	}
 

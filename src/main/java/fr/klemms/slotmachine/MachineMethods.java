@@ -16,6 +16,10 @@ import fr.klemms.slotmachine.exceptioncollector.ExceptionCollector;
 import fr.klemms.slotmachine.interraction.MachineInterractionInventory;
 import fr.klemms.slotmachine.translation.Language;
 import net.citizensnpcs.api.CitizensAPI;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
 
 public class MachineMethods {
 	
@@ -417,5 +421,10 @@ public class MachineMethods {
 			player.sendMessage(ChatContent.GREEN + "-- " + Language.translate("slotmachine.informations.items") + " : " + ChatContent.RESET + ChatContent.GOLD + slotMachine.getSlotMachineItems().size() + " items");
 			player.sendMessage(ChatContent.DARK_GREEN + ChatContent.BOLD + "----");
 		}
+		player.spigot().sendMessage(new ComponentBuilder(" -- Click to copy this machine's UUID to your clipboard --")
+				.color(ChatColor.GOLD).italic(true)
+				.event(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, slotMachine.getMachineUUID().toString()))
+				.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Click to copy '" + slotMachine.getMachineUUID().toString() + "' to your clipboard").create()))
+				.create());
 	}
 }
