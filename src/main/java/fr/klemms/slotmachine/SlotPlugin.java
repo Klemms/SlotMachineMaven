@@ -362,10 +362,10 @@ public class SlotPlugin extends JavaPlugin {
 				yamlFile.set("playMode", slotMachine.getPlayMode().toString());
 				yamlFile.set("cooldown", slotMachine.getCooldown());
 				
-				yamlFile.set("backgroundItem", slotMachine.getBackgroundItem().toString());
-				yamlFile.set("emphasisItem", slotMachine.getEmphasisItem().toString());
-				yamlFile.set("leverItem", slotMachine.getLeverItem().toString());
-				yamlFile.set("itemListItem", slotMachine.getItemListItem().toString());
+				yamlFile.set("backgroundItem", slotMachine.getBackgroundItem());
+				yamlFile.set("emphasisItem", slotMachine.getEmphasisItem());
+				yamlFile.set("leverItem", slotMachine.getLeverItem());
+				yamlFile.set("itemListItem", slotMachine.getItemListItem());
 
 				yamlFile.set("machineOpeningSound", slotMachine.getMachineOpeningSound().toString());
 				yamlFile.set("leverSound", slotMachine.getLeverSound().toString());

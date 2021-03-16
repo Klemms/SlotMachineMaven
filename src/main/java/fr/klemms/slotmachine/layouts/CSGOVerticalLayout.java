@@ -50,7 +50,7 @@ public class CSGOVerticalLayout implements InventoryProvider {
 		contents.set(2, 3, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(machine.getEmphasisItem()), " ")));
 		
 		if (machine.allowContentPreview())
-			contents.set(1, 6, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(machine.getItemListItem(), 1), ChatContent.GOLD + Language.translate("machine.preview")), event -> {
+			contents.set(1, 6, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(machine.getItemListItem()), ChatContent.GOLD + Language.translate("machine.preview")), event -> {
 				player.setMetadata("slotmachine_soundremovalprevention", new FixedMetadataValue(SlotPlugin.pl, true));
 				Bukkit.getScheduler().runTask(SlotPlugin.pl, () -> {
 					if (player.hasMetadata("slotmachine_soundremovalprevention"))
@@ -78,7 +78,7 @@ public class CSGOVerticalLayout implements InventoryProvider {
 				lore.add(ChatContent.DARK_GRAY + Language.translate("basic.cooldown").replace("%cooldown%", ChatContent.GRAY + ChatContent.ITALIC + String.valueOf(machine.getCooldown())));
 			}
 		}
-		ClickableItem lever = ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(machine.getLeverItem(), 1),
+		ClickableItem lever = ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(machine.getLeverItem()),
 				Variables.getFormattedString(machine.getLeverTitle(), player, machine)),
 				lore),
 				event -> {

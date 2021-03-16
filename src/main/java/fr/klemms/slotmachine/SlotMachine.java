@@ -116,10 +116,10 @@ public abstract class SlotMachine {
 	private HashMap<UUID, List<MachineItem>> row_1 = new HashMap<UUID, List<MachineItem>>();
 	private HashMap<UUID, List<MachineItem>> row_2 = new HashMap<UUID, List<MachineItem>>();
 	
-	private Material backgroundItem;
-	private Material emphasisItem;
-	private Material leverItem;
-	private Material itemListItem;
+	private ItemStack backgroundItem;
+	private ItemStack emphasisItem;
+	private ItemStack leverItem;
+	private ItemStack itemListItem;
 
 	private Sound machineOpeningSound;
 	private Sound leverSound;
@@ -173,10 +173,10 @@ public abstract class SlotMachine {
 	}
 	
 	public void resetBackgroundCustomization() {
-		this.backgroundItem = Material.BLUE_STAINED_GLASS_PANE;
-		this.emphasisItem = Material.YELLOW_STAINED_GLASS_PANE;
-		this.leverItem = Material.TRIPWIRE_HOOK;
-		this.itemListItem = Material.ENDER_CHEST;
+		this.backgroundItem = new ItemStack(Material.BLUE_STAINED_GLASS_PANE, 1);
+		this.emphasisItem = new ItemStack(Material.YELLOW_STAINED_GLASS_PANE, 1);
+		this.leverItem = new ItemStack(Material.TRIPWIRE_HOOK, 1);
+		this.itemListItem = new ItemStack(Material.ENDER_CHEST, 1);
 	}
 	
 	public void resetSoundCustomization() {
@@ -854,35 +854,35 @@ public abstract class SlotMachine {
 		this.spinSpeed = spinSpeed;
 	}
 
-	public Material getBackgroundItem() {
+	public ItemStack getBackgroundItem() {
 		return backgroundItem;
 	}
 
-	public void setBackgroundItem(Material backgroundItem) {
+	public void setBackgroundItem(ItemStack backgroundItem) {
 		this.backgroundItem = backgroundItem;
 	}
 
-	public Material getEmphasisItem() {
+	public ItemStack getEmphasisItem() {
 		return emphasisItem;
 	}
 
-	public void setEmphasisItem(Material emphasisItem) {
+	public void setEmphasisItem(ItemStack emphasisItem) {
 		this.emphasisItem = emphasisItem;
 	}
 
-	public Material getLeverItem() {
+	public ItemStack getLeverItem() {
 		return leverItem;
 	}
 
-	public void setLeverItem(Material leverItem) {
+	public void setLeverItem(ItemStack leverItem) {
 		this.leverItem = leverItem;
 	}
 
-	public Material getItemListItem() {
+	public ItemStack getItemListItem() {
 		return itemListItem;
 	}
 
-	public void setItemListItem(Material itemListItem) {
+	public void setItemListItem(ItemStack itemListItem) {
 		this.itemListItem = itemListItem;
 	}
 

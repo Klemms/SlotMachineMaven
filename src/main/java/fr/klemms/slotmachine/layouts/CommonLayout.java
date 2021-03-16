@@ -32,17 +32,11 @@ public class CommonLayout {
 				player.removeMetadata("slotmachine_soundremovalprevention", SlotPlugin.pl);
 		});
 		
-		if (machine.getPlayerCooldown(player) > 0 && machine.getCooldown() > 0) {
-			player.sendMessage(Variables.getFormattedString(ChatContent.GOLD +  "[" + machine.getSlotMachineName() + "] " + Language.translate("error.cooldown").replace("%cooldown%", String.valueOf(machine.getPlayerCooldown(player))), player, machine));
-			player.playSound(player.getLocation(), machine.getErrorSound(), 1.3f, 1f);
-			return false;
-		} else if (machine.getCooldown() > 0) {
-			machine.setPlayerCooldown(player, machine.getCooldown());
-		}
-		
 		switch(machine.getPriceType()) {
 			case MONEY:
 				if(SlotPlugin.econ.getBalance(player) >= machine.getPullPrice()) {
+					if (!testCooldown(player, machine))
+						return false;
 					SlotPlugin.econ.withdrawPlayer(player, machine.getPullPrice());
 					return true;
 				} else {
@@ -52,6 +46,8 @@ public class CommonLayout {
 				}
 			case EXPERIENCE:
 				if(player.getLevel() >= (int)machine.getPullPrice()) {
+					if (!testCooldown(player, machine))
+						return false;
 					player.setLevel(player.getLevel() - (int)machine.getPullPrice());
 					return true;
 				} else {
@@ -69,6 +65,8 @@ public class CommonLayout {
 						return false;
 					}
 					if(user.getPoints() >= (int)machine.getPullPrice()) {
+						if (!testCooldown(player, machine))
+							return false;
 						user.setPoints(user.getPoints() - (int)machine.getPullPrice());
 						return true;
 					} else {
@@ -85,6 +83,8 @@ public class CommonLayout {
 				if(SlotPlugin.isGamePointsEnabled) {
 					StoreUser user = GamePointsAPI.getUserData(player);
 					if(user != null && user.getBalance() >= (int)machine.getPullPrice()) {
+						if (!testCooldown(player, machine))
+							return false;
 						user.takePoints((int)machine.getPullPrice());
 						return true;
 					} else {
@@ -99,6 +99,8 @@ public class CommonLayout {
 				}
 			case TOKEN:
 				if(player.getInventory().containsAtLeast(machine.getToken(), (int)machine.getPullPrice())) {
+					if (!testCooldown(player, machine))
+						return false;
 					player.getInventory().removeItem(ItemStackUtil.changeItemStackAmount(new ItemStack(machine.getToken()), (int)machine.getPullPrice()));
 					return true;
 				} else {
@@ -109,9 +111,13 @@ public class CommonLayout {
 			case TOKENMANAGER:
 				if(SlotPlugin.oldTokenManagerWorks || SlotPlugin.tokenManager != null) {
 					if(SlotPlugin.oldTokenManagerWorks && TMAPI.getTokens(player.getUniqueId()) >= (long)machine.getPullPrice()) {
+						if (!testCooldown(player, machine))
+							return false;
 						TMAPI.removeTokens(player.getUniqueId(), (int)machine.getPullPrice());
 						return true;
-					} else if (SlotPlugin.tokenManager != null && SlotPlugin.tokenManager.getTokens(player).getAsLong() >= (long)machine.getPullPrice()){
+					} else if (SlotPlugin.tokenManager != null && SlotPlugin.tokenManager.getTokens(player).getAsLong() >= (long)machine.getPullPrice()) {
+						if (!testCooldown(player, machine))
+							return false;
 						SlotPlugin.tokenManager.setTokens(player, SlotPlugin.tokenManager.getTokens(player).getAsLong() - (long)machine.getPullPrice());
 						return true;
 					} else {	
@@ -128,5 +134,17 @@ public class CommonLayout {
 				player.playSound(player.getLocation(), machine.getErrorSound(), 1.3f, 1f);
 				return false;
 		}
+	}
+	
+	private static boolean testCooldown(Player player, SlotMachine machine) {
+		if (machine.getPlayerCooldown(player) > 0 && machine.getCooldown() > 0) {
+			player.sendMessage(Variables.getFormattedString(ChatContent.GOLD +  "[" + machine.getSlotMachineName() + "] " + Language.translate("error.cooldown").replace("%cooldown%", String.valueOf(machine.getPlayerCooldown(player))), player, machine));
+			player.playSound(player.getLocation(), machine.getErrorSound(), 1.3f, 1f);
+			return false;
+		} else if (machine.getCooldown() > 0) {
+			machine.setPlayerCooldown(player, machine.getCooldown());
+			return true;
+		}
+		return true;
 	}
 }

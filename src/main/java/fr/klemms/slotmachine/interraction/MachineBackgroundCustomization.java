@@ -33,19 +33,19 @@ public class MachineBackgroundCustomization {
 					if (event.getCursor().getType() != Material.AIR && event.isLeftClick()) {
 						switch(event.getSlot()) {
 							case 28:
-								machine.setBackgroundItem(event.getCursor().getType());
+								machine.setBackgroundItem(new ItemStack(event.getCursor()));
 								SlotPlugin.saveToDisk();
 								break;
 							case 30:
-								machine.setEmphasisItem(event.getCursor().getType());
+								machine.setEmphasisItem(new ItemStack(event.getCursor()));
 								SlotPlugin.saveToDisk();
 								break;
 							case 32:
-								machine.setLeverItem(event.getCursor().getType());
+								machine.setLeverItem(new ItemStack(event.getCursor()));
 								SlotPlugin.saveToDisk();
 								break;
 							case 34:
-								machine.setItemListItem(event.getCursor().getType());
+								machine.setItemListItem(new ItemStack(event.getCursor()));
 								SlotPlugin.saveToDisk();
 								break;
 						}
@@ -66,16 +66,16 @@ public class MachineBackgroundCustomization {
 						contents.fillRow(4, ClickableItem.empty(null));
 						
 						contents.set(2, 1, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.SMALL_INFOS), ChatContent.GOLD + "Background Item")));
-						contents.set(3, 1, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(machine.getBackgroundItem(), 1), " ")));
+						contents.set(3, 1, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(machine.getBackgroundItem()), " ")));
 
 						contents.set(2, 3, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.SMALL_INFOS), ChatContent.GOLD + "Emphasis Item")));
-						contents.set(3, 3, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(machine.getEmphasisItem(), 1), " ")));
+						contents.set(3, 3, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(machine.getEmphasisItem()), " ")));
 
 						contents.set(2, 5, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.SMALL_INFOS), ChatContent.GOLD + "Lever Item")));
-						contents.set(3, 5, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(machine.getLeverItem(), 1), " ")));
+						contents.set(3, 5, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(machine.getLeverItem()), " ")));
 
 						contents.set(2, 7, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.SMALL_INFOS), ChatContent.GOLD + "Item-List Item")));
-						contents.set(3, 7, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(machine.getItemListItem(), 1), " ")));
+						contents.set(3, 7, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(machine.getItemListItem()), " ")));
 						
 						contents.set(0, 2, ClickableItem.empty(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.INFOS), ChatContent.GOLD + "Informations"), Arrays.asList(
 								ChatContent.AQUA + "Drag and Drop an item on another item",
