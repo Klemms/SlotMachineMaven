@@ -43,20 +43,21 @@ import fr.klemms.slotmachine.utils.sounds.SoundToMaterialList_113;
 import fr.klemms.slotmachine.utils.sounds.SoundToMaterialList_114;
 import fr.klemms.slotmachine.utils.sounds.SoundToMaterialList_115;
 import fr.klemms.slotmachine.utils.sounds.SoundToMaterialList_116;
+import fr.klemms.slotmachine.utils.sounds.SoundToMaterialList_117;
 import fr.minuskube.inv.InventoryManager;
 import me.realized.tokenmanager.api.TokenManager;
 import net.milkbowl.vault.economy.Economy;
 
 public class SlotPlugin extends JavaPlugin {
 	
-	public static final String MC_FOR = "Spigot 1.13/1.14/1.15/1.16";
+	public static final String MC_FOR = "Spigot 1.13/1.14/1.15/1.16/1.17";
 	public static final ItemStack DEFAULT_TOKEN = ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.GOLD_NUGGET, 1), ChatContent.GOLD + "Token"), Arrays.asList(ChatContent.AQUA + ChatContent.ITALIC + "Default Slot Machine Token"));
 	
 	public static volatile SlotPlugin pl;
 	public static Economy econ = null;
 	public static VotingPluginHooks votingPlugin = null;
 	public static final String BRANCH = "release";
-	public static final int VERSION = 60;
+	public static final int VERSION = 61;
 	public static final String PLUGIN_NAME = "Slot Machine";
 	public static volatile int webVersion = 0;
 	public static volatile String webURL = "https://www.spigotmc.org/resources/slotmachine.22023/";
@@ -128,10 +129,14 @@ public class SlotPlugin extends JavaPlugin {
 		} else if (Util.getMCVersion().startsWith("1.15")) {
 			this.getLogger().log(Level.INFO, "Using 1.15 Sound Mappings");
 			SoundToMaterialList_115.initList();
+		} else if (Util.getMCVersion().startsWith("1.16")) {
+			is116 = true;
+			this.getLogger().log(Level.INFO, "Using 1.16 Sound Mappings");
+			SoundToMaterialList_116.initList();
 		} else {
 			is116 = true;
-			this.getLogger().log(Level.INFO, "Using 1.16+ Sound Mappings");
-			SoundToMaterialList_116.initList();
+			this.getLogger().log(Level.INFO, "Using 1.17+ Sound Mappings");
+			SoundToMaterialList_117.initList();
 		}
 		
 		if ((isCitizensEnabled = Bukkit.getPluginManager().isPluginEnabled("Citizens")))
