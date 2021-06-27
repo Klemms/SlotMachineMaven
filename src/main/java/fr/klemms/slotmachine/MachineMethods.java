@@ -299,7 +299,7 @@ public class MachineMethods {
 		player.spigot().sendMessage(new ComponentBuilder("-----------------------------").color(ChatColor.DARK_GREEN).bold(true).create());*/
 	}
 
-	public static void createSlotMachineEntity(Player player, Entity entity) {
+	public static SlotMachineEntity createSlotMachineEntity(Player player, Entity entity) {
 		UUID uuid = entity.getUniqueId();
 		boolean isCitizensNPC = false;
 		
@@ -324,12 +324,14 @@ public class MachineMethods {
 			
 			Bukkit.getLogger().log(Level.INFO, "New SlotMachine (Entity)" + (isCitizensNPC ? " (Citizens NPC)" : "") + " (Created by : " + player.getName() + ") : '" + entity.getType().toString() + "' with UUID '" + uuid.toString() + "' in world '" + entity.getWorld().getName() + "' at '" + entity.getLocation().getX() + " " + entity.getLocation().getY() + " " + entity.getLocation().getZ() + "'");
 			SlotPlugin.saveToDisk();
+			return slotMachineEntity;
 		} else {
 			player.sendMessage(ChatContent.RED + ChatContent.BOLD + "[Slot Machine] " + Language.translate("slotmachine.alreadyslotmachine"));
+			return SlotMachineEntity.getSlotMachineByEntityUUID(uuid);
 		}
 	}
 
-	public static void createSlotMachineBlock(Player player, Block block) {
+	public static SlotMachineBlock createSlotMachineBlock(Player player, Block block) {
 		if(SlotMachineBlock.getSlotMachineByBlock(block) == null) {
 			SlotMachineBlock slotMachineBlock = new SlotMachineBlock(block.getX(), block.getY(), block.getZ(), true, block.getWorld().getUID(), block.getLocation().getChunk().getX(), block.getLocation().getChunk().getZ());
 			SlotMachineBlock.addSlotMachineBlock(slotMachineBlock);
@@ -341,8 +343,10 @@ public class MachineMethods {
 			
 			Bukkit.getLogger().log(Level.INFO, "New SlotMachine (Block) (Created by : " + player.getName() + ") : '" + block.getType().toString() + "' in world '" + block.getWorld().getName() + "' at '" + block.getLocation().getX() + " " + block.getLocation().getY() + " " + block.getLocation().getZ() + "'");
 			SlotPlugin.saveToDisk();
+			return slotMachineBlock;
 		} else {
 			player.sendMessage(ChatContent.RED + ChatContent.BOLD + "[Slot Machine] " + Language.translate("slotmachine.alreadyslotmachine"));
+			return SlotMachineBlock.getSlotMachineByBlock(block);
 		}
 	}
 	

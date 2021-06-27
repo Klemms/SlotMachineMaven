@@ -25,7 +25,11 @@ import fr.klemms.slotmachine.SlotMachine;
 import fr.klemms.slotmachine.SlotMachineBlock;
 import fr.klemms.slotmachine.SlotPlugin;
 import fr.klemms.slotmachine.VisualType;
+import fr.klemms.slotmachine.clipboard.ClipboardContent;
+import fr.klemms.slotmachine.clipboard.Clipboards;
+import fr.klemms.slotmachine.clipboard.PasteCallback;
 import fr.klemms.slotmachine.exceptioncollector.ExceptionCollector;
+import fr.klemms.slotmachine.interraction.providers.CopyPastableProvider;
 import fr.klemms.slotmachine.placeholders.Variables;
 import fr.klemms.slotmachine.tokens.Token;
 import fr.klemms.slotmachine.tokens.TokenSelectionListener;
@@ -39,7 +43,6 @@ import fr.klemms.slotmachine.utils.Util;
 import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
-import fr.minuskube.inv.content.InventoryProvider;
 import fr.minuskube.inv.content.Pagination;
 import fr.minuskube.inv.content.SlotIterator.Type;
 import net.md_5.bungee.api.ChatColor;
@@ -69,7 +72,7 @@ public class MachineInterractionInventory {
 				.title(machine == null ? ("Slot Machine on " + (entity != null ? entity.getType().toString() : block.getType().toString())) : machine.getSlotMachineName())
 				.size(6, 9)
 				.closeable(true)
-				.provider(new InventoryProvider() {
+				.provider(new CopyPastableProvider() {
 
 					@Override
 					public void init(Player player, InventoryContents contents) {
@@ -775,10 +778,58 @@ public class MachineInterractionInventory {
 							}));
 						
 						contents.set(5, 4, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(Material.PAPER), "Page " + (pagination.getPage() + 1) + "/" + (pagination.last().getPage() + 1))));
+						
+						Clipboards.clipboardUI(player, contents, this, 5, 7, 5, 8, new PasteCallback() {
+
+							@Override
+							public SlotMachine beforePaste(SlotMachine inputMachine, SlotMachine outputMachine) {
+								if (outputMachine == null) {
+									player.closeInventory();
+									player.playSound(player.getLocation(), Sound.BLOCK_END_PORTAL_SPAWN, 0.3F, 1.3F);
+									if (entity != null) {
+										outputMachine = MachineMethods.createSlotMachineEntity(player, entity);
+									} else if (block != null) {
+										outputMachine = MachineMethods.createSlotMachineBlock(player, block);
+									}
+								}
+								return outputMachine;
+							}
+
+							@Override
+							public void afterPaste(SlotMachine inputMachine, SlotMachine outputMachine) {
+								manageMachine(player, outputMachine, entity, block, 0);
+							}
+							
+						});
 					}
 
 					@Override
 					public void update(Player player, InventoryContents contents) { }
+
+					@Override
+					public ClipboardContent gives() {
+						return ClipboardContent.SLOTMACHINE;
+					}
+
+					@Override
+					public SlotMachine copy() {
+						return machine;
+					}
+
+					@Override
+					public ClipboardContent accepts() {
+						return ClipboardContent.SLOTMACHINE;
+					}
+
+					@Override
+					public SlotMachine paste(SlotMachine clipboardMachine) {
+						return machine;
+					}
+
+					@Override
+					public void reloadUI(boolean movement) {
+						manageMachine(player, machine, entity, block, movement ? 0 : page);
+					}
 					
 				})
 				.build();

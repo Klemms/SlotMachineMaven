@@ -16,6 +16,9 @@ import fr.klemms.slotmachine.SlotMachine;
 import fr.klemms.slotmachine.SlotMachineBlock;
 import fr.klemms.slotmachine.SlotMachineEntity;
 import fr.klemms.slotmachine.SlotPlugin;
+import fr.klemms.slotmachine.clipboard.ClipboardContent;
+import fr.klemms.slotmachine.clipboard.Clipboards;
+import fr.klemms.slotmachine.interraction.providers.CopyPastableProvider;
 import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
 import fr.klemms.slotmachine.utils.PlayerHeadsUtil;
@@ -24,7 +27,6 @@ import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.InventoryListener;
 import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
-import fr.minuskube.inv.content.InventoryProvider;
 import fr.minuskube.inv.content.Pagination;
 import fr.minuskube.inv.content.SlotIterator;
 
@@ -46,7 +48,7 @@ public class MachineItemsInterractionInventory {
 						manageItems(player, machine, page);
 					}
 				}))
-				.provider(new InventoryProvider() {
+				.provider(new CopyPastableProvider() {
 
 					@Override
 					public void init(Player player, InventoryContents contents) {
@@ -185,11 +187,38 @@ public class MachineItemsInterractionInventory {
 									))));
 						
 						contents.set(5, 4, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(Material.PAPER), "Page " + (pagination.getPage() + 1))));
+						
+						Clipboards.clipboardUI(player, contents, this, 5, 7, 5, 8, null);
 					}
 
 					@Override
 					public void update(Player player, InventoryContents contents) {
 						
+					}
+
+					@Override
+					public ClipboardContent gives() {
+						return ClipboardContent.ITEMLIST;
+					}
+
+					@Override
+					public SlotMachine copy() {
+						return machine;
+					}
+
+					@Override
+					public ClipboardContent accepts() {
+						return ClipboardContent.ITEMLIST;
+					}
+
+					@Override
+					public SlotMachine paste(SlotMachine clipboardMachine) {
+						return machine;
+					}
+					
+					@Override
+					public void reloadUI(boolean movement) {
+						manageItems(player, machine, movement ? 0 : page);
 					}
 					
 				})

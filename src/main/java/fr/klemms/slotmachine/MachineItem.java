@@ -1,5 +1,6 @@
 package fr.klemms.slotmachine;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -41,6 +42,21 @@ public class MachineItem {
 		} else {
 			return new ComponentBuilder(WordUtils.capitalizeFully(itemStack.getType().toString().replace('_', ' '))).color(ChatColor.WHITE).create();
 		}
+	}
+	
+	public MachineItem copy() {
+		List<Reward> newRewards = new ArrayList<Reward>();
+		for (int i = 0; i < rewards.size(); i++) {
+			if (rewards.get(i).rewardType == RewardType.ITEM) {
+				newRewards.add(new Reward(new ItemStack(rewards.get(i).itemReward)));
+			} else if (rewards.get(i).rewardType == RewardType.COMMAND) {
+				newRewards.add(new Reward(rewards.get(i).commandReward));
+			}
+		}
+		
+		MachineItem newItem = new MachineItem(new ItemStack(this.itemStack), weight, newRewards);
+		
+		return newItem;
 	}
 	
 	public String getRealName() {

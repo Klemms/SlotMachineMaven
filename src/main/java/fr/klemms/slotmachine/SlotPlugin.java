@@ -26,6 +26,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.bencodez.votingplugin.VotingPluginHooks;
 
 import fr.klemms.slotmachine.MachineItem.RewardType;
+import fr.klemms.slotmachine.clipboard.Clipboards;
 import fr.klemms.slotmachine.commands.CommandCooldown;
 import fr.klemms.slotmachine.commands.CommandGiveTokens;
 import fr.klemms.slotmachine.commands.CommandOpenMachine;
@@ -150,6 +151,7 @@ public class SlotPlugin extends JavaPlugin {
 			SlotPlugin.writeTokens();
 			Config.loadMachines(this);
 			PlayerConfig.loadPlayerConfig();
+			Clipboards.setupClipboards();
 		} catch(Exception e) {
 			e.printStackTrace();
 			ExceptionCollector.sendException(this, e);
