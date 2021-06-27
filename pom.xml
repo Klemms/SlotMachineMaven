@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ovh.klemms</groupId>
 	<artifactId>slotmachine</artifactId>
-	<version>6.3.6-SPIGOTLIVE</version>
+	<version>6.4.0-SPIGOTLIVE</version>
 
 	<properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -46,7 +46,7 @@
 
 		<repository>
 			<id>skullcreator-repo</id>
-			<url>https://dl.bintray.com/deanveloper/SkullCreator</url>
+			<url>https://github.com/deanveloper/SkullCreator/raw/mvn-repo/</url>
 		</repository>
 	</repositories>
 
