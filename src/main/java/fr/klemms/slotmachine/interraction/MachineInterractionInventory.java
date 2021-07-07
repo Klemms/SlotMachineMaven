@@ -453,7 +453,8 @@ public class MachineInterractionInventory {
 							}));
 							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(ItemStackUtil.addGlow(new ItemStack(Material.TRIPWIRE_HOOK, 1)), ChatContent.GOLD + "Change Lever Name"), Arrays.asList(
 									ChatContent.AQUA + ChatContent.ITALIC + "Change the lever's name",
-									ChatContent.AQUA + ChatContent.ITALIC + "Right Click to reset to ",
+									"",
+									ChatContent.RED + "Right Click" + ChatContent.AQUA + ChatContent.ITALIC + " to reset to ",
 									ChatContent.AQUA + ChatContent.ITALIC + "default name and description",
 									"",
 									ChatContent.AQUA + ChatContent.ITALIC + "Current name :",
@@ -471,6 +472,7 @@ public class MachineInterractionInventory {
 											player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.levertitle.current").replace("%leverTitle%", ChatContent.RESET + machine.getLeverTitle()));
 											player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
 										} else if (event.isRightClick()) {
+											player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully reset to default");
 											machine.setLeverCustom(false);
 											machine.setPriceType(machine.getPriceType());
 											SlotPlugin.saveToDisk();
@@ -479,7 +481,8 @@ public class MachineInterractionInventory {
 							}));
 							List<String> leverDescLore = new ArrayList<String>();
 							leverDescLore.add(ChatContent.AQUA + ChatContent.ITALIC + "Change the lever's description");
-							leverDescLore.add(ChatContent.AQUA + ChatContent.ITALIC + "Right Click to reset to");
+							leverDescLore.add("");
+							leverDescLore.add(ChatContent.RED + "Right Click" + ChatContent.AQUA + ChatContent.ITALIC + " to reset to ");
 							leverDescLore.add(ChatContent.AQUA + ChatContent.ITALIC + "default name and description");
 							leverDescLore.add("");
 							leverDescLore.add(ChatContent.AQUA + ChatContent.ITALIC + "Current description :");
@@ -498,6 +501,7 @@ public class MachineInterractionInventory {
 									player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.leverdescription.current").replace("%leverDescription%", ChatContent.RESET + machine.getLeverDescription()));
 									player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
 								} else if (event.isRightClick()) {
+									player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully reset to default");
 									machine.setLeverCustom(false);
 									machine.setPriceType(machine.getPriceType());
 									SlotPlugin.saveToDisk();
