@@ -332,7 +332,7 @@ public class Config {
 						}
 					}
 				} else {
-					Bukkit.getLogger().log(Level.SEVERE, Language.translate("load.slotmachine.entitynotfound").replace("%entityUUID%", SlotPlugin.pl.getConfig().getString("slotMachine." + a + ".entityUID")));
+					//Bukkit.getLogger().log(Level.SEVERE, Language.translate("load.slotmachine.entitynotfound").replace("%entityUUID%", SlotPlugin.pl.getConfig().getString("slotMachine." + a + ".entityUID")));
 				}
 				SlotMachine slotMachine = null;
 				switch(SlotMachineType.valueOf(SlotPlugin.pl.getConfig().getString("slotMachine." + a + ".machineType"))) {
