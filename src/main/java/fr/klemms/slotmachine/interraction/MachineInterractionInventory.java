@@ -45,6 +45,7 @@ import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
 import fr.minuskube.inv.content.Pagination;
 import fr.minuskube.inv.content.SlotIterator.Type;
+import net.citizensnpcs.api.CitizensAPI;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ClickEvent.Action;
@@ -59,7 +60,7 @@ public class MachineInterractionInventory {
 			return;
 		}
 		
-		if (entity != null && entity instanceof Player) {
+		if (entity != null && entity instanceof Player && !(SlotPlugin.isCitizensEnabled && CitizensAPI.getNPCRegistry().isNPC(entity))) {
 			player.sendMessage(ChatContent.RED + "[Slot Machine] You can't create a machine on a player");
 			return;
 		}
