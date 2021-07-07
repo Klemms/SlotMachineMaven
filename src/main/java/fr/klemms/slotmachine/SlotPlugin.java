@@ -116,9 +116,9 @@ public class SlotPlugin extends JavaPlugin {
 			}
 		}
 		
-		if (Util.getMCVersion().startsWith("1.13") || Util.getMCVersion().startsWith("1.14")) {
+		if (Util.getMCVersion().startsWith("1.13") || Util.getMCVersion().startsWith("1.14") || Util.getMCVersion().startsWith("1.15")) {
 			supportEnding = true;
-			supportMessage = "Minecraft 1.13 and 1.14 will stop being supported with the upcoming release of Minecraft 1.17 and Slot Machine 6.4.0";
+			supportMessage = "Minecraft 1.13, 1.14 and 1.15 will stop being supported with the upcoming release of Minecraft 1.18 and Slot Machine 6.5.0";
 		}
 		
 		if (Util.getMCVersion().startsWith("1.13")) {
@@ -136,7 +136,7 @@ public class SlotPlugin extends JavaPlugin {
 			SoundToMaterialList_116.initList();
 		} else {
 			is116 = true;
-			this.getLogger().log(Level.INFO, "Using 1.17+ Sound Mappings");
+			this.getLogger().log(Level.INFO, "Using 1.17 Sound Mappings");
 			SoundToMaterialList_117.initList();
 		}
 		
