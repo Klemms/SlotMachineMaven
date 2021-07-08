@@ -1,4 +1,4 @@
-version=18
+version=19
 
 metrics.cantconnect=SlotMachine n'a pas pu se connecter à Metrics (mcstats)
 update.available=Une mise à jour de %pluginName% est disponible à l'adresse %url%
@@ -32,6 +32,13 @@ basic.chance=Chance
 basic.cooldown=Temps de récupération : %cooldown%s
 basic.nocooldown=Pas de temps de récupération
 
+currency.token=Token
+currency.tokens=Tokens
+currency.level=Niveau
+currency.levels=Niveaux
+currency.tmtoken=TM Token
+currency.tmtokens=TM Tokens
+
 permission.denied=&6Vous ne pouvez pas accéder à cette Slot Machine :(
 money.notenough=&cVous n'avez pas assez d'argent
 tokens.notenough=&cVous n'avez pas assez de Tokens
@@ -40,6 +47,19 @@ tokenmanager.notenough=&cVous n'avez pas assez de Tokens (De TokensManager)
 experience.notenough=&cVous n'avez pas assez de niveau d'Expérience
 votingplugin.notenough=&cVous n'avez pas assez de points de vote
 play.goodluck=&bBonne chance ! &r&3(Solde : $balance)
+
+slotmachine.lever.title.token=&6Jouer pour $price Tokens ($tokenName)
+slotmachine.lever.title.money=&6Jouer pour $price$
+slotmachine.lever.title.experience=&6Jouer pour $price niveaux
+slotmachine.lever.title.votingplugin=&6Jouer pour $price Points de Votes
+slotmachine.lever.title.gamepoints=&6Jouer pour $price GamePoints
+slotmachine.lever.title.tokenmanager=&6Jouer pour $price TM Tokens
+slotmachine.lever.description.token=$machineName$newline&a&oSolde actuel :&r&b $tkens Tokens
+slotmachine.lever.description.money=$machineName$newline&a&oSolde actuel :&r&b $balance
+slotmachine.lever.description.experience=$machineName$newline&a&oSolde actuel :&r&b $balance
+slotmachine.lever.description.votingplugin=$machineName$newline&a&oSolde actuel :&r&b $balance Points de Votes
+slotmachine.lever.description.gamepoints=$machineName$newline&a&oSolde actuel :&r&b $gamePoints GamePoints
+slotmachine.lever.description.tokenmanager=$machineName$newline&a&oSolde actuel :&r&b $tmTokensPlayer TM Tokens
 
 slotmachine.created=Slot Machine créée (UUID d'entité : %entityUUID%)
 slotmachine.created.block=Slot Machine créée (Coordonnées : %location%)

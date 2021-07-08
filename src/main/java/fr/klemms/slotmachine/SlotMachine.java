@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import fr.klemms.slotmachine.layouts.CSGOLayout;
 import fr.klemms.slotmachine.layouts.CSGOVerticalLayout;
 import fr.klemms.slotmachine.layouts.SlotMachineLayout;
+import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
 import fr.minuskube.inv.InventoryListener;
 import fr.minuskube.inv.SmartInventory;
@@ -155,8 +156,7 @@ public abstract class SlotMachine {
 		this.spinSpeed = 6;
 		this.timesUsed = 0;
 		this.cooldown = 0;
-		this.leverTitle = "&6Play for $price$";
-		this.leverDescription = "$machineName$newline&a&oCurrent Balance :&r&b $balance$";
+		this.setPriceType(this.getPriceType());
 		this.setSlotMachineName("Slot Machine");
 		this.guiPermission = "slotmachine.access.default";
 		this.slotMachineItems = new ArrayList<MachineItem>();
@@ -707,38 +707,38 @@ public abstract class SlotMachine {
 		this.priceType = priceType;
 		if(priceType == PriceType.TOKEN) {
 			if(!this.isLeverCustom()) {
-				this.setLeverTitle("&6Play for $price Tokens ($tokenName)");
-				this.setLeverDescription("$machineName$newline&a&oCurrent Balance :&r&b $tkens Tokens");
+				this.setLeverTitle(Language.translate("slotmachine.lever.title.token"));
+				this.setLeverDescription(Language.translate("slotmachine.lever.description.token"));
 			}
 		}
 		if(priceType == PriceType.MONEY) {
 			if(!this.isLeverCustom()) {
-				this.setLeverTitle("&6Play for $price$");
-				this.setLeverDescription("$machineName$newline&a&oCurrent Balance :&r&b $balance");
+				this.setLeverTitle(Language.translate("slotmachine.lever.title.money"));
+				this.setLeverDescription(Language.translate("slotmachine.lever.description.money"));
 			}
 		}
 		if(priceType == PriceType.EXPERIENCE) {
 			if(!this.isLeverCustom()) {
-				this.setLeverTitle("&6Play for $price levels");
-				this.setLeverDescription("$machineName$newline&a&oCurrent Balance :&r&b $balance");
+				this.setLeverTitle(Language.translate("slotmachine.lever.title.experience"));
+				this.setLeverDescription(Language.translate("slotmachine.lever.description.experience"));
 			}
 		}
 		if(priceType == PriceType.VOTINGPLUGIN) {
 			if(!this.isLeverCustom()) {
-				this.setLeverTitle("&6Play for $price voting points");
-				this.setLeverDescription("$machineName$newline&a&oCurrent Balance :&r&b $balance VP");
+				this.setLeverTitle(Language.translate("slotmachine.lever.title.votingplugin"));
+				this.setLeverDescription(Language.translate("slotmachine.lever.description.votingplugin"));
 			}
 		}
 		if(priceType == PriceType.GAMEPOINTS) {
 			if(!this.isLeverCustom()) {
-				this.setLeverTitle("&6Play for $price GamePoints");
-				this.setLeverDescription("$machineName$newline&a&oCurrent Balance :&r&b $gamePoints GamePoints");
+				this.setLeverTitle(Language.translate("slotmachine.lever.title.gamepoints"));
+				this.setLeverDescription(Language.translate("slotmachine.lever.description.gamepoints"));
 			}
 		}
 		if(priceType == PriceType.TOKENMANAGER) {
 			if(!this.isLeverCustom()) {
-				this.setLeverTitle("&6Play for $price TM Tokens");
-				this.setLeverDescription("$machineName$newline&a&oCurrent Balance :&r&b $tmTokensPlayer TM Tokens");
+				this.setLeverTitle(Language.translate("slotmachine.lever.title.tokenmanager"));
+				this.setLeverDescription(Language.translate("slotmachine.lever.description.tokenmanager"));
 			}
 		}
 	}

@@ -1,4 +1,4 @@
-version=17
+version=18
 
 metrics.cantconnect=SlotMachine couldn't connect to Metrics (mcstats)
 update.available=An update for %pluginName% is available at %url%
@@ -32,6 +32,13 @@ basic.chance=Chance
 basic.cooldown=Cooldown : %cooldown%s
 basic.nocooldown=No Cooldown
 
+currency.token=Token
+currency.tokens=Tokens
+currency.level=Level
+currency.levels=Levels
+currency.tmtoken=TM Token
+currency.tmtokens=TM Tokens
+
 permission.denied=&6You can't access this slot machine :(
 money.notenough=&cYou don't have enough money
 tokens.notenough=&cYou don't have enough Tokens
@@ -40,6 +47,19 @@ tokenmanager.notenough=&cYou don't have enough Tokens from TokensManager
 experience.notenough=&cYou don't have enough Exprience levels
 votingplugin.notenough=&cYou don't have enough voting points
 play.goodluck=&bGood luck ! &r&3(Balance : $balance)
+
+slotmachine.lever.title.token=&6Play for $price Tokens ($tokenName)
+slotmachine.lever.title.money=&6Play for $price$
+slotmachine.lever.title.experience=&6Play for $price levels
+slotmachine.lever.title.votingplugin=&6Play for $price voting points
+slotmachine.lever.title.gamepoints=&6Play for $price GamePoints
+slotmachine.lever.title.tokenmanager=&6Play for $price TM Tokens
+slotmachine.lever.description.token=$machineName$newline&a&oCurrent Balance :&r&b $tkens Tokens
+slotmachine.lever.description.money=$machineName$newline&a&oCurrent Balance :&r&b $balance
+slotmachine.lever.description.experience=$machineName$newline&a&oCurrent Balance :&r&b $balance
+slotmachine.lever.description.votingplugin=$machineName$newline&a&oCurrent Balance :&r&b $balance VP
+slotmachine.lever.description.gamepoints=$machineName$newline&a&oCurrent Balance :&r&b $gamePoints GamePoints
+slotmachine.lever.description.tokenmanager=$machineName$newline&a&oCurrent Balance :&r&b $tmTokensPlayer TM Tokens
 
 slotmachine.created=Slot Machine created (Entity UUID : %entityUUID%)
 slotmachine.created.block=Slot Machine created (Location : %location%)

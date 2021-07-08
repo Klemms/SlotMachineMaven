@@ -7,6 +7,7 @@ import com.bencodez.votingplugin.user.VotingPluginUser;
 
 import fr.klemms.slotmachine.SlotMachine;
 import fr.klemms.slotmachine.SlotPlugin;
+import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.PlayerUtil;
 import me.realized.tm.api.TMAPI;
 import su.nightexpress.gamepoints.GamePointsAPI;
@@ -31,9 +32,9 @@ public class VariableBalance implements Variable {
 				}
 				break;
 			case TOKEN:
-				return PlayerUtil.countItems(player, slotMachine.getToken()) + " Tokens";
+				return PlayerUtil.countItems(player, slotMachine.getToken()) + " " + Language.translate("currency.tokens");
 			case EXPERIENCE:
-				return player.getLevel() + " levels";
+				return player.getLevel() + " " + Language.translate("currency.levels").toLowerCase();
 			case VOTINGPLUGIN:
 				if (SlotPlugin.votingPlugin != null) {
 					VotingPluginUser user = UserManager.getInstance().getVotingPluginUser(player);
@@ -46,9 +47,9 @@ public class VariableBalance implements Variable {
 				break;
 			case TOKENMANAGER:
 				if(SlotPlugin.tokenManager != null) {
-					return SlotPlugin.tokenManager.getTokens(player).getAsLong() + " TM Tokens";
+					return SlotPlugin.tokenManager.getTokens(player).getAsLong() + " " + Language.translate("currency.tmtokens");
 				} else if(SlotPlugin.oldTokenManagerWorks) {
-					return TMAPI.getTokens(player) + " TM Tokens";
+					return TMAPI.getTokens(player) + " " + Language.translate("currency.tmtokens");
 //					try {
 //						return Class.forName("me.realized.tm.api.TMAPI").getMethod("getTokens", Player.class).invoke(null, player) + " Tokens";
 //					} catch (ClassNotFoundException |NoSuchMethodException | SecurityException |
