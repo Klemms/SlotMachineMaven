@@ -781,7 +781,8 @@ public class MachineInterractionInventory {
 								manageMachine(player, machine, entity, block, page + 1);
 							}));
 						
-						contents.set(5, 4, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(Material.PAPER), "Page " + (pagination.getPage() + 1) + "/" + (pagination.last().getPage() + 1))));
+						if (!pagination.isFirst() && !pagination.isLast())
+							contents.set(5, 4, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(Material.PAPER), "Page " + (pagination.getPage() + 1) + "/" + (pagination.last().getPage() + 1))));
 						
 						Clipboards.clipboardUI(player, contents, this, 5, 7, 5, 8, new PasteCallback() {
 
