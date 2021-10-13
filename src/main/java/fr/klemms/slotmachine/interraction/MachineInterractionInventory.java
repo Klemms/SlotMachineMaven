@@ -83,8 +83,7 @@ public class MachineInterractionInventory {
 
 						if (machine == null) {
 							List<String> createMachineLore = new ArrayList<String>();
-							createMachineLore.add(ChatContent.AQUA + ChatContent.ITALIC + "Create a Slot Machine");
-							createMachineLore.add(ChatContent.AQUA + ChatContent.ITALIC + "from this " + (entity == null ? "block" : "entity"));
+							createMachineLore.add(ChatContent.AQUA + ChatContent.ITALIC + "Create a Slot Machine from this " + (entity == null ? "block" : "entity"));
 							createMachineLore.add("");
 							if (entity != null) {
 								createMachineLore.add(ChatContent.AQUA + ChatContent.ITALIC + "This entity will :");
