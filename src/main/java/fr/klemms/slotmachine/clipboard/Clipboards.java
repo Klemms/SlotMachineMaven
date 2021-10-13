@@ -39,7 +39,7 @@ public class Clipboards {
 	
 	public static void clipboardUI(Player pl, InventoryContents content, CopyPastable cp, int copyRow, int copyColumn, int pasteRow, int pasteColumn, PasteCallback callback) {
 		Clipboard cb = getPlayerClipboard(pl);
-		if (cp instanceof Copyable && copyRow >= 0 && copyColumn >= 0 && cp != null) {
+		if (cp instanceof Copyable && copyRow >= 0 && copyColumn >= 0 && ((Copyable) cp).copy() != null) {
 			Copyable cpp = (Copyable) cp;
 			
 			List<String> copyLore = new ArrayList<String>();
