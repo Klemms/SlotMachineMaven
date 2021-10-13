@@ -122,7 +122,7 @@ public class PlayerConfig {
 			for (UUID uuid : cfg.getMachinesConfig().keySet()) {
 				yamlFile.set("machines." + uuid.toString() + ".cooldown", cfg.getMachinesConfig().get(uuid).getCooldown());
 				
-				if (cfg.getMachinesConfig().get(uuid).getCooldown() >= 600) {
+				if (cfg.getMachinesConfig().get(uuid).getCooldown() >= 60) {
 					save = true;
 				}
 			}
