@@ -28,6 +28,14 @@ public class Util {
 		return lines;
 	}
 	
+	public static void printStringArray(String[] array) {
+		System.out.print("[");
+		for (String str : array) {
+			System.out.print(str + ", ");
+		}
+		System.out.println("]");
+	}
+	
 	/**
 	 * This has flaws
 	 * @param text
@@ -43,7 +51,7 @@ public class Util {
 		int curIndex = 0;
 		int max = splitText.length;
 		
-		while (curIndex < splitText.length - 1) {
+		while (curIndex < splitText.length) {
 			if (MinecraftFont.Font.getWidth(makeString(curIndex, max, splitText)) <= size) {
 				lines.add(makeString(curIndex, max, splitText));
 				curIndex = max;
