@@ -26,7 +26,14 @@ public class CommandOpenMachine implements CommandExecutor {
 				}
 			}
 			Player player = Bukkit.getPlayer(args[0]);
-			SlotMachine slotMachine = SlotMachine.getSlotMachineByUUID(UUID.fromString(args[1]));
+			UUID machineUUID = null;
+			try {
+				machineUUID = UUID.fromString(args[1]);
+			} catch(IllegalArgumentException e) {
+				sender.sendMessage(ChatContent.RED + "[Slot Machine] Invalid Slot Machine UUID");
+				return false;
+			}
+			SlotMachine slotMachine = SlotMachine.getSlotMachineByUUID(machineUUID);
 			if(player != null) {
 				if (slotMachine != null) {
 					if(player.hasPermission(slotMachine.getGuiPermission()) || player.isOp() || overridePermission) {

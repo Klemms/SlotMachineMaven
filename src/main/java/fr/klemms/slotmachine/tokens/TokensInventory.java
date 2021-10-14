@@ -36,7 +36,7 @@ public class TokensInventory {
 		final SmartInventory inv = SmartInventory.builder()
 				.manager(SlotPlugin.invManager)
 				.id("tokenManagement")
-				.title(ChatContent.BLUE + windowTitle)
+				.title(windowTitle)
 				.size(6, 9)
 				.closeable(true)
 				.provider(new InventoryProvider() {
@@ -55,9 +55,10 @@ public class TokensInventory {
 							ItemStack is = new ItemStack(token.itemStack);
 							ItemMeta im = is.getItemMeta();
 							List<String> lore = im.hasLore() ? im.getLore() : new ArrayList<String>();
-							lore.add(0, ChatContent.AQUA + "--------- " + token.identifier + " ---------");
-							lore.add(1, ChatContent.AQUA + sentenceToShow);
-							lore.add(2, ChatContent.AQUA + "--------- " + token.identifier + " ---------");
+							lore.add(0, ChatContent.AQUA + "----- Token name : " + ChatContent.GOLD + ChatContent.ITALIC + token.identifier + ChatContent.AQUA + " -----");
+							lore.add(1, ChatContent.AQUA + ChatContent.ITALIC + " - " + sentenceToShow);
+							if (lore.size() > 2)
+								lore.add(2, "");
 							im.setLore(lore);
 							is.setItemMeta(im);
 							
