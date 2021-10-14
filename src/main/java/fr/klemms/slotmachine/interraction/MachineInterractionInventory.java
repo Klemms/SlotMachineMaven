@@ -466,7 +466,7 @@ public class MachineInterractionInventory {
 											player.setMetadata("slotmachine_setlevertitle", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
 											player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.levertitle") + " :");
 											for(int a = 0; a < Variables.values().length; a++) {
-												player.sendMessage(ChatContent.AQUA + " - $" + Variables.values()[a].variableName + ChatContent.DARK_AQUA + " - " + Language.translate(Variables.values()[a].variableDescription));
+												player.sendMessage(ChatContent.AQUA + " - $" + Variables.values()[a].variableName + ChatContent.DARK_AQUA + ChatContent.ITALIC + " - " + Language.translate(Variables.values()[a].variableDescription));
 											}
 											player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.levertitle.current").replace("%leverTitle%", ChatContent.RESET + machine.getLeverTitle()));
 											player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
@@ -494,9 +494,9 @@ public class MachineInterractionInventory {
 									player.setMetadata("slotmachine_setleverdescription", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
 									player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.leverdescription") + " :");
 									for(int a = 0; a < Variables.values().length; a++) {
-										player.sendMessage(ChatContent.DARK_AQUA + " - $" + Variables.values()[a].variableName + " - " + Language.translate(Variables.values()[a].variableDescription));
+										player.sendMessage(ChatContent.AQUA + " - $" + Variables.values()[a].variableName + ChatContent.DARK_AQUA + ChatContent.ITALIC + " - " + Language.translate(Variables.values()[a].variableDescription));
 									}
-									player.sendMessage(ChatContent.DARK_AQUA + " - $newline - " + Language.translate("command.slotmachineaction.leverdescription.newline"));
+									player.sendMessage(ChatContent.AQUA + " - $newline" + ChatContent.DARK_AQUA + ChatContent.ITALIC + " - " + Language.translate("command.slotmachineaction.leverdescription.newline"));
 									player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.leverdescription.current").replace("%leverDescription%", ChatContent.RESET + machine.getLeverDescription()));
 									player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
 								} else if (event.isRightClick()) {
