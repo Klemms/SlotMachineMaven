@@ -31,36 +31,28 @@ public class CommandOpenMachine implements CommandExecutor {
 				if(player.hasPermission(slotMachine.getGuiPermission()) || player.isOp() || overridePermission) {
 					if(slotMachine.getSlotMachineItems().size() > 0) {
 						if(slotMachine.getPriceType() == PriceType.GAMEPOINTS && !SlotPlugin.isGamePointsEnabled) {
-							if(sender instanceof Player) {
-								((Player)sender).sendMessage(ChatContent.GOLD + ChatContent.BOLD + slotMachine.getChatName() + Language.translate("slotmachine.access.missinggamepoints"));
-							}
+							sender.sendMessage(ChatContent.RED + "[Slot Machine] " + Language.translate("slotmachine.access.missinggamepoints"));
 						} else if(slotMachine.getPriceType() == PriceType.MONEY && SlotPlugin.econ == null) {
-							if(sender instanceof Player) {
-								((Player)sender).sendMessage(ChatContent.GOLD + ChatContent.BOLD + slotMachine.getChatName() + Language.translate("slotmachine.access.missingvault"));
-							}
+							sender.sendMessage(ChatContent.RED + "[Slot Machine] " + Language.translate("slotmachine.access.missingvault"));
 						} else {
 							player.closeInventory();
 							slotMachine.openMachine(player, true);
 							player.playSound(player.getLocation(), slotMachine.getMachineOpeningSound(), 1.9f, 1.2f);
+							sender.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully opened machine for " + player.getName());
 						}
-					} else if(sender instanceof Player) {
-						((Player)sender).sendMessage(ChatContent.GOLD + ChatContent.BOLD + slotMachine.getChatName() + Language.translate("command.openmachine.noitems"));
+					} else {
+						sender.sendMessage(ChatContent.RED + "[Slot Machine] " + Language.translate("command.openmachine.noitems"));
 					}
 				} else {
-					player.sendMessage(ChatContent.GOLD + ChatContent.BOLD + slotMachine.getChatName() + Language.translate("permission.denied"));
-					player.playSound(player.getLocation(), slotMachine.getMachineOpeningSound(), 1.9f, 0.4f);
-					
-					if(sender instanceof Player) {
-						((Player)sender).sendMessage(ChatContent.GOLD + ChatContent.BOLD + slotMachine.getChatName() + Language.translate("command.openmachine.nopermissionandhelp"));
-						((Player)sender).playSound(player.getLocation(), slotMachine.getMachineOpeningSound(), 1.9f, 0.4f);
-					}
+					sender.sendMessage(ChatContent.RED + "[Slot Machine] " + Language.translate("command.openmachine.nopermissionandhelp"));
+					player.sendMessage(ChatContent.RED + "[Slot Machine] " + Language.translate("permission.denied"));
 				}
 				return true;
 			}
-			sender.sendMessage("Player or Slot Machine not detected");
+			sender.sendMessage(ChatContent.RED + "[Slot Machine] Player or Slot Machine not detected");
 			return false;
 		}
-		sender.sendMessage("Not enough arguments");
+		sender.sendMessage(ChatContent.RED + "[Slot Machine] Not enough arguments");
 		return false;
 	}
 }
