@@ -212,21 +212,21 @@ public class Config {
 								slotMachine.setBackgroundItem(new ItemStack(Material.getMaterial(ymlFile.getString("backgroundItem")), 1));
 							}
 						}
-						if(ymlFile.isSet("emphasisItem") && ItemStackUtil.isValidMaterial(ymlFile.getString("emphasisItem"))) {
+						if(ymlFile.isSet("emphasisItem")) {
 							if (ymlFile.isItemStack("emphasisItem")) {
 								slotMachine.setEmphasisItem(ymlFile.getItemStack("emphasisItem"));
 							} else if (ItemStackUtil.isValidMaterial(ymlFile.getString("emphasisItem"))) {
 								slotMachine.setEmphasisItem(new ItemStack(Material.getMaterial(ymlFile.getString("emphasisItem")), 1));
 							}
 						}
-						if(ymlFile.isSet("leverItem") && ItemStackUtil.isValidMaterial(ymlFile.getString("leverItem"))) {
+						if(ymlFile.isSet("leverItem")) {
 							if (ymlFile.isItemStack("leverItem")) {
 								slotMachine.setLeverItem(ymlFile.getItemStack("leverItem"));
 							} else if (ItemStackUtil.isValidMaterial(ymlFile.getString("leverItem"))) {
 								slotMachine.setLeverItem(new ItemStack(Material.getMaterial(ymlFile.getString("leverItem")), 1));
 							}
 						}
-						if(ymlFile.isSet("itemListItem") && ItemStackUtil.isValidMaterial(ymlFile.getString("itemListItem"))) {
+						if(ymlFile.isSet("itemListItem")) {
 							if (ymlFile.isItemStack("itemListItem")) {
 								slotMachine.setItemListItem(ymlFile.getItemStack("itemListItem"));
 							} else if (ItemStackUtil.isValidMaterial(ymlFile.getString("itemListItem"))) {
