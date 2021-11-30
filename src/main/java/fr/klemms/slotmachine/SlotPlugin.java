@@ -40,18 +40,16 @@ import fr.klemms.slotmachine.exceptioncollector.ExceptionCollector;
 import fr.klemms.slotmachine.metrics.Metrics;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
 import fr.klemms.slotmachine.utils.Util;
-import fr.klemms.slotmachine.utils.sounds.SoundToMaterialList_113;
-import fr.klemms.slotmachine.utils.sounds.SoundToMaterialList_114;
-import fr.klemms.slotmachine.utils.sounds.SoundToMaterialList_115;
 import fr.klemms.slotmachine.utils.sounds.SoundToMaterialList_116;
 import fr.klemms.slotmachine.utils.sounds.SoundToMaterialList_117;
+import fr.klemms.slotmachine.utils.sounds.SoundToMaterialList_118;
 import fr.minuskube.inv.InventoryManager;
 import me.realized.tokenmanager.api.TokenManager;
 import net.milkbowl.vault.economy.Economy;
 
 public class SlotPlugin extends JavaPlugin {
 	
-	public static final String MC_FOR = "Spigot 1.13/1.14/1.15/1.16/1.17";
+	public static final String MC_FOR = "Spigot 1.16/1.17/1.18";
 	public static final ItemStack DEFAULT_TOKEN = ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.GOLD_NUGGET, 1), ChatContent.GOLD + "Token"), Arrays.asList(ChatContent.AQUA + ChatContent.ITALIC + "Default Slot Machine Token"));
 	
 	public static volatile SlotPlugin pl;
@@ -63,7 +61,6 @@ public class SlotPlugin extends JavaPlugin {
 	public static volatile int webVersion = 0;
 	public static volatile String webURL = "https://www.spigotmc.org/resources/slotmachine.22023/";
 	public static Metrics metrics;
-	public static boolean is116 = false;
 	public static boolean supportEnding = false;
 	public static String supportMessage = "";
 	
@@ -90,8 +87,9 @@ public class SlotPlugin extends JavaPlugin {
 		this.getLogger().log(Level.INFO, "Detected Minecraft version " + Util.getMCVersion());
 		this.getLogger().log(Level.INFO, "Slot Machine version " + this.getDescription().getVersion() + " (" + VERSION + ") for " + MC_FOR);
 		if (Util.getMCVersion().startsWith("1.7") || Util.getMCVersion().startsWith("1.8") || Util.getMCVersion().startsWith("1.9") ||
-				Util.getMCVersion().startsWith("1.10") || Util.getMCVersion().startsWith("1.11") || Util.getMCVersion().startsWith("1.12")) {
-			this.getLogger().log(Level.SEVERE, "This version of Slot Machine can only work on Spigot 1.13 or greater");
+				Util.getMCVersion().startsWith("1.10") || Util.getMCVersion().startsWith("1.11") || Util.getMCVersion().startsWith("1.12")
+				 || Util.getMCVersion().startsWith("1.13") || Util.getMCVersion().startsWith("1.14") || Util.getMCVersion().startsWith("1.15")) {
+			this.getLogger().log(Level.SEVERE, "This version of Slot Machine can only work on Spigot 1.16 or greater");
 			Config.backupMachinesOnPluginUnload = false;
 			Bukkit.getPluginManager().disablePlugin(this);
 			return;
@@ -100,44 +98,17 @@ public class SlotPlugin extends JavaPlugin {
 		invManager = new InventoryManager(this);
 		invManager.init();
 		
-		if (Util.getMCVersion().startsWith("1.13")) {
-			try {
-				SIGN_UNIVERSAL = (Material) Material.class.getDeclaredField("SIGN").get(null);
-			} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
-				e.printStackTrace();
-				ExceptionCollector.sendException(this, e);
-			}
-		} else {
-			try {
-				SIGN_UNIVERSAL = (Material) Material.class.getDeclaredField("OAK_SIGN").get(null);
-			} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
-				e.printStackTrace();
-				ExceptionCollector.sendException(this, e);
-			}
-		}
+		SIGN_UNIVERSAL = Material.OAK_SIGN;
 		
-		if (Util.getMCVersion().startsWith("1.13") || Util.getMCVersion().startsWith("1.14") || Util.getMCVersion().startsWith("1.15")) {
-			supportEnding = true;
-			supportMessage = "Minecraft 1.13, 1.14 and 1.15 will stop being supported with the upcoming release of Minecraft 1.18 and Slot Machine 6.5.0";
-		}
-		
-		if (Util.getMCVersion().startsWith("1.13")) {
-			this.getLogger().log(Level.INFO, "Using 1.13 Sound Mappings");
-			SoundToMaterialList_113.initList();
-		} else if (Util.getMCVersion().startsWith("1.14")) {
-			this.getLogger().log(Level.INFO, "Using 1.14 Sound Mappings");
-			SoundToMaterialList_114.initList();
-		} else if (Util.getMCVersion().startsWith("1.15")) {
-			this.getLogger().log(Level.INFO, "Using 1.15 Sound Mappings");
-			SoundToMaterialList_115.initList();
-		} else if (Util.getMCVersion().startsWith("1.16")) {
-			is116 = true;
+		if (Util.getMCVersion().startsWith("1.16")) {
 			this.getLogger().log(Level.INFO, "Using 1.16 Sound Mappings");
 			SoundToMaterialList_116.initList();
-		} else {
-			is116 = true;
+		} else if(Util.getMCVersion().startsWith("1.17")) {
 			this.getLogger().log(Level.INFO, "Using 1.17 Sound Mappings");
 			SoundToMaterialList_117.initList();
+		} else {
+			this.getLogger().log(Level.INFO, "Using 1.18 Sound Mappings");
+			SoundToMaterialList_118.initList();
 		}
 		
 		if ((isCitizensEnabled = Bukkit.getPluginManager().isPluginEnabled("Citizens")))

@@ -35,20 +35,18 @@ public class ChatContent {
 	public static final String RESET = "\u00A7r";
 	
 	public static String translateColorCodes(String string) {
-		if (SlotPlugin.is116) {
-			List<String> matches = new ArrayList<String>();
-			Matcher m = Pattern.compile("(&#[a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9])").matcher(string);
-			
-			while(m.find()) {
-				ChatColor color = null;
-				try {
-					Method ofMethod = ChatColor.class.getMethod("of", String.class);
-					color = (ChatColor) ofMethod.invoke(null, m.group().substring(1));
-				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-					e.printStackTrace();
-				}
-				string = string.replace(m.group(), color.toString());
+		List<String> matches = new ArrayList<String>();
+		Matcher m = Pattern.compile("(&#[a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9])").matcher(string);
+		
+		while(m.find()) {
+			ChatColor color = null;
+			try {
+				Method ofMethod = ChatColor.class.getMethod("of", String.class);
+				color = (ChatColor) ofMethod.invoke(null, m.group().substring(1));
+			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+				e.printStackTrace();
 			}
+			string = string.replace(m.group(), color.toString());
 		}
 		
 		return string
