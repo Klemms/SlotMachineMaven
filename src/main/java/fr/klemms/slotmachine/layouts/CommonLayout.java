@@ -18,8 +18,8 @@ import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
 import fr.minuskube.inv.ClickableItem;
 import me.realized.tm.api.TMAPI;
-import su.nightexpress.gamepoints.GamePointsAPI;
-import su.nightexpress.gamepoints.data.objects.StoreUser;
+import su.nightexpress.gamepoints.api.GamePointsAPI;
+import su.nightexpress.gamepoints.data.PointUser;
 
 public class CommonLayout {
 	
@@ -81,7 +81,7 @@ public class CommonLayout {
 				}
 			case GAMEPOINTS:
 				if(SlotPlugin.isGamePointsEnabled) {
-					StoreUser user = GamePointsAPI.getUserData(player);
+					PointUser user = GamePointsAPI.getUserData(player);
 					if(user != null && user.getBalance() >= (int)machine.getPullPrice()) {
 						if (!testCooldown(player, machine))
 							return false;

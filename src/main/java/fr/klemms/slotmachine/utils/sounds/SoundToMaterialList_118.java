@@ -3600,7 +3600,7 @@ public class SoundToMaterialList_118 {
 					SlotPlugin.soundMaterialMap.put(sound, Material.POINTED_DRIPSTONE);
 					break;
 				case MUSIC_OVERWORLD_FROZEN_PEAKS:
-					SlotPlugin.soundMaterialMap.put(sound, Material.FROSTED_ICE);
+					SlotPlugin.soundMaterialMap.put(sound, Material.BLUE_ICE);
 					break;
 				case MUSIC_OVERWORLD_GROVE:
 					SlotPlugin.soundMaterialMap.put(sound, Material.ACACIA_LEAVES);
