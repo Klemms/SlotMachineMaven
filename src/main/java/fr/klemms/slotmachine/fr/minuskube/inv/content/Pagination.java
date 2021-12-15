@@ -1,8 +1,8 @@
-package fr.minuskube.inv.content;
-
-import fr.minuskube.inv.ClickableItem;
+package fr.klemms.slotmachine.fr.minuskube.inv.content;
 
 import java.util.Arrays;
+
+import fr.klemms.slotmachine.fr.minuskube.inv.ClickableItem;
 
 public interface Pagination {
 

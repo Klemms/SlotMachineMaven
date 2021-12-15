@@ -18,10 +18,10 @@ import fr.klemms.slotmachine.SlotMachine;
 import fr.klemms.slotmachine.SlotPlugin;
 import fr.klemms.slotmachine.VisualType;
 import fr.klemms.slotmachine.exceptioncollector.ExceptionCollector;
+import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryContents;
 import fr.klemms.slotmachine.interraction.InterractionCallback;
 import fr.klemms.slotmachine.placeholders.Variables;
 import fr.klemms.slotmachine.utils.PotionUtil;
-import fr.minuskube.inv.content.InventoryContents;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 

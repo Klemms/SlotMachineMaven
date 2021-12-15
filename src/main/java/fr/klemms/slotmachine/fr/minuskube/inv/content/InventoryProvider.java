@@ -1,4 +1,4 @@
-package fr.minuskube.inv.content;
+package fr.klemms.slotmachine.fr.minuskube.inv.content;
 
 import org.bukkit.entity.Player;
 

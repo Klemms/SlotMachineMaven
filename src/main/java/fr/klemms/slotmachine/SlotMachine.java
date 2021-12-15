@@ -12,14 +12,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 
+import fr.klemms.slotmachine.fr.minuskube.inv.InventoryListener;
+import fr.klemms.slotmachine.fr.minuskube.inv.SmartInventory;
+import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryProvider;
 import fr.klemms.slotmachine.layouts.CSGOLayout;
 import fr.klemms.slotmachine.layouts.CSGOVerticalLayout;
 import fr.klemms.slotmachine.layouts.SlotMachineLayout;
 import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
-import fr.minuskube.inv.InventoryListener;
-import fr.minuskube.inv.SmartInventory;
-import fr.minuskube.inv.content.InventoryProvider;
 
 public abstract class SlotMachine {
 	

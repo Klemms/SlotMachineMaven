@@ -14,14 +14,14 @@ import fr.klemms.slotmachine.Config;
 import fr.klemms.slotmachine.MachineItem;
 import fr.klemms.slotmachine.SlotMachine;
 import fr.klemms.slotmachine.SlotPlugin;
+import fr.klemms.slotmachine.fr.minuskube.inv.ClickableItem;
+import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryContents;
+import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryProvider;
 import fr.klemms.slotmachine.interraction.ItemPreviewInventory;
 import fr.klemms.slotmachine.placeholders.Variables;
 import fr.klemms.slotmachine.threads.ThreadPullLever;
 import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
-import fr.minuskube.inv.ClickableItem;
-import fr.minuskube.inv.content.InventoryContents;
-import fr.minuskube.inv.content.InventoryProvider;
 
 public class CSGOLayout implements InventoryProvider {
 	

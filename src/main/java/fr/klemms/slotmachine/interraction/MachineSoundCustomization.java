@@ -12,12 +12,12 @@ import fr.klemms.slotmachine.SlotMachine;
 import fr.klemms.slotmachine.SlotMachineBlock;
 import fr.klemms.slotmachine.SlotMachineEntity;
 import fr.klemms.slotmachine.SlotPlugin;
+import fr.klemms.slotmachine.fr.minuskube.inv.ClickableItem;
+import fr.klemms.slotmachine.fr.minuskube.inv.SmartInventory;
+import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryContents;
+import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryProvider;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
 import fr.klemms.slotmachine.utils.PlayerHeadsUtil;
-import fr.minuskube.inv.ClickableItem;
-import fr.minuskube.inv.SmartInventory;
-import fr.minuskube.inv.content.InventoryContents;
-import fr.minuskube.inv.content.InventoryProvider;
 
 public class MachineSoundCustomization {
 

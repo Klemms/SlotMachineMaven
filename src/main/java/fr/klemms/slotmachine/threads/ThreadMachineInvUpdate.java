@@ -4,8 +4,8 @@ import org.bukkit.entity.Player;
 
 import fr.klemms.slotmachine.MachineItem;
 import fr.klemms.slotmachine.SlotMachine;
-import fr.minuskube.inv.ClickableItem;
-import fr.minuskube.inv.content.InventoryContents;
+import fr.klemms.slotmachine.fr.minuskube.inv.ClickableItem;
+import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryContents;
 
 public class ThreadMachineInvUpdate extends Thread {
 	

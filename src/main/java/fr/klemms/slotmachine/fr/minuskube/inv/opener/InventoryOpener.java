@@ -1,11 +1,12 @@
-package fr.minuskube.inv.opener;
+package fr.klemms.slotmachine.fr.minuskube.inv.opener;
 
-import fr.minuskube.inv.ClickableItem;
-import fr.minuskube.inv.SmartInventory;
-import fr.minuskube.inv.content.InventoryContents;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
+
+import fr.klemms.slotmachine.fr.minuskube.inv.ClickableItem;
+import fr.klemms.slotmachine.fr.minuskube.inv.SmartInventory;
+import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryContents;
 
 public interface InventoryOpener {
 

@@ -18,17 +18,17 @@ import fr.klemms.slotmachine.SlotMachineEntity;
 import fr.klemms.slotmachine.SlotPlugin;
 import fr.klemms.slotmachine.clipboard.ClipboardContent;
 import fr.klemms.slotmachine.clipboard.Clipboards;
+import fr.klemms.slotmachine.fr.minuskube.inv.ClickableItem;
+import fr.klemms.slotmachine.fr.minuskube.inv.InventoryListener;
+import fr.klemms.slotmachine.fr.minuskube.inv.SmartInventory;
+import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryContents;
+import fr.klemms.slotmachine.fr.minuskube.inv.content.Pagination;
+import fr.klemms.slotmachine.fr.minuskube.inv.content.SlotIterator;
 import fr.klemms.slotmachine.interraction.providers.CopyPastableProvider;
 import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
 import fr.klemms.slotmachine.utils.PlayerHeadsUtil;
 import fr.klemms.slotmachine.utils.Util;
-import fr.minuskube.inv.ClickableItem;
-import fr.minuskube.inv.InventoryListener;
-import fr.minuskube.inv.SmartInventory;
-import fr.minuskube.inv.content.InventoryContents;
-import fr.minuskube.inv.content.Pagination;
-import fr.minuskube.inv.content.SlotIterator;
 
 public class MachineItemsInterractionInventory {
 

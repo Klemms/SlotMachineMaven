@@ -3,7 +3,7 @@ package fr.klemms.slotmachine.translation;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import fr.klemms.slotmachine.Config;
 

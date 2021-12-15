@@ -12,14 +12,14 @@ import org.bukkit.inventory.ItemStack;
 import fr.klemms.slotmachine.ChatContent;
 import fr.klemms.slotmachine.SlotMachine;
 import fr.klemms.slotmachine.SlotPlugin;
+import fr.klemms.slotmachine.fr.minuskube.inv.ClickableItem;
+import fr.klemms.slotmachine.fr.minuskube.inv.SmartInventory;
+import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryContents;
+import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryProvider;
+import fr.klemms.slotmachine.fr.minuskube.inv.content.Pagination;
+import fr.klemms.slotmachine.fr.minuskube.inv.content.SlotIterator.Type;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
 import fr.klemms.slotmachine.utils.PlayerHeadsUtil;
-import fr.minuskube.inv.ClickableItem;
-import fr.minuskube.inv.SmartInventory;
-import fr.minuskube.inv.content.InventoryContents;
-import fr.minuskube.inv.content.InventoryProvider;
-import fr.minuskube.inv.content.Pagination;
-import fr.minuskube.inv.content.SlotIterator.Type;
 
 public class MachineSoundlistInventory {
 

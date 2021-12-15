@@ -1,8 +1,10 @@
-package fr.minuskube.inv.opener;
+package fr.klemms.slotmachine.fr.minuskube.inv.opener;
 
 import com.google.common.collect.ImmutableList;
-import fr.minuskube.inv.InventoryManager;
-import fr.minuskube.inv.SmartInventory;
+
+import fr.klemms.slotmachine.fr.minuskube.inv.InventoryManager;
+import fr.klemms.slotmachine.fr.minuskube.inv.SmartInventory;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;

@@ -1,9 +1,5 @@
-package fr.minuskube.inv;
+package fr.klemms.slotmachine.fr.minuskube.inv;
 
-import fr.minuskube.inv.content.InventoryContents;
-import fr.minuskube.inv.opener.ChestInventoryOpener;
-import fr.minuskube.inv.opener.InventoryOpener;
-import fr.minuskube.inv.opener.SpecialInventoryOpener;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,6 +11,11 @@ import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryContents;
+import fr.klemms.slotmachine.fr.minuskube.inv.opener.ChestInventoryOpener;
+import fr.klemms.slotmachine.fr.minuskube.inv.opener.InventoryOpener;
+import fr.klemms.slotmachine.fr.minuskube.inv.opener.SpecialInventoryOpener;
 
 import java.util.*;
 

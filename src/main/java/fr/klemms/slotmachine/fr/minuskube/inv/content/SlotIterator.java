@@ -1,11 +1,11 @@
-package fr.minuskube.inv.content;
-
-import fr.minuskube.inv.ClickableItem;
-import fr.minuskube.inv.SmartInventory;
+package fr.klemms.slotmachine.fr.minuskube.inv.content;
 
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+
+import fr.klemms.slotmachine.fr.minuskube.inv.ClickableItem;
+import fr.klemms.slotmachine.fr.minuskube.inv.SmartInventory;
 
 public interface SlotIterator {
 

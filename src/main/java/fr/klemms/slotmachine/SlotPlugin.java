@@ -37,13 +37,13 @@ import fr.klemms.slotmachine.commands.CommandSlotMachineVersion;
 import fr.klemms.slotmachine.commands.CommandTPMachine;
 import fr.klemms.slotmachine.events.PluginListener;
 import fr.klemms.slotmachine.exceptioncollector.ExceptionCollector;
+import fr.klemms.slotmachine.fr.minuskube.inv.InventoryManager;
 import fr.klemms.slotmachine.metrics.Metrics;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
 import fr.klemms.slotmachine.utils.Util;
 import fr.klemms.slotmachine.utils.sounds.SoundToMaterialList_116;
 import fr.klemms.slotmachine.utils.sounds.SoundToMaterialList_117;
 import fr.klemms.slotmachine.utils.sounds.SoundToMaterialList_118;
-import fr.minuskube.inv.InventoryManager;
 import me.realized.tokenmanager.api.TokenManager;
 import net.milkbowl.vault.economy.Economy;
 
@@ -56,7 +56,7 @@ public class SlotPlugin extends JavaPlugin {
 	public static Economy econ = null;
 	public static VotingPluginHooks votingPlugin = null;
 	public static final String BRANCH = "release";
-	public static final int VERSION = 67;
+	public static final int VERSION = 68;
 	public static final String PLUGIN_NAME = "Slot Machine";
 	public static volatile int webVersion = 0;
 	public static volatile String webURL = "https://www.spigotmc.org/resources/slotmachine.22023/";

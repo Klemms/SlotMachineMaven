@@ -1,4 +1,4 @@
-package fr.minuskube.inv;
+package fr.klemms.slotmachine.fr.minuskube.inv;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
