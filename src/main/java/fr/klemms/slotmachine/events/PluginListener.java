@@ -1,14 +1,11 @@
 package fr.klemms.slotmachine.events;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.block.Chest;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -27,20 +24,15 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.metadata.FixedMetadataValue;
 
 import fr.klemms.slotmachine.ChatContent;
 import fr.klemms.slotmachine.Config;
-import fr.klemms.slotmachine.MachineItem;
 import fr.klemms.slotmachine.MachineMethods;
 import fr.klemms.slotmachine.SlotMachine;
 import fr.klemms.slotmachine.SlotMachineBlock;
 import fr.klemms.slotmachine.SlotMachineEntity;
 import fr.klemms.slotmachine.SlotMachineType;
 import fr.klemms.slotmachine.SlotPlugin;
-import fr.klemms.slotmachine.placeholders.Variables;
 import fr.klemms.slotmachine.threads.ThreadChangeEntityName;
 import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.PlayerUtil;
@@ -293,99 +285,25 @@ public class PluginListener implements Listener {
 		}
 	}
 	
-	@EventHandler
+	@EventHandler(ignoreCancelled = false)
 	public void onPlayerInteract(PlayerInteractEvent event) {
-		if(!event.getPlayer().hasMetadata("slotmachineinteractentity")) {
-			event.getPlayer().setMetadata("slotmachineinteractentity", new FixedMetadataValue(SlotPlugin.pl, true));
-			final UUID playerUUID = event.getPlayer().getUniqueId();
-			Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new Runnable() {
-					@Override
-					public void run() {
-						if(Bukkit.getPlayer(playerUUID) != null) {
-							Bukkit.getPlayer(playerUUID).removeMetadata("slotmachineinteractentity", SlotPlugin.pl);
-						}
-					}
-				}, 10);
-			
-			if(event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getPlayer().getInventory().getItemInMainHand() != null && event.getPlayer().getInventory().getItemInMainHand().getType() == Material.BLAZE_ROD && (event.getPlayer().hasPermission("slotmachine.machineedit") || event.getPlayer().hasPermission("slotmachine.shopedit") || event.getPlayer().isOp())) {
-				Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new Runnable() {
-					@Override
-					public void run() {
-						if (SlotPlugin.invManager.getInventory(event.getPlayer()).isPresent()) {
-							event.setCancelled(true);
-							return;
-						}
-						if(event.getPlayer().getInventory().getItemInMainHand().hasItemMeta() && event.getPlayer().getInventory().getItemInMainHand().getItemMeta().hasDisplayName() && (event.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains(Language.translate("slotmachine.instructions.setitems")) || event.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains(Language.translate("slotmachine.instructions.additems")))) {
-							SlotMachine slotMachine = SlotMachine.getSlotMachineByUUID(UUID.fromString(event.getPlayer().getInventory().getItemInMainHand().getItemMeta().getLore().get(0)));
-							if(event.getClickedBlock().getType() == Material.CHEST) {
-								Chest chest = (Chest)event.getClickedBlock().getState();
-								if(slotMachine != null) {
-									List<MachineItem> slotMachineItems = new ArrayList<MachineItem>();
-									for(int a = 0; a < 27; a++) {
-										if(chest.getBlockInventory().getItem(a) != null) {
-											if(chest.getBlockInventory().getItem(a).hasItemMeta() && chest.getBlockInventory().getItem(a).getType() == Material.NAME_TAG) {
-												if(chest.getBlockInventory().getItem(a).getItemMeta().hasDisplayName()) {
-													if(NumberUtils.isNumber(chest.getBlockInventory().getItem(a).getItemMeta().getDisplayName())) {
-														ItemStack is = new ItemStack(chest.getBlockInventory().getItem(a));
-														ItemMeta im = is.getItemMeta();
-														List<String> lore = new ArrayList<String>();
-														im.setDisplayName(ChatContent.GOLD + ChatContent.ITALIC + chest.getBlockInventory().getItem(a).getItemMeta().getDisplayName() + "$");
-														lore.add("Money :");
-														lore.add(chest.getBlockInventory().getItem(a).getItemMeta().getDisplayName());
-														im.setLore(lore);
-														is.setItemMeta(im);
-														slotMachineItems.add(new MachineItem(is, 1));
-													} else {
-														slotMachineItems.add(new MachineItem(chest.getBlockInventory().getItem(a), 1));
-													}
-												} else {
-													slotMachineItems.add(new MachineItem(chest.getBlockInventory().getItem(a), 1));
-												}
-											} else {
-												slotMachineItems.add(new MachineItem(chest.getBlockInventory().getItem(a), 1));
-											}
-										}
-									}
-									if(event.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains(Language.translate("slotmachine.instructions.setitems"))) {
-										slotMachine.setSlotMachineItems(slotMachineItems);
-										event.getPlayer().sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("slotmachine.instructions.setitems.successful"));
-									} else if(event.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains(Language.translate("slotmachine.instructions.additems"))) {
-										slotMachine.addSlotMachineItems(slotMachineItems);
-										event.getPlayer().sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("slotmachine.instructions.additems.successful"));
-									}
-								}
-								for(int a = 0; a < chest.getBlockInventory().getSize(); a++) {
-									chest.getBlockInventory().clear();
-								}
-								event.getClickedBlock().breakNaturally();
-								SlotPlugin.saveToDisk();
-							}
-						} else {
-							MachineMethods.magicWand(event.getPlayer(), null, event.getClickedBlock());
-						}
-					}
-				}, 1);
-			} else if(event.getAction() == Action.RIGHT_CLICK_BLOCK && SlotMachineBlock.getSlotMachineByBlock(event.getClickedBlock()) != null) {
-				SlotMachineBlock smb = SlotMachineBlock.getSlotMachineByBlock(event.getClickedBlock());
-				event.setCancelled(true);
-				
-				if(event.getPlayer().hasPermission(smb.getGuiPermission()) || event.getPlayer().isOp()) {
-					MachineMethods.openmachine(event.getPlayer(), smb);
-				} else {
-					event.getPlayer().sendMessage(Variables.getFormattedString(Language.translate(Config.noAccessDefaultString), event.getPlayer(), smb));
-					event.getPlayer().playSound(event.getPlayer().getLocation(), smb.getMachineOpeningSound(), 1.9f, 0.4f);
+		if (event.getHand().equals(EquipmentSlot.HAND) && event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+			boolean openSlotMachine = true;
+			if(event.getPlayer().getInventory().getItemInMainHand() != null && event.getPlayer().getInventory().getItemInMainHand().getType() == Material.BLAZE_ROD) {
+				if(event.getPlayer().hasPermission("slotmachine.machineedit") || event.getPlayer().hasPermission("slotmachine.shopedit") || event.getPlayer().isOp()) {
+					event.setCancelled(true);
+					openSlotMachine = false;
+					MachineMethods.magicWand(event.getPlayer(), null, event.getClickedBlock());
+				} else if(Config.debug) {
+					event.getPlayer().sendMessage(ChatContent.RED + "[Slot Machine] You don't have the required permissions to edit this Slot Machine");
 				}
 			}
-		} else {
-			final UUID playerUUID = event.getPlayer().getUniqueId();
-			Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new Runnable() {
-					@Override
-					public void run() {
-						if(Bukkit.getPlayer(playerUUID) != null) {
-							Bukkit.getPlayer(playerUUID).removeMetadata("slotmachineinteractentity", SlotPlugin.pl);
-						}
-					}
-				}, 10);
+			SlotMachineBlock machine = SlotMachineBlock.getSlotMachineByBlock(event.getClickedBlock());
+			
+			if(machine != null && openSlotMachine) {
+				event.setCancelled(true);
+				MachineMethods.openmachine(event.getPlayer(), machine);
+			}
 		}
 	}
 }
