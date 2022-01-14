@@ -10,6 +10,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import fr.klemms.slotmachine.Issue.IssueType;
 import fr.klemms.slotmachine.exceptioncollector.ExceptionCollector;
@@ -30,6 +31,18 @@ public class MachineMethods {
 	}*/
 	
 	public static void openmachine(Player player, SlotMachine machine) {
+		if (machine instanceof SlotMachineEntity)
+			player.setMetadata("slotmachineinteractentity", new FixedMetadataValue(SlotPlugin.pl, "yes"));
+		if (machine instanceof SlotMachineBlock)
+			player.setMetadata("slotmachineinteractblock", new FixedMetadataValue(SlotPlugin.pl, "yes"));
+		
+		Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new Runnable() {
+			@Override
+			public void run() {
+				player.removeMetadata("slotmachineinteractentity", SlotPlugin.pl);
+				player.removeMetadata("slotmachineinteractblock", SlotPlugin.pl);
+			}
+		});
 		
 		if(machine.getSlotMachineItems().size() > 0) {
 			if(machine.getPriceType() == PriceType.GAMEPOINTS && !SlotPlugin.isGamePointsEnabled) {
@@ -58,6 +71,20 @@ public class MachineMethods {
 	}
 	
 	public static void magicWand(Player player, Entity entity, Block block) {
+		if (entity != null)
+			player.setMetadata("slotmachineinteractentity", new FixedMetadataValue(SlotPlugin.pl, "yes"));
+		if (block != null)
+			player.setMetadata("slotmachineinteractblock", new FixedMetadataValue(SlotPlugin.pl, "yes"));
+		
+		Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new Runnable() {
+			@Override
+			public void run() {
+				player.removeMetadata("slotmachineinteractentity", SlotPlugin.pl);
+				player.removeMetadata("slotmachineinteractblock", SlotPlugin.pl);
+			}
+		});
+		
+		
 		UUID uuid = entity != null ? entity.getUniqueId() : null;
 		if (uuid != null && SlotPlugin.isCitizensEnabled && CitizensAPI.getNPCRegistry().isNPC(entity))
 			uuid = CitizensAPI.getNPCRegistry().getNPC(entity).getUniqueId();

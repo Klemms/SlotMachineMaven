@@ -59,12 +59,16 @@ public class PluginListener implements Listener {
 
 	@EventHandler
 	public void onPlayerInteractWithEntity(PlayerInteractEntityEvent event) {
+		if (event.getPlayer().hasMetadata("slotmachineinteractblock"))
+			return;
+		
 		if (event.getHand().equals(EquipmentSlot.HAND)) {
 			boolean openSlotMachine = true;
 			if(event.getPlayer().getInventory().getItemInMainHand() != null && event.getPlayer().getInventory().getItemInMainHand().getType() == Material.BLAZE_ROD) {
 				if(event.getPlayer().hasPermission("slotmachine.machineedit") || event.getPlayer().hasPermission("slotmachine.shopedit") || event.getPlayer().isOp()) {
 					event.setCancelled(true);
 					openSlotMachine = false;
+
 					MachineMethods.magicWand(event.getPlayer(), event.getRightClicked(), null);
 				} else if(Config.debug) {
 					event.getPlayer().sendMessage(ChatContent.RED + "[Slot Machine] You don't have the required permissions to edit this Slot Machine");
@@ -287,12 +291,16 @@ public class PluginListener implements Listener {
 	
 	@EventHandler(ignoreCancelled = false)
 	public void onPlayerInteract(PlayerInteractEvent event) {
+		if (event.getPlayer().hasMetadata("slotmachineinteractentity"))
+			return;
+		
 		if (event.getHand().equals(EquipmentSlot.HAND) && event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			boolean openSlotMachine = true;
 			if(event.getPlayer().getInventory().getItemInMainHand() != null && event.getPlayer().getInventory().getItemInMainHand().getType() == Material.BLAZE_ROD) {
 				if(event.getPlayer().hasPermission("slotmachine.machineedit") || event.getPlayer().hasPermission("slotmachine.shopedit") || event.getPlayer().isOp()) {
 					event.setCancelled(true);
 					openSlotMachine = false;
+
 					MachineMethods.magicWand(event.getPlayer(), null, event.getClickedBlock());
 				} else if(Config.debug) {
 					event.getPlayer().sendMessage(ChatContent.RED + "[Slot Machine] You don't have the required permissions to edit this Slot Machine");
@@ -302,6 +310,7 @@ public class PluginListener implements Listener {
 			
 			if(machine != null && openSlotMachine) {
 				event.setCancelled(true);
+
 				MachineMethods.openmachine(event.getPlayer(), machine);
 			}
 		}
