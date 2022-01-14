@@ -50,12 +50,6 @@ public class VariableBalance implements Variable {
 					return SlotPlugin.tokenManager.getTokens(player).getAsLong() + " " + Language.translate("currency.tmtokens");
 				} else if(SlotPlugin.oldTokenManagerWorks) {
 					return TMAPI.getTokens(player) + " " + Language.translate("currency.tmtokens");
-//					try {
-//						return Class.forName("me.realized.tm.api.TMAPI").getMethod("getTokens", Player.class).invoke(null, player) + " Tokens";
-//					} catch (ClassNotFoundException |NoSuchMethodException | SecurityException |
-//							IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-//						e.printStackTrace();
-//					}
 				}
 				break;
 		}
