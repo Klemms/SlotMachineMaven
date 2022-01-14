@@ -1,6 +1,6 @@
-version=18
+version=19
 
-metrics.cantconnect=SlotMachine couldn't connect to Metrics (mcstats)
+metrics.cantconnect=SlotMachine couldn't connect to bStats
 update.available=An update for %pluginName% is available at %url%
 update.available.chat=An update for %pluginName% is available for this version of Minecraft, click here to go to the download page ! (Recommended)
 update.uptodate=%pluginName% is up-to-date
@@ -31,6 +31,11 @@ basic.weight=Weight
 basic.chance=Chance
 basic.cooldown=Cooldown : %cooldown%s
 basic.nocooldown=No Cooldown
+basic.itempreview=Item Preview
+basic.back=← Back
+basic.previouspage=← Previous Page
+basic.nextpage=Next Page →
+basic.page=Page
 
 currency.token=Token
 currency.tokens=Tokens

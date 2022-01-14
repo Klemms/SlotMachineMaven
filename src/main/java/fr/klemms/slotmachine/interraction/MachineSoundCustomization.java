@@ -16,6 +16,7 @@ import fr.klemms.slotmachine.fr.minuskube.inv.ClickableItem;
 import fr.klemms.slotmachine.fr.minuskube.inv.SmartInventory;
 import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryContents;
 import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryProvider;
+import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
 import fr.klemms.slotmachine.utils.PlayerHeadsUtil;
 
@@ -226,7 +227,7 @@ public class MachineSoundCustomization {
 								
 						}));
 
-						contents.set(5, 1, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.BACK), "<- Back"), event -> {
+						contents.set(5, 1, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.BACK), Language.translate("basic.back")), event -> {
 							player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 							if (machine instanceof SlotMachineEntity)
 								MachineInterractionInventory.manageMachine(player, machine, ((SlotMachineEntity) machine).getEntity(), null, 0);

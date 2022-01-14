@@ -19,6 +19,7 @@ import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryProvider;
 import fr.klemms.slotmachine.fr.minuskube.inv.content.Pagination;
 import fr.klemms.slotmachine.fr.minuskube.inv.content.SlotIterator.Type;
 import fr.klemms.slotmachine.interraction.ConfirmInventory;
+import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
 import fr.klemms.slotmachine.utils.PlayerHeadsUtil;
 import fr.klemms.slotmachine.utils.TokenUtil;
@@ -106,18 +107,18 @@ public class TokensInventory {
 						
 						
 						if (!pagination.isFirst())
-							contents.set(5, 3, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.LEFT), "< Previous Page"), event -> {
+							contents.set(5, 3, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.LEFT), Language.translate("basic.previouspage")), event -> {
 								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								showManagementScreen(player, page - 1, windowTitle, sentenceToShow, callback, showDeleteButton);
 							}));
 
 						if (!pagination.isLast())
-							contents.set(5, 5, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.RIGHT), "Next Page >"), event -> {
+							contents.set(5, 5, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.RIGHT), Language.translate("basic.nextpage")), event -> {
 								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								showManagementScreen(player, page + 1, windowTitle, sentenceToShow, callback, showDeleteButton);
 							}));
 						
-						contents.set(5, 4, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(Material.PAPER), "Page " + (pagination.getPage() + 1) + "/" + (pagination.last().getPage() + 1))));
+						contents.set(5, 4, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(Material.PAPER), Language.translate("basic.page") + " " + (pagination.getPage() + 1) + "/" + (pagination.last().getPage() + 1))));
 					}
 
 					@Override

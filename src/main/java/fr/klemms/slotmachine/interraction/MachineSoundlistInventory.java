@@ -18,6 +18,7 @@ import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryContents;
 import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryProvider;
 import fr.klemms.slotmachine.fr.minuskube.inv.content.Pagination;
 import fr.klemms.slotmachine.fr.minuskube.inv.content.SlotIterator.Type;
+import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
 import fr.klemms.slotmachine.utils.PlayerHeadsUtil;
 
@@ -70,25 +71,25 @@ public class MachineSoundlistInventory {
 								ChatContent.AQUA + "To cancel click on back"
 								))));
 
-						contents.set(5, 1, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.BACK), "<- Back"), event -> {
+						contents.set(5, 1, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.BACK), Language.translate("basic.back")), event -> {
 							player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 							MachineSoundCustomization.customizeSounds(player, machine);
 						}));
 						
 						
 						if (!pagination.isFirst())
-							contents.set(5, 3, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.LEFT), "< Previous Page"), event -> {
+							contents.set(5, 3, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.LEFT), Language.translate("basic.previouspage")), event -> {
 								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								openSoundlist(player, machine, page - 1, callback, volume, pitch);
 							}));
 
 						if (!pagination.isLast())
-							contents.set(5, 5, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.RIGHT), "Next Page >"), event -> {
+							contents.set(5, 5, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.RIGHT), Language.translate("basic.nextpage")), event -> {
 								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								openSoundlist(player, machine, page + 1, callback, volume, pitch);
 							}));
 						
-						contents.set(5, 4, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(Material.PAPER), "Page " + (pagination.getPage() + 1) + "/" + (pagination.last().getPage() + 1))));
+						contents.set(5, 4, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(Material.PAPER), Language.translate("basic.page") + " " + (pagination.getPage() + 1) + "/" + (pagination.last().getPage() + 1))));
 					}
 
 					@Override

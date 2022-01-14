@@ -29,7 +29,7 @@ public class ItemPreviewInventory {
 	public static void showPreview(Player player, SlotMachine machine, int page) {
 		SmartInventory inv = SmartInventory.builder()
 				.manager(SlotPlugin.invManager)
-				.title("Item Preview")
+				.title(Language.translate("basic.itempreview"))
 				.size(6, 9)
 				.closeable(true)
 				.provider(new InventoryProvider() {
@@ -69,24 +69,24 @@ public class ItemPreviewInventory {
 									))));
 						}
 
-						contents.set(5, 1, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.BACK), "<- Back"), event -> {
+						contents.set(5, 1, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.BACK), Language.translate("basic.back")), event -> {
 							player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 							machine.openMachine(player, true);
 						}));
 						
 						if (!pagination.isFirst())
-							contents.set(5, 3, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.LEFT), "< Previous Page"), event -> {
+							contents.set(5, 3, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.LEFT), Language.translate("basic.previouspage")), event -> {
 								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								showPreview(player, machine, page - 1);
 							}));
 
 						if (!pagination.isLast())
-							contents.set(5, 5, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.RIGHT), "Next Page >"), event -> {
+							contents.set(5, 5, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.RIGHT), Language.translate("basic.nextpage")), event -> {
 								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								showPreview(player, machine, page + 1);
 							}));
 						
-						contents.set(5, 4, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(Material.PAPER), "Page " + (pagination.getPage() + 1) + "/" + (pagination.last().getPage() + 1))));
+						contents.set(5, 4, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(Material.PAPER), Language.translate("basic.page") + " " + (pagination.getPage() + 1) + "/" + (pagination.last().getPage() + 1))));
 					}
 
 					@Override
