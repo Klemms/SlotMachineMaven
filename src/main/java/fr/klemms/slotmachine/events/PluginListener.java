@@ -294,7 +294,7 @@ public class PluginListener implements Listener {
 		if (event.getPlayer().hasMetadata("slotmachineinteractentity"))
 			return;
 		
-		if (event.getHand().equals(EquipmentSlot.HAND) && event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+		if (event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getHand().equals(EquipmentSlot.HAND)) {
 			boolean openSlotMachine = true;
 			if(event.getPlayer().getInventory().getItemInMainHand() != null && event.getPlayer().getInventory().getItemInMainHand().getType() == Material.BLAZE_ROD) {
 				if(event.getPlayer().hasPermission("slotmachine.machineedit") || event.getPlayer().hasPermission("slotmachine.shopedit") || event.getPlayer().isOp()) {

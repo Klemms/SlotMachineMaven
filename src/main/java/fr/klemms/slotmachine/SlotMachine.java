@@ -213,6 +213,10 @@ public abstract class SlotMachine {
 		this.machineOpeningSound = Sound.BLOCK_ANVIL_LAND;
 	}
 	
+	public void resetSoundError() {
+		this.machineOpeningSound = Sound.ENTITY_VILLAGER_NO;
+	}
+	
 	public boolean canPlay(Player player) {
 		switch (this.getPlayMode()) {
 			case LIMITED_MACHINE:

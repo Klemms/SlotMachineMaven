@@ -351,6 +351,7 @@ public class SlotPlugin extends JavaPlugin {
 				yamlFile.set("csgoSpinSound", slotMachine.getCsgoSpinSound().toString());
 				yamlFile.set("winSound", slotMachine.getWinSound().toString());
 				yamlFile.set("lossSound", slotMachine.getLossSound().toString());
+				yamlFile.set("errorSound", slotMachine.getErrorSound().toString());
 				
 				yamlFile.set("itemCount", slotMachine.getSlotMachineItems().size());
 				if (slotMachine.getSlotMachineItems().size() == 0)

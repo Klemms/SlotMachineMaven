@@ -255,6 +255,9 @@ public class Config {
 						if(ymlFile.isSet("lossSound") && Util.isValidSound(ymlFile.getString("lossSound"))) {
 							slotMachine.setLossSound(Sound.valueOf(ymlFile.getString("lossSound")));
 						}
+						if(ymlFile.isSet("errorSound") && Util.isValidSound(ymlFile.getString("errorSound"))) {
+							slotMachine.setErrorSound(Sound.valueOf(ymlFile.getString("errorSound")));
+						}
 						
 						List<MachineItem> slotMachineItems = new ArrayList<MachineItem>();
 						for(int b = 0; b < ymlFile.getInt("itemCount"); b++) {

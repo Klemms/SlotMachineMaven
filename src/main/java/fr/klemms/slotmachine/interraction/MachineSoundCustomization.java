@@ -110,6 +110,34 @@ public class MachineSoundCustomization {
 								}, false);
 							}
 						}));
+						
+						contents.set(2, 4, ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.HEADSET), ChatContent.GOLD + "Error Sound"), Arrays.asList(
+								ChatContent.AQUA + "The sound played when errors occur",
+								ChatContent.AQUA + "such as when the machine is stil on",
+								ChatContent.AQUA + "cooldown for the player"
+								)), event -> {
+							player.playSound(player.getLocation(), machine.getErrorSound(), 1.3f, 1f);
+						}));
+						contents.set(3, 4, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(Material.NOTE_BLOCK, 3), machine.getErrorSound().toString()), event -> {
+							if (event.isLeftClick()) {
+								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+								MachineSoundlistInventory.openSoundlist(player, machine, 0, (sound) -> {
+									machine.setErrorSound(sound);
+									player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully changed sound to '" + sound.toString() + "'");
+									player.playSound(player.getLocation(), machine.getErrorSound(), 1.3f, 1f);
+									SlotPlugin.saveToDisk();
+								}, 1.3f, 1f);
+							} else if (event.isRightClick()) {
+								ConfirmInventory.confirmWindow(player, "Reset this sound to default ?", "No, cancel", "Yes, reset", (result) -> {
+									if (result) {
+										machine.resetSoundError();
+										player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully reset sound");
+										SlotPlugin.saveToDisk();
+									}
+									customizeSounds(player, machine);
+								}, false);
+							}
+						}));
 
 						contents.set(2, 5, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.HEADSET), ChatContent.GOLD + "Loss Sound"), event -> {
 							player.playSound(player.getLocation(), machine.getLossSound(), 0.3f, 0.7f);
