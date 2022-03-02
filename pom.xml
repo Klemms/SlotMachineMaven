@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ovh.klemms</groupId>
 	<artifactId>slotmachine</artifactId>
-	<version>6.5.4-SPIGOT</version>
+	<version>6.5.5-SPIGOT</version>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -69,13 +69,18 @@
 			<id>skullcreator-repo</id>
 			<url>https://github.com/deanveloper/SkullCreator/raw/mvn-repo/</url>
 		</repository>
+
+		<repository>
+			<id>BenCodez Repo</id>
+			<url>https://nexus.bencodez.com/repository/maven-public/</url>
+		</repository>
 	</repositories>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
-			<version>1.18.1-R0.1-SNAPSHOT</version>
+			<version>1.18.2-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -138,9 +143,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.github.BenCodez</groupId>
-			<artifactId>VotingPlugin</artifactId>
-			<version>6.1.5</version>
+			<groupId>com.bencodez</groupId>
+			<artifactId>votingplugin</artifactId>
+			<version>6.8.3</version>
 			<scope>provided</scope>
 		</dependency>
 
