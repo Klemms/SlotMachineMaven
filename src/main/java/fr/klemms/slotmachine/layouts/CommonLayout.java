@@ -64,10 +64,9 @@ public class CommonLayout {
 						player.playSound(player.getLocation(), machine.getErrorSound(), 1.3f, 1f);
 						return false;
 					}
-					if(user.getPoints() >= (int)machine.getPullPrice()) {
-						if (!testCooldown(player, machine))
-							return false;
-						user.setPoints(user.getPoints() - (int)machine.getPullPrice());
+					if (!testCooldown(player, machine))
+						return false;
+					if (user.removePoints((int)machine.getPullPrice())) {
 						return true;
 					} else {
 						player.sendMessage(Variables.getFormattedString(Language.translate("votingplugin.notenough"), player, machine));
