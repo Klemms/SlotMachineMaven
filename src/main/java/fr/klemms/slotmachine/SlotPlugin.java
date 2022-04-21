@@ -56,7 +56,7 @@ public class SlotPlugin extends JavaPlugin {
 	public static Economy econ = null;
 	public static VotingPluginHooks votingPlugin = null;
 	public static final String BRANCH = "release";
-	public static final int VERSION = 71;
+	public static final int VERSION = 73;
 	public static final String PLUGIN_NAME = "Slot Machine";
 	public static volatile int webVersion = 0;
 	public static volatile String webURL = "https://www.spigotmc.org/resources/slotmachine.22023/";
