@@ -116,7 +116,8 @@ public class MachineMethods {
 				player.sendMessage(ChatContent.BOLD + ChatContent.AQUA + "[Slot Machine] " + Language.translate("slotmachine.tokensfallback"));
 			}
 			
-			Bukkit.getLogger().log(Level.INFO, "New SlotMachine (Entity)" + (isCitizensNPC ? " (Citizens NPC)" : "") + " (Created by : " + player.getName() + ") : '" + entity.getType().toString() + "' with UUID '" + uuid.toString() + "' in world '" + entity.getWorld().getName() + "' at '" + entity.getLocation().getX() + " " + entity.getLocation().getY() + " " + entity.getLocation().getZ() + "'");
+			
+			SlotPlugin.pl.getLogger().log(Level.INFO, "New SlotMachine (Entity)" + (isCitizensNPC ? " (Citizens NPC)" : "") + " (Created by : " + player.getName() + ") : '" + entity.getType().toString() + "' with UUID '" + uuid.toString() + "' in world '" + entity.getWorld().getName() + "' at '" + entity.getLocation().getX() + " " + entity.getLocation().getY() + " " + entity.getLocation().getZ() + "'");
 			SlotPlugin.saveToDisk();
 			return slotMachineEntity;
 		} else {
@@ -135,7 +136,7 @@ public class MachineMethods {
 				player.sendMessage(ChatContent.BOLD + ChatContent.AQUA + "[Slot Machine] " + Language.translate("slotmachine.tokensfallback"));
 			}
 			
-			Bukkit.getLogger().log(Level.INFO, "New SlotMachine (Block) (Created by : " + player.getName() + ") : '" + block.getType().toString() + "' in world '" + block.getWorld().getName() + "' at '" + block.getLocation().getX() + " " + block.getLocation().getY() + " " + block.getLocation().getZ() + "'");
+			SlotPlugin.pl.getLogger().log(Level.INFO, "New SlotMachine (Block) (Created by : " + player.getName() + ") : '" + block.getType().toString() + "' in world '" + block.getWorld().getName() + "' at '" + block.getLocation().getX() + " " + block.getLocation().getY() + " " + block.getLocation().getZ() + "'");
 			SlotPlugin.saveToDisk();
 			return slotMachineBlock;
 		} else {

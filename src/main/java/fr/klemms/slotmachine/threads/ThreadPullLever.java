@@ -213,7 +213,7 @@ public class ThreadPullLever extends Thread {
 		} catch(Exception e) {
 			e.printStackTrace();
 			Issue.newIssue(IssueType.REWARD_EXCEPTION, e.getMessage() + " // Reward : " + wonItem.getRealName() + " to " + player.getName(), true);
-			Bukkit.getLogger().log(Level.WARNING, "Couldn't give reward (" + wonItem.getRealName() + ") to " + player.getName());
+			SlotPlugin.pl.getLogger().log(Level.WARNING, "Couldn't give reward (" + wonItem.getRealName() + ") to " + player.getName());
 			ExceptionCollector.sendException(SlotPlugin.pl, e);
 		}
 	}

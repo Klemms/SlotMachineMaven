@@ -70,7 +70,7 @@ public class CommandSlotMachineTokens implements CommandExecutor {
 								player.sendMessage(ChatContent.AQUA + "[Slot Machine] Have an item in your main hand before executing this command");
 							return true;
 						}
-						player.sendMessage(ChatContent.RED + "[Slot machine] Please add an identifier for this Token");
+						player.sendMessage(ChatContent.RED + "[Slot Machine] Please add an identifier for this Token");
 						return false;
 					default:
 						return false;
@@ -78,7 +78,7 @@ public class CommandSlotMachineTokens implements CommandExecutor {
 			}
 			return false;
 		}
-		sender.sendMessage(ChatContent.RED + "[Slot machine] You must be a player");
+		sender.sendMessage(ChatContent.RED + "[Slot Machine] You must be a player");
 		return false;
 	}
 }

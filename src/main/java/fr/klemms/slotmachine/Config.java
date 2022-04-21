@@ -125,13 +125,13 @@ public class Config {
 								if (SlotMachineType.valueOf(ymlFile.getString("machineType")) == SlotMachineType.ENTITY) {
 									if (!SlotPlugin.isCitizensEnabled || CitizensAPI.getNPCRegistry().getByUniqueId(UUID.fromString(ymlFile.getString("entityUID"))) == null) {
 										if(SlotMachineType.valueOf(ymlFile.getString("machineType")) == SlotMachineType.ENTITY && EntityUtil.getEntityByUID(UUID.fromString(ymlFile.getString("worldUID")), ymlFile.getInt("chunkX"), ymlFile.getInt("chunkZ"), UUID.fromString(ymlFile.getString("entityUID"))) == null) {
-											Bukkit.getLogger().log(Level.SEVERE, Language.translate("load.slotmachine.entitynotfound").replace("%entityUUID%", ymlFile.getString("entityUID")));
+											SlotPlugin.pl.getLogger().log(Level.SEVERE, Language.translate("load.slotmachine.entitynotfound").replace("%entityUUID%", ymlFile.getString("entityUID")));
 										}
 									}
 								}
 							} else {
 								Issue.newIssue(IssueType.MACHINE_READING_ISSUE, "Machine in file " + file.getName() + " has no, or a wrong 'machineType'", true);
-								Bukkit.getLogger().log(Level.SEVERE, "Machine in file " + file.getName() + " has no, or a wrong 'machineType', it will be loaded as an ENTITY");
+								SlotPlugin.pl.getLogger().log(Level.SEVERE, "Machine in file " + file.getName() + " has no, or a wrong 'machineType', it will be loaded as an ENTITY");
 							}
 						} catch(Exception e) {
 							e.printStackTrace();
@@ -286,7 +286,7 @@ public class Config {
 										}
 									} else {
 										Issue.newIssue(IssueType.MACHINE_READING_ISSUE, "Machine " + slotMachine.getMachineUUID().toString() + " has a malformed item reward (" + str + ")", true);
-										Bukkit.getLogger().log(Level.SEVERE, "Machine " + slotMachine.getMachineUUID().toString() + " has a malformed item reward (" + str + "), we're not loading this reward");
+										SlotPlugin.pl.getLogger().log(Level.SEVERE, "Machine " + slotMachine.getMachineUUID().toString() + " has a malformed item reward (" + str + "), we're not loading this reward");
 									}
 								}
 								MachineItem it = new MachineItem(ymlFile.getItemStack("items." + b + ".item"), ymlFile.getInt("items." + b + ".weight"), rewards);
@@ -335,7 +335,7 @@ public class Config {
 						}
 					}
 				} else {
-					//Bukkit.getLogger().log(Level.SEVERE, Language.translate("load.slotmachine.entitynotfound").replace("%entityUUID%", SlotPlugin.pl.getConfig().getString("slotMachine." + a + ".entityUID")));
+					//SlotPlugin.pl.getLogger().log(Level.SEVERE, Language.translate("load.slotmachine.entitynotfound").replace("%entityUUID%", SlotPlugin.pl.getConfig().getString("slotMachine." + a + ".entityUID")));
 				}
 				SlotMachine slotMachine = null;
 				switch(SlotMachineType.valueOf(SlotPlugin.pl.getConfig().getString("slotMachine." + a + ".machineType"))) {
@@ -391,7 +391,7 @@ public class Config {
 									rewards.add(new MachineItem.Reward(SlotPlugin.pl.getConfig().getString("items." + b + ".rewards." + str + ".command")));
 								}
 							} else {
-								Bukkit.getLogger().log(Level.SEVERE, "Machine " + slotMachine.getMachineUUID().toString() + " has a malformed item reward (" + str + "), we're not loading this reward");
+								SlotPlugin.pl.getLogger().log(Level.SEVERE, "Machine " + slotMachine.getMachineUUID().toString() + " has a malformed item reward (" + str + "), we're not loading this reward");
 							}
 						}
 						
@@ -423,7 +423,7 @@ public class Config {
 						}
 					}
 				} else {
-					Bukkit.getLogger().log(Level.SEVERE, Language.translate("load.slotmachine.entitynotfound").replace("%entityUUID%", SlotPlugin.pl.getConfig().getString("slotMachine." + a + ".entityUID")));
+					SlotPlugin.pl.getLogger().log(Level.SEVERE, Language.translate("load.slotmachine.entitynotfound").replace("%entityUUID%", SlotPlugin.pl.getConfig().getString("slotMachine." + a + ".entityUID")));
 				}
 				SlotMachineEntity slotMachineEntity = new SlotMachineEntity(UUID.fromString(SlotPlugin.pl.getConfig().getString("slotMachine." + a + ".entityUID")), UUID.fromString(SlotPlugin.pl.getConfig().getString("slotMachine." + a + ".worldUID")), SlotPlugin.pl.getConfig().getInt("slotMachine." + a + ".chunkX"), SlotPlugin.pl.getConfig().getInt("slotMachine." + a + ".chunkZ"));
 				slotMachineEntity.setGuiPermission(SlotPlugin.pl.getConfig().getString("slotMachine." + a + ".guiPermission"));
