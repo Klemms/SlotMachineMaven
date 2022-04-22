@@ -1,15 +1,17 @@
 package fr.klemms.slotmachine.fr.minuskube.inv.content;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
+
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import fr.klemms.slotmachine.fr.minuskube.inv.ClickableItem;
 import fr.klemms.slotmachine.fr.minuskube.inv.SmartInventory;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
 
 public interface InventoryContents {
 
@@ -53,7 +55,7 @@ public interface InventoryContents {
     class Impl implements InventoryContents {
 
         private SmartInventory inv;
-        private Player player;
+        private UUID player;
 
         private ClickableItem[][] contents;
 
@@ -61,7 +63,7 @@ public interface InventoryContents {
         private Map<String, SlotIterator> iterators = new HashMap<>();
         private Map<String, Object> properties = new HashMap<>();
 
-        public Impl(SmartInventory inv, Player player) {
+        public Impl(SmartInventory inv, UUID player) {
             this.inv = inv;
             this.player = player;
             this.contents = new ClickableItem[inv.getRows()][inv.getColumns()];
@@ -235,10 +237,11 @@ public interface InventoryContents {
         }
 
         private void update(int row, int column, ItemStack item) {
-            if(!inv.getManager().getOpenedPlayers(inv).contains(player))
+        	Player currentPlayer = Bukkit.getPlayer(player);
+            if(!inv.getManager().getOpenedPlayers(inv).contains(currentPlayer))
                 return;
 
-            Inventory topInventory = player.getOpenInventory().getTopInventory();
+            Inventory topInventory = currentPlayer.getOpenInventory().getTopInventory();
             topInventory.setItem(inv.getColumns() * row + column, item);
         }
 
