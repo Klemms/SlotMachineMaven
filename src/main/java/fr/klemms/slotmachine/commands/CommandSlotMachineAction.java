@@ -41,7 +41,7 @@ public class CommandSlotMachineAction implements CommandExecutor {
 				
 				if(!args[0].equalsIgnoreCase("createblockslotmachine")) {
 					uuid = UUID.fromString(args[1]);
-					entity = EntityUtil.getEntityInWorld(uuid);
+					entity = EntityUtil.getEntityByUUID(uuid);
 					slotMachine = SlotMachine.getSlotMachineByUUID(uuid);
 					if(slotMachine == null && entity != null) {
 						slotMachine = SlotMachineEntity.getSlotMachineByEntityUUID(entity.getUniqueId());
