@@ -24,7 +24,7 @@ public class ThreadChangeEntityName extends Thread {
 	
 	@Override
 	public void run() {
-		Entity entity = EntityUtil.getEntityByUID(this.worldUID, this.chunkX, this.chunkZ, this.entityUID);
+		Entity entity = EntityUtil.getEntityByUUIDLoadChunks(this.worldUID, this.chunkX, this.chunkZ, this.entityUID);
 		if(entity != null) {
 			if(!this.customName.equals("null")) {
 				entity.setCustomName(ChatContent.translateColorCodes(this.customName));

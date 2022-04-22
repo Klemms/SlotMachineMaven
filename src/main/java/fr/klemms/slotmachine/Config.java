@@ -14,7 +14,6 @@ import java.util.logging.Level;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -31,7 +30,6 @@ import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.EntityUtil;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
 import fr.klemms.slotmachine.utils.Util;
-import net.citizensnpcs.api.CitizensAPI;
 
 public class Config {
 	
@@ -122,13 +120,14 @@ public class Config {
 					try {
 						try {
 							if(ymlFile.getString("machineType") != null) {
-								if (SlotMachineType.valueOf(ymlFile.getString("machineType")) == SlotMachineType.ENTITY) {
+								// Since getEntities on newly loaded chunks doesnt work, remove this
+								/*if (SlotMachineType.valueOf(ymlFile.getString("machineType")) == SlotMachineType.ENTITY) {
 									if (!SlotPlugin.isCitizensEnabled || CitizensAPI.getNPCRegistry().getByUniqueId(UUID.fromString(ymlFile.getString("entityUID"))) == null) {
-										if(SlotMachineType.valueOf(ymlFile.getString("machineType")) == SlotMachineType.ENTITY && EntityUtil.getEntityByUID(UUID.fromString(ymlFile.getString("worldUID")), ymlFile.getInt("chunkX"), ymlFile.getInt("chunkZ"), UUID.fromString(ymlFile.getString("entityUID"))) == null) {
+										if(SlotMachineType.valueOf(ymlFile.getString("machineType")) == SlotMachineType.ENTITY && EntityUtil.getEntityByUUIDLoadChunks(UUID.fromString(ymlFile.getString("worldUID")), ymlFile.getInt("chunkX"), ymlFile.getInt("chunkZ"), UUID.fromString(ymlFile.getString("entityUID"))) == null) {
 											SlotPlugin.pl.getLogger().log(Level.SEVERE, Language.translate("load.slotmachine.entitynotfound").replace("%entityUUID%", ymlFile.getString("entityUID")));
 										}
 									}
-								}
+								}*/
 							} else {
 								Issue.newIssue(IssueType.MACHINE_READING_ISSUE, "Machine in file " + file.getName() + " has no, or a wrong 'machineType'", true);
 								SlotPlugin.pl.getLogger().log(Level.SEVERE, "Machine in file " + file.getName() + " has no, or a wrong 'machineType', it will be loaded as an ENTITY");
@@ -326,8 +325,8 @@ public class Config {
 		if(SlotPlugin.pl.getConfig().getInt("pluginVersion") == 2 || SlotPlugin.pl.getConfig().getInt("pluginVersion") == 3) {
 			plugin.getLogger().log(Level.INFO, Language.translate("config.version.or").replace("%version1%", "2").replace("%version2%", "3"));
 			for(int a = 0; a < SlotPlugin.pl.getConfig().getInt("slotMachineCount"); a++) {
-				if(EntityUtil.getEntityByUID(UUID.fromString(SlotPlugin.pl.getConfig().getString("slotMachine." + a + ".worldUID")), SlotPlugin.pl.getConfig().getInt("slotMachine." + a + ".chunkX"), SlotPlugin.pl.getConfig().getInt("slotMachine." + a + ".chunkZ"), UUID.fromString(SlotPlugin.pl.getConfig().getString("slotMachine." + a + ".entityUID"))) != null) {
-					Entity entity = EntityUtil.getEntityByUID(UUID.fromString(SlotPlugin.pl.getConfig().getString("slotMachine." + a + ".worldUID")), SlotPlugin.pl.getConfig().getInt("slotMachine." + a + ".chunkX"), SlotPlugin.pl.getConfig().getInt("slotMachine." + a + ".chunkZ"), UUID.fromString(SlotPlugin.pl.getConfig().getString("slotMachine." + a + ".entityUID")));
+				if(EntityUtil.getEntityByUUIDLoadChunks(UUID.fromString(SlotPlugin.pl.getConfig().getString("slotMachine." + a + ".worldUID")), SlotPlugin.pl.getConfig().getInt("slotMachine." + a + ".chunkX"), SlotPlugin.pl.getConfig().getInt("slotMachine." + a + ".chunkZ"), UUID.fromString(SlotPlugin.pl.getConfig().getString("slotMachine." + a + ".entityUID"))) != null) {
+					Entity entity = EntityUtil.getEntityByUUIDLoadChunks(UUID.fromString(SlotPlugin.pl.getConfig().getString("slotMachine." + a + ".worldUID")), SlotPlugin.pl.getConfig().getInt("slotMachine." + a + ".chunkX"), SlotPlugin.pl.getConfig().getInt("slotMachine." + a + ".chunkZ"), UUID.fromString(SlotPlugin.pl.getConfig().getString("slotMachine." + a + ".entityUID")));
 					if(entity instanceof LivingEntity) {
 						if(!((LivingEntity)entity).hasAI()) {
 							((LivingEntity)entity).setAI(true);
@@ -414,8 +413,8 @@ public class Config {
 		if(SlotPlugin.pl.getConfig().getInt("pluginVersion") == 1) {
 			plugin.getLogger().log(Level.INFO, Language.translate("config.version").replace("%version%", "1"));
 			for(int a = 0; a < SlotPlugin.pl.getConfig().getInt("slotMachineCount"); a++) {
-				if(EntityUtil.getEntityByUID(UUID.fromString(SlotPlugin.pl.getConfig().getString("slotMachine." + a + ".worldUID")), SlotPlugin.pl.getConfig().getInt("slotMachine." + a + ".chunkX"), SlotPlugin.pl.getConfig().getInt("slotMachine." + a + ".chunkZ"), UUID.fromString(SlotPlugin.pl.getConfig().getString("slotMachine." + a + ".entityUID"))) != null) {
-					Entity entity = EntityUtil.getEntityByUID(UUID.fromString(SlotPlugin.pl.getConfig().getString("slotMachine." + a + ".worldUID")), SlotPlugin.pl.getConfig().getInt("slotMachine." + a + ".chunkX"), SlotPlugin.pl.getConfig().getInt("slotMachine." + a + ".chunkZ"), UUID.fromString(SlotPlugin.pl.getConfig().getString("slotMachine." + a + ".entityUID")));
+				if(EntityUtil.getEntityByUUIDLoadChunks(UUID.fromString(SlotPlugin.pl.getConfig().getString("slotMachine." + a + ".worldUID")), SlotPlugin.pl.getConfig().getInt("slotMachine." + a + ".chunkX"), SlotPlugin.pl.getConfig().getInt("slotMachine." + a + ".chunkZ"), UUID.fromString(SlotPlugin.pl.getConfig().getString("slotMachine." + a + ".entityUID"))) != null) {
+					Entity entity = EntityUtil.getEntityByUUIDLoadChunks(UUID.fromString(SlotPlugin.pl.getConfig().getString("slotMachine." + a + ".worldUID")), SlotPlugin.pl.getConfig().getInt("slotMachine." + a + ".chunkX"), SlotPlugin.pl.getConfig().getInt("slotMachine." + a + ".chunkZ"), UUID.fromString(SlotPlugin.pl.getConfig().getString("slotMachine." + a + ".entityUID")));
 					if(entity instanceof LivingEntity) {
 						if(!((LivingEntity)entity).hasAI()) {
 							((LivingEntity)entity).setAI(true);
