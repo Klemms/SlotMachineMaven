@@ -1,10 +1,13 @@
 package fr.klemms.slotmachine;
 
-import fr.klemms.slotmachine.utils.EntityUtil;
-import org.bukkit.entity.Entity;
-
 import java.util.List;
 import java.util.UUID;
+
+import org.bukkit.entity.Entity;
+
+import fr.klemms.slotmachine.utils.EntityUtil;
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.npc.NPC;
 
 public class SlotMachineEntity extends SlotMachine {
 	
@@ -42,7 +45,18 @@ public class SlotMachineEntity extends SlotMachine {
 		return this;
 	}
 
+	/**
+	 * This will NOT load chunks
+	 * @return
+	 */
 	public Entity getEntity() {
-		return EntityUtil.getEntityByUID(this.getWorldUID(), this.getChunkX(), this.getChunkZ(), this.getEntityUUID());
+		if (this.isCitizensNPC()) {
+			NPC npc = CitizensAPI.getNPCRegistry().getByUniqueId(this.getEntityUUID());
+			
+			if (npc != null)
+				return npc.getEntity();
+		}
+		
+		return EntityUtil.getEntityByUUID(this.getEntityUUID());
 	}
 }
