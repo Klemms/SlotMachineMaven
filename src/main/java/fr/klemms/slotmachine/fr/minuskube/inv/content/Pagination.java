@@ -92,7 +92,8 @@ public interface Pagination {
         		this.currentPage = 0;
         		return this;
         	} else {
-                this.currentPage = this.items.length / this.itemsPerPage - 1;
+        		float totalItems = this.items.length;
+                this.currentPage = (int)(Math.ceil(totalItems/ this.itemsPerPage) - 1);
                 return this;
         	}
         }
