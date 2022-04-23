@@ -141,14 +141,13 @@ public class Config {
 						}
 						SlotMachine slotMachine = null;
 						UUID worldUUID = UUID.fromString(ymlFile.getString("worldUID"));
-						UUID entityUUID = UUID.fromString(ymlFile.getString("entityUID"));
 						
 						switch(SlotMachineType.valueOf(ymlFile.getString("machineType"))) {
 							case BLOCK:
 								slotMachine = new SlotMachineBlock(ymlFile.getInt("blockX"), ymlFile.getInt("blockY"), ymlFile.getInt("blockZ"), ymlFile.getBoolean("locked"), worldUUID, ymlFile.getInt("chunkX"), ymlFile.getInt("chunkZ"));
 								break;
 							case ENTITY:
-								slotMachine = new SlotMachineEntity(entityUUID, worldUUID, ymlFile.getInt("chunkX"), ymlFile.getInt("chunkZ"));
+								slotMachine = new SlotMachineEntity(UUID.fromString(ymlFile.getString("entityUID")), worldUUID, ymlFile.getInt("chunkX"), ymlFile.getInt("chunkZ"));
 								break;
 						}
 						slotMachine.setMachineUUID(machineUUID);
