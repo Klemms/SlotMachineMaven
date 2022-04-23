@@ -123,6 +123,11 @@ public class Config {
 								Issue.newIssue(IssueType.MACHINE_READING_ISSUE, "Machine in file " + file.getName() + " has no 'machineType', it will be loaded as an ENTITY", true);
 								SlotPlugin.pl.getLogger().log(Level.SEVERE, "Machine in file " + file.getName() + " has no 'machineType', it will be loaded as an ENTITY");
 							}
+							if(ymlFile.getString("machineUUID") == null) {
+								Issue.newIssue(IssueType.MACHINE_READING_ISSUE, "Machine in file " + file.getName() + " has no 'machineUUID', this machine WON'T be loaded", true);
+								SlotPlugin.pl.getLogger().log(Level.SEVERE, "Machine in file " + file.getName() + " has no 'machineUUID', this machine WON'T be loaded");
+								continue;
+							}
 						} catch(Exception e) {
 							e.printStackTrace();
 							ExceptionCollector.sendException(plugin, e);
