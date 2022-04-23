@@ -36,7 +36,8 @@ public class Issue {
 		MACHINE_REMOVAL_EXCEPTION("An important exception occured when removing a machine : "),
 		MACHINE_READING_ISSUE("An issue occured when loading a machine : "),
 		REWARD_EXCEPTION("An important exception occured giving a reward to a player : "),
-		WRITE_EXCEPTION("An important exception occured when saving files : ");
+		WRITE_EXCEPTION("An important exception occured when saving files : "),
+		MACHINES_BACKUP("An important exception occured while making backups for your machines : ");
 		
 		public String title;
 		

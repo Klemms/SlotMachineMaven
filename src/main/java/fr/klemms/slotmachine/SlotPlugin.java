@@ -25,6 +25,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.bencodez.votingplugin.VotingPluginHooks;
 
+import fr.klemms.slotmachine.Issue.IssueType;
 import fr.klemms.slotmachine.MachineItem.RewardType;
 import fr.klemms.slotmachine.clipboard.Clipboards;
 import fr.klemms.slotmachine.commands.CommandCooldown;
@@ -260,6 +261,7 @@ public class SlotPlugin extends JavaPlugin {
 			} catch (IOException e) {
 				this.getLogger().log(Level.INFO, "Removing old backup failed");
 				e.printStackTrace();
+				Issue.newIssue(IssueType.MACHINES_BACKUP, "Removing old backups failed, see your server logs for the related exception.", true);
 				ExceptionCollector.sendException(SlotPlugin.pl, e);
 			}
 			try {
@@ -268,6 +270,7 @@ public class SlotPlugin extends JavaPlugin {
 			} catch (IOException e) {
 				this.getLogger().log(Level.INFO, "Backup creation failed");
 				e.printStackTrace();
+				Issue.newIssue(IssueType.MACHINES_BACKUP, "Creating a backup for your machines failed, see your server logs for the related exception.", true);
 				ExceptionCollector.sendException(SlotPlugin.pl, e);
 			}
 		}
