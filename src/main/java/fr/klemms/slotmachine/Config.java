@@ -118,19 +118,26 @@ public class Config {
 					YamlConfiguration ymlFile = YamlConfiguration.loadConfiguration(file);
 					plugin.getLogger().log(Level.INFO, Language.translate("load.slotmachine.loading").replace("%file%", file.getName()));
 					try {
+						UUID machineUUID;
 						try {
 							if(ymlFile.getString("machineType") == null) {
 								Issue.newIssue(IssueType.MACHINE_READING_ISSUE, "Machine in file " + file.getName() + " has no 'machineType', it will be loaded as an ENTITY", true);
 								SlotPlugin.pl.getLogger().log(Level.SEVERE, "Machine in file " + file.getName() + " has no 'machineType', it will be loaded as an ENTITY");
 							}
 							if(ymlFile.getString("machineUUID") == null) {
-								Issue.newIssue(IssueType.MACHINE_READING_ISSUE, "Machine in file " + file.getName() + " has no 'machineUUID', this machine WON'T be loaded", true);
-								SlotPlugin.pl.getLogger().log(Level.SEVERE, "Machine in file " + file.getName() + " has no 'machineUUID', this machine WON'T be loaded");
+								Issue.newIssue(IssueType.MACHINE_READING_ISSUE, "Machine in file " + file.getName() + " has no 'machineUUID', we will try using the file name as this machine's UUID instead", true);
+								SlotPlugin.pl.getLogger().log(Level.SEVERE, "Machine in file " + file.getName() + " has no 'machineUUID', we will try using the file name as this machine's UUID instead");
+								machineUUID = UUID.fromString(FilenameUtils.getBaseName(file.getName()));
 								continue;
+							} else {
+								machineUUID = UUID.fromString(ymlFile.getString("machineUUID"));
 							}
 						} catch(Exception e) {
 							e.printStackTrace();
+							Issue.newIssue(IssueType.MACHINE_READING_ISSUE, "Machine in file " + file.getName() + " could not be loaded, see the related exception in server logs", true);
+							SlotPlugin.pl.getLogger().log(Level.SEVERE, "Machine in file " + file.getName() + " could not be loaded, see the related exception");
 							ExceptionCollector.sendException(plugin, e);
+							continue;
 						}
 						SlotMachine slotMachine = null;
 						UUID worldUUID = UUID.fromString(ymlFile.getString("worldUID"));
@@ -149,7 +156,7 @@ public class Config {
 								slotMachine = new SlotMachineEntity(entityUUID, worldUUID, ymlFile.getInt("chunkX"), ymlFile.getInt("chunkZ"));
 								break;
 						}
-						slotMachine.setMachineUUID(UUID.fromString(ymlFile.getString("machineUUID")));
+						slotMachine.setMachineUUID(machineUUID);
 						slotMachine.setGuiPermission(ymlFile.getString("guiPermission"));
 						slotMachine.setSlotMachineName(ymlFile.getString("slotMachineName"));
 						slotMachine.setPullPrice(ymlFile.getDouble("pullPrice"));
