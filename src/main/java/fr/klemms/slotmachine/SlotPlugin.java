@@ -270,7 +270,7 @@ public class SlotPlugin extends JavaPlugin {
 			} catch (IOException e) {
 				this.getLogger().log(Level.INFO, "Backup creation failed");
 				e.printStackTrace();
-				Issue.newIssue(IssueType.MACHINES_BACKUP, "Creating a backup for your machines failed, see your server logs for the related exception.", true);
+				Issue.newIssue(IssueType.MACHINES_BACKUP, "Creating a backup for your machines failed, see your server logs for the related exception. Your disk may be FULL.", true);
 				ExceptionCollector.sendException(SlotPlugin.pl, e);
 			}
 		}
