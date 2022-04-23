@@ -120,15 +120,15 @@ public class Config {
 					try {
 						UUID machineUUID;
 						try {
-							if(ymlFile.getString("machineType") == null) {
-								Issue.newIssue(IssueType.MACHINE_READING_ISSUE, "Machine in file " + file.getName() + " has no 'machineType', it will be loaded as an ENTITY", true);
-								SlotPlugin.pl.getLogger().log(Level.SEVERE, "Machine in file " + file.getName() + " has no 'machineType', it will be loaded as an ENTITY");
+							if(!ymlFile.contains("machineType") || ymlFile.getString("machineType") == null) {
+								Issue.newIssue(IssueType.MACHINE_READING_ISSUE, "Machine in file " + file.getName() + " has no 'machineType', it WON'T be loaded, please fix this in the machine file. (Must be ENTITY or BLOCK)", true);
+								SlotPlugin.pl.getLogger().log(Level.SEVERE, "Machine in file " + file.getName() + " has no 'machineType', it WON'T be loaded, please fix this in the machine file. (Must be ENTITY or BLOCK)");
+								continue;
 							}
 							if(ymlFile.getString("machineUUID") == null) {
 								Issue.newIssue(IssueType.MACHINE_READING_ISSUE, "Machine in file " + file.getName() + " has no 'machineUUID', we will try using the file name as this machine's UUID instead", true);
 								SlotPlugin.pl.getLogger().log(Level.SEVERE, "Machine in file " + file.getName() + " has no 'machineUUID', we will try using the file name as this machine's UUID instead");
 								machineUUID = UUID.fromString(FilenameUtils.getBaseName(file.getName()));
-								continue;
 							} else {
 								machineUUID = UUID.fromString(ymlFile.getString("machineUUID"));
 							}
@@ -148,11 +148,6 @@ public class Config {
 								slotMachine = new SlotMachineBlock(ymlFile.getInt("blockX"), ymlFile.getInt("blockY"), ymlFile.getInt("blockZ"), ymlFile.getBoolean("locked"), worldUUID, ymlFile.getInt("chunkX"), ymlFile.getInt("chunkZ"));
 								break;
 							case ENTITY:
-								slotMachine = new SlotMachineEntity(entityUUID, worldUUID, ymlFile.getInt("chunkX"), ymlFile.getInt("chunkZ"));
-								break;
-							default:
-								Issue.newIssue(IssueType.MACHINE_READING_ISSUE, "Machine in file " + file.getName() + " has a wrong 'machineType', it will be loaded as an ENTITY", true);
-								SlotPlugin.pl.getLogger().log(Level.SEVERE, "Machine in file " + file.getName() + " has a wrong 'machineType', it will be loaded as an ENTITY");
 								slotMachine = new SlotMachineEntity(entityUUID, worldUUID, ymlFile.getInt("chunkX"), ymlFile.getInt("chunkZ"));
 								break;
 						}
