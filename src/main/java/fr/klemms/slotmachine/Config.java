@@ -119,17 +119,8 @@ public class Config {
 					plugin.getLogger().log(Level.INFO, Language.translate("load.slotmachine.loading").replace("%file%", file.getName()));
 					try {
 						try {
-							if(ymlFile.getString("machineType") != null) {
-								// Since getEntities on newly loaded chunks doesnt work, remove this
-								/*if (SlotMachineType.valueOf(ymlFile.getString("machineType")) == SlotMachineType.ENTITY) {
-									if (!SlotPlugin.isCitizensEnabled || CitizensAPI.getNPCRegistry().getByUniqueId(UUID.fromString(ymlFile.getString("entityUID"))) == null) {
-										if(SlotMachineType.valueOf(ymlFile.getString("machineType")) == SlotMachineType.ENTITY && EntityUtil.getEntityByUUIDLoadChunks(UUID.fromString(ymlFile.getString("worldUID")), ymlFile.getInt("chunkX"), ymlFile.getInt("chunkZ"), UUID.fromString(ymlFile.getString("entityUID"))) == null) {
-											SlotPlugin.pl.getLogger().log(Level.SEVERE, Language.translate("load.slotmachine.entitynotfound").replace("%entityUUID%", ymlFile.getString("entityUID")));
-										}
-									}
-								}*/
-							} else {
-								Issue.newIssue(IssueType.MACHINE_READING_ISSUE, "Machine in file " + file.getName() + " has no, or a wrong 'machineType'", true);
+							if(ymlFile.getString("machineType") == null) {
+								Issue.newIssue(IssueType.MACHINE_READING_ISSUE, "Machine in file " + file.getName() + " has no, or a wrong 'machineType', it will be loaded as an ENTITY", true);
 								SlotPlugin.pl.getLogger().log(Level.SEVERE, "Machine in file " + file.getName() + " has no, or a wrong 'machineType', it will be loaded as an ENTITY");
 							}
 						} catch(Exception e) {
@@ -137,15 +128,18 @@ public class Config {
 							ExceptionCollector.sendException(plugin, e);
 						}
 						SlotMachine slotMachine = null;
+						UUID worldUUID = UUID.fromString(ymlFile.getString("worldUID"));
+						UUID entityUUID = UUID.fromString(ymlFile.getString("entityUID"));
+						
 						switch(SlotMachineType.valueOf(ymlFile.getString("machineType"))) {
 							case BLOCK:
-								slotMachine = new SlotMachineBlock(ymlFile.getInt("blockX"), ymlFile.getInt("blockY"), ymlFile.getInt("blockZ"), ymlFile.getBoolean("locked"), UUID.fromString(ymlFile.getString("worldUID")), ymlFile.getInt("chunkX"), ymlFile.getInt("chunkZ"));
+								slotMachine = new SlotMachineBlock(ymlFile.getInt("blockX"), ymlFile.getInt("blockY"), ymlFile.getInt("blockZ"), ymlFile.getBoolean("locked"), worldUUID, ymlFile.getInt("chunkX"), ymlFile.getInt("chunkZ"));
 								break;
 							case ENTITY:
-								slotMachine = new SlotMachineEntity(UUID.fromString(ymlFile.getString("entityUID")), UUID.fromString(ymlFile.getString("worldUID")), ymlFile.getInt("chunkX"), ymlFile.getInt("chunkZ"));
+								slotMachine = new SlotMachineEntity(entityUUID, worldUUID, ymlFile.getInt("chunkX"), ymlFile.getInt("chunkZ"));
 								break;
 							default:
-								slotMachine = new SlotMachineEntity(UUID.fromString(ymlFile.getString("entityUID")), UUID.fromString(ymlFile.getString("worldUID")), ymlFile.getInt("chunkX"), ymlFile.getInt("chunkZ"));
+								slotMachine = new SlotMachineEntity(entityUUID, worldUUID, ymlFile.getInt("chunkX"), ymlFile.getInt("chunkZ"));
 								break;
 						}
 						slotMachine.setMachineUUID(UUID.fromString(ymlFile.getString("machineUUID")));
