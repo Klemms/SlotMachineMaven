@@ -120,7 +120,7 @@ public class Config {
 					try {
 						UUID machineUUID;
 						try {
-							if(!ymlFile.contains("machineType") || ymlFile.getString("machineType") == null) {
+							if(!ymlFile.contains("machineType") || ymlFile.getString("machineType") == null || SlotMachineType.valueOf(ymlFile.getString("machineType")) == null) {
 								Issue.newIssue(IssueType.MACHINE_READING_ISSUE, "Machine in file " + file.getName() + " has no 'machineType', it WON'T be loaded, please fix this in the machine file. (Must be ENTITY or BLOCK)", true);
 								SlotPlugin.pl.getLogger().log(Level.SEVERE, "Machine in file " + file.getName() + " has no 'machineType', it WON'T be loaded, please fix this in the machine file. (Must be ENTITY or BLOCK)");
 								continue;
