@@ -120,8 +120,8 @@ public class Config {
 					try {
 						try {
 							if(ymlFile.getString("machineType") == null) {
-								Issue.newIssue(IssueType.MACHINE_READING_ISSUE, "Machine in file " + file.getName() + " has no, or a wrong 'machineType', it will be loaded as an ENTITY", true);
-								SlotPlugin.pl.getLogger().log(Level.SEVERE, "Machine in file " + file.getName() + " has no, or a wrong 'machineType', it will be loaded as an ENTITY");
+								Issue.newIssue(IssueType.MACHINE_READING_ISSUE, "Machine in file " + file.getName() + " has no 'machineType', it will be loaded as an ENTITY", true);
+								SlotPlugin.pl.getLogger().log(Level.SEVERE, "Machine in file " + file.getName() + " has no 'machineType', it will be loaded as an ENTITY");
 							}
 						} catch(Exception e) {
 							e.printStackTrace();
@@ -139,6 +139,8 @@ public class Config {
 								slotMachine = new SlotMachineEntity(entityUUID, worldUUID, ymlFile.getInt("chunkX"), ymlFile.getInt("chunkZ"));
 								break;
 							default:
+								Issue.newIssue(IssueType.MACHINE_READING_ISSUE, "Machine in file " + file.getName() + " has a wrong 'machineType', it will be loaded as an ENTITY", true);
+								SlotPlugin.pl.getLogger().log(Level.SEVERE, "Machine in file " + file.getName() + " has a wrong 'machineType', it will be loaded as an ENTITY");
 								slotMachine = new SlotMachineEntity(entityUUID, worldUUID, ymlFile.getInt("chunkX"), ymlFile.getInt("chunkZ"));
 								break;
 						}
