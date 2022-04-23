@@ -89,8 +89,10 @@ public class CSGOVerticalLayout implements InventoryProvider {
 							player.sendMessage(Variables.getFormattedString(Language.translate(Config.goodLuckDefaultString), player, machine));
 							player.playSound(player.getLocation(), machine.getLeverSound(), 1.9f, 1.2f);
 							Bukkit.getScheduler().runTaskLaterAsynchronously(SlotPlugin.pl, new ThreadPullLever(player, machine, contents, callback -> {
-								machine.setPlayerRolling(player, false);
-								SlotPlugin.saveToDisk();
+								Bukkit.getScheduler().runTask(SlotPlugin.pl, () -> {
+									machine.setPlayerRolling(player, false);
+									SlotPlugin.saveToDisk();
+								});
 							}), 0);
 							machine.openMachine(player, false);
 						}
