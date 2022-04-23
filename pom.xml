@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ovh.klemms</groupId>
 	<artifactId>slotmachine</artifactId>
-	<version>6.5.6-SPIGOT</version>
+	<version>6.5.7-SPIGOT</version>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
