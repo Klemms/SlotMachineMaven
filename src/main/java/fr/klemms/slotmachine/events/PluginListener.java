@@ -1,11 +1,14 @@
 package fr.klemms.slotmachine.events;
 
-import java.util.UUID;
-
+import fr.klemms.slotmachine.*;
+import fr.klemms.slotmachine.threads.ThreadChangeEntityName;
+import fr.klemms.slotmachine.translation.Language;
+import fr.klemms.slotmachine.utils.PlayerUtil;
+import fr.klemms.slotmachine.utils.Util;
+import net.citizensnpcs.api.CitizensAPI;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,30 +17,11 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerFishEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.event.player.PlayerFishEvent.State;
-import org.bukkit.event.player.PlayerInteractAtEntityEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerKickEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
-import fr.klemms.slotmachine.ChatContent;
-import fr.klemms.slotmachine.Config;
-import fr.klemms.slotmachine.MachineMethods;
-import fr.klemms.slotmachine.SlotMachine;
-import fr.klemms.slotmachine.SlotMachineBlock;
-import fr.klemms.slotmachine.SlotMachineEntity;
-import fr.klemms.slotmachine.SlotMachineType;
-import fr.klemms.slotmachine.SlotPlugin;
-import fr.klemms.slotmachine.threads.ThreadChangeEntityName;
-import fr.klemms.slotmachine.translation.Language;
-import fr.klemms.slotmachine.utils.PlayerUtil;
-import fr.klemms.slotmachine.utils.Util;
-import net.citizensnpcs.api.CitizensAPI;
+import java.util.UUID;
 
 public class PluginListener implements Listener {
 	
@@ -64,7 +48,7 @@ public class PluginListener implements Listener {
 		
 		if (event.getHand().equals(EquipmentSlot.HAND)) {
 			boolean openSlotMachine = true;
-			if(event.getPlayer().getInventory().getItemInMainHand() != null && event.getPlayer().getInventory().getItemInMainHand().getType() == Material.BLAZE_ROD) {
+			if(event.getPlayer().getInventory().getItemInMainHand() != null && event.getPlayer().getInventory().getItemInMainHand().getType() == Config.adminToolMaterial) {
 				if(event.getPlayer().hasPermission("slotmachine.machineedit") || event.getPlayer().hasPermission("slotmachine.shopedit") || event.getPlayer().isOp()) {
 					event.setCancelled(true);
 					openSlotMachine = false;
@@ -296,7 +280,7 @@ public class PluginListener implements Listener {
 		
 		if (event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getHand().equals(EquipmentSlot.HAND)) {
 			boolean openSlotMachine = true;
-			if(event.getPlayer().getInventory().getItemInMainHand() != null && event.getPlayer().getInventory().getItemInMainHand().getType() == Material.BLAZE_ROD) {
+			if(event.getPlayer().getInventory().getItemInMainHand() != null && event.getPlayer().getInventory().getItemInMainHand().getType() == Config.adminToolMaterial) {
 				if(event.getPlayer().hasPermission("slotmachine.machineedit") || event.getPlayer().hasPermission("slotmachine.shopedit") || event.getPlayer().isOp()) {
 					event.setCancelled(true);
 					openSlotMachine = false;

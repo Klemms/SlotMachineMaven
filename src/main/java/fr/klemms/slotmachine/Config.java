@@ -1,16 +1,13 @@
 package fr.klemms.slotmachine;
 
-import java.io.File;
-import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
-import java.util.logging.Level;
-
+import fr.klemms.slotmachine.Issue.IssueType;
+import fr.klemms.slotmachine.MachineItem.Reward;
+import fr.klemms.slotmachine.MachineItem.RewardType;
+import fr.klemms.slotmachine.exceptioncollector.ExceptionCollector;
+import fr.klemms.slotmachine.translation.Language;
+import fr.klemms.slotmachine.utils.EntityUtil;
+import fr.klemms.slotmachine.utils.ItemStackUtil;
+import fr.klemms.slotmachine.utils.Util;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
@@ -22,14 +19,10 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import fr.klemms.slotmachine.Issue.IssueType;
-import fr.klemms.slotmachine.MachineItem.Reward;
-import fr.klemms.slotmachine.MachineItem.RewardType;
-import fr.klemms.slotmachine.exceptioncollector.ExceptionCollector;
-import fr.klemms.slotmachine.translation.Language;
-import fr.klemms.slotmachine.utils.EntityUtil;
-import fr.klemms.slotmachine.utils.ItemStackUtil;
-import fr.klemms.slotmachine.utils.Util;
+import java.io.File;
+import java.nio.file.Files;
+import java.util.*;
+import java.util.logging.Level;
 
 public class Config {
 	
@@ -58,6 +51,8 @@ public class Config {
 	
 	public static volatile HashMap<String, ItemStack> tokens = new HashMap<String, ItemStack>();
 
+	public static volatile Material adminToolMaterial = Material.BLAZE_ROD;
+
 	public static void registerConfig(JavaPlugin plugin) {
 		plugin.getConfig().options().header("IMPORTANT : When you need to add apostrophes : ' please add TWO apostrophes, like this '' otherwise the config file will be wiped");
 		plugin.getConfig().addDefault("debug", debug);
@@ -76,6 +71,7 @@ public class Config {
 		plugin.getConfig().addDefault("goodLuck", goodLuckDefaultString);
 		plugin.getConfig().addDefault("luckLevelToPercentConversion", luckLevelToPercentConversion);
 		plugin.getConfig().addDefault("badLuckLevelToPercentConversion", badLuckLevelToPercentConversion);
+		plugin.getConfig().addDefault("adminToolMaterial", adminToolMaterial.toString());
 		
 		plugin.getConfig().options().copyDefaults(true);
 		plugin.saveConfig();
@@ -102,6 +98,10 @@ public class Config {
 		goodLuckDefaultString = SlotPlugin.pl.getConfig().getString("goodLuck");
 		luckLevelToPercentConversion = SlotPlugin.pl.getConfig().getDouble("luckLevelToPercentConversion");
 		badLuckLevelToPercentConversion = SlotPlugin.pl.getConfig().getDouble("badLuckLevelToPercentConversion");
+		adminToolMaterial = Material.getMaterial(SlotPlugin.pl.getConfig().getString("adminToolMaterial"));
+
+		if (adminToolMaterial == null)
+			adminToolMaterial = Material.BLAZE_ROD;
 		
 		SlotPlugin.saveToDisk();
 	}
