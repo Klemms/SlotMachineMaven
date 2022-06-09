@@ -1,41 +1,10 @@
 package fr.klemms.slotmachine;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.Callable;
-import java.util.logging.Level;
-
-import org.apache.commons.io.FileUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import com.bencodez.votingplugin.VotingPluginHooks;
-
 import fr.klemms.slotmachine.Issue.IssueType;
 import fr.klemms.slotmachine.MachineItem.RewardType;
 import fr.klemms.slotmachine.clipboard.Clipboards;
-import fr.klemms.slotmachine.commands.CommandCooldown;
-import fr.klemms.slotmachine.commands.CommandGiveTokens;
-import fr.klemms.slotmachine.commands.CommandOpenMachine;
-import fr.klemms.slotmachine.commands.CommandSMSaveToDisk;
-import fr.klemms.slotmachine.commands.CommandSlotMachine;
-import fr.klemms.slotmachine.commands.CommandSlotMachineTokens;
-import fr.klemms.slotmachine.commands.CommandSlotMachineVersion;
-import fr.klemms.slotmachine.commands.CommandTPMachine;
+import fr.klemms.slotmachine.commands.*;
 import fr.klemms.slotmachine.events.PluginListener;
 import fr.klemms.slotmachine.exceptioncollector.ExceptionCollector;
 import fr.klemms.slotmachine.fr.minuskube.inv.InventoryManager;
@@ -45,19 +14,35 @@ import fr.klemms.slotmachine.utils.Util;
 import fr.klemms.slotmachine.utils.sounds.SoundToMaterialList_116;
 import fr.klemms.slotmachine.utils.sounds.SoundToMaterialList_117;
 import fr.klemms.slotmachine.utils.sounds.SoundToMaterialList_118;
+import fr.klemms.slotmachine.utils.sounds.SoundToMaterialList_119;
 import me.realized.tokenmanager.api.TokenManager;
 import net.milkbowl.vault.economy.Economy;
+import org.apache.commons.io.FileUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.text.DateFormat;
+import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.logging.Level;
 
 public class SlotPlugin extends JavaPlugin {
 	
-	public static final String MC_FOR = "Spigot 1.16/1.17/1.18";
+	public static final String MC_FOR = "Spigot 1.16/1.17/1.18/1.19";
 	public static final ItemStack DEFAULT_TOKEN = ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.GOLD_NUGGET, 1), ChatContent.GOLD + "Token"), Arrays.asList(ChatContent.AQUA + ChatContent.ITALIC + "Default Slot Machine Token"));
 	
 	public static volatile SlotPlugin pl;
 	public static Economy econ = null;
 	public static VotingPluginHooks votingPlugin = null;
 	public static final String BRANCH = "release";
-	public static final int VERSION = 75;
+	public static final int VERSION = 76;
 	public static final String PLUGIN_NAME = "Slot Machine";
 	public static volatile int webVersion = 0;
 	public static volatile String webURL = "https://www.spigotmc.org/resources/slotmachine.22023/";
@@ -107,9 +92,12 @@ public class SlotPlugin extends JavaPlugin {
 		} else if(Util.getMCVersion().startsWith("1.17")) {
 			this.getLogger().log(Level.INFO, "Using 1.17 Sound Mappings");
 			SoundToMaterialList_117.initList();
-		} else {
+		} else if(Util.getMCVersion().startsWith("1.18")) {
 			this.getLogger().log(Level.INFO, "Using 1.18 Sound Mappings");
 			SoundToMaterialList_118.initList();
+		} else {
+			this.getLogger().log(Level.INFO, "Using 1.19 Sound Mappings");
+			SoundToMaterialList_119.initList();
 		}
 		
 		if ((isCitizensEnabled = Bukkit.getPluginManager().isPluginEnabled("Citizens")))
