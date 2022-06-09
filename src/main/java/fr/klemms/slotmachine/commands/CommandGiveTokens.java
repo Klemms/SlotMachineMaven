@@ -1,9 +1,11 @@
 package fr.klemms.slotmachine.commands;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
-
+import fr.klemms.slotmachine.ChatContent;
+import fr.klemms.slotmachine.Config;
+import fr.klemms.slotmachine.tokens.Token;
+import fr.klemms.slotmachine.tokens.TokenSelectionListener;
+import fr.klemms.slotmachine.tokens.TokensInventory;
+import fr.klemms.slotmachine.utils.ItemStackUtil;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -12,12 +14,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import fr.klemms.slotmachine.ChatContent;
-import fr.klemms.slotmachine.Config;
-import fr.klemms.slotmachine.tokens.Token;
-import fr.klemms.slotmachine.tokens.TokenSelectionListener;
-import fr.klemms.slotmachine.tokens.TokensInventory;
-import fr.klemms.slotmachine.utils.ItemStackUtil;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class CommandGiveTokens implements CommandExecutor {
 	
@@ -36,7 +35,7 @@ public class CommandGiveTokens implements CommandExecutor {
 				return true;
 			}
 			if(players.size() > 0) {
-				if(NumberUtils.isNumber(args[1])) {
+				if(NumberUtils.isCreatable(args[1])) {
 					for(Player player : players) {
 						ItemStack is = Config.tokens.get("default");
 						final int amount = Integer.valueOf(args[1]);

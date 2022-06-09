@@ -11,6 +11,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -82,7 +83,7 @@ public class PluginListener implements Listener {
 		}
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerChat(AsyncPlayerChatEvent event) {
 		if(PlayerUtil.hasAnyMetadata(event.getPlayer()) && StringUtils.deleteWhitespace(event.getMessage().toLowerCase()).equalsIgnoreCase("cancel")) {
 			event.setCancelled(true);
@@ -148,10 +149,12 @@ public class PluginListener implements Listener {
 			event.setCancelled(true);
 			if(SlotMachine.getSlotMachineByUUID(UUID.fromString(event.getPlayer().getMetadata("slotmachine_changeduration").get(0).asString())) != null) {
 				SlotMachine slotMachine = SlotMachine.getSlotMachineByUUID(UUID.fromString(event.getPlayer().getMetadata("slotmachine_changeduration").get(0).asString()));
-				if(NumberUtils.isNumber(event.getMessage())) {
-					if(Integer.valueOf(event.getMessage()) >= 1) {
-						slotMachine.setSecondsBeforePrize(Integer.valueOf(event.getMessage().replace("\"", "")));
+				if(NumberUtils.isCreatable(event.getMessage())) {
+					if(NumberUtils.createInteger(event.getMessage().replace("\"", "")) >= 1) {
+						slotMachine.setSecondsBeforePrize(NumberUtils.createInteger(event.getMessage().replace("\"", "")));
 						event.getPlayer().sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("slotmachine.informations.new.spinduration") + " : " + ChatContent.RESET + slotMachine.getSecondsBeforePrize());
+					} else {
+						event.getPlayer().sendMessage(ChatContent.RED + ChatContent.BOLD + "[Slot Machine] Number must be greater than 0");
 					}
 				} else {
 					event.getPlayer().sendMessage(ChatContent.RED + ChatContent.BOLD + "[Slot Machine] " + Language.translate("error.notvalidinteger"));
@@ -164,10 +167,12 @@ public class PluginListener implements Listener {
 			if(SlotMachine.getSlotMachineByUUID(UUID.fromString(event.getPlayer().getMetadata("slotmachine_changechance").get(0).asString())) != null) {
 				SlotMachine slotMachine = SlotMachine.getSlotMachineByUUID(UUID.fromString(event.getPlayer().getMetadata("slotmachine_changechance").get(0).asString()));
 				
-				if(NumberUtils.isNumber(event.getMessage())) {
-					if(Double.valueOf(event.getMessage()) >= 0D && Double.valueOf(event.getMessage().replace("\"", "")) <= 100D) {
-						slotMachine.setChanceToWin(Double.valueOf(event.getMessage()) / 100D);
+				if(NumberUtils.isCreatable(event.getMessage())) {
+					if(NumberUtils.createDouble(event.getMessage().replace("\"", "")) >= 0D && NumberUtils.createDouble(event.getMessage().replace("\"", "")) <= 100D) {
+						slotMachine.setChanceToWin(NumberUtils.createDouble(event.getMessage().replace("\"", "")) / 100D);
 						event.getPlayer().sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("slotmachine.informations.new.chancetowin") + " : " + ChatContent.RESET + (int)(slotMachine.getChanceToWin() * 100) + "%");
+					} else {
+						event.getPlayer().sendMessage(ChatContent.RED + ChatContent.BOLD + "[Slot Machine] Number must be between 0 and 100 (included)");
 					}
 				} else {
 					event.getPlayer().sendMessage(ChatContent.RED + ChatContent.BOLD + "[Slot Machine] " + Language.translate("error.notvaliddecimal"));
@@ -201,8 +206,8 @@ public class PluginListener implements Listener {
 			if(SlotMachine.getSlotMachineByUUID(UUID.fromString(event.getPlayer().getMetadata("slotmachine_changeprice").get(0).asString())) != null) {
 				SlotMachine slotMachine = SlotMachine.getSlotMachineByUUID(UUID.fromString(event.getPlayer().getMetadata("slotmachine_changeprice").get(0).asString()));
 				
-				if(NumberUtils.isNumber(event.getMessage())) {
-					slotMachine.setPullPrice(Double.parseDouble(event.getMessage().replace("\"", "")));
+				if(NumberUtils.isCreatable(event.getMessage())) {
+					slotMachine.setPullPrice(NumberUtils.createDouble(event.getMessage().replace("\"", "")));
 					event.getPlayer().sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("slotmachine.informations.new.price") + " : " + ChatContent.RESET + Util.formatNumber(slotMachine.getPullPrice()));
 				} else {
 					event.getPlayer().sendMessage(ChatContent.RED + ChatContent.BOLD + "[Slot Machine] " + Language.translate("error.notvaliddecimal"));
@@ -215,8 +220,8 @@ public class PluginListener implements Listener {
 			SlotMachine slotMachine = SlotMachine.getSlotMachineByUUID(UUID.fromString(event.getPlayer().getMetadata("slotmachine_setcooldown").get(0).asString()));
 			if(slotMachine != null) {
 				
-				if(NumberUtils.isNumber(event.getMessage())) {
-					slotMachine.setCooldown(Integer.valueOf(event.getMessage()));
+				if(NumberUtils.isCreatable(event.getMessage())) {
+					slotMachine.setCooldown(NumberUtils.createInteger(event.getMessage().replace("\"", "")));
 					event.getPlayer().sendMessage(ChatContent.GREEN + "[Slot Machine] New machine's cooldown : " + slotMachine.getCooldown() + "s");
 				} else {
 					event.getPlayer().sendMessage(ChatContent.RED + "[Slot Machine] " + Language.translate("error.notvalidinteger"));

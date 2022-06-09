@@ -1,4 +1,4 @@
-version=20
+version=21
 
 metrics.cantconnect=SlotMachine n'a pas pu se connecter à bStats
 update.available=Une mise à jour de %pluginName% est disponible à l'adresse %url%
@@ -264,8 +264,8 @@ command.slotmachineaction.paymenttokenmanager=Méthode de paiement changée en T
 command.slotmachineaction.paymenttokens=Méthode de paiement changée en TOKENS pour cette Slot Machine
 command.slotmachineaction.paymentmoney=Méthode de paiement changée en MONEY pour cette Slot Machine
 command.slotmachineaction.paymentexperience=Méthode de paiement changée en niveaux d'Expérience
-command.slotmachineaction.changeprice=Veuillez taper le prix souhaité de cette Slot Machine dans le chat
-command.slotmachineaction.chancetowin=Veuillez taper la chance de gagner à cette Slot Machine dans le chat ( [0;100] )
+command.slotmachineaction.changeprice=Veuillez taper le prix souhaité de cette Slot Machine dans le chat, utilisez '.' comme séparateur des décimales
+command.slotmachineaction.chancetowin=Veuillez taper la chance de gagner à cette Slot Machine dans le chat ( [0;100] ), utilisez '.' comme séparateur des décimales
 command.slotmachineaction.spinduration=Veuillez taper la durée en seconde du temps de roulement de cette Slot Machine (min : 1 - Actuel : %spinDuration%)
 command.slotmachineaction.winmessage=Veuillez taper le message que les joueurs doivent voir si ils gagnent (tapez 'null' pour aucun message - Actuel : %winmessage%)
 command.slotmachineaction.lossmessage=Veuillez taper le message que les joueurs doivent voir si ils perdent (tapez 'null' pour aucun message - Actuel : %lossMessage%)

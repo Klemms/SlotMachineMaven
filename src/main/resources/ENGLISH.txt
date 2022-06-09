@@ -1,4 +1,4 @@
-version=19
+version=20
 
 metrics.cantconnect=SlotMachine couldn't connect to bStats
 update.available=An update for %pluginName% is available at %url%
@@ -264,8 +264,8 @@ command.slotmachineaction.paymenttokenmanager=Payment changed to TOKENSMANAGER f
 command.slotmachineaction.paymenttokens=Payment changed to TOKENS for this Slot Machine
 command.slotmachineaction.paymentmoney=Payment changed to MONEY for this Slot Machine
 command.slotmachineaction.paymentexperience=Payment changed to Experience levels
-command.slotmachineaction.changeprice=Please type the price you want this Slot Machine to have in the chat
-command.slotmachineaction.chancetowin=Please type the chance to win you want this slot machine to have in the chat ( [0;100] )
+command.slotmachineaction.changeprice=Please type the price you want this Slot Machine to have in the chat, use '.' for decimals
+command.slotmachineaction.chancetowin=Please type the chance to win you want this slot machine to have in the chat ( [0;100] ), use '.' for decimals
 command.slotmachineaction.spinduration=Please type in seconds the duration you want the Slot Machine to spin (min : 1 - Current : %spinDuration%)
 command.slotmachineaction.winmessage=Please type the message you want players to receive if they win (type 'null' for no message - Current : %winmessage%)
 command.slotmachineaction.lossmessage=Please type the message you want players to receive if they lose (type 'null' for no message - Current : %lossMessage%)
