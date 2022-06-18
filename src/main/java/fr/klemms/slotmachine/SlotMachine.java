@@ -1,25 +1,25 @@
 package fr.klemms.slotmachine;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
-
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.inventory.ItemStack;
-
 import fr.klemms.slotmachine.fr.minuskube.inv.InventoryListener;
 import fr.klemms.slotmachine.fr.minuskube.inv.SmartInventory;
 import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryProvider;
 import fr.klemms.slotmachine.layouts.CSGOLayout;
 import fr.klemms.slotmachine.layouts.CSGOVerticalLayout;
 import fr.klemms.slotmachine.layouts.SlotMachineLayout;
+import fr.klemms.slotmachine.tokens.Token;
 import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class SlotMachine {
 	
@@ -310,6 +310,13 @@ public abstract class SlotMachine {
 	}
 	
 	public ItemStack getToken() {
+		ItemStack is = Config.tokens.get(this.getTokenIdentifier());
+
+		if (is == null) {
+			Token.getDefaultToken(); // This makes sure a default token always exists
+			this.setTokenIdentifier("default");
+		}
+
 		return Config.tokens.get(this.getTokenIdentifier());
 	}
 	
