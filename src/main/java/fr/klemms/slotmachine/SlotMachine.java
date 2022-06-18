@@ -310,9 +310,7 @@ public abstract class SlotMachine {
 	}
 	
 	public ItemStack getToken() {
-		ItemStack is = Config.tokens.get(this.getTokenIdentifier());
-
-		if (is == null) {
+		if (Config.tokens.get(this.getTokenIdentifier()) == null) {
 			Token.getDefaultToken(); // This makes sure a default token always exists
 			this.setTokenIdentifier("default");
 		}
