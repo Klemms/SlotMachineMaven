@@ -313,6 +313,7 @@ public abstract class SlotMachine {
 		if (Config.tokens.get(this.getTokenIdentifier()) == null) {
 			Token.getDefaultToken(); // This makes sure a default token always exists
 			this.setTokenIdentifier("default");
+			SlotPlugin.saveToDisk();
 		}
 
 		return Config.tokens.get(this.getTokenIdentifier());
