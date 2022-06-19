@@ -46,6 +46,7 @@ public class SlotPlugin extends JavaPlugin {
 	public static Metrics metrics;
 	public static boolean supportEnding = false;
 	public static String supportMessage = "";
+	public static boolean shouldSaveMachinesToDisk = true;
 
 	public static HashMap<Sound, Material> soundMaterialMap;
 	
@@ -236,11 +237,16 @@ public class SlotPlugin extends JavaPlugin {
 		// Saving
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
 			saveCooldownsToDisk();
+			if (shouldSaveMachinesToDisk)
+				saveMachinesToDisk();
 		}, 10 * 20, 60 * 20);
 	}
 
 	@Override
 	public void onDisable() {
+		saveCooldownsToDisk();
+		saveMachinesToDisk();
+
 		if(Config.backupMachinesOnPluginUnload) {
 			try {
 				this.getLogger().log(Level.INFO, "Removing old backup");
@@ -276,14 +282,18 @@ public class SlotPlugin extends JavaPlugin {
 		}
 	}
 
-	public static boolean saveToDisk() {
+	public static void saveToDisk() {
+		shouldSaveMachinesToDisk = true;
+	}
+
+	public static void saveMachinesToDisk() {
 		try {
 			Files.createDirectories(pl.getDataFolder().toPath().resolve("machines"));
 		} catch (IOException e) {
 			e.printStackTrace();
 			SlotPlugin.pl.saveConfig();
 			ExceptionCollector.sendException(SlotPlugin.pl, e);
-			return false;
+			return;
 		}
 		
 		if(Files.exists(pl.getDataFolder().toPath().resolve("machines"))) {
@@ -377,11 +387,11 @@ public class SlotPlugin extends JavaPlugin {
 				}
 			}
 			SlotPlugin.pl.saveConfig();
-			return true;
+			shouldSaveMachinesToDisk = false;
+			return;
 		}
 		SlotPlugin.pl.saveConfig();
 		pl.getLogger().log(Level.SEVERE, "Couldn't save configuration version 5 ! Please contact the developper");
-		return false;
 	}
 	
 	public static void writeTokens() {
