@@ -19,9 +19,12 @@ import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.*;
 import net.citizensnpcs.api.CitizensAPI;
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ClickEvent.Action;
 import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -457,7 +460,21 @@ public class MachineInterractionInventory {
 												player.sendMessage(ChatContent.AQUA + " - $" + Variables.values()[a].variableName + ChatContent.DARK_AQUA + ChatContent.ITALIC + " - " + Language.translate(Variables.values()[a].variableDescription));
 											}
 											player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.placeholderAPI"));
-											player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.levertitle.current").replace("%leverTitle%", ChatContent.RESET + machine.getLeverTitle()));
+
+											BaseComponent[] currentText = new ComponentBuilder(Language.translate("command.slotmachineaction.levertitle.current") + " ")
+													.color(ChatColor.DARK_PURPLE)
+													.bold(true)
+													.append(new ComponentBuilder(machine.getLeverTitle())
+															.event(new ClickEvent(Action.SUGGEST_COMMAND, machine.getLeverTitle()))
+															.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(new ComponentBuilder("Click to fill your chat box with this").create())))
+															.bold(false)
+															.italic(false)
+															.color(ChatColor.WHITE)
+															.create())
+													.create();
+
+											player.spigot().sendMessage(currentText);
+
 											player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
 										} else if (event.isRightClick()) {
 											player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully reset to default");
@@ -486,7 +503,19 @@ public class MachineInterractionInventory {
 										player.sendMessage(ChatContent.AQUA + " - $" + Variables.values()[a].variableName + ChatContent.DARK_AQUA + ChatContent.ITALIC + " - " + Language.translate(Variables.values()[a].variableDescription));
 									}
 									player.sendMessage(ChatContent.AQUA + " - $newline" + ChatContent.DARK_AQUA + ChatContent.ITALIC + " - " + Language.translate("command.slotmachineaction.leverdescription.newline"));
-									player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.leverdescription.current").replace("%leverDescription%", ChatContent.RESET + machine.getLeverDescription()));
+
+									BaseComponent[] currentText = new ComponentBuilder(Language.translate("command.slotmachineaction.leverdescription.current") + " ")
+											.color(ChatColor.DARK_PURPLE)
+											.bold(true)
+											.append(new ComponentBuilder(machine.getLeverDescription())
+													.event(new ClickEvent(Action.SUGGEST_COMMAND, machine.getLeverTitle()))
+													.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(new ComponentBuilder("Click to fill your chat box with this").create())))
+													.bold(false)
+													.italic(false)
+													.color(ChatColor.WHITE)
+													.create())
+											.create();
+
 									player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
 								} else if (event.isRightClick()) {
 									player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully reset to default");
