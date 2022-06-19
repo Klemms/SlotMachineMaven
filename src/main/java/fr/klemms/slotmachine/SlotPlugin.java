@@ -60,6 +60,8 @@ public class SlotPlugin extends JavaPlugin {
 	
 	public static boolean oldTokenManagerWorks = false;
 	public static TokenManager tokenManager;
+
+	public static boolean isPlaceholderAPIEnabled = false;
 	
 	protected static HashMap<UUID, PlayerConfig> playerConfigs;
 	
@@ -102,6 +104,9 @@ public class SlotPlugin extends JavaPlugin {
 		
 		if ((isCitizensEnabled = Bukkit.getPluginManager().isPluginEnabled("Citizens")))
 			this.getLogger().log(Level.INFO, "Enabled Citizens 2 support");
+
+		if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null)
+			isPlaceholderAPIEnabled = true;
 		
 		Setup.setupLanguages(this);
 		try {
