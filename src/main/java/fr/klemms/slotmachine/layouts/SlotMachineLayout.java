@@ -1,19 +1,6 @@
 package fr.klemms.slotmachine.layouts;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Sound;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.FixedMetadataValue;
-
-import fr.klemms.slotmachine.ChatContent;
-import fr.klemms.slotmachine.Config;
-import fr.klemms.slotmachine.MachineItem;
-import fr.klemms.slotmachine.SlotMachine;
-import fr.klemms.slotmachine.SlotPlugin;
+import fr.klemms.slotmachine.*;
 import fr.klemms.slotmachine.fr.minuskube.inv.ClickableItem;
 import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryContents;
 import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryProvider;
@@ -22,6 +9,14 @@ import fr.klemms.slotmachine.placeholders.Variables;
 import fr.klemms.slotmachine.threads.ThreadPullLever;
 import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
+import org.bukkit.Bukkit;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SlotMachineLayout implements InventoryProvider {
 	
@@ -94,7 +89,8 @@ public class SlotMachineLayout implements InventoryProvider {
 						if (CommonLayout.triggerLever(player, machine)) {
 							machine.addUse();
 							machine.setPlayerRolling(player, true);
-							player.sendMessage(Variables.getFormattedString(Language.translate(Config.goodLuckDefaultString), player, machine));
+							if (Config.goodLuckDefaultString.length() > 0)
+								player.sendMessage(Variables.getFormattedString(Language.translate(Config.goodLuckDefaultString), player, machine));
 							player.playSound(player.getLocation(), machine.getLeverSound(), 1.9f, 1.2f);
 							Bukkit.getScheduler().runTaskLaterAsynchronously(SlotPlugin.pl, new ThreadPullLever(player, machine, contents, callback -> {
 								Bukkit.getScheduler().runTask(SlotPlugin.pl, () -> {
