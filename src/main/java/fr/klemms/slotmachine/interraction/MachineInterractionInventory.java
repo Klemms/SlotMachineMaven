@@ -472,7 +472,6 @@ public class MachineInterractionInventory {
 															.color(ChatColor.WHITE)
 															.create())
 													.create();
-
 											player.spigot().sendMessage(currentText);
 
 											player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
@@ -508,13 +507,14 @@ public class MachineInterractionInventory {
 											.color(ChatColor.DARK_PURPLE)
 											.bold(true)
 											.append(new ComponentBuilder(machine.getLeverDescription())
-													.event(new ClickEvent(Action.SUGGEST_COMMAND, machine.getLeverTitle()))
+													.event(new ClickEvent(Action.SUGGEST_COMMAND, machine.getLeverDescription()))
 													.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(new ComponentBuilder("Click to fill your chat box with this").create())))
 													.bold(false)
 													.italic(false)
 													.color(ChatColor.WHITE)
 													.create())
 											.create();
+									player.spigot().sendMessage(currentText);
 
 									player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
 								} else if (event.isRightClick()) {
