@@ -43,14 +43,10 @@ public class SlotPlugin extends JavaPlugin {
 	public static VotingPluginHooks votingPlugin = null;
 	public static final String BRANCH = "release";
 	public static final int VERSION = 77;
-	public static final String PLUGIN_NAME = "Slot Machine";
-	public static volatile int webVersion = 0;
-	public static volatile String webURL = "https://www.spigotmc.org/resources/slotmachine.22023/";
 	public static Metrics metrics;
 	public static boolean supportEnding = false;
 	public static String supportMessage = "";
-	
-	public static Material SIGN_UNIVERSAL;
+
 	public static HashMap<Sound, Material> soundMaterialMap;
 	
 	public static InventoryManager invManager;
@@ -85,8 +81,6 @@ public class SlotPlugin extends JavaPlugin {
 		
 		invManager = new InventoryManager(this);
 		invManager.init();
-		
-		SIGN_UNIVERSAL = Material.OAK_SIGN;
 		
 		if (Util.getMCVersion().startsWith("1.16")) {
 			this.getLogger().log(Level.INFO, "Using 1.16 Sound Mappings");

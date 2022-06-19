@@ -1,30 +1,6 @@
 package fr.klemms.slotmachine.interraction;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.logging.Level;
-
-import org.bukkit.Color;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.potion.PotionEffectType;
-
-import fr.klemms.slotmachine.ChatContent;
-import fr.klemms.slotmachine.Config;
-import fr.klemms.slotmachine.MachineMethods;
-import fr.klemms.slotmachine.PriceType;
-import fr.klemms.slotmachine.SlotMachine;
-import fr.klemms.slotmachine.SlotMachineBlock;
-import fr.klemms.slotmachine.SlotPlugin;
-import fr.klemms.slotmachine.VisualType;
+import fr.klemms.slotmachine.*;
 import fr.klemms.slotmachine.clipboard.ClipboardContent;
 import fr.klemms.slotmachine.clipboard.Clipboards;
 import fr.klemms.slotmachine.clipboard.PasteCallback;
@@ -40,16 +16,28 @@ import fr.klemms.slotmachine.tokens.Token;
 import fr.klemms.slotmachine.tokens.TokenSelectionListener;
 import fr.klemms.slotmachine.tokens.TokensInventory;
 import fr.klemms.slotmachine.translation.Language;
-import fr.klemms.slotmachine.utils.ItemStackUtil;
-import fr.klemms.slotmachine.utils.PlayerHeadsUtil;
-import fr.klemms.slotmachine.utils.PlayerUtil;
-import fr.klemms.slotmachine.utils.PotionUtil;
-import fr.klemms.slotmachine.utils.Util;
+import fr.klemms.slotmachine.utils.*;
 import net.citizensnpcs.api.CitizensAPI;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ClickEvent.Action;
 import net.md_5.bungee.api.chat.ComponentBuilder;
+import org.bukkit.Color;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.potion.PotionEffectType;
+
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.logging.Level;
 
 public class MachineInterractionInventory {
 
@@ -437,7 +425,7 @@ public class MachineInterractionInventory {
 										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"reset\" to reset to default message");
 										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
 							}));
-							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(SlotPlugin.SIGN_UNIVERSAL, 1), ChatContent.GOLD + "Display Won Item In Chat"), Arrays.asList(
+							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.OAK_SIGN, 1), ChatContent.GOLD + "Display Won Item In Chat"), Arrays.asList(
 									ChatContent.AQUA + ChatContent.ITALIC + "Should we display the name of the",
 									ChatContent.AQUA + ChatContent.ITALIC + "item the player got.",
 									ChatContent.AQUA + ChatContent.ITALIC + "Click to toggle",
@@ -468,6 +456,7 @@ public class MachineInterractionInventory {
 											for(int a = 0; a < Variables.values().length; a++) {
 												player.sendMessage(ChatContent.AQUA + " - $" + Variables.values()[a].variableName + ChatContent.DARK_AQUA + ChatContent.ITALIC + " - " + Language.translate(Variables.values()[a].variableDescription));
 											}
+											player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.placeholderAPI"));
 											player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.levertitle.current").replace("%leverTitle%", ChatContent.RESET + machine.getLeverTitle()));
 											player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
 										} else if (event.isRightClick()) {

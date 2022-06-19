@@ -1,12 +1,13 @@
 package fr.klemms.slotmachine.placeholders;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.bukkit.entity.Player;
-
 import fr.klemms.slotmachine.ChatContent;
 import fr.klemms.slotmachine.SlotMachine;
+import fr.klemms.slotmachine.SlotPlugin;
+import me.clip.placeholderapi.PlaceholderAPI;
+import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public enum Variables {
 	
@@ -37,7 +38,7 @@ public enum Variables {
 		for(int a = 0; a < Variables.values().length; a++) {
 			command = command.replace("$" + Variables.values()[a].variableName, Variables.values()[a].variable.getVariable(player, slotMachine));
 		}
-		return command;
+		return SlotPlugin.isPlaceholderAPIEnabled ? PlaceholderAPI.setPlaceholders(player, command) : command;
 	}
 	
 	public static List<String> getFormattedStrings(String message, Player player, SlotMachine slotMachine) {

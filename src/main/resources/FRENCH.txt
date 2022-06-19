@@ -1,4 +1,4 @@
-version=21
+version=22
 
 metrics.cantconnect=SlotMachine n'a pas pu se connecter à bStats
 update.available=Une mise à jour de %pluginName% est disponible à l'adresse %url%
@@ -254,6 +254,7 @@ command.slotmachine=Slot Machine
 command.slotmachine.line1=Clic droit sur n'importe quelle entité
 command.slotmachine.line2=ou bloc pour ouvrir le menu Slot Machine
 
+command.slotmachineaction.placeholderAPI=Si PlaceholderAPI est installé, vous pouvez aussi l'utiliser
 command.slotmachineaction.rename=Veuillez taper le nom souhaité de cette Slot Machine dans le chat
 command.slotmachineaction.changepermission=Veuillez taper la permission souhaitée de cette Slot Machine dans le chat
 command.slotmachineaction.csgowheel=Visuel changé en CSGO-WHEEL pour cette Slot Machine
