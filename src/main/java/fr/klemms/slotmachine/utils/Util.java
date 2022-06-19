@@ -1,14 +1,14 @@
 package fr.klemms.slotmachine.utils;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.map.MinecraftFont;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Util {
 	
@@ -97,7 +97,7 @@ public class Util {
 		if(number >= 1000000D) {
 			return String.format("%.0f", number);
 		}
-		return String.valueOf(number);
+		return (number == ((int)number)) ? String.valueOf((int)number) : String.valueOf(number);
 	}
 
 	public static String formatNumberTwoDigits(double number) {

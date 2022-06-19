@@ -124,7 +124,9 @@ slotmachine.informations.new.name=New Name
 
 placeholders.player=Adds the player's name
 placeholders.balance=Adds the player's balance
+placeholders.rawbalance=Adds the player's raw balance (without currency symbols)
 placeholders.price=Adds the Slot Machine's price
+placeholders.rawprice=Adds the raw price (without currency symbols)
 placeholders.items=Adds the number of items in the Slot Machine
 placeholders.machineName=Adds the Slot Machine name (formatted)
 placeholders.gamePoints=Adds the amount of Game Points the player has (Will only work if GamePoints is installed)
