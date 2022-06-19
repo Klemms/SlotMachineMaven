@@ -88,6 +88,10 @@ public class Util {
 	public static boolean isPageValid(int listSize, int page, double pageSize) {
 		return page >= 0 && page < ((int)Math.ceil(((double)listSize) / pageSize));
 	}
+
+	public static boolean isAtLeastMC118() {
+		return Util.getMCVersion().startsWith("1.18") || Util.getMCVersion().startsWith("1.19");
+	}
 	
 	public static String getMCVersion() {
 		return Bukkit.getBukkitVersion().split("-")[0];
