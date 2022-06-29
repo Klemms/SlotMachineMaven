@@ -39,6 +39,11 @@ commands:
         usage: /smsavetodisk
         permission: slotmachine.slotmachine
         permission-message: You do not have permission
+    smreload:
+        description: Reloads all Slot Machines
+        usage: /smreload
+        permission: slotmachine.slotmachine
+        permission-message: You do not have permission
     smcooldown:
         description: Resets cooldowns for players
         usage: /smcooldown <player/@a(all players online)/@everyone(all players)> <slot machine uuid/all> reset

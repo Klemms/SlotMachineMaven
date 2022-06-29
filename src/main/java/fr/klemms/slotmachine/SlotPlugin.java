@@ -125,6 +125,7 @@ public class SlotPlugin extends JavaPlugin {
 		getCommand("slotmachinetoken").setExecutor(new CommandSlotMachineTokens());
 		getCommand("smsavetodisk").setExecutor(new CommandSMSaveToDisk());
 		getCommand("smcooldown").setExecutor(new CommandCooldown());
+		getCommand("smreload").setExecutor(new CommandReloadMachines());
 		
 		Setup.setupEconomy(this);
 		Setup.setupVotingPlugin(this);
