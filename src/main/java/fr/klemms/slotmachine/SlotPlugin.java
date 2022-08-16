@@ -36,13 +36,13 @@ import java.util.logging.Level;
 public class SlotPlugin extends JavaPlugin {
 	
 	public static final String MC_FOR = "Spigot 1.16/1.17/1.18/1.19";
-	public static final ItemStack DEFAULT_TOKEN = ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.GOLD_NUGGET, 1), ChatContent.GOLD + "Token"), Arrays.asList(ChatContent.AQUA + ChatContent.ITALIC + "Default Slot Machine Token"));
+	public static final ItemStack DEFAULT_TOKEN = ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.GOLD_NUGGET, 1), ChatContent.GOLD + "Token"), Collections.singletonList(ChatContent.AQUA + ChatContent.ITALIC + "Default Slot Machine Token"));
 	
 	public static volatile SlotPlugin pl;
 	public static Economy econ = null;
 	public static VotingPluginHooks votingPlugin = null;
 	public static final String BRANCH = "release";
-	public static final int VERSION = 78;
+	public static final int VERSION = 77;
 	public static Metrics metrics;
 	public static boolean supportEnding = false;
 	public static String supportMessage = "";
@@ -96,8 +96,9 @@ public class SlotPlugin extends JavaPlugin {
 			this.getLogger().log(Level.INFO, "Using 1.19 Sound Mappings");
 			SoundToMaterialList_119.initList();
 		}
-		
-		if ((isCitizensEnabled = Bukkit.getPluginManager().isPluginEnabled("Citizens")))
+
+		isCitizensEnabled = Bukkit.getPluginManager().isPluginEnabled("Citizens");
+		if (isCitizensEnabled)
 			this.getLogger().log(Level.INFO, "Enabled Citizens 2 support");
 
 		if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null)
@@ -117,15 +118,15 @@ public class SlotPlugin extends JavaPlugin {
 			ExceptionCollector.sendException(this, e);
 		}
 
-		getCommand("slotmachine").setExecutor(new CommandSlotMachine());
-		getCommand("openmachine").setExecutor(new CommandOpenMachine());
-		getCommand("tpmachine").setExecutor(new CommandTPMachine());
-		getCommand("givetokens").setExecutor(new CommandGiveTokens());
-		getCommand("slotmachineversion").setExecutor(new CommandSlotMachineVersion());
-		getCommand("slotmachinetoken").setExecutor(new CommandSlotMachineTokens());
-		getCommand("smsavetodisk").setExecutor(new CommandSMSaveToDisk());
-		getCommand("smcooldown").setExecutor(new CommandCooldown());
-		getCommand("smreload").setExecutor(new CommandReloadMachines());
+		Objects.requireNonNull(getCommand("slotmachine")).setExecutor(new CommandSlotMachine());
+		Objects.requireNonNull(getCommand("openmachine")).setExecutor(new CommandOpenMachine());
+		Objects.requireNonNull(getCommand("tpmachine")).setExecutor(new CommandTPMachine());
+		Objects.requireNonNull(getCommand("givetokens")).setExecutor(new CommandGiveTokens());
+		Objects.requireNonNull(getCommand("slotmachineversion")).setExecutor(new CommandSlotMachineVersion());
+		Objects.requireNonNull(getCommand("slotmachinetoken")).setExecutor(new CommandSlotMachineTokens());
+		Objects.requireNonNull(getCommand("smsavetodisk")).setExecutor(new CommandSMSaveToDisk());
+		Objects.requireNonNull(getCommand("smcooldown")).setExecutor(new CommandCooldown());
+		Objects.requireNonNull(getCommand("smreload")).setExecutor(new CommandReloadMachines());
 		
 		Setup.setupEconomy(this);
 		Setup.setupVotingPlugin(this);
@@ -426,7 +427,7 @@ public class SlotPlugin extends JavaPlugin {
 			for(int a = 0; a < tokenCount; a++) {
 				if (yamlFile.contains("tokens." + a + ".identifier") && yamlFile.contains("tokens." + a + ".itemstack")) {
 					ItemStack is = yamlFile.getItemStack("tokens." + a + ".itemstack");
-					if (is.getType() == Material.AIR && yamlFile.getString("tokens." + a + ".identifier").equals("default")) {
+					if (Objects.requireNonNull(is).getType() == Material.AIR && Objects.requireNonNull(yamlFile.getString("tokens." + a + ".identifier")).equals("default")) {
 						pl.getLogger().log(Level.SEVERE, "Default token was AIR, resetting to original Slot Machine token");
 						Config.tokens.put("default", SlotPlugin.DEFAULT_TOKEN);
 						continue;
