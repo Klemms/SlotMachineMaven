@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.logging.Level;
 
 public abstract class SlotMachine {
 	
@@ -49,7 +50,12 @@ public abstract class SlotMachine {
 	}
 	
 	public static synchronized void addSlotMachine(SlotMachine slotMachineToAdd) {
-		slotMachines.add(slotMachineToAdd);
+		if (SlotMachine.getSlotMachineByUUID(slotMachineToAdd.getMachineUUID()) == null) {
+			slotMachines.add(slotMachineToAdd);
+		} else {
+			SlotPlugin.pl.getLogger().log(Level.SEVERE, "Slot Machine " + slotMachineToAdd.getMachineUUID().toString() + " is duplicated ! Ignoring this one...");
+			Issue.newIssue(Issue.IssueType.MACHINE_READING_ISSUE, "Slot Machine " + slotMachineToAdd.getMachineUUID().toString() + " is duplicated ! Ignoring this one...", true);
+		}
 	}
 	
 	public static synchronized void removeSlotMachine(SlotMachine slotMachineToRemove) {
@@ -83,9 +89,6 @@ public abstract class SlotMachine {
 	private SlotMachineType slotMachineType;
 	private SmartInventory inventory;
 	private UUID machineUUID;
-	private UUID worldUID;
-	private int chunkX;
-	private int chunkZ;
 	private String guiPermission;
 	private String slotMachineName;
 	private String winMessage;
@@ -130,12 +133,11 @@ public abstract class SlotMachine {
 	private Sound winSound;
 	private Sound lossSound;
 
-	public SlotMachine(SlotMachineType slotMachineType, UUID worldUID, int chunkX, int chunkZ) {
+	private String lastFileName;
+
+	public SlotMachine(SlotMachineType slotMachineType) {
 		this.slotMachineType = slotMachineType;
 		this.machineUUID = UUID.randomUUID();
-		this.worldUID = worldUID;
-		this.chunkX = chunkX;
-		this.chunkZ = chunkZ;
 		this.visualType = VisualType.SLOTMACHINE;
 		this.priceType = PriceType.MONEY;
 		this.playMode = PlayMode.LIMITED_PLAYER;
@@ -376,15 +378,6 @@ public abstract class SlotMachine {
 		return machineItem;
 	}
 
-	public UUID getWorldUID() {
-		return worldUID;
-	}
-
-	public SlotMachine setWorldUID(UUID worldUID) {
-		this.worldUID = worldUID;
-		return this;
-	}
-
 	public String getGuiPermission() {
 		return guiPermission;
 	}
@@ -449,24 +442,6 @@ public abstract class SlotMachine {
 		}
 		
 		return false;
-	}
-
-	public int getChunkX() {
-		return chunkX;
-	}
-
-	public SlotMachine setChunkX(int chunkX) {
-		this.chunkX = chunkX;
-		return this;
-	}
-
-	public int getChunkZ() {
-		return chunkZ;
-	}
-
-	public SlotMachine setChunkZ(int chunkZ) {
-		this.chunkZ = chunkZ;
-		return this;
 	}
 
 	public String getChatName() {
@@ -888,5 +863,13 @@ public abstract class SlotMachine {
 
 	public void setCooldown(int cooldown) {
 		this.cooldown = cooldown;
+	}
+
+	public String getLastFileName() {
+		return lastFileName;
+	}
+
+	public void setLastFileName(String lastFileName) {
+		this.lastFileName = lastFileName;
 	}
 }

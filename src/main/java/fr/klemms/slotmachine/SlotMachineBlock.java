@@ -6,6 +6,7 @@ import org.bukkit.block.Block;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
 
 public class SlotMachineBlock extends SlotMachine {
 
@@ -23,24 +24,39 @@ public class SlotMachineBlock extends SlotMachine {
 	}
 	
 	public static synchronized void addSlotMachineBlock(SlotMachineBlock slotMachineBlock) {
-		SlotMachine.addSlotMachine(slotMachineBlock);
+		if (SlotMachineBlock.getSlotMachineByBlock(slotMachineBlock.getBlock()) == null) {
+			SlotMachine.addSlotMachine(slotMachineBlock);
+		} else {
+			SlotPlugin.pl.getLogger().log(Level.SEVERE, "Slot Machine " + slotMachineBlock.getMachineUUID().toString() + " is duplicated ! Ignoring this one...");
+			Issue.newIssue(Issue.IssueType.MACHINE_READING_ISSUE, "Slot Machine " + slotMachineBlock.getMachineUUID().toString() + " is duplicated ! Ignoring this one...", true);
+		}
 	}
 	
 	public static synchronized void removeSlotMachineBlock(Block block) {
 		removeSlotMachine(getSlotMachineByBlock(block));
 	}
-	
+
+	private UUID worldUID;
 	private int blockX;
 	private int blockY;
 	private int blockZ;
 	private boolean isLocked;
 
-	public SlotMachineBlock(int blockX, int blockY, int blockZ, boolean isLocked, UUID worldUID, int chunkX, int chunkZ) {
-		super(SlotMachineType.BLOCK, worldUID, chunkX, chunkZ);
+	public SlotMachineBlock(int blockX, int blockY, int blockZ, boolean isLocked, UUID worldUID) {
+		super(SlotMachineType.BLOCK);
+		this.worldUID = worldUID;
 		this.blockX = blockX;
 		this.blockY = blockY;
 		this.blockZ = blockZ;
 		this.isLocked = isLocked;
+	}
+
+	public UUID getWorldUID() {
+		return worldUID;
+	}
+
+	public void setWorldUID(UUID worldUID) {
+		this.worldUID = worldUID;
 	}
 
 	public int getBlockX() {

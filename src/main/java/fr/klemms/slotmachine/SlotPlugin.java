@@ -308,15 +308,13 @@ public class SlotPlugin extends JavaPlugin {
 					yamlFile.set("entityUID", ((SlotMachineEntity)slotMachine).getEntityUUID().toString());
 				}
 				if(slotMachine.getSlotMachineType() == SlotMachineType.BLOCK) {
+					yamlFile.set("worldUID", ((SlotMachineBlock)slotMachine).getWorldUID().toString());
 					yamlFile.set("blockX", ((SlotMachineBlock)slotMachine).getBlockX());
 					yamlFile.set("blockY", ((SlotMachineBlock)slotMachine).getBlockY());
 					yamlFile.set("blockZ", ((SlotMachineBlock)slotMachine).getBlockZ());
 					yamlFile.set("locked", ((SlotMachineBlock)slotMachine).isLocked());
 				}
 				yamlFile.set("machineUUID", slotMachine.getMachineUUID().toString());
-				yamlFile.set("worldUID", slotMachine.getWorldUID().toString());
-				yamlFile.set("chunkX", slotMachine.getChunkX());
-				yamlFile.set("chunkZ", slotMachine.getChunkZ());
 				yamlFile.set("guiPermission", slotMachine.getGuiPermission());
 				yamlFile.set("slotMachineName", slotMachine.getSlotMachineName());
 				yamlFile.set("visualType", slotMachine.getVisualType().toString());
@@ -382,7 +380,13 @@ public class SlotPlugin extends JavaPlugin {
 					yamlFile.set("items." + b + ".stats.timesWon", item.itemStats.timesWon);
 				}
 				try {
-					yamlFile.save(pl.getDataFolder().toPath().resolve("machines").resolve(slotMachine.getMachineUUID().toString() + ".yml").toFile());
+					String fileName = slotMachine.getMachineUUID().toString() + ".yml";
+
+					if (slotMachine.getLastFileName().length() > 0 && slotMachine.getLastFileName().endsWith(".yml")) {
+						fileName = slotMachine.getLastFileName();
+					}
+
+					yamlFile.save(pl.getDataFolder().toPath().resolve("machines").resolve(fileName).toFile());
 				} catch (IOException e) {
 					e.printStackTrace();
 					ExceptionCollector.sendException(SlotPlugin.pl, e);
