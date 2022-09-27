@@ -1,22 +1,7 @@
 package fr.klemms.slotmachine.threads;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.logging.Level;
-
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffectType;
-
-import fr.klemms.slotmachine.Config;
-import fr.klemms.slotmachine.Issue;
+import fr.klemms.slotmachine.*;
 import fr.klemms.slotmachine.Issue.IssueType;
-import fr.klemms.slotmachine.MachineItem;
-import fr.klemms.slotmachine.SlotMachine;
-import fr.klemms.slotmachine.SlotPlugin;
-import fr.klemms.slotmachine.VisualType;
 import fr.klemms.slotmachine.exceptioncollector.ExceptionCollector;
 import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryContents;
 import fr.klemms.slotmachine.interraction.InterractionCallback;
@@ -24,6 +9,15 @@ import fr.klemms.slotmachine.placeholders.Variables;
 import fr.klemms.slotmachine.utils.PotionUtil;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ComponentBuilder;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffectType;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.logging.Level;
 
 public class ThreadPullLever extends Thread {
 	
@@ -167,19 +161,20 @@ public class ThreadPullLever extends Thread {
 				ComponentBuilder finalMessage = new ComponentBuilder(Variables.getFormattedString(machine.getFinalWinMessage(), player, machine));
 				
 				if (machine.isDisplayWonItemInChat()) {
-					if (wonItem.getRewards().size() == 1)
+					if (wonItem.getRewards().size() == 1) {
 						finalMessage.append(new ComponentBuilder(" (")
 								.color(ChatColor.AQUA)
 								.append(wonItem.getRewardName())
 								.append(new ComponentBuilder(" x" + wonItem.getItemStack().getAmount()).color(ChatColor.GRAY).create())
 								.append(new ComponentBuilder(")").color(ChatColor.AQUA).create())
 								.create());
-					else
+					} else {
 						finalMessage.append(new ComponentBuilder(" (")
 								.color(ChatColor.AQUA)
 								.append(new ComponentBuilder("Multiple Rewards").color(ChatColor.GRAY).create())
 								.append(new ComponentBuilder(")").color(ChatColor.AQUA).create())
 								.create());
+					}
 				}
 				
 				player.spigot().sendMessage(finalMessage.create());
