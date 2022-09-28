@@ -20,8 +20,6 @@ public class CommandTPMachine implements CommandExecutor {
 			if(slotMachine != null) {
 				if(slotMachine.getEntity() != null) {
 					slotMachine.getEntity().teleport(((Player)sender).getLocation());
-					slotMachine.setChunkX(((Player)sender).getLocation().getChunk().getX());
-					slotMachine.setChunkZ(((Player)sender).getLocation().getChunk().getZ());
 					SlotPlugin.saveToDisk();
 					sender.sendMessage(ChatContent.RED + "[Slot Machine] " + Language.translate("command.tpmachine.successful"));
 					return true;

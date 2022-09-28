@@ -185,7 +185,7 @@ public class PluginListener implements Listener {
 			if(SlotMachine.getSlotMachineByUUID(UUID.fromString(event.getPlayer().getMetadata("slotmachine_changename").get(0).asString())) != null) {
 				SlotMachine slotMachine = SlotMachine.getSlotMachineByUUID(UUID.fromString(event.getPlayer().getMetadata("slotmachine_changename").get(0).asString()));
 				if(slotMachine.getSlotMachineType() == SlotMachineType.ENTITY) {
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadChangeEntityName(slotMachine.getWorldUID(), ((SlotMachineEntity)slotMachine).getEntityUUID(), slotMachine.getChunkX(), slotMachine.getChunkZ(), ChatContent.translateColorCodes(event.getMessage())));
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadChangeEntityName(((SlotMachineEntity)slotMachine).getEntityUUID(), ChatContent.translateColorCodes(event.getMessage())));
 				}
 				slotMachine.setSlotMachineName(ChatContent.translateColorCodes(event.getMessage()));
 				event.getPlayer().sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("slotmachine.informations.new.name") + " : " + ChatContent.RESET + ChatContent.translateColorCodes(slotMachine.getSlotMachineName()));

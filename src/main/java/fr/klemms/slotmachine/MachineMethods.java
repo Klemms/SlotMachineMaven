@@ -107,7 +107,7 @@ public class MachineMethods {
 				((LivingEntity)entity).setAI(false);
 				((LivingEntity)entity).setSilent(true);
 			}
-			SlotMachineEntity slotMachineEntity = new SlotMachineEntity(uuid, entity.getWorld().getUID(), entity.getLocation().getChunk().getX(), entity.getLocation().getChunk().getZ());
+			SlotMachineEntity slotMachineEntity = new SlotMachineEntity(uuid);
 			slotMachineEntity.setCitizensNPC(isCitizensNPC);
 			SlotMachineEntity.addSlotMachineEntity(slotMachineEntity);
 			player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("slotmachine.created").replace("%entityUUID%", uuid.toString()));
@@ -128,7 +128,7 @@ public class MachineMethods {
 
 	public static SlotMachineBlock createSlotMachineBlock(Player player, Block block) {
 		if(SlotMachineBlock.getSlotMachineByBlock(block) == null) {
-			SlotMachineBlock slotMachineBlock = new SlotMachineBlock(block.getX(), block.getY(), block.getZ(), true, block.getWorld().getUID(), block.getLocation().getChunk().getX(), block.getLocation().getChunk().getZ());
+			SlotMachineBlock slotMachineBlock = new SlotMachineBlock(block.getX(), block.getY(), block.getZ(), true, block.getWorld().getUID());
 			SlotMachineBlock.addSlotMachineBlock(slotMachineBlock);
 			player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("slotmachine.created.block").replace("%location%", block.getX() + "," + block.getY() + "," + block.getZ()));
 			
@@ -187,8 +187,6 @@ public class MachineMethods {
 		player.sendMessage(ChatContent.translateColorCodes("&#1976d2-- &#81c784" + Language.translate("slotmachine.informations.lossmessage") + " : " + ChatContent.RESET + ChatContent.GOLD + slotMachine.getLossMessage()));
 		player.sendMessage(ChatContent.translateColorCodes("&#1976d2-- &#81c784" + Language.translate("slotmachine.informations.levertitle") + " : " + ChatContent.RESET + ChatContent.GOLD + slotMachine.getLeverTitle()));
 		player.sendMessage(ChatContent.translateColorCodes("&#1976d2-- &#81c784" + Language.translate("slotmachine.informations.leverdescription") + " : " + ChatContent.RESET + ChatContent.GOLD + slotMachine.getLeverDescription()));
-		player.sendMessage(ChatContent.translateColorCodes("&#1976d2-- &#81c784" + Language.translate("slotmachine.informations.chunkx") + " : " + ChatContent.RESET + ChatContent.GOLD + slotMachine.getChunkX()));
-		player.sendMessage(ChatContent.translateColorCodes("&#1976d2-- &#81c784" + Language.translate("slotmachine.informations.chunkz") + " : " + ChatContent.RESET + ChatContent.GOLD + slotMachine.getChunkZ()));
 		player.sendMessage(ChatContent.translateColorCodes("&#1976d2-- &#81c784" + Language.translate("slotmachine.informations.items") + " : " + ChatContent.RESET + ChatContent.GOLD + slotMachine.getSlotMachineItems().size() + " items"));
 		player.sendMessage(ChatContent.translateColorCodes("&#1976d2&l------------------------------"));
 		
