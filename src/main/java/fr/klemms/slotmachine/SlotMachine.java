@@ -142,6 +142,7 @@ public abstract class SlotMachine {
 		this.priceType = PriceType.MONEY;
 		this.playMode = PlayMode.LIMITED_PLAYER;
 		this.tokenIdentifier = "default";
+		this.lastFileName = "";
 		this.pullPrice = 10D;
 		this.chanceToWin = 0.40D;
 		this.secondsBeforePrize = 3;
