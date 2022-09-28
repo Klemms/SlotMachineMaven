@@ -241,7 +241,7 @@ public class SlotPlugin extends JavaPlugin {
 			saveCooldownsToDisk();
 			if (shouldSaveMachinesToDisk)
 				saveMachinesToDisk();
-		}, 10 * 20, 60 * 20);
+		}, 10 * 20, 10 * 20);
 	}
 
 	@Override
