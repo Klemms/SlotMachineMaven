@@ -1,8 +1,20 @@
 package fr.klemms.slotmachine;
 
+import java.util.List;
 import java.util.UUID;
 
 public class SlotMachineEntityLink extends SlotMachineEntity {
+
+	public static synchronized SlotMachineEntity getAllSlotMachineByEntityUUID(UUID entityUUID) {
+		List<SlotMachine> slotMachines = SlotMachine.getSlotMachinesByType(SlotMachineType.ENTITY);
+		slotMachines.addAll(SlotMachine.getSlotMachinesByType(SlotMachineType.ENTITY_LINK));
+		for (SlotMachine slotMachine : slotMachines) {
+			if (((SlotMachineEntity) slotMachine).getEntityUUID().compareTo(entityUUID) == 0) {
+				return ((SlotMachineEntity) slotMachine);
+			}
+		}
+		return null;
+	}
 
 	private UUID linkTo;
 

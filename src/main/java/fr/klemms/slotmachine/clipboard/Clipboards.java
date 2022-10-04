@@ -1,15 +1,5 @@
 package fr.klemms.slotmachine.clipboard;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
-
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
 import fr.klemms.slotmachine.ChatContent;
 import fr.klemms.slotmachine.SlotMachine;
 import fr.klemms.slotmachine.SlotPlugin;
@@ -18,6 +8,15 @@ import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryContents;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
 import fr.klemms.slotmachine.utils.PlayerHeadsUtil;
 import fr.klemms.slotmachine.utils.Util;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 
 public class Clipboards {
 
@@ -38,6 +37,17 @@ public class Clipboards {
 	}
 	
 	public static void clipboardUI(Player pl, InventoryContents content, CopyPastable cp, int copyRow, int copyColumn, int pasteRow, int pasteColumn, PasteCallback callback) {
+		if (cp.disableCopyPaste()) {
+			content.set(copyRow, copyColumn, ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.BARRIER), ChatContent.RED + "Copying is not available"), cp.disableReason()), event -> {
+				pl.playSound(pl.getLocation(), Sound.ENTITY_VILLAGER_NO, 1f, 1f);
+			}));
+			content.set(pasteRow, pasteColumn, ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.BARRIER), ChatContent.RED + "Pasting is not available"), cp.disableReason()), event -> {
+				pl.playSound(pl.getLocation(), Sound.ENTITY_VILLAGER_NO, 1f, 1f);
+			}));
+
+			return;
+		}
+
 		Clipboard cb = getPlayerClipboard(pl);
 		if (cp instanceof Copyable && copyRow >= 0 && copyColumn >= 0 && ((Copyable) cp).copy() != null) {
 			Copyable cpp = (Copyable) cp;

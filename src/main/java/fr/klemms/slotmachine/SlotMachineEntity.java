@@ -22,7 +22,7 @@ public class SlotMachineEntity extends SlotMachine {
 	}
 	
 	public static synchronized void addSlotMachineEntity(SlotMachineEntity slotMachineEntity) {
-		if (SlotMachineEntity.getSlotMachineByEntityUUID(slotMachineEntity.entityUUID) == null) {
+		if (SlotMachineEntityLink.getAllSlotMachineByEntityUUID(slotMachineEntity.entityUUID) == null) {
 			SlotMachine.addSlotMachine(slotMachineEntity);
 		} else {
 			SlotPlugin.pl.getLogger().log(Level.SEVERE, "Slot Machine " + slotMachineEntity.getMachineUUID().toString() + " is duplicated ! Ignoring this one...");

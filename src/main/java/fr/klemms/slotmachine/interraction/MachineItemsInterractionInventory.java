@@ -1,21 +1,6 @@
 package fr.klemms.slotmachine.interraction;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
-
-import fr.klemms.slotmachine.ChatContent;
-import fr.klemms.slotmachine.MachineItem;
-import fr.klemms.slotmachine.SlotMachine;
-import fr.klemms.slotmachine.SlotMachineBlock;
-import fr.klemms.slotmachine.SlotMachineEntity;
-import fr.klemms.slotmachine.SlotPlugin;
+import fr.klemms.slotmachine.*;
 import fr.klemms.slotmachine.clipboard.ClipboardContent;
 import fr.klemms.slotmachine.clipboard.Clipboards;
 import fr.klemms.slotmachine.fr.minuskube.inv.ClickableItem;
@@ -29,6 +14,16 @@ import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
 import fr.klemms.slotmachine.utils.PlayerHeadsUtil;
 import fr.klemms.slotmachine.utils.Util;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class MachineItemsInterractionInventory {
 
@@ -194,6 +189,17 @@ public class MachineItemsInterractionInventory {
 					@Override
 					public void update(Player player, InventoryContents contents) {
 						
+					}
+
+					@Override
+					public boolean disableCopyPaste() {
+						return false;
+					}
+
+					@Nullable
+					@Override
+					public List<String> disableReason() {
+						return null;
 					}
 
 					@Override

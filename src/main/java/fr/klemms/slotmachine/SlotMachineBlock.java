@@ -24,7 +24,7 @@ public class SlotMachineBlock extends SlotMachine {
 	}
 	
 	public static synchronized void addSlotMachineBlock(SlotMachineBlock slotMachineBlock) {
-		if (SlotMachineBlock.getSlotMachineByBlock(slotMachineBlock.getBlock()) == null) {
+		if (SlotMachineBlockLink.getAllSlotMachineByBlock(slotMachineBlock.getBlock()) == null) {
 			SlotMachine.addSlotMachine(slotMachineBlock);
 		} else {
 			SlotPlugin.pl.getLogger().log(Level.SEVERE, "Slot Machine " + slotMachineBlock.getMachineUUID().toString() + " is duplicated ! Ignoring this one...");

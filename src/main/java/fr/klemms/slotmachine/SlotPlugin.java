@@ -18,6 +18,7 @@ import fr.klemms.slotmachine.utils.sounds.SoundToMaterialList_119;
 import me.realized.tokenmanager.api.TokenManager;
 import net.milkbowl.vault.economy.Economy;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -306,6 +307,11 @@ public class SlotPlugin extends JavaPlugin {
 				yamlFile.set("machineType", slotMachine.getSlotMachineType().toString());
 				if(slotMachine.getSlotMachineType() == SlotMachineType.ENTITY || slotMachine.getSlotMachineType() == SlotMachineType.ENTITY_LINK) {
 					yamlFile.set("entityUID", ((SlotMachineEntity)slotMachine).getEntityUUID().toString());
+					yamlFile.set("isCitizensNPC", slotMachine.isCitizensNPC());
+
+					if (slotMachine.getSlotMachineType() == SlotMachineType.ENTITY_LINK) {
+						yamlFile.set("linkTo", ((SlotMachineEntityLink)slotMachine).getLinkTo().toString());
+					}
 				}
 				if(slotMachine.getSlotMachineType() == SlotMachineType.BLOCK || slotMachine.getSlotMachineType() == SlotMachineType.BLOCK_LINK) {
 					yamlFile.set("worldUID", ((SlotMachineBlock)slotMachine).getWorldUID().toString());
@@ -313,6 +319,10 @@ public class SlotPlugin extends JavaPlugin {
 					yamlFile.set("blockY", ((SlotMachineBlock)slotMachine).getBlockY());
 					yamlFile.set("blockZ", ((SlotMachineBlock)slotMachine).getBlockZ());
 					yamlFile.set("locked", ((SlotMachineBlock)slotMachine).isLocked());
+
+					if (slotMachine.getSlotMachineType() == SlotMachineType.BLOCK_LINK) {
+						yamlFile.set("linkTo", ((SlotMachineBlockLink)slotMachine).getLinkTo().toString());
+					}
 				}
 				yamlFile.set("machineUUID", slotMachine.getMachineUUID().toString());
 				if (slotMachine.getSlotMachineType() != SlotMachineType.ENTITY_LINK && slotMachine.getSlotMachineType() != SlotMachineType.BLOCK_LINK) {
@@ -336,7 +346,6 @@ public class SlotPlugin extends JavaPlugin {
 					yamlFile.set("allowContentPreview", slotMachine.allowContentPreview());
 					yamlFile.set("itemWeightOnPreview", slotMachine.showItemWeightOnPreview());
 					yamlFile.set("itemChanceOnPreview", slotMachine.showChanceOfItemOnPreview());
-					yamlFile.set("isCitizensNPC", slotMachine.isCitizensNPC());
 					yamlFile.set("timesUsed", slotMachine.getTimesUsed());
 					yamlFile.set("playMode", slotMachine.getPlayMode().toString());
 					yamlFile.set("cooldown", slotMachine.getCooldown());
@@ -385,7 +394,12 @@ public class SlotPlugin extends JavaPlugin {
 					String fileName = slotMachine.getMachineUUID().toString() + ".yml";
 
 					if (slotMachine.getLastFileName().length() > 0 && slotMachine.getLastFileName().endsWith(".yml")) {
-						fileName = slotMachine.getLastFileName();
+						try {
+							UUID.fromString(StringUtils.remove(slotMachine.getLastFileName(), ".yml"));
+						} catch (Exception e) {
+							fileName = slotMachine.getLastFileName();
+						}
+						Files.deleteIfExists(pl.getDataFolder().toPath().resolve("machines").resolve(slotMachine.getLastFileName()));
 					}
 
 					yamlFile.save(pl.getDataFolder().toPath().resolve("machines").resolve(fileName).toFile());

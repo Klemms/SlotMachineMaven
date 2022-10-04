@@ -193,17 +193,17 @@ public class Config {
                                 }
                             }
 
-                            if (ymlFile.getString("machineUUID") == null) {
-                                plugin.getLogger().log(Level.SEVERE, "Machine in file " + file.getName() + " has no 'machineUUID', we will try using the file name as this machine's UUID instead");
-                                Issue.newIssue(IssueType.MACHINE_READING_ISSUE, "Machine in file " + file.getName() + " has no 'machineUUID'", true);
-
+                            if (ymlFile.contains("machineUUID")) {
                                 try {
                                     // Throwing exception if it's not a valid UUID
-                                    machineUUID = UUID.fromString(FilenameUtils.getBaseName(file.getName()));
+                                    machineUUID = UUID.fromString(ymlFile.getString("machineUUID"));
                                 } catch (IllegalArgumentException e) {
                                     plugin.getLogger().log(Level.SEVERE, "Machine in file " + file.getName() + " has a wrong 'machineUUID' format, it will be loaded with a new UUID");
                                     Issue.newIssue(IssueType.MACHINE_READING_ISSUE, "Machine in file " + file.getName() + " has a wrong 'machineUUID' format, it will be loaded with a new UUID", true);
                                 }
+                            } else {
+                                plugin.getLogger().log(Level.SEVERE, "Machine in file " + file.getName() + " has no 'machineUUID', it will be loaded with a new UUID");
+                                Issue.newIssue(IssueType.MACHINE_READING_ISSUE, "Machine in file " + file.getName() + " has no 'machineUUID', it will be loaded with a new UUID", true);
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -214,31 +214,62 @@ public class Config {
                         }
                         SlotMachine slotMachine = null;
 
-                        switch (SlotMachineType.valueOf(ymlFile.getString("machineType"))) {
-                            case BLOCK_LINK:
-                            case BLOCK:
-                                UUID worldUUID = Bukkit.getWorlds().get(0).getUID();
-                                try {
-                                    worldUUID = UUID.fromString(ymlFile.getString("worldUID"));
-                                } catch (Exception e) {
-                                    SlotPlugin.pl.getLogger().log(Level.SEVERE, "Machine in file " + file.getName() + " has an invalid worldUID. Using default world.");
-                                    Issue.newIssue(IssueType.MACHINE_READING_ISSUE, "Machine in file " + file.getName() + " has an invalid worldUID. Using default world.", true);
-                                }
-                                slotMachine = new SlotMachineBlock(ymlFile.getInt("blockX"), ymlFile.getInt("blockY"), ymlFile.getInt("blockZ"), ymlFile.getBoolean("locked"), worldUUID);
-                                break;
-                            case ENTITY_LINK:
-                            case ENTITY:
-                                try {
+                        SlotMachineType slotMachineType = SlotMachineType.valueOf(ymlFile.getString("machineType"));
+                        if (slotMachineType == SlotMachineType.ENTITY || slotMachineType == SlotMachineType.ENTITY_LINK) {
+                            try {
+                                if (slotMachineType == SlotMachineType.ENTITY_LINK) {
+                                    UUID linkTo = null;
+                                    try {
+                                        linkTo = UUID.fromString(ymlFile.getString("linkTo"));
+                                    } catch (Exception e) {
+                                        SlotPlugin.pl.getLogger().log(Level.SEVERE, "Machine in file " + file.getName() + " has an invalid linkTo. Skipping this machine.");
+                                        Issue.newIssue(IssueType.MACHINE_READING_ISSUE, "Machine in file " + file.getName() + " has an invalid linkTo. Skipping this machine.", true);
+                                        continue;
+                                    }
+
+                                    slotMachine = new SlotMachineEntityLink(linkTo, UUID.fromString(ymlFile.getString("entityUID")));
+                                } else {
                                     slotMachine = new SlotMachineEntity(UUID.fromString(ymlFile.getString("entityUID")));
+                                }
+                            } catch (Exception e) {
+                                SlotPlugin.pl.getLogger().log(Level.SEVERE, "Machine in file " + file.getName() + " has an invalid entityUID. Skipping this machine.");
+                                Issue.newIssue(IssueType.MACHINE_READING_ISSUE, "Machine in file " + file.getName() + " has an invalid entityUID. Skipping this machine.", true);
+                                continue;
+                            }
+                        } else if (slotMachineType == SlotMachineType.BLOCK || slotMachineType == SlotMachineType.BLOCK_LINK) {
+                            UUID worldUUID = Bukkit.getWorlds().get(0).getUID();
+                            try {
+                                worldUUID = UUID.fromString(ymlFile.getString("worldUID"));
+                            } catch (Exception e) {
+                                SlotPlugin.pl.getLogger().log(Level.SEVERE, "Machine in file " + file.getName() + " has an invalid worldUID. Skipping this machine.");
+                                Issue.newIssue(IssueType.MACHINE_READING_ISSUE, "Machine in file " + file.getName() + " has an invalid worldUID. Skipping this machine.", true);
+                                continue;
+                            }
+
+                            if (slotMachineType == SlotMachineType.BLOCK_LINK) {
+                                UUID linkTo = null;
+                                try {
+                                    linkTo = UUID.fromString(ymlFile.getString("linkTo"));
                                 } catch (Exception e) {
-                                    SlotPlugin.pl.getLogger().log(Level.SEVERE, "Machine in file " + file.getName() + " has an invalid entityUID. Skipping this machine.");
-                                    Issue.newIssue(IssueType.MACHINE_READING_ISSUE, "Machine in file " + file.getName() + " has an invalid entityUID. Skipping this machine.", true);
+                                    SlotPlugin.pl.getLogger().log(Level.SEVERE, "Machine in file " + file.getName() + " has an invalid linkTo. Skipping this machine.");
+                                    Issue.newIssue(IssueType.MACHINE_READING_ISSUE, "Machine in file " + file.getName() + " has an invalid linkTo. Skipping this machine.", true);
                                     continue;
                                 }
-                                break;
+
+                                slotMachine = new SlotMachineBlockLink(linkTo, ymlFile.getInt("blockX"), ymlFile.getInt("blockY"), ymlFile.getInt("blockZ"), ymlFile.getBoolean("locked"), worldUUID);
+                            } else {
+                                slotMachine = new SlotMachineBlock(ymlFile.getInt("blockX"), ymlFile.getInt("blockY"), ymlFile.getInt("blockZ"), ymlFile.getBoolean("locked"), worldUUID);
+                            }
                         }
+
                         slotMachine.setLastFileName(file.getName());
                         slotMachine.setMachineUUID(machineUUID);
+
+                        if (slotMachine.getSlotMachineType() == SlotMachineType.ENTITY || slotMachine.getSlotMachineType() == SlotMachineType.ENTITY_LINK) {
+                            if (ymlFile.isSet("isCitizensNPC")) {
+                                slotMachine.setCitizensNPC(ymlFile.getBoolean("isCitizensNPC"));
+                            }
+                        }
 
                         if (slotMachine.getSlotMachineType() != SlotMachineType.BLOCK_LINK && slotMachine.getSlotMachineType() != SlotMachineType.ENTITY_LINK) {
                             slotMachine.setGuiPermission(ymlFile.getString("guiPermission"));
@@ -273,9 +304,6 @@ public class Config {
                             }
                             if (ymlFile.isSet("itemChanceOnPreview")) {
                                 slotMachine.showChanceOfItemOnPreview(ymlFile.getBoolean("itemChanceOnPreview"));
-                            }
-                            if (ymlFile.isSet("isCitizensNPC")) {
-                                slotMachine.setCitizensNPC(ymlFile.getBoolean("isCitizensNPC"));
                             }
                             if (ymlFile.isSet("hasWinMessage")) {
                                 slotMachine.setHasWinMessage(ymlFile.getBoolean("hasWinMessage"));

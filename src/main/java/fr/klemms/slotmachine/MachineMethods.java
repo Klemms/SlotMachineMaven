@@ -42,6 +42,12 @@ public class MachineMethods {
 				player.removeMetadata("slotmachineinteractblock", SlotPlugin.pl);
 			}
 		});
+
+		if (machine.getSlotMachineType() == SlotMachineType.BLOCK_LINK) {
+			machine = ((SlotMachineBlockLink)machine).getLink();
+		} else if (machine.getSlotMachineType() == SlotMachineType.ENTITY_LINK) {
+			machine = ((SlotMachineEntityLink)machine).getLink();
+		}
 		
 		if(machine.getSlotMachineItems().size() > 0) {
 			if(machine.getPriceType() == PriceType.GAMEPOINTS && !SlotPlugin.isGamePointsEnabled) {
@@ -88,8 +94,46 @@ public class MachineMethods {
 		if (uuid != null && SlotPlugin.isCitizensEnabled && CitizensAPI.getNPCRegistry().isNPC(entity))
 			uuid = CitizensAPI.getNPCRegistry().getNPC(entity).getUniqueId();
 		
-		SlotMachine machine = entity != null ? SlotMachineEntity.getSlotMachineByEntityUUID(uuid) : block != null ? SlotMachineBlock.getSlotMachineByBlock(block) : null;
+		SlotMachine machine = null;
+		if (entity != null) {
+			machine = SlotMachineEntityLink.getAllSlotMachineByEntityUUID(uuid);
+		} else if (block != null) {
+			machine = SlotMachineBlockLink.getAllSlotMachineByBlock(block);
+		}
+
 		MachineInterractionInventory.manageMachine(player, machine, entity, block, 0);
+	}
+
+	public static SlotMachineEntity createSlotMachineEntityLink(Player player, Entity entity, SlotMachine linkTo) {
+		UUID uuid = entity.getUniqueId();
+		boolean isCitizensNPC = false;
+
+		if (SlotPlugin.isCitizensEnabled && CitizensAPI.getNPCRegistry().isNPC(entity)) {
+			uuid = CitizensAPI.getNPCRegistry().getNPC(entity).getUniqueId();
+			isCitizensNPC = true;
+		}
+
+		if(SlotMachineEntityLink.getAllSlotMachineByEntityUUID(entity.getUniqueId()) == null) {
+			if(!isCitizensNPC && entity instanceof LivingEntity) {
+				((LivingEntity)entity).setAI(false);
+				entity.setSilent(true);
+			}
+			SlotMachineEntityLink slotMachineEntityLink = new SlotMachineEntityLink(linkTo.getMachineUUID(), entity.getUniqueId());
+			slotMachineEntityLink.setCitizensNPC(isCitizensNPC);
+			SlotMachineEntityLink.addSlotMachineEntity(slotMachineEntityLink);
+			player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("slotmachine.created").replace("%entityUUID%", uuid.toString()));
+
+			if(SlotPlugin.econ == null) {
+				player.sendMessage(ChatContent.BOLD + ChatContent.AQUA + "[Slot Machine] " + Language.translate("slotmachine.tokensfallback"));
+			}
+
+			SlotPlugin.pl.getLogger().log(Level.INFO, "New SlotMachine (Entity)" + (isCitizensNPC ? " (Citizens NPC)" : "") + " (Created by : " + player.getName() + ") : '" + entity.getType().toString() + "' with UUID '" + uuid.toString() + "' in world '" + entity.getWorld().getName() + "' at '" + entity.getLocation().getX() + " " + entity.getLocation().getY() + " " + entity.getLocation().getZ() + "'");
+			SlotPlugin.saveToDisk();
+			return slotMachineEntityLink;
+		} else {
+			player.sendMessage(ChatContent.RED + ChatContent.BOLD + "[Slot Machine] " + Language.translate("slotmachine.alreadyslotmachine"));
+			return SlotMachineEntityLink.getAllSlotMachineByEntityUUID(entity.getUniqueId());
+		}
 	}
 
 	public static SlotMachineEntity createSlotMachineEntity(Player player, Entity entity) {
@@ -104,7 +148,7 @@ public class MachineMethods {
 		if(SlotMachineEntity.getSlotMachineByEntityUUID(uuid) == null) {
 			if(!isCitizensNPC && entity instanceof LivingEntity) {
 				((LivingEntity)entity).setAI(false);
-				((LivingEntity)entity).setSilent(true);
+				entity.setSilent(true);
 			}
 			SlotMachineEntity slotMachineEntity = new SlotMachineEntity(uuid);
 			slotMachineEntity.setCitizensNPC(isCitizensNPC);
@@ -122,6 +166,25 @@ public class MachineMethods {
 		} else {
 			player.sendMessage(ChatContent.RED + ChatContent.BOLD + "[Slot Machine] " + Language.translate("slotmachine.alreadyslotmachine"));
 			return SlotMachineEntity.getSlotMachineByEntityUUID(uuid);
+		}
+	}
+
+	public static SlotMachineBlock createSlotMachineBlockLink(Player player, Block block, SlotMachine linkTo) {
+		if(SlotMachineBlockLink.getAllSlotMachineByBlock(block) == null) {
+			SlotMachineBlockLink slotMachineBlockLink = new SlotMachineBlockLink(linkTo.getMachineUUID(), block.getX(), block.getY(), block.getZ(), true, block.getWorld().getUID());
+			SlotMachineBlockLink.addSlotMachineBlock(slotMachineBlockLink);
+			player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("slotmachine.created.block").replace("%location%", block.getX() + "," + block.getY() + "," + block.getZ()));
+
+			if(SlotPlugin.econ == null) {
+				player.sendMessage(ChatContent.BOLD + ChatContent.AQUA + "[Slot Machine] " + Language.translate("slotmachine.tokensfallback"));
+			}
+
+			SlotPlugin.pl.getLogger().log(Level.INFO, "New SlotMachine (Block) (Created by : " + player.getName() + ") : '" + block.getType().toString() + "' in world '" + block.getWorld().getName() + "' at '" + block.getLocation().getX() + " " + block.getLocation().getY() + " " + block.getLocation().getZ() + "'");
+			SlotPlugin.saveToDisk();
+			return slotMachineBlockLink;
+		} else {
+			player.sendMessage(ChatContent.RED + ChatContent.BOLD + "[Slot Machine] " + Language.translate("slotmachine.alreadyslotmachine"));
+			return SlotMachineBlockLink.getAllSlotMachineByBlock(block);
 		}
 	}
 

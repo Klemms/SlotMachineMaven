@@ -2,6 +2,7 @@ package fr.klemms.slotmachine.commands;
 
 import fr.klemms.slotmachine.ChatContent;
 import fr.klemms.slotmachine.SlotMachineEntity;
+import fr.klemms.slotmachine.SlotMachineEntityLink;
 import fr.klemms.slotmachine.SlotPlugin;
 import fr.klemms.slotmachine.translation.Language;
 import org.bukkit.command.Command;
@@ -16,7 +17,7 @@ public class CommandTPMachine implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if(args.length == 1 && sender instanceof Player) {
-			SlotMachineEntity slotMachine = SlotMachineEntity.getSlotMachineByEntityUUID(UUID.fromString(args[0]));
+			SlotMachineEntity slotMachine = SlotMachineEntityLink.getAllSlotMachineByEntityUUID(UUID.fromString(args[0]));
 			if(slotMachine != null) {
 				if(slotMachine.getEntity() != null) {
 					slotMachine.getEntity().teleport(((Player)sender).getLocation());
