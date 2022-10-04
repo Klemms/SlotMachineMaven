@@ -14,6 +14,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -75,8 +76,64 @@ public abstract class SlotMachine {
 	public static synchronized List<SlotMachine> getSlotMachines() {
 		return slotMachines;
 	}
+
+	/**
+	 * Get all machines that are not LINKs
+	 * @return A SlotMachine List
+	 */
+	public static synchronized @NotNull List<SlotMachine> getOriginalSlotMachines() {
+		List<SlotMachine> returnMachines = new ArrayList<SlotMachine>();
+
+		for (SlotMachine slotMachine : slotMachines) {
+			if (slotMachine.getSlotMachineType() == SlotMachineType.BLOCK || slotMachine.getSlotMachineType() == SlotMachineType.ENTITY) {
+				returnMachines.add(slotMachine);
+			}
+		}
+
+		return returnMachines;
+	}
+
+	/**
+	 * Get all machines that are LINKs
+	 * @return A SlotMachine List
+	 */
+	public static synchronized @NotNull List<SlotMachine> getLinks() {
+		List<SlotMachine> returnMachines = new ArrayList<SlotMachine>();
+
+		for (SlotMachine slotMachine : slotMachines) {
+			if (slotMachine.getSlotMachineType() == SlotMachineType.BLOCK_LINK || slotMachine.getSlotMachineType() == SlotMachineType.ENTITY_LINK) {
+				returnMachines.add(slotMachine);
+			}
+		}
+
+		return returnMachines;
+	}
+
+	public static synchronized @NotNull List<SlotMachine> getAllSlotMachineEntities() {
+		List<SlotMachine> returnMachines = new ArrayList<SlotMachine>();
+
+		for (SlotMachine slotMachine : slotMachines) {
+			if (slotMachine.getSlotMachineType() == SlotMachineType.ENTITY || slotMachine.getSlotMachineType() == SlotMachineType.ENTITY_LINK) {
+				returnMachines.add(slotMachine);
+			}
+		}
+
+		return returnMachines;
+	}
+
+	public static synchronized @NotNull List<SlotMachine> getAllSlotMachineBlocks() {
+		List<SlotMachine> returnMachines = new ArrayList<SlotMachine>();
+
+		for (SlotMachine slotMachine : slotMachines) {
+			if (slotMachine.getSlotMachineType() == SlotMachineType.BLOCK || slotMachine.getSlotMachineType() == SlotMachineType.BLOCK_LINK) {
+				returnMachines.add(slotMachine);
+			}
+		}
+
+		return returnMachines;
+	}
 	
-	public static synchronized List<SlotMachine> getSlotMachinesByType(SlotMachineType slotMachineType) {
+	public static synchronized @NotNull List<SlotMachine> getSlotMachinesByType(SlotMachineType slotMachineType) {
 		List<SlotMachine> typeSlotMachines = new ArrayList<SlotMachine>();
 		for(SlotMachine slotMachine : slotMachines) {
 			if(slotMachine.getSlotMachineType() == slotMachineType) {

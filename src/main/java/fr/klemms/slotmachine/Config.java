@@ -215,6 +215,7 @@ public class Config {
                         SlotMachine slotMachine = null;
 
                         switch (SlotMachineType.valueOf(ymlFile.getString("machineType"))) {
+                            case BLOCK_LINK:
                             case BLOCK:
                                 UUID worldUUID = Bukkit.getWorlds().get(0).getUID();
                                 try {
@@ -225,6 +226,7 @@ public class Config {
                                 }
                                 slotMachine = new SlotMachineBlock(ymlFile.getInt("blockX"), ymlFile.getInt("blockY"), ymlFile.getInt("blockZ"), ymlFile.getBoolean("locked"), worldUUID);
                                 break;
+                            case ENTITY_LINK:
                             case ENTITY:
                                 try {
                                     slotMachine = new SlotMachineEntity(UUID.fromString(ymlFile.getString("entityUID")));
@@ -237,167 +239,179 @@ public class Config {
                         }
                         slotMachine.setLastFileName(file.getName());
                         slotMachine.setMachineUUID(machineUUID);
-                        slotMachine.setGuiPermission(ymlFile.getString("guiPermission"));
-                        slotMachine.setSlotMachineName(ymlFile.getString("slotMachineName"));
-                        slotMachine.setPullPrice(ymlFile.getDouble("pullPrice"));
-                        slotMachine.setChanceToWin(ymlFile.getDouble("chanceToWin"));
-                        slotMachine.setSecondsBeforePrize(ymlFile.getInt("secondsBeforePrize"));
-                        slotMachine.setWinMessage(ymlFile.getString("winMessage"));
-                        slotMachine.setLossMessage(ymlFile.getString("lossMessage"));
-                        slotMachine.setLeverTitle(ymlFile.getString("leverTitle"));
-                        slotMachine.setLeverDescription(ymlFile.getString("leverDescription"));
-                        if (ymlFile.isSet("customLever")) {
-                            slotMachine.setLeverCustom(ymlFile.getBoolean("customLever"));
-                        }
-                        if (ymlFile.isSet("priceType")) {
-                            slotMachine.setPriceType(PriceType.valueOf(ymlFile.getString("priceType")));
-                        }
-                        if (ymlFile.isSet("tokenIdentifier")) {
-                            slotMachine.setTokenIdentifier(ymlFile.getString("tokenIdentifier"));
-                        }
-                        if (ymlFile.isSet("visualType")) {
-                            slotMachine.setVisualType(VisualType.valueOf(ymlFile.getString("visualType")));
-                        }
-                        if (ymlFile.isSet("affectedByLuck")) {
-                            slotMachine.setAffectedByLuck(ymlFile.getBoolean("affectedByLuck"));
-                        }
-                        if (ymlFile.isSet("allowContentPreview")) {
-                            slotMachine.allowContentPreview(ymlFile.getBoolean("allowContentPreview"));
-                        }
-                        if (ymlFile.isSet("itemWeightOnPreview")) {
-                            slotMachine.showItemWeightOnPreview(ymlFile.getBoolean("itemWeightOnPreview"));
-                        }
-                        if (ymlFile.isSet("itemChanceOnPreview")) {
-                            slotMachine.showChanceOfItemOnPreview(ymlFile.getBoolean("itemChanceOnPreview"));
-                        }
-                        if (ymlFile.isSet("isCitizensNPC")) {
-                            slotMachine.setCitizensNPC(ymlFile.getBoolean("isCitizensNPC"));
-                        }
-                        if (ymlFile.isSet("hasWinMessage")) {
-                            slotMachine.setHasWinMessage(ymlFile.getBoolean("hasWinMessage"));
-                        }
-                        if (ymlFile.isSet("hasLossMessage")) {
-                            slotMachine.setHasLossMessage(ymlFile.getBoolean("hasLossMessage"));
-                        }
-                        if (ymlFile.isSet("displayItemNameInChat")) {
-                            slotMachine.setDisplayWonItemInChat(ymlFile.getBoolean("displayItemNameInChat"));
-                        }
-                        if (ymlFile.isSet("timesUsed")) {
-                            slotMachine.setTimesUsed(ymlFile.getInt("timesUsed"));
-                        }
-                        if (ymlFile.isSet("playMode")) {
-                            slotMachine.setPlayMode(PlayMode.valueOf(ymlFile.getString("playMode")));
-                        }
-                        if (ymlFile.isSet("cooldown")) {
-                            slotMachine.setCooldown(ymlFile.getInt("cooldown"));
-                        }
 
-                        if (ymlFile.isSet("backgroundItem")) {
-                            if (ymlFile.isItemStack("backgroundItem")) {
-                                slotMachine.setBackgroundItem(ymlFile.getItemStack("backgroundItem"));
-                            } else if (ItemStackUtil.isValidMaterial(ymlFile.getString("backgroundItem"))) {
-                                slotMachine.setBackgroundItem(new ItemStack(Material.getMaterial(ymlFile.getString("backgroundItem")), 1));
+                        if (slotMachine.getSlotMachineType() != SlotMachineType.BLOCK_LINK && slotMachine.getSlotMachineType() != SlotMachineType.ENTITY_LINK) {
+                            slotMachine.setGuiPermission(ymlFile.getString("guiPermission"));
+                            slotMachine.setSlotMachineName(ymlFile.getString("slotMachineName"));
+                            slotMachine.setPullPrice(ymlFile.getDouble("pullPrice"));
+                            slotMachine.setChanceToWin(ymlFile.getDouble("chanceToWin"));
+                            slotMachine.setSecondsBeforePrize(ymlFile.getInt("secondsBeforePrize"));
+                            slotMachine.setWinMessage(ymlFile.getString("winMessage"));
+                            slotMachine.setLossMessage(ymlFile.getString("lossMessage"));
+                            slotMachine.setLeverTitle(ymlFile.getString("leverTitle"));
+                            slotMachine.setLeverDescription(ymlFile.getString("leverDescription"));
+                            if (ymlFile.isSet("customLever")) {
+                                slotMachine.setLeverCustom(ymlFile.getBoolean("customLever"));
                             }
-                        }
-                        if (ymlFile.isSet("emphasisItem")) {
-                            if (ymlFile.isItemStack("emphasisItem")) {
-                                slotMachine.setEmphasisItem(ymlFile.getItemStack("emphasisItem"));
-                            } else if (ItemStackUtil.isValidMaterial(ymlFile.getString("emphasisItem"))) {
-                                slotMachine.setEmphasisItem(new ItemStack(Material.getMaterial(ymlFile.getString("emphasisItem")), 1));
+                            if (ymlFile.isSet("priceType")) {
+                                slotMachine.setPriceType(PriceType.valueOf(ymlFile.getString("priceType")));
                             }
-                        }
-                        if (ymlFile.isSet("leverItem")) {
-                            if (ymlFile.isItemStack("leverItem")) {
-                                slotMachine.setLeverItem(ymlFile.getItemStack("leverItem"));
-                            } else if (ItemStackUtil.isValidMaterial(ymlFile.getString("leverItem"))) {
-                                slotMachine.setLeverItem(new ItemStack(Material.getMaterial(ymlFile.getString("leverItem")), 1));
+                            if (ymlFile.isSet("tokenIdentifier")) {
+                                slotMachine.setTokenIdentifier(ymlFile.getString("tokenIdentifier"));
                             }
-                        }
-                        if (ymlFile.isSet("itemListItem")) {
-                            if (ymlFile.isItemStack("itemListItem")) {
-                                slotMachine.setItemListItem(ymlFile.getItemStack("itemListItem"));
-                            } else if (ItemStackUtil.isValidMaterial(ymlFile.getString("itemListItem"))) {
-                                slotMachine.setItemListItem(new ItemStack(Material.getMaterial(ymlFile.getString("itemListItem")), 1));
+                            if (ymlFile.isSet("visualType")) {
+                                slotMachine.setVisualType(VisualType.valueOf(ymlFile.getString("visualType")));
                             }
-                        }
+                            if (ymlFile.isSet("affectedByLuck")) {
+                                slotMachine.setAffectedByLuck(ymlFile.getBoolean("affectedByLuck"));
+                            }
+                            if (ymlFile.isSet("allowContentPreview")) {
+                                slotMachine.allowContentPreview(ymlFile.getBoolean("allowContentPreview"));
+                            }
+                            if (ymlFile.isSet("itemWeightOnPreview")) {
+                                slotMachine.showItemWeightOnPreview(ymlFile.getBoolean("itemWeightOnPreview"));
+                            }
+                            if (ymlFile.isSet("itemChanceOnPreview")) {
+                                slotMachine.showChanceOfItemOnPreview(ymlFile.getBoolean("itemChanceOnPreview"));
+                            }
+                            if (ymlFile.isSet("isCitizensNPC")) {
+                                slotMachine.setCitizensNPC(ymlFile.getBoolean("isCitizensNPC"));
+                            }
+                            if (ymlFile.isSet("hasWinMessage")) {
+                                slotMachine.setHasWinMessage(ymlFile.getBoolean("hasWinMessage"));
+                            }
+                            if (ymlFile.isSet("hasLossMessage")) {
+                                slotMachine.setHasLossMessage(ymlFile.getBoolean("hasLossMessage"));
+                            }
+                            if (ymlFile.isSet("displayItemNameInChat")) {
+                                slotMachine.setDisplayWonItemInChat(ymlFile.getBoolean("displayItemNameInChat"));
+                            }
+                            if (ymlFile.isSet("timesUsed")) {
+                                slotMachine.setTimesUsed(ymlFile.getInt("timesUsed"));
+                            }
+                            if (ymlFile.isSet("playMode")) {
+                                slotMachine.setPlayMode(PlayMode.valueOf(ymlFile.getString("playMode")));
+                            }
+                            if (ymlFile.isSet("cooldown")) {
+                                slotMachine.setCooldown(ymlFile.getInt("cooldown"));
+                            }
 
-                        if (ymlFile.isSet("machineOpeningSound") && Util.isValidSound(ymlFile.getString("machineOpeningSound"))) {
-                            slotMachine.setMachineOpeningSound(Sound.valueOf(ymlFile.getString("machineOpeningSound")));
-                        }
-                        if (ymlFile.isSet("leverSound") && Util.isValidSound(ymlFile.getString("leverSound"))) {
-                            slotMachine.setLeverSound(Sound.valueOf(ymlFile.getString("leverSound")));
-                        }
-                        if (ymlFile.isSet("slotmachineSpinSound") && Util.isValidSound(ymlFile.getString("slotmachineSpinSound"))) {
-                            slotMachine.setSlotmachineSpinSound(Sound.valueOf(ymlFile.getString("slotmachineSpinSound")));
-                        }
-                        if (ymlFile.isSet("errorSound") && Util.isValidSound(ymlFile.getString("errorSound"))) {
-                            slotMachine.setErrorSound(Sound.valueOf(ymlFile.getString("errorSound")));
-                        }
-                        if (ymlFile.isSet("csgoSpinSound") && Util.isValidSound(ymlFile.getString("csgoSpinSound"))) {
-                            slotMachine.setCsgoSpinSound(Sound.valueOf(ymlFile.getString("csgoSpinSound")));
-                        }
-                        if (ymlFile.isSet("winSound") && Util.isValidSound(ymlFile.getString("winSound"))) {
-                            slotMachine.setWinSound(Sound.valueOf(ymlFile.getString("winSound")));
-                        }
-                        if (ymlFile.isSet("lossSound") && Util.isValidSound(ymlFile.getString("lossSound"))) {
-                            slotMachine.setLossSound(Sound.valueOf(ymlFile.getString("lossSound")));
-                        }
-                        if (ymlFile.isSet("errorSound") && Util.isValidSound(ymlFile.getString("errorSound"))) {
-                            slotMachine.setErrorSound(Sound.valueOf(ymlFile.getString("errorSound")));
-                        }
-
-                        List<MachineItem> slotMachineItems = new ArrayList<MachineItem>();
-                        for (int b = 0; b < ymlFile.getInt("itemCount"); b++) {
-
-                            if (ymlFile.isSet("items." + b + ".reward")) {
-                                MachineItem.RewardType rewardType = ymlFile.isSet("items." + b + ".rewardType") ? MachineItem.RewardType.valueOf(ymlFile.getString("items." + b + ".rewardType")) : null;
-                                if (rewardType != null) {
-                                    if (rewardType == RewardType.ITEM) {
-                                        slotMachineItems.add(new MachineItem(ymlFile.getItemStack("items." + b + ".item"), ymlFile.getInt("items." + b + ".weight"), Arrays.asList(new MachineItem.Reward(ymlFile.getItemStack("items." + b + ".reward")))));
-                                    } else if (rewardType == RewardType.COMMAND) {
-                                        slotMachineItems.add(new MachineItem(ymlFile.getItemStack("items." + b + ".item"), ymlFile.getInt("items." + b + ".weight"), Arrays.asList(new MachineItem.Reward(ymlFile.getString("items." + b + ".reward")))));
-                                    }
-                                } else {
-                                    slotMachineItems.add(new MachineItem(ymlFile.getItemStack("items." + b + ".item"), ymlFile.getInt("items." + b + ".weight")));
+                            if (ymlFile.isSet("backgroundItem")) {
+                                if (ymlFile.isItemStack("backgroundItem")) {
+                                    slotMachine.setBackgroundItem(ymlFile.getItemStack("backgroundItem"));
+                                } else if (ItemStackUtil.isValidMaterial(ymlFile.getString("backgroundItem"))) {
+                                    slotMachine.setBackgroundItem(new ItemStack(Material.getMaterial(ymlFile.getString("backgroundItem")), 1));
                                 }
-                            } else if (ymlFile.isSet("items." + b + ".rewards")) {
-                                Set<String> strRewards = ymlFile.getConfigurationSection("items." + b + ".rewards").getKeys(false);
-                                List<Reward> rewards = new ArrayList<Reward>();
+                            }
+                            if (ymlFile.isSet("emphasisItem")) {
+                                if (ymlFile.isItemStack("emphasisItem")) {
+                                    slotMachine.setEmphasisItem(ymlFile.getItemStack("emphasisItem"));
+                                } else if (ItemStackUtil.isValidMaterial(ymlFile.getString("emphasisItem"))) {
+                                    slotMachine.setEmphasisItem(new ItemStack(Material.getMaterial(ymlFile.getString("emphasisItem")), 1));
+                                }
+                            }
+                            if (ymlFile.isSet("leverItem")) {
+                                if (ymlFile.isItemStack("leverItem")) {
+                                    slotMachine.setLeverItem(ymlFile.getItemStack("leverItem"));
+                                } else if (ItemStackUtil.isValidMaterial(ymlFile.getString("leverItem"))) {
+                                    slotMachine.setLeverItem(new ItemStack(Material.getMaterial(ymlFile.getString("leverItem")), 1));
+                                }
+                            }
+                            if (ymlFile.isSet("itemListItem")) {
+                                if (ymlFile.isItemStack("itemListItem")) {
+                                    slotMachine.setItemListItem(ymlFile.getItemStack("itemListItem"));
+                                } else if (ItemStackUtil.isValidMaterial(ymlFile.getString("itemListItem"))) {
+                                    slotMachine.setItemListItem(new ItemStack(Material.getMaterial(ymlFile.getString("itemListItem")), 1));
+                                }
+                            }
 
-                                for (String str : strRewards) {
-                                    if (ymlFile.isSet("items." + b + ".rewards." + str + ".type") && (ymlFile.isSet("items." + b + ".rewards." + str + ".item") || ymlFile.isSet("items." + b + ".rewards." + str + ".command"))) {
-                                        if (RewardType.valueOf(ymlFile.getString("items." + b + ".rewards." + str + ".type")) == RewardType.ITEM) {
-                                            rewards.add(new MachineItem.Reward(ymlFile.getItemStack("items." + b + ".rewards." + str + ".item")));
-                                        } else if (RewardType.valueOf(ymlFile.getString("items." + b + ".rewards." + str + ".type")) == RewardType.COMMAND) {
-                                            rewards.add(new MachineItem.Reward(ymlFile.getString("items." + b + ".rewards." + str + ".command")));
+                            if (ymlFile.isSet("machineOpeningSound") && Util.isValidSound(ymlFile.getString("machineOpeningSound"))) {
+                                slotMachine.setMachineOpeningSound(Sound.valueOf(ymlFile.getString("machineOpeningSound")));
+                            }
+                            if (ymlFile.isSet("leverSound") && Util.isValidSound(ymlFile.getString("leverSound"))) {
+                                slotMachine.setLeverSound(Sound.valueOf(ymlFile.getString("leverSound")));
+                            }
+                            if (ymlFile.isSet("slotmachineSpinSound") && Util.isValidSound(ymlFile.getString("slotmachineSpinSound"))) {
+                                slotMachine.setSlotmachineSpinSound(Sound.valueOf(ymlFile.getString("slotmachineSpinSound")));
+                            }
+                            if (ymlFile.isSet("errorSound") && Util.isValidSound(ymlFile.getString("errorSound"))) {
+                                slotMachine.setErrorSound(Sound.valueOf(ymlFile.getString("errorSound")));
+                            }
+                            if (ymlFile.isSet("csgoSpinSound") && Util.isValidSound(ymlFile.getString("csgoSpinSound"))) {
+                                slotMachine.setCsgoSpinSound(Sound.valueOf(ymlFile.getString("csgoSpinSound")));
+                            }
+                            if (ymlFile.isSet("winSound") && Util.isValidSound(ymlFile.getString("winSound"))) {
+                                slotMachine.setWinSound(Sound.valueOf(ymlFile.getString("winSound")));
+                            }
+                            if (ymlFile.isSet("lossSound") && Util.isValidSound(ymlFile.getString("lossSound"))) {
+                                slotMachine.setLossSound(Sound.valueOf(ymlFile.getString("lossSound")));
+                            }
+                            if (ymlFile.isSet("errorSound") && Util.isValidSound(ymlFile.getString("errorSound"))) {
+                                slotMachine.setErrorSound(Sound.valueOf(ymlFile.getString("errorSound")));
+                            }
+
+                            List<MachineItem> slotMachineItems = new ArrayList<MachineItem>();
+                            for (int b = 0; b < ymlFile.getInt("itemCount"); b++) {
+
+                                if (ymlFile.isSet("items." + b + ".reward")) {
+                                    MachineItem.RewardType rewardType = ymlFile.isSet("items." + b + ".rewardType") ? MachineItem.RewardType.valueOf(ymlFile.getString("items." + b + ".rewardType")) : null;
+                                    if (rewardType != null) {
+                                        if (rewardType == RewardType.ITEM) {
+                                            slotMachineItems.add(new MachineItem(ymlFile.getItemStack("items." + b + ".item"), ymlFile.getInt("items." + b + ".weight"), Arrays.asList(new MachineItem.Reward(ymlFile.getItemStack("items." + b + ".reward")))));
+                                        } else if (rewardType == RewardType.COMMAND) {
+                                            slotMachineItems.add(new MachineItem(ymlFile.getItemStack("items." + b + ".item"), ymlFile.getInt("items." + b + ".weight"), Arrays.asList(new MachineItem.Reward(ymlFile.getString("items." + b + ".reward")))));
                                         }
                                     } else {
-                                        Issue.newIssue(IssueType.MACHINE_READING_ISSUE, "Machine " + slotMachine.getMachineUUID().toString() + " has a malformed item reward (" + str + ")", true);
-                                        SlotPlugin.pl.getLogger().log(Level.SEVERE, "Machine " + slotMachine.getMachineUUID().toString() + " has a malformed item reward (" + str + "), we're not loading this reward");
+                                        slotMachineItems.add(new MachineItem(ymlFile.getItemStack("items." + b + ".item"), ymlFile.getInt("items." + b + ".weight")));
                                     }
-                                }
-                                MachineItem it = new MachineItem(ymlFile.getItemStack("items." + b + ".item"), ymlFile.getInt("items." + b + ".weight"), rewards);
+                                } else if (ymlFile.isSet("items." + b + ".rewards")) {
+                                    Set<String> strRewards = ymlFile.getConfigurationSection("items." + b + ".rewards").getKeys(false);
+                                    List<Reward> rewards = new ArrayList<Reward>();
 
-                                if (ymlFile.isSet("items." + b + ".stats.timesWon")) {
-                                    it.itemStats.timesWon = ymlFile.getInt("items." + b + ".stats.timesWon");
-                                }
+                                    for (String str : strRewards) {
+                                        if (ymlFile.isSet("items." + b + ".rewards." + str + ".type") && (ymlFile.isSet("items." + b + ".rewards." + str + ".item") || ymlFile.isSet("items." + b + ".rewards." + str + ".command"))) {
+                                            if (RewardType.valueOf(ymlFile.getString("items." + b + ".rewards." + str + ".type")) == RewardType.ITEM) {
+                                                rewards.add(new MachineItem.Reward(ymlFile.getItemStack("items." + b + ".rewards." + str + ".item")));
+                                            } else if (RewardType.valueOf(ymlFile.getString("items." + b + ".rewards." + str + ".type")) == RewardType.COMMAND) {
+                                                rewards.add(new MachineItem.Reward(ymlFile.getString("items." + b + ".rewards." + str + ".command")));
+                                            }
+                                        } else {
+                                            Issue.newIssue(IssueType.MACHINE_READING_ISSUE, "Machine " + slotMachine.getMachineUUID().toString() + " has a malformed item reward (" + str + ")", true);
+                                            SlotPlugin.pl.getLogger().log(Level.SEVERE, "Machine " + slotMachine.getMachineUUID().toString() + " has a malformed item reward (" + str + "), we're not loading this reward");
+                                        }
+                                    }
+                                    MachineItem it = new MachineItem(ymlFile.getItemStack("items." + b + ".item"), ymlFile.getInt("items." + b + ".weight"), rewards);
 
-                                slotMachineItems.add(it);
-                            } else {
-                                slotMachineItems.add(
-                                        new MachineItem(
-                                                ymlFile.getItemStack("items." + b + ".item"),
-                                                ymlFile.getInt("items." + b + ".weight")
-                                        )
-                                );
+                                    if (ymlFile.isSet("items." + b + ".stats.timesWon")) {
+                                        it.itemStats.timesWon = ymlFile.getInt("items." + b + ".stats.timesWon");
+                                    }
+
+                                    slotMachineItems.add(it);
+                                } else {
+                                    slotMachineItems.add(
+                                            new MachineItem(
+                                                    ymlFile.getItemStack("items." + b + ".item"),
+                                                    ymlFile.getInt("items." + b + ".weight")
+                                            )
+                                    );
+                                }
                             }
+                            slotMachine.setSlotMachineItems(slotMachineItems);
                         }
-                        slotMachine.setSlotMachineItems(slotMachineItems);
-                        if (slotMachine.getSlotMachineType() == SlotMachineType.ENTITY) {
-                            SlotMachineEntity.addSlotMachineEntity((SlotMachineEntity) slotMachine);
-                        }
-                        if (slotMachine.getSlotMachineType() == SlotMachineType.BLOCK) {
-                            SlotMachineBlock.addSlotMachineBlock((SlotMachineBlock) slotMachine);
+
+                        switch (slotMachine.getSlotMachineType()) {
+                            case ENTITY:
+                                SlotMachineEntity.addSlotMachineEntity((SlotMachineEntity) slotMachine);
+                                break;
+                            case ENTITY_LINK:
+                                SlotMachineEntity.addSlotMachineEntity((SlotMachineEntityLink) slotMachine);
+                                break;
+                            case BLOCK:
+                                SlotMachineBlock.addSlotMachineBlock((SlotMachineBlock) slotMachine);
+                                break;
+                            case BLOCK_LINK:
+                                SlotMachineBlock.addSlotMachineBlock((SlotMachineBlockLink) slotMachine);
+                                break;
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

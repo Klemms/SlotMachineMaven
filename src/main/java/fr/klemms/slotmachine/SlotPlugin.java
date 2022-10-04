@@ -195,11 +195,11 @@ public class SlotPlugin extends JavaPlugin {
 			}
 			
 			private int countBlockMachines() {
-				return SlotMachine.getSlotMachinesByType(SlotMachineType.BLOCK).size();
+				return SlotMachine.getAllSlotMachineBlocks().size();
 			}
 			
 			private int countEntityMachines() {
-				return SlotMachine.getSlotMachinesByType(SlotMachineType.ENTITY).size();
+				return SlotMachine.getAllSlotMachineEntities().size();
 			}
 			
 		}));
@@ -304,10 +304,10 @@ public class SlotPlugin extends JavaPlugin {
 				
 				yamlFile.set("saveTime", DateFormat.getDateTimeInstance().format(new Date()).toString());
 				yamlFile.set("machineType", slotMachine.getSlotMachineType().toString());
-				if(slotMachine.getSlotMachineType() == SlotMachineType.ENTITY) {
+				if(slotMachine.getSlotMachineType() == SlotMachineType.ENTITY || slotMachine.getSlotMachineType() == SlotMachineType.ENTITY_LINK) {
 					yamlFile.set("entityUID", ((SlotMachineEntity)slotMachine).getEntityUUID().toString());
 				}
-				if(slotMachine.getSlotMachineType() == SlotMachineType.BLOCK) {
+				if(slotMachine.getSlotMachineType() == SlotMachineType.BLOCK || slotMachine.getSlotMachineType() == SlotMachineType.BLOCK_LINK) {
 					yamlFile.set("worldUID", ((SlotMachineBlock)slotMachine).getWorldUID().toString());
 					yamlFile.set("blockX", ((SlotMachineBlock)slotMachine).getBlockX());
 					yamlFile.set("blockY", ((SlotMachineBlock)slotMachine).getBlockY());
@@ -315,69 +315,71 @@ public class SlotPlugin extends JavaPlugin {
 					yamlFile.set("locked", ((SlotMachineBlock)slotMachine).isLocked());
 				}
 				yamlFile.set("machineUUID", slotMachine.getMachineUUID().toString());
-				yamlFile.set("guiPermission", slotMachine.getGuiPermission());
-				yamlFile.set("slotMachineName", slotMachine.getSlotMachineName());
-				yamlFile.set("visualType", slotMachine.getVisualType().toString());
-				yamlFile.set("priceType", slotMachine.getPriceType().toString());
-				yamlFile.set("tokenIdentifier", slotMachine.getTokenIdentifier());
-				yamlFile.set("pullPrice", slotMachine.getPullPrice());
-				yamlFile.set("chanceToWin", slotMachine.getChanceToWin());
-				yamlFile.set("secondsBeforePrize", slotMachine.getSecondsBeforePrize());
-				yamlFile.set("winMessage", slotMachine.getWinMessage());
-				yamlFile.set("hasWinMessage", slotMachine.hasWinMessage());
-				yamlFile.set("lossMessage", slotMachine.getLossMessage());
-				yamlFile.set("hasLossMessage", slotMachine.hasLossMessage());
-				yamlFile.set("displayItemNameInChat", slotMachine.isDisplayWonItemInChat());
-				yamlFile.set("leverTitle", slotMachine.getLeverTitle());
-				yamlFile.set("leverDescription", slotMachine.getLeverDescription());
-				yamlFile.set("customLever", slotMachine.isLeverCustom());
-				yamlFile.set("affectedByLuck", slotMachine.isAffectedByLuck());
-				yamlFile.set("allowContentPreview", slotMachine.allowContentPreview());
-				yamlFile.set("itemWeightOnPreview", slotMachine.showItemWeightOnPreview());
-				yamlFile.set("itemChanceOnPreview", slotMachine.showChanceOfItemOnPreview());
-				yamlFile.set("isCitizensNPC", slotMachine.isCitizensNPC());
-				yamlFile.set("timesUsed", slotMachine.getTimesUsed());
-				yamlFile.set("playMode", slotMachine.getPlayMode().toString());
-				yamlFile.set("cooldown", slotMachine.getCooldown());
-				
-				yamlFile.set("backgroundItem", slotMachine.getBackgroundItem());
-				yamlFile.set("emphasisItem", slotMachine.getEmphasisItem());
-				yamlFile.set("leverItem", slotMachine.getLeverItem());
-				yamlFile.set("itemListItem", slotMachine.getItemListItem());
+				if (slotMachine.getSlotMachineType() != SlotMachineType.ENTITY_LINK && slotMachine.getSlotMachineType() != SlotMachineType.BLOCK_LINK) {
+					yamlFile.set("guiPermission", slotMachine.getGuiPermission());
+					yamlFile.set("slotMachineName", slotMachine.getSlotMachineName());
+					yamlFile.set("visualType", slotMachine.getVisualType().toString());
+					yamlFile.set("priceType", slotMachine.getPriceType().toString());
+					yamlFile.set("tokenIdentifier", slotMachine.getTokenIdentifier());
+					yamlFile.set("pullPrice", slotMachine.getPullPrice());
+					yamlFile.set("chanceToWin", slotMachine.getChanceToWin());
+					yamlFile.set("secondsBeforePrize", slotMachine.getSecondsBeforePrize());
+					yamlFile.set("winMessage", slotMachine.getWinMessage());
+					yamlFile.set("hasWinMessage", slotMachine.hasWinMessage());
+					yamlFile.set("lossMessage", slotMachine.getLossMessage());
+					yamlFile.set("hasLossMessage", slotMachine.hasLossMessage());
+					yamlFile.set("displayItemNameInChat", slotMachine.isDisplayWonItemInChat());
+					yamlFile.set("leverTitle", slotMachine.getLeverTitle());
+					yamlFile.set("leverDescription", slotMachine.getLeverDescription());
+					yamlFile.set("customLever", slotMachine.isLeverCustom());
+					yamlFile.set("affectedByLuck", slotMachine.isAffectedByLuck());
+					yamlFile.set("allowContentPreview", slotMachine.allowContentPreview());
+					yamlFile.set("itemWeightOnPreview", slotMachine.showItemWeightOnPreview());
+					yamlFile.set("itemChanceOnPreview", slotMachine.showChanceOfItemOnPreview());
+					yamlFile.set("isCitizensNPC", slotMachine.isCitizensNPC());
+					yamlFile.set("timesUsed", slotMachine.getTimesUsed());
+					yamlFile.set("playMode", slotMachine.getPlayMode().toString());
+					yamlFile.set("cooldown", slotMachine.getCooldown());
 
-				yamlFile.set("machineOpeningSound", slotMachine.getMachineOpeningSound().toString());
-				yamlFile.set("leverSound", slotMachine.getLeverSound().toString());
-				yamlFile.set("slotmachineSpinSound", slotMachine.getSlotmachineSpinSound().toString());
-				yamlFile.set("csgoSpinSound", slotMachine.getCsgoSpinSound().toString());
-				yamlFile.set("winSound", slotMachine.getWinSound().toString());
-				yamlFile.set("lossSound", slotMachine.getLossSound().toString());
-				yamlFile.set("errorSound", slotMachine.getErrorSound().toString());
-				
-				yamlFile.set("itemCount", slotMachine.getSlotMachineItems().size());
-				if (slotMachine.getSlotMachineItems().size() == 0)
-					yamlFile.set("items", null);
-				for(int b = 0; b < slotMachine.getSlotMachineItems().size(); b++) {
-					MachineItem item = slotMachine.getSlotMachineItems().get(b);
-					
-					yamlFile.set("items." + b + ".reward", null);
-					yamlFile.set("items." + b + ".rewardType", null);
-					
-					yamlFile.set("items." + b + ".item", item.getItemStack());
-					yamlFile.set("items." + b + ".weight", item.getWeight());
-					
-					for(int c = 0; c < item.getRewards().size(); c++) {
-						MachineItem.Reward reward = item.getRewards().get(c);
-						yamlFile.set("items." + b + ".rewards." + c + ".type", reward.rewardType.toString());
-						if (reward.rewardType == RewardType.ITEM) {
-							yamlFile.set("items." + b + ".rewards." + c + ".item", reward.itemReward);
-							yamlFile.set("items." + b + ".rewards." + c + ".command", null);
-						} else if (reward.rewardType == RewardType.COMMAND) {
-							yamlFile.set("items." + b + ".rewards." + c + ".item", null);
-							yamlFile.set("items." + b + ".rewards." + c + ".command", reward.commandReward);
+					yamlFile.set("backgroundItem", slotMachine.getBackgroundItem());
+					yamlFile.set("emphasisItem", slotMachine.getEmphasisItem());
+					yamlFile.set("leverItem", slotMachine.getLeverItem());
+					yamlFile.set("itemListItem", slotMachine.getItemListItem());
+
+					yamlFile.set("machineOpeningSound", slotMachine.getMachineOpeningSound().toString());
+					yamlFile.set("leverSound", slotMachine.getLeverSound().toString());
+					yamlFile.set("slotmachineSpinSound", slotMachine.getSlotmachineSpinSound().toString());
+					yamlFile.set("csgoSpinSound", slotMachine.getCsgoSpinSound().toString());
+					yamlFile.set("winSound", slotMachine.getWinSound().toString());
+					yamlFile.set("lossSound", slotMachine.getLossSound().toString());
+					yamlFile.set("errorSound", slotMachine.getErrorSound().toString());
+
+					yamlFile.set("itemCount", slotMachine.getSlotMachineItems().size());
+					if (slotMachine.getSlotMachineItems().size() == 0)
+						yamlFile.set("items", null);
+					for (int b = 0; b < slotMachine.getSlotMachineItems().size(); b++) {
+						MachineItem item = slotMachine.getSlotMachineItems().get(b);
+
+						yamlFile.set("items." + b + ".reward", null);
+						yamlFile.set("items." + b + ".rewardType", null);
+
+						yamlFile.set("items." + b + ".item", item.getItemStack());
+						yamlFile.set("items." + b + ".weight", item.getWeight());
+
+						for (int c = 0; c < item.getRewards().size(); c++) {
+							MachineItem.Reward reward = item.getRewards().get(c);
+							yamlFile.set("items." + b + ".rewards." + c + ".type", reward.rewardType.toString());
+							if (reward.rewardType == RewardType.ITEM) {
+								yamlFile.set("items." + b + ".rewards." + c + ".item", reward.itemReward);
+								yamlFile.set("items." + b + ".rewards." + c + ".command", null);
+							} else if (reward.rewardType == RewardType.COMMAND) {
+								yamlFile.set("items." + b + ".rewards." + c + ".item", null);
+								yamlFile.set("items." + b + ".rewards." + c + ".command", reward.commandReward);
+							}
 						}
-					}
 
-					yamlFile.set("items." + b + ".stats.timesWon", item.itemStats.timesWon);
+						yamlFile.set("items." + b + ".stats.timesWon", item.itemStats.timesWon);
+					}
 				}
 				try {
 					String fileName = slotMachine.getMachineUUID().toString() + ".yml";

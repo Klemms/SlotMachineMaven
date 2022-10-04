@@ -43,7 +43,11 @@ public class SlotMachineBlock extends SlotMachine {
 	private boolean isLocked;
 
 	public SlotMachineBlock(int blockX, int blockY, int blockZ, boolean isLocked, UUID worldUID) {
-		super(SlotMachineType.BLOCK);
+		this(SlotMachineType.BLOCK, blockX, blockY, blockZ, isLocked, worldUID);
+	}
+
+	public SlotMachineBlock(SlotMachineType slotMachineType, int blockX, int blockY, int blockZ, boolean isLocked, UUID worldUID) {
+		super(slotMachineType);
 		this.worldUID = worldUID;
 		this.blockX = blockX;
 		this.blockY = blockY;

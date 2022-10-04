@@ -1,17 +1,5 @@
 package fr.klemms.slotmachine;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.UUID;
-import java.util.logging.Level;
-
-import org.bukkit.Bukkit;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.metadata.FixedMetadataValue;
-
 import fr.klemms.slotmachine.Issue.IssueType;
 import fr.klemms.slotmachine.exceptioncollector.ExceptionCollector;
 import fr.klemms.slotmachine.interraction.MachineInterractionInventory;
@@ -21,6 +9,17 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
+import org.bukkit.Bukkit;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.metadata.FixedMetadataValue;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.UUID;
+import java.util.logging.Level;
 
 public class MachineMethods {
 	
@@ -166,10 +165,10 @@ public class MachineMethods {
 	
 	public static void sendSlotMachineInformations(Player player, SlotMachine slotMachine) {
 		player.sendMessage(ChatContent.translateColorCodes("&#1976d2&l---- &#81c784&l" + Language.translate("slotmachine.informations") + "&#1976d2&l ----"));
-		if(slotMachine.getSlotMachineType() == SlotMachineType.ENTITY) {
+		if(slotMachine.getSlotMachineType() == SlotMachineType.ENTITY || slotMachine.getSlotMachineType() == SlotMachineType.ENTITY_LINK) {
 			player.sendMessage(ChatContent.translateColorCodes("&#1976d2-- &#81c784" + Language.translate("slotmachine.informations.entityuuid") + " : " + ChatContent.RESET + ChatContent.GOLD + ((SlotMachineEntity)slotMachine).getEntityUUID().toString()));
 		}
-		if(slotMachine.getSlotMachineType() == SlotMachineType.BLOCK) {
+		if(slotMachine.getSlotMachineType() == SlotMachineType.BLOCK || slotMachine.getSlotMachineType() == SlotMachineType.BLOCK_LINK) {
 			SlotMachineBlock smb = (SlotMachineBlock)slotMachine;
 			Block block = smb.getBlock();
 			player.sendMessage(ChatContent.translateColorCodes("&#1976d2-- &#81c784" + Language.translate("slotmachine.informations.location") + " : " + ChatContent.RESET + ChatContent.GOLD + block.getWorld().getName() + " | X:" + block.getX() + " Y:" + block.getY() + " Z:" + block.getZ()));

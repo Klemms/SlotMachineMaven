@@ -37,7 +37,11 @@ public class SlotMachineEntity extends SlotMachine {
 	private UUID entityUUID;
 
 	public SlotMachineEntity(UUID entityUUID) {
-		super(SlotMachineType.ENTITY);
+		this(SlotMachineType.ENTITY, entityUUID);
+	}
+
+	public SlotMachineEntity(SlotMachineType slotMachineType, UUID entityUUID) {
+		super(slotMachineType);
 		this.entityUUID = entityUUID;
 	}
 
