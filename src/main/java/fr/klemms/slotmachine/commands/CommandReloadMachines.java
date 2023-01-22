@@ -9,15 +9,17 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 public class CommandReloadMachines implements CommandExecutor {
-	
+
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		sender.sendMessage(ChatContent.PINK + "[Slot Machine] Please make sure no one is currently using machines...");
 		sender.sendMessage(ChatContent.PINK + "[Slot Machine] It is recommended to run /smsavetodisk before making changes to files");
 		SlotMachine.slotMachines.clear();
 		Config.loadMachines(SlotPlugin.pl);
-		sender.sendMessage(ChatContent.GREEN + "[Slot Machine] Machines reloaded");
-		
+		Config.tokens.clear();
+		SlotPlugin.readTokens();
+		sender.sendMessage(ChatContent.GREEN + "[Slot Machine] Machines and tokens reloaded");
+
 		return true;
 	}
 }

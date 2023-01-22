@@ -35,34 +35,34 @@ import java.util.concurrent.Callable;
 import java.util.logging.Level;
 
 public class SlotPlugin extends JavaPlugin {
-	
+
 	public static final String MC_FOR = "Spigot 1.16/1.17/1.18/1.19";
 	public static final ItemStack DEFAULT_TOKEN = ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.GOLD_NUGGET, 1), ChatContent.GOLD + "Token"), Collections.singletonList(ChatContent.AQUA + ChatContent.ITALIC + "Default Slot Machine Token"));
-	
+
 	public static volatile SlotPlugin pl;
 	public static Economy econ = null;
 	public static VotingPluginHooks votingPlugin = null;
 	public static final String BRANCH = "release";
-	public static final int VERSION = 77;
+	public static final int VERSION = 78;
 	public static Metrics metrics;
 	public static boolean supportEnding = false;
 	public static String supportMessage = "";
 	public static boolean shouldSaveMachinesToDisk = true;
 
 	public static HashMap<Sound, Material> soundMaterialMap;
-	
+
 	public static InventoryManager invManager;
-	
+
 	public static boolean isGamePointsEnabled = false;
 	public static boolean isCitizensEnabled = false;
-	
+
 	public static boolean oldTokenManagerWorks = false;
 	public static TokenManager tokenManager;
 
 	public static boolean isPlaceholderAPIEnabled = false;
-	
+
 	protected static HashMap<UUID, PlayerConfig> playerConfigs;
-	
+
 	public static List<Issue> issues;
 
 	@Override
@@ -80,10 +80,10 @@ public class SlotPlugin extends JavaPlugin {
 			Bukkit.getPluginManager().disablePlugin(this);
 			return;
 		}
-		
+
 		invManager = new InventoryManager(this);
 		invManager.init();
-		
+
 		if (Util.getMCVersion().startsWith("1.16")) {
 			this.getLogger().log(Level.INFO, "Using 1.16 Sound Mappings");
 			SoundToMaterialList_116.initList();
@@ -104,7 +104,7 @@ public class SlotPlugin extends JavaPlugin {
 
 		if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null)
 			isPlaceholderAPIEnabled = true;
-		
+
 		Setup.setupLanguages(this);
 		try {
 			Config.registerConfig(this);
@@ -128,16 +128,16 @@ public class SlotPlugin extends JavaPlugin {
 		Objects.requireNonNull(getCommand("smsavetodisk")).setExecutor(new CommandSMSaveToDisk());
 		Objects.requireNonNull(getCommand("smcooldown")).setExecutor(new CommandCooldown());
 		Objects.requireNonNull(getCommand("smreload")).setExecutor(new CommandReloadMachines());
-		
+
 		Setup.setupEconomy(this);
 		Setup.setupVotingPlugin(this);
-		
+
 		this.getServer().getPluginManager().registerEvents(new PluginListener(), this);
-		
+
 		if(this.getServer().getPluginManager().getPlugin("GamePoints") != null) {
 			SlotPlugin.isGamePointsEnabled = true;
 		}
-		
+
 		if(this.getServer().getPluginManager().getPlugin("TokenManager") != null) {
 			try {
 				Class.forName("me.realized.tm.api.TMAPI");
@@ -146,71 +146,71 @@ public class SlotPlugin extends JavaPlugin {
 				tokenManager = (TokenManager) this.getServer().getPluginManager().getPlugin("TokenManager");
 			}
 		}
-		
+
 		try {
 			new KlemmsUpdate(this, "SlotMachine", VERSION, BRANCH);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		metrics = new Metrics(this, 1065);
-		
+
 		metrics.addCustomChart(new Metrics.SimplePie("internal_version", new Callable<String>() {
 
 			@Override
 			public String call() throws Exception {
 				return String.valueOf(SlotPlugin.VERSION);
 			}
-			
+
 		}));
-		
+
 		metrics.addCustomChart(new Metrics.SingleLineChart("times_used", new Callable<Integer>() {
 
 			@Override
 			public Integer call() throws Exception {
 				return countUsage();
 			}
-			
+
 			private int countUsage() {
 				List<SlotMachine> machines = SlotMachine.getSlotMachines();
 				int result = 0;
-				
+
 				for(SlotMachine machine : machines)
 					result += machine.getTimesUsed();
-				
+
 				return result;
 			}
-			
+
 		}));
-		
+
 		metrics.addCustomChart(new Metrics.AdvancedPie("slot_machine_type", new Callable<Map<String, Integer>>() {
 
 			@Override
 			public Map<String, Integer> call() throws Exception {
 				Map<String, Integer> valueMap = new HashMap<String, Integer>();
-				
+
 				valueMap.put("Block", countBlockMachines());
 				valueMap.put("Entity", countEntityMachines());
-				
+
 				return valueMap;
 			}
-			
+
 			private int countBlockMachines() {
 				return SlotMachine.getAllSlotMachineBlocks().size();
 			}
-			
+
 			private int countEntityMachines() {
 				return SlotMachine.getAllSlotMachineEntities().size();
 			}
-			
+
 		}));
-		
+
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
 			Iterator<Issue> iss = issues.iterator();
-			
+
 			while (iss.hasNext()) {
 				Issue issue = iss.next();
-				
+
 				boolean remove = false;
 				for (Player player : Bukkit.getOnlinePlayers()) {
 					if (player.isOp()) {
@@ -220,7 +220,7 @@ public class SlotPlugin extends JavaPlugin {
 						remove = true;
 					}
 				}
-				
+
 				if (remove)
 					iss.remove();
 			}
@@ -236,7 +236,7 @@ public class SlotPlugin extends JavaPlugin {
 				}
 			}
 		}, 1 * 20, 1 * 20);
-		
+
 		// Saving
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
 			saveCooldownsToDisk();
@@ -271,7 +271,7 @@ public class SlotPlugin extends JavaPlugin {
 			}
 		}
 	}
-	
+
 	public static void saveCooldownsToDisk() {
 		for (PlayerConfig plc : SlotPlugin.playerConfigs.values()) {
 			boolean write = false;
@@ -298,11 +298,11 @@ public class SlotPlugin extends JavaPlugin {
 			ExceptionCollector.sendException(SlotPlugin.pl, e);
 			return;
 		}
-		
+
 		if(Files.exists(pl.getDataFolder().toPath().resolve("machines"))) {
 			for(SlotMachine slotMachine : SlotMachine.getSlotMachines()) {
 				YamlConfiguration yamlFile = YamlConfiguration.loadConfiguration(pl.getDataFolder().toPath().resolve("machines").resolve(slotMachine.getMachineUUID().toString() + ".yml").toFile());
-				
+
 				yamlFile.set("saveTime", DateFormat.getDateTimeInstance().format(new Date()).toString());
 				yamlFile.set("machineType", slotMachine.getSlotMachineType().toString());
 				if(slotMachine.getSlotMachineType() == SlotMachineType.ENTITY || slotMachine.getSlotMachineType() == SlotMachineType.ENTITY_LINK) {
@@ -415,35 +415,35 @@ public class SlotPlugin extends JavaPlugin {
 		SlotPlugin.pl.saveConfig();
 		pl.getLogger().log(Level.SEVERE, "Couldn't save configuration version 5 ! Please contact the developper");
 	}
-	
+
 	public static void writeTokens() {
 		YamlConfiguration yamlFile = YamlConfiguration.loadConfiguration(pl.getDataFolder().toPath().resolve("tokens.yml").toFile());
-		
+
 		yamlFile.set("tokenCount", Config.tokens.size());
 		yamlFile.set("tokens", null);
-		
+
 		int a = 0;
 		for(String identifier : Config.tokens.keySet()) {
 			yamlFile.set("tokens." + a + ".identifier", identifier);
 			yamlFile.set("tokens." + a + ".itemstack", Config.tokens.get(identifier));
 			a++;
 		}
-		
+
 		try {
 			yamlFile.save(pl.getDataFolder().toPath().resolve("tokens.yml").toFile());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void readTokens() {
 		pl.getLogger().log(Level.INFO, "Loading Tokens");
 		if(Files.exists(pl.getDataFolder().toPath().resolve("tokens.yml"))) {
 			YamlConfiguration yamlFile = YamlConfiguration.loadConfiguration(pl.getDataFolder().toPath().resolve("tokens.yml").toFile());
-			
+
 			int tokenCount = yamlFile.getInt("tokenCount");
 			pl.getLogger().log(Level.INFO, tokenCount + " tokens found");
-			
+
 			for(int a = 0; a < tokenCount; a++) {
 				if (yamlFile.contains("tokens." + a + ".identifier") && yamlFile.contains("tokens." + a + ".itemstack")) {
 					ItemStack is = yamlFile.getItemStack("tokens." + a + ".itemstack");
@@ -462,14 +462,14 @@ public class SlotPlugin extends JavaPlugin {
 					pl.getLogger().log(Level.SEVERE, "A token could not be loaded because some of its data was missing or corrupted. This token has been removed");
 				}
 			}
-			
+
 			if(tokenCount == 0 || !Config.tokens.containsKey("default")) {
 				pl.getLogger().log(Level.INFO, "Couldnt find token 'default', adding original Slot Machine token");
 				Config.tokens.put("default", new ItemStack(DEFAULT_TOKEN));
 			}
-			
+
 			pl.getLogger().log(Level.INFO, Config.tokens.size() + " tokens loaded");
-			
+
 		} else {
 			pl.getLogger().log(Level.INFO, "First time, creating default token...");
 			Config.tokens.put("default", new ItemStack(DEFAULT_TOKEN));

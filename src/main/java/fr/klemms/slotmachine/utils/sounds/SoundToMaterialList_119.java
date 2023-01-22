@@ -10,15 +10,11 @@ public class SoundToMaterialList_119 {
 
 	public static void initList() {
 		SlotPlugin.soundMaterialMap = new HashMap<Sound, Material>();
-		
+
 		for (Sound sound : Sound.values()) {
 			switch(sound) {
 				case AMBIENT_BASALT_DELTAS_ADDITIONS:
-					SlotPlugin.soundMaterialMap.put(sound, Material.BASALT);
-					break;
 				case AMBIENT_BASALT_DELTAS_LOOP:
-					SlotPlugin.soundMaterialMap.put(sound, Material.BASALT);
-					break;
 				case AMBIENT_BASALT_DELTAS_MOOD:
 					SlotPlugin.soundMaterialMap.put(sound, Material.BASALT);
 					break;
