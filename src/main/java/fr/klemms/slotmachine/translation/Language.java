@@ -11,7 +11,7 @@ public class Language {
 	public static HashMap<String, HashMap<String, String>> languages = new HashMap<String, HashMap<String, String>>();
 
 	public static boolean isValidLanguage(String language) {
-		return languages.containsKey(language.toUpperCase());
+		return languages.containsKey(language);
 	}
 
 	public static String translate(String identifier) {
@@ -19,11 +19,15 @@ public class Language {
 	}
 
 	public static String translateInLanguage(String language, String identifier) {
-		if(isValidLanguage(language.toUpperCase())) {
-			if(languages.get(language.toUpperCase()).containsKey(identifier)) {
-				return languages.get(language.toUpperCase()).get(identifier);
-			} else if(languages.get("ENGLISH").containsKey(identifier)) {
-				return languages.get("ENGLISH").get(identifier);
+		if(isValidLanguage(language)) {
+			if(languages.get(language).containsKey(identifier)) {
+				return languages.get(language).get(identifier);
+			} else if(languages.get("en").containsKey(identifier)) {
+				return languages.get("en").get(identifier);
+			}
+		} else {
+			if(languages.get("en").containsKey(identifier)) {
+				return languages.get("en").get(identifier);
 			}
 		}
 
@@ -57,7 +61,7 @@ public class Language {
 			}
 		}
 
-		languages.put(language.toUpperCase(), lang);
+		languages.put(language, lang);
 	}
 
 	public static HashMap<String, String> getParseLanguageFromStrings(List<String> lines) {

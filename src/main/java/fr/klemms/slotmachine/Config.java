@@ -31,7 +31,7 @@ public class Config {
 
     public static volatile boolean debug = false;
 
-    public static volatile String language = "ENGLISH";
+    public static volatile String language = "en";
 
     public static volatile String noAccessDefaultString = "permission.denied";
     public static volatile String notEnoughMoneyDefaultString = "money.notenough";
@@ -68,7 +68,7 @@ public class Config {
 
         plugin.getConfig().addDefault("language", language);
         if (Util.isAtLeastMC118())
-            plugin.getConfig().setComments("language", Arrays.asList("", "Language to be used", "See the 'Supports Localization' part of the plugin page on Spigot website"));
+            plugin.getConfig().setComments("language", Arrays.asList("", "Language to be used", "See the 'Supports Localization' part of the plugin page on Spigot website", "Valid values are : en (english), fr (french), zh (chinese)", "You can also create your own translation, please read the 'readme' file in the langs folder for more informations."));
 
         plugin.getConfig().addDefault("backupMachinesOnPluginUnload", backupMachinesOnPluginUnload);
         if (Util.isAtLeastMC118())
@@ -136,8 +136,10 @@ public class Config {
         if (Language.isValidLanguage(SlotPlugin.pl.getConfig().getString("language").toUpperCase())) {
             language = SlotPlugin.pl.getConfig().getString("language").toUpperCase();
         } else {
-            plugin.getLogger().log(Level.WARNING, "The config language '" + SlotPlugin.pl.getConfig().getString("language") + "' does not exist");
-            language = "ENGLISH";
+            plugin.getLogger().log(Level.WARNING, "The config language '" + SlotPlugin.pl.getConfig().getString("language") + "' does not exist, falling back to 'en' (English)");
+            language = "en";
+            plugin.getConfig().set("language", "en");
+            plugin.saveConfig();
         }
         debug = SlotPlugin.pl.getConfig().getBoolean("debug");
         backupMachinesOnPluginUnload = SlotPlugin.pl.getConfig().getBoolean("backupMachinesOnPluginUnload");
