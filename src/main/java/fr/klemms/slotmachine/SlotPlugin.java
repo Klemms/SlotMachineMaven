@@ -17,8 +17,6 @@ import fr.klemms.slotmachine.utils.sounds.SoundToMaterialList_117;
 import fr.klemms.slotmachine.utils.sounds.SoundToMaterialList_118;
 import fr.klemms.slotmachine.utils.sounds.SoundToMaterialList_119;
 import me.realized.tokenmanager.api.TokenManager;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.milkbowl.vault.economy.Economy;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -257,6 +255,7 @@ public class SlotPlugin extends JavaPlugin {
 				return;
 			}
 
+			List<UUID> toRemove = new ArrayList<UUID>();
 			for (UUID uuid : playerRewardsQueue.keySet()) {
 				Player player = Bukkit.getPlayer(uuid);
 				if (player == null) {
@@ -264,12 +263,13 @@ public class SlotPlugin extends JavaPlugin {
 				}
 
 				if (player.getInventory().firstEmpty() < 0) {
-					player.spigot().sendMessage(new ComponentBuilder("[Slot Machine] " + Language.translate("slotmachine.giveitem.noroom")).color(ChatColor.RED).create());
+					player.sendMessage(ChatContent.RED + "[Slot Machine] " + ChatContent.translateColorCodes(Language.translate("slotmachine.giveitem.noroom")));
 					continue;
 				}
 
 				List<ItemStack> items = playerRewardsQueue.get(uuid);
 				if (items.size() == 0) {
+					toRemove.add(uuid);
 					continue;
 				}
 
@@ -283,6 +283,8 @@ public class SlotPlugin extends JavaPlugin {
 						player.getInventory().addItem(is);
 						updateInventory = true;
 						it.remove();
+					} else {
+						break;
 					}
 				}
 				System.out.println(items.size());
@@ -291,6 +293,10 @@ public class SlotPlugin extends JavaPlugin {
 				if (updateInventory) {
 					player.updateInventory();
 				}
+			}
+
+			for (UUID uuid : toRemove) {
+				playerRewardsQueue.remove(uuid);
 			}
 		}, 10 * 20, 10 * 20);
 	}

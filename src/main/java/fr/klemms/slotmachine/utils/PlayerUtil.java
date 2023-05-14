@@ -1,9 +1,8 @@
 package fr.klemms.slotmachine.utils;
 
+import fr.klemms.slotmachine.ChatContent;
 import fr.klemms.slotmachine.SlotPlugin;
 import fr.klemms.slotmachine.translation.Language;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -22,13 +21,7 @@ public class PlayerUtil {
 			playerRewards.add(item);
 			SlotPlugin.playerRewardsQueue.put(player.getUniqueId(), playerRewards);
 
-			player.spigot().sendMessage(new ComponentBuilder("[Slot Machine] " + Language.translate("slotmachine.rewards.waiting").replace("%amount%", String.valueOf(playerRewards.size()))).color(ChatColor.AQUA).create());
-			SlotPlugin.pl.getServer().getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new Runnable() {
-				@Override
-				public void run() {
-					givePlayerItem(player, item);
-				}
-			}, 10 * 20);
+			player.sendMessage(ChatContent.YELLOW + "[Slot Machine] " + ChatContent.translateColorCodes(Language.translate("slotmachine.rewards.waiting").replace("%amount%", String.valueOf(playerRewards.size()))));
 		}
 	}
 
