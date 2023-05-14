@@ -100,7 +100,7 @@ public class Config {
 
         plugin.getConfig().addDefault("showItemName", showItemName);
         if (Util.isAtLeastMC118())
-            plugin.getConfig().setComments("showItemName", Arrays.asList("", "Whether to the item name the player has won in the chat when they win", "Setting this to 'true' can help with players not realizing what they won"));
+            plugin.getConfig().setComments("showItemName", Arrays.asList("", "Whether to show the item name the player has won in the chat when they win", "Setting this to true can help with players not realizing what they won"));
 
         plugin.getConfig().addDefault("defaultWinMessage", defaultWinMessage);
         if (Util.isAtLeastMC118())
@@ -116,11 +116,11 @@ public class Config {
 
         plugin.getConfig().addDefault("luckLevelToPercentConversion", luckLevelToPercentConversion);
         if (Util.isAtLeastMC118())
-            plugin.getConfig().setComments("luckLevelToPercentConversion", Arrays.asList("", "How much chance to win per luck level is added to the machine's chance", "This can be negative and will affect chance accordingly"));
+            plugin.getConfig().setComments("luckLevelToPercentConversion", Arrays.asList("", "How much chance to win per luck (Potion Effect) level is added to the machine's chance", "This can be negative and will affect chance accordingly"));
 
         plugin.getConfig().addDefault("badLuckLevelToPercentConversion", badLuckLevelToPercentConversion);
         if (Util.isAtLeastMC118())
-            plugin.getConfig().setComments("badLuckLevelToPercentConversion", Arrays.asList("", "How much chance to win per luck level is added to the machine's chance", "This can be negative and will affect chance accordingly"));
+            plugin.getConfig().setComments("badLuckLevelToPercentConversion", Arrays.asList("", "How much chance to win per bad-luck (Potion Effect) level is added to the machine's chance", "This can be negative and will affect chance accordingly"));
 
         plugin.getConfig().addDefault("adminToolMaterial", adminToolMaterial.toString());
         if (Util.isAtLeastMC118())
