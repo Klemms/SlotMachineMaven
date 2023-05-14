@@ -9,6 +9,7 @@ import fr.klemms.slotmachine.events.PluginListener;
 import fr.klemms.slotmachine.exceptioncollector.ExceptionCollector;
 import fr.klemms.slotmachine.fr.minuskube.inv.InventoryManager;
 import fr.klemms.slotmachine.metrics.Metrics;
+import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
 import fr.klemms.slotmachine.utils.Util;
 import fr.klemms.slotmachine.utils.sounds.SoundToMaterialList_116;
@@ -16,6 +17,8 @@ import fr.klemms.slotmachine.utils.sounds.SoundToMaterialList_117;
 import fr.klemms.slotmachine.utils.sounds.SoundToMaterialList_118;
 import fr.klemms.slotmachine.utils.sounds.SoundToMaterialList_119;
 import me.realized.tokenmanager.api.TokenManager;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.milkbowl.vault.economy.Economy;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -65,6 +68,8 @@ public class SlotPlugin extends JavaPlugin {
 
 	public static List<Issue> issues;
 
+	public static HashMap<UUID, List<ItemStack>> playerRewardsQueue;
+
 	@Override
 	public void onEnable() {
 		pl = this;
@@ -74,7 +79,7 @@ public class SlotPlugin extends JavaPlugin {
 		this.getLogger().log(Level.INFO, "Slot Machine version " + this.getDescription().getVersion() + " (" + VERSION + ") for " + MC_FOR);
 		if (Util.getMCVersion().startsWith("1.7") || Util.getMCVersion().startsWith("1.8") || Util.getMCVersion().startsWith("1.9") ||
 				Util.getMCVersion().startsWith("1.10") || Util.getMCVersion().startsWith("1.11") || Util.getMCVersion().startsWith("1.12")
-				 || Util.getMCVersion().startsWith("1.13") || Util.getMCVersion().startsWith("1.14") || Util.getMCVersion().startsWith("1.15")) {
+				|| Util.getMCVersion().startsWith("1.13") || Util.getMCVersion().startsWith("1.14") || Util.getMCVersion().startsWith("1.15")) {
 			this.getLogger().log(Level.SEVERE, "This version of Slot Machine can only work on Spigot 1.16 or greater");
 			Config.backupMachinesOnPluginUnload = false;
 			Bukkit.getPluginManager().disablePlugin(this);
@@ -128,6 +133,8 @@ public class SlotPlugin extends JavaPlugin {
 		Objects.requireNonNull(getCommand("smsavetodisk")).setExecutor(new CommandSMSaveToDisk());
 		Objects.requireNonNull(getCommand("smcooldown")).setExecutor(new CommandCooldown());
 		Objects.requireNonNull(getCommand("smreload")).setExecutor(new CommandReloadMachines());
+
+		playerRewardsQueue = new HashMap<UUID, List<ItemStack>>();
 
 		Setup.setupEconomy(this);
 		Setup.setupVotingPlugin(this);
@@ -242,6 +249,49 @@ public class SlotPlugin extends JavaPlugin {
 			saveCooldownsToDisk();
 			if (shouldSaveMachinesToDisk)
 				saveMachinesToDisk();
+		}, 10 * 20, 10 * 20);
+
+		// Items Giving
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
+			if (playerRewardsQueue.isEmpty()) {
+				return;
+			}
+
+			for (UUID uuid : playerRewardsQueue.keySet()) {
+				Player player = Bukkit.getPlayer(uuid);
+				if (player == null) {
+					continue;
+				}
+
+				if (player.getInventory().firstEmpty() < 0) {
+					player.spigot().sendMessage(new ComponentBuilder("[Slot Machine] " + Language.translate("slotmachine.giveitem.noroom")).color(ChatColor.RED).create());
+					continue;
+				}
+
+				List<ItemStack> items = playerRewardsQueue.get(uuid);
+				if (items.size() == 0) {
+					continue;
+				}
+
+				Iterator<ItemStack> it = items.iterator();
+				boolean updateInventory = false;
+				System.out.println(items.size());
+				while(it.hasNext()) {
+					ItemStack is = it.next();
+
+					if (player.getInventory().firstEmpty() >= 0) {
+						player.getInventory().addItem(is);
+						updateInventory = true;
+						it.remove();
+					}
+				}
+				System.out.println(items.size());
+				System.out.println("-----");
+
+				if (updateInventory) {
+					player.updateInventory();
+				}
+			}
 		}, 10 * 20, 10 * 20);
 	}
 

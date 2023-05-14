@@ -1,13 +1,9 @@
 package fr.klemms.slotmachine;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.util.logging.Level;
-
+import com.bencodez.votingplugin.VotingPluginHooks;
+import fr.klemms.slotmachine.exceptioncollector.ExceptionCollector;
+import fr.klemms.slotmachine.translation.Language;
+import net.milkbowl.vault.economy.Economy;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
@@ -15,11 +11,13 @@ import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.bencodez.votingplugin.VotingPluginHooks;
-
-import fr.klemms.slotmachine.exceptioncollector.ExceptionCollector;
-import fr.klemms.slotmachine.translation.Language;
-import net.milkbowl.vault.economy.Economy;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.util.logging.Level;
 
 public class Setup {
 
@@ -30,13 +28,13 @@ public class Setup {
 			e1.printStackTrace();
 			ExceptionCollector.sendException(SlotPlugin.pl, e1);
 		}
-		
+
 		try {
 			if(Files.notExists(plugin.getDataFolder().toPath().resolve("langs").resolve("ENGLISH.txt"))) {
-				IOUtils.copy(plugin.getResource("ENGLISH.txt"), new FileOutputStream(plugin.getDataFolder().toPath().resolve("langs").resolve("ENGLISH.txt").toFile()));
+				IOUtils.copy(plugin.getResource("ENGLISH.properties"), new FileOutputStream(plugin.getDataFolder().toPath().resolve("langs").resolve("ENGLISH.properties").toFile()));
 			}
 			if(Files.notExists(plugin.getDataFolder().toPath().resolve("langs").resolve("FRENCH.txt"))) {
-				IOUtils.copy(plugin.getResource("FRENCH.txt"), new FileOutputStream(plugin.getDataFolder().toPath().resolve("langs").resolve("FRENCH.txt").toFile()));
+				IOUtils.copy(plugin.getResource("FRENCH.properties"), new FileOutputStream(plugin.getDataFolder().toPath().resolve("langs").resolve("FRENCH.properties").toFile()));
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -45,7 +43,7 @@ public class Setup {
 			e.printStackTrace();
 			ExceptionCollector.sendException(SlotPlugin.pl, e);
 		}
-		
+
 		for(File file : FileUtils.listFiles(plugin.getDataFolder().toPath().resolve("langs").toFile(), TrueFileFilter.INSTANCE, null)) {
 			plugin.getLogger().log(Level.INFO, "Adding language '" + FilenameUtils.removeExtension(file.getName()).toUpperCase() + "'");
 			try {
@@ -55,7 +53,7 @@ public class Setup {
 				ExceptionCollector.sendException(SlotPlugin.pl, e);
 			}
 		}
-		
+
 		boolean redo = false;
 		try {
 			if(Integer.valueOf(Language.translateInLanguage("ENGLISH", "version")) < Integer.valueOf(Language.translateInLanguage(Language.getParseLanguageFromStrings(IOUtils.readLines(plugin.getResource("ENGLISH.txt"), Charset.forName("UTF-8"))), "version"))) {
@@ -75,13 +73,13 @@ public class Setup {
 			e.printStackTrace();
 			ExceptionCollector.sendException(SlotPlugin.pl, e);
 		}
-		
+
 		if(redo) {
 			plugin.getLogger().log(Level.INFO, "Reloading languages...");
 			Setup.setupLanguages(plugin);
 		}
 	}
-	
+
 	public static boolean setupEconomy(JavaPlugin plugin) {
         if (plugin.getServer().getPluginManager().getPlugin("Vault") != null) {
             RegisteredServiceProvider<Economy> rsp = plugin.getServer().getServicesManager().getRegistration(Economy.class);
@@ -93,7 +91,7 @@ public class Setup {
         plugin.getLogger().log(Level.WARNING, "Vault could not be detected. Transactions using money will not work");
         return false;
     }
-	
+
 	public static boolean setupVotingPlugin(JavaPlugin plugin) {
         if (plugin.getServer().getPluginManager().getPlugin("VotingPlugin") != null) {
         	SlotPlugin.votingPlugin = VotingPluginHooks.getInstance();

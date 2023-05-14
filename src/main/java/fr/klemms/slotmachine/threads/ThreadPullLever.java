@@ -6,12 +6,12 @@ import fr.klemms.slotmachine.exceptioncollector.ExceptionCollector;
 import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryContents;
 import fr.klemms.slotmachine.interraction.InterractionCallback;
 import fr.klemms.slotmachine.placeholders.Variables;
+import fr.klemms.slotmachine.utils.PlayerUtil;
 import fr.klemms.slotmachine.utils.PotionUtil;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
@@ -20,19 +20,19 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
 
 public class ThreadPullLever extends Thread {
-	
+
 	private SlotMachine machine;
 	private Player player;
 	private InventoryContents contents;
 	private InterractionCallback callback;
-	
+
 	public ThreadPullLever( Player player, SlotMachine machine, InventoryContents contents, InterractionCallback callback) {
 		this.machine = machine;
 		this.player = player;
 		this.contents = contents;
 		this.callback = callback;
 	}
-	
+
 	@Override
 	public void run() {
 		try {
@@ -41,15 +41,15 @@ public class ThreadPullLever extends Thread {
 			if(machine.getVisualType() == VisualType.CSGOWHEEL || machine.getVisualType() == VisualType.CSGOWHEEL_VERTICAL) {
 				chanceToWin = 1D;
 			}
-			
+
 			if (machine.isAffectedByLuck() && player.hasPotionEffect(PotionEffectType.LUCK))
 				chanceToWin += (PotionUtil.getPotionEffect(player, PotionEffectType.LUCK).getAmplifier() + 1) * Config.luckLevelToPercentConversion / 100;
 			if (machine.isAffectedByLuck() && player.hasPotionEffect(PotionEffectType.UNLUCK))
 				chanceToWin += (PotionUtil.getPotionEffect(player, PotionEffectType.UNLUCK).getAmplifier() + 1) * Config.badLuckLevelToPercentConversion / 100;
-			
+
 			boolean hasWon = chance >= 0D && chance < chanceToWin && machine.canAnItemBeWon();
 			MachineItem wonItem = machine.getRandomItemFromPoolWithWeight();
-			
+
 			if(machine.getVisualType() == VisualType.SLOTMACHINE) {
 				for(int a = 0; a < machine.getSecondsBeforePrize() * 2; a++) {
 					List<MachineItem> row0 = null;
@@ -111,7 +111,7 @@ public class ThreadPullLever extends Thread {
 					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(player, machine, 6, 2, newLine.get(5), contents), 0);
 					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(player, machine, 7, 2, newLine.get(6), contents), 0);
 					machine.setPlayerRow0(player, newLine);
-					
+
 					int finishTime = 0;
 					if(a >= machine.getSecondsBeforePrize() * 10 - 10) {
 						finishTime = (40 - (6 * 4 - machine.getSpinSpeed() * 4)) * (a - (machine.getSecondsBeforePrize() * 10 - 10));
@@ -138,7 +138,7 @@ public class ThreadPullLever extends Thread {
 					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(player, machine, 2, 3, newLine.get(3), contents), 0);
 					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(player, machine, 2, 4, newLine.get(4), contents), 0);
 					machine.setPlayerRow0(player, newLine);
-					
+
 					int finishTime = 0;
 					if(a >= machine.getSecondsBeforePrize() * 10 - 10) {
 						finishTime = (40 - (6 * 4 - machine.getSpinSpeed() * 4)) * (a - (machine.getSecondsBeforePrize() * 10 - 10));
@@ -156,10 +156,10 @@ public class ThreadPullLever extends Thread {
 				Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadPlaySound(machine.getWinSound(), 1.9F, 0.9F, player), 4);
 				givePrize(wonItem);
 			}
-			
+
 			if (hasWon && machine.hasWinMessage()) {
 				ComponentBuilder finalMessage = new ComponentBuilder(Variables.getFormattedString(machine.getFinalWinMessage(), player, machine));
-				
+
 				if (machine.isDisplayWonItemInChat()) {
 					if (wonItem.getRewards().size() == 1) {
 						finalMessage.append(new ComponentBuilder(" (")
@@ -176,29 +176,29 @@ public class ThreadPullLever extends Thread {
 								.create());
 					}
 				}
-				
+
 				player.spigot().sendMessage(finalMessage.create());
 			}
 			if (!hasWon && machine.hasLossMessage()) {
 				Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadPlaySound(machine.getLossSound(), 0.3F, 0.7F, player), 4);
 				ComponentBuilder finalMessage = new ComponentBuilder(Variables.getFormattedString(machine.getFinalLossMessage(), player, machine));
-				
+
 				player.spigot().sendMessage(finalMessage.create());
 			}
-			
+
 			callback.callback(true);
 		} catch(Exception globalException) {
 			globalException.printStackTrace();
 			ExceptionCollector.sendException(SlotPlugin.pl, globalException);
 		}
 	}
-	
+
 	public void givePrize(MachineItem wonItem) {
 		try {
 			for(MachineItem.Reward reward : wonItem.getRewards()) {
 				switch (reward.rewardType) {
 					case ITEM:
-						Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadGiveItem(new ItemStack(reward.itemReward), player.getUniqueId()), 4);
+						PlayerUtil.givePlayerItem(player, reward.itemReward);
 						break;
 					case COMMAND:
 						Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Variables.replaceVariable(player, machine, reward.commandReward)));
