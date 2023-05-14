@@ -51,14 +51,14 @@ public class MachineInterractionInventory {
 			SlotPlugin.pl.getLogger().log(Level.SEVERE, "Both ENTITY and BLOCK variables are null when entering manageMachine. This is not normal");
 			return;
 		}
-		
+
 		if (entity instanceof Player && !(SlotPlugin.isCitizensEnabled && CitizensAPI.getNPCRegistry().isNPC(entity))) {
 			player.sendMessage(ChatContent.RED + "[Slot Machine] You can't create a machine on a player");
 			return;
 		}
-		
+
 		LivingEntity livingEntity = entity instanceof LivingEntity ? (LivingEntity) entity : null;
-		
+
 		SmartInventory inv = SmartInventory.builder()
 				.manager(SlotPlugin.invManager)
 				.id(machine == null ? "managment" : machine.getMachineUUID().toString())
@@ -70,7 +70,7 @@ public class MachineInterractionInventory {
 					@Override
 					public void init(Player player, InventoryContents contents) {
 						Pagination pagination = contents.pagination();
-						
+
 						List<ClickableItem> items = new ArrayList<ClickableItem>();
 
 						if (machine == null) {
@@ -416,7 +416,7 @@ public class MachineInterractionInventory {
 													machine.setTokenIdentifier(token.identifier);
 													SlotPlugin.saveToDisk();
 												}
-												
+
 											}, false);
 								}));
 							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.DIAMOND, 1), ChatContent.GOLD + "Change Price"), Arrays.asList(
@@ -528,6 +528,20 @@ public class MachineInterractionInventory {
 										SlotPlugin.saveToDisk();
 										player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + (machine.isDisplayWonItemInChat() ? "Enabled" : "Disabled") + " item name in chat");
 										manageMachine(player, machine, entity, block, pagination.getPage());
+							}));
+							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.BELL, 1), ChatContent.GOLD + "Broadcast won item to all players"), Arrays.asList(
+									ChatContent.AQUA + ChatContent.ITALIC + "Should the won player and the won",
+									ChatContent.AQUA + ChatContent.ITALIC + "item be broadcasted to all players ",
+									ChatContent.AQUA + ChatContent.ITALIC + "on the server.",
+									ChatContent.AQUA + ChatContent.ITALIC + "Click to toggle",
+									"",
+									ChatContent.AQUA + ChatContent.ITALIC + "Current : " + (machine.shouldBroadcastWonItem() ? ChatContent.GREEN + Language.translate("basic.yes") : ChatContent.RED + Language.translate("basic.no"))
+							)), event -> {
+								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+								machine.setBroadcastWonItem(!machine.shouldBroadcastWonItem());
+								SlotPlugin.saveToDisk();
+								player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + (machine.shouldBroadcastWonItem() ? "Enabled" : "Disabled") + " broadcasting to all players");
+								manageMachine(player, machine, entity, block, pagination.getPage());
 							}));
 							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(ItemStackUtil.addGlow(new ItemStack(Material.TRIPWIRE_HOOK, 1)), ChatContent.GOLD + "Change Lever Name"), Arrays.asList(
 									ChatContent.AQUA + ChatContent.ITALIC + "Change the lever's name",
@@ -741,7 +755,7 @@ public class MachineInterractionInventory {
 									}));
 							}
 						}
-						
+
 						if (livingEntity != null) {
 							if (!livingEntity.hasAI())
 								items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.ARMOR_STAND, 1), ChatContent.GOLD + "Turn on AI"), Arrays.asList(
@@ -763,7 +777,7 @@ public class MachineInterractionInventory {
 											player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.turnoffai"));
 											manageMachine(player, machine, entity, block, pagination.getPage());
 								}));
-							
+
 							if (livingEntity.isSilent())
 								items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.NOTE_BLOCK, 1), ChatContent.GOLD + "Enable Sounds"), Arrays.asList(
 										ChatContent.AQUA + ChatContent.ITALIC + "Allow this entity to make sound"
@@ -850,10 +864,10 @@ public class MachineInterractionInventory {
 
 						pagination.setItemsPerPage(4 * 9);
 						pagination.setItems(items.toArray(new ClickableItem[items.size()]));
-						
+
 						contents.fill(ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(Material.BLACK_STAINED_GLASS_PANE, 1), " ")));
 						pagination.addToIterator(contents.newIterator(Type.HORIZONTAL, 1, 0));
-						
+
 						if (machine != null) {
 							contents.set(0, 7, ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.TRASH_CAN), ChatContent.GOLD + "Remove this Slot Machine"), Arrays.asList(
 									ChatContent.AQUA + ChatContent.ITALIC + "This entity or block will no",
@@ -875,7 +889,7 @@ public class MachineInterractionInventory {
 								}, false);
 							}));
 						}
-						
+
 						if (!pagination.isFirst())
 							contents.set(5, 3, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.LEFT), Language.translate("basic.previouspage")), event -> {
 								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
@@ -887,10 +901,10 @@ public class MachineInterractionInventory {
 								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								manageMachine(player, machine, entity, block, page + 1);
 							}));
-						
+
 						if (!pagination.isFirst() && !pagination.isLast())
 							contents.set(5, 4, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(Material.PAPER), Language.translate("basic.page") + " " + (pagination.getPage() + 1) + "/" + (pagination.last().getPage() + 1))));
-						
+
 						Clipboards.clipboardUI(player, contents, this, 5, 7, 5, 8, new PasteCallback() {
 
 							@Override
@@ -911,7 +925,7 @@ public class MachineInterractionInventory {
 							public void afterPaste(SlotMachine inputMachine, SlotMachine outputMachine) {
 								manageMachine(player, outputMachine, entity, block, 0);
 							}
-							
+
 						});
 					}
 
@@ -960,10 +974,10 @@ public class MachineInterractionInventory {
 					public void reloadUI(boolean movement) {
 						manageMachine(player, machine, entity, block, movement ? 0 : page);
 					}
-					
+
 				})
 				.build();
-		
+
 		inv.open(player, page);
 	}
 }

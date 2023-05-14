@@ -6,6 +6,7 @@ import fr.klemms.slotmachine.exceptioncollector.ExceptionCollector;
 import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryContents;
 import fr.klemms.slotmachine.interraction.InterractionCallback;
 import fr.klemms.slotmachine.placeholders.Variables;
+import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.PlayerUtil;
 import fr.klemms.slotmachine.utils.PotionUtil;
 import net.md_5.bungee.api.ChatColor;
@@ -179,6 +180,29 @@ public class ThreadPullLever extends Thread {
 
 				player.spigot().sendMessage(finalMessage.create());
 			}
+			if (hasWon && machine.shouldBroadcastWonItem()) {
+				ComponentBuilder finalMessage = new ComponentBuilder(Variables.getFormattedString(Language.translate("wonitem.broadcast"), player, machine));
+
+				if (machine.isDisplayWonItemInChat()) {
+					if (wonItem.getRewards().size() == 1) {
+						finalMessage.append(new ComponentBuilder(" (")
+								.color(ChatColor.AQUA)
+								.append(wonItem.getRewardName())
+								.append(new ComponentBuilder(" x" + wonItem.getItemStack().getAmount()).color(ChatColor.GRAY).create())
+								.append(new ComponentBuilder(")").color(ChatColor.AQUA).create())
+								.create());
+					} else {
+						finalMessage.append(new ComponentBuilder(" (")
+								.color(ChatColor.AQUA)
+								.append(new ComponentBuilder("Multiple Rewards").color(ChatColor.GRAY).create())
+								.append(new ComponentBuilder(")").color(ChatColor.AQUA).create())
+								.create());
+					}
+				}
+
+				player.spigot().sendMessage(finalMessage.create());
+			}
+
 			if (!hasWon && machine.hasLossMessage()) {
 				Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadPlaySound(machine.getLossSound(), 0.3F, 0.7F, player), 4);
 				ComponentBuilder finalMessage = new ComponentBuilder(Variables.getFormattedString(machine.getFinalLossMessage(), player, machine));

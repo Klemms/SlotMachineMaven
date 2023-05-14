@@ -316,6 +316,9 @@ public class Config {
                             if (ymlFile.isSet("displayItemNameInChat")) {
                                 slotMachine.setDisplayWonItemInChat(ymlFile.getBoolean("displayItemNameInChat"));
                             }
+                            if (ymlFile.isSet("broadcastWonItem")) {
+                                slotMachine.setBroadcastWonItem(ymlFile.getBoolean("broadcastWonItem"));
+                            }
                             if (ymlFile.isSet("timesUsed")) {
                                 slotMachine.setTimesUsed(ymlFile.getInt("timesUsed"));
                             }

@@ -395,6 +395,7 @@ public class SlotPlugin extends JavaPlugin {
 					yamlFile.set("lossMessage", slotMachine.getLossMessage());
 					yamlFile.set("hasLossMessage", slotMachine.hasLossMessage());
 					yamlFile.set("displayItemNameInChat", slotMachine.isDisplayWonItemInChat());
+					yamlFile.set("broadcastWonItem", slotMachine.shouldBroadcastWonItem());
 					yamlFile.set("leverTitle", slotMachine.getLeverTitle());
 					yamlFile.set("leverDescription", slotMachine.getLeverDescription());
 					yamlFile.set("customLever", slotMachine.isLeverCustom());
