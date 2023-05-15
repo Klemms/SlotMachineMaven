@@ -31,6 +31,7 @@ public class Config {
 
     public static volatile boolean debug = false;
 
+    public static volatile boolean enableLanguageOTAUpdates = true;
     public static volatile String language = "en";
 
     public static volatile String noAccessDefaultString = "permission.denied";
@@ -54,6 +55,8 @@ public class Config {
 
     public static volatile Material adminToolMaterial = Material.BLAZE_ROD;
 
+    private static boolean quickReload = true;
+
     public static void registerConfig(JavaPlugin plugin) {
         if (Util.isAtLeastMC118())
             plugin.getConfig().options().setHeader(Arrays.asList("IMPORTANT : When you need to add apostrophes : ' please add TWO apostrophes, like this '' otherwise the config file will be wiped", ""));
@@ -68,7 +71,11 @@ public class Config {
 
         plugin.getConfig().addDefault("language", language);
         if (Util.isAtLeastMC118())
-            plugin.getConfig().setComments("language", Arrays.asList("", "Language to be used", "See the 'Supports Localization' part of the plugin page on Spigot website", "Valid values are : en (english), fr (french), zh (chinese)", "You can also create your own translation, please read the 'readme' file in the langs folder for more informations."));
+            plugin.getConfig().setComments("language", Arrays.asList("", "Language to be used", "See the 'Supports Localization' part of the plugin page on Spigot website", "Valid values are : en (english), fr (french), zh-CN (Simplified chinese), zh-TW (Traditional chinese)", "You can also create your own translation, please read the 'readme' file in the langs folder for more informations."));
+
+        plugin.getConfig().addDefault("enableLanguageOTAUpdates", enableLanguageOTAUpdates);
+        if (Util.isAtLeastMC118())
+            plugin.getConfig().setComments("enableLanguageOTAUpdates", Arrays.asList("", "Allows you to receive updates for the official language files without having to update the plugin", "Updates are done when the plugin loads", "Updates are fetched directly from Crowdin, our official translation platform", "You can help us translate the plugin by going to https://crowdin.com/project/slot-machine"));
 
         plugin.getConfig().addDefault("backupMachinesOnPluginUnload", backupMachinesOnPluginUnload);
         if (Util.isAtLeastMC118())
@@ -130,17 +137,23 @@ public class Config {
 
         plugin.getConfig().options().copyDefaults(true);
         plugin.saveConfig();
+
+        if (quickReload) {
+            quickReload = false;
+            registerConfig(plugin);
+        }
     }
 
     public static void readConfig(JavaPlugin plugin) {
-        if (Language.isValidLanguage(SlotPlugin.pl.getConfig().getString("language").toUpperCase())) {
-            language = SlotPlugin.pl.getConfig().getString("language").toUpperCase();
+        if (Language.isValidLanguage(SlotPlugin.pl.getConfig().getString("language"))) {
+            language = SlotPlugin.pl.getConfig().getString("language");
         } else {
             plugin.getLogger().log(Level.WARNING, "The config language '" + SlotPlugin.pl.getConfig().getString("language") + "' does not exist, falling back to 'en' (English)");
             language = "en";
-            plugin.getConfig().set("language", "en");
+            plugin.getConfig().set("language", language);
             plugin.saveConfig();
         }
+        enableLanguageOTAUpdates = SlotPlugin.pl.getConfig().getBoolean("enableLanguageOTAUpdates");
         debug = SlotPlugin.pl.getConfig().getBoolean("debug");
         backupMachinesOnPluginUnload = SlotPlugin.pl.getConfig().getBoolean("backupMachinesOnPluginUnload");
         anonymouslyReportExceptionsToDevelopper = SlotPlugin.pl.getConfig().getBoolean("anonymouslyReportExceptionsToDeveloper");

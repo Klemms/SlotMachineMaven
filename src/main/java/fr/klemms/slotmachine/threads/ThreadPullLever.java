@@ -181,26 +181,28 @@ public class ThreadPullLever extends Thread {
 				player.spigot().sendMessage(finalMessage.create());
 			}
 			if (hasWon && machine.shouldBroadcastWonItem()) {
-				ComponentBuilder finalMessage = new ComponentBuilder(Variables.getFormattedString(Language.translate("wonitem.broadcast"), player, machine));
+				ComponentBuilder finalMessage = new ComponentBuilder(Variables.getFormattedString(Language.translate("wonitem.broadcast").replace("%playerName%", player.getDisplayName()).replace("%item%", ""), player, machine));
 
-				if (machine.isDisplayWonItemInChat()) {
-					if (wonItem.getRewards().size() == 1) {
-						finalMessage.append(new ComponentBuilder(" (")
-								.color(ChatColor.AQUA)
-								.append(wonItem.getRewardName())
-								.append(new ComponentBuilder(" x" + wonItem.getItemStack().getAmount()).color(ChatColor.GRAY).create())
-								.append(new ComponentBuilder(")").color(ChatColor.AQUA).create())
-								.create());
-					} else {
-						finalMessage.append(new ComponentBuilder(" (")
-								.color(ChatColor.AQUA)
-								.append(new ComponentBuilder("Multiple Rewards").color(ChatColor.GRAY).create())
-								.append(new ComponentBuilder(")").color(ChatColor.AQUA).create())
-								.create());
-					}
+				if (wonItem.getRewards().size() == 1) {
+					finalMessage.append(new ComponentBuilder(" (")
+							.color(ChatColor.AQUA)
+							.append(wonItem.getRewardName())
+							.append(new ComponentBuilder(" x" + wonItem.getItemStack().getAmount()).color(ChatColor.GRAY).create())
+							.append(new ComponentBuilder(")").color(ChatColor.AQUA).create())
+							.create());
+				} else {
+					finalMessage.append(new ComponentBuilder(" (")
+							.color(ChatColor.AQUA)
+							.append(new ComponentBuilder("Multiple Rewards").color(ChatColor.GRAY).create())
+							.append(new ComponentBuilder(")").color(ChatColor.AQUA).create())
+							.create());
 				}
 
-				player.spigot().sendMessage(finalMessage.create());
+				for (Player p : Bukkit.getOnlinePlayers()) {
+					//if (p != player) {
+						p.spigot().sendMessage(finalMessage.create());
+					//}
+				}
 			}
 
 			if (!hasWon && machine.hasLossMessage()) {

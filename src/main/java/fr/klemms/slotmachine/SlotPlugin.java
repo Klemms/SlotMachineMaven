@@ -350,7 +350,6 @@ public class SlotPlugin extends JavaPlugin {
 			Files.createDirectories(pl.getDataFolder().toPath().resolve("machines"));
 		} catch (IOException e) {
 			e.printStackTrace();
-			SlotPlugin.pl.saveConfig();
 			ExceptionCollector.sendException(SlotPlugin.pl, e);
 			return;
 		}
@@ -465,12 +464,10 @@ public class SlotPlugin extends JavaPlugin {
 					ExceptionCollector.sendException(SlotPlugin.pl, e);
 				}
 			}
-			SlotPlugin.pl.saveConfig();
 			shouldSaveMachinesToDisk = false;
 			return;
 		}
-		SlotPlugin.pl.saveConfig();
-		pl.getLogger().log(Level.SEVERE, "Couldn't save configuration version 5 ! Please contact the developper");
+		pl.getLogger().log(Level.SEVERE, "Couldn't save Machines ! Please contact the developper");
 	}
 
 	public static void writeTokens() {
