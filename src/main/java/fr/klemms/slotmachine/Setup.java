@@ -29,7 +29,7 @@ public class Setup {
 	public static void setupOTALanguages(JavaPlugin plugin) {
 		String language = officialLanguages.get(Config.language);
 
-		plugin.getLogger().log(Level.INFO, "Fetching updates translations for : " + Config.language);
+		plugin.getLogger().log(Level.INFO, "Fetching updated translations for : " + Config.language);
 		try {
 			URL url = new URL("https://distributions.crowdin.net/a39ae3df9b64b4b2421a317dtpi/content/" + Config.language + "/" + language + ".properties");
 			URLConnection urlConnection = url.openConnection();
