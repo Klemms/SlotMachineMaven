@@ -34,6 +34,7 @@ public class Setup {
 		officialLanguages.put("fr", "fr-FR");
 		officialLanguages.put("zh-CN", "zh-CN");
 		officialLanguages.put("zh-TW", "zh-TW");
+		officialLanguages.put("es-ES", "es-ES");
 
 		try {
 			Files.createDirectories(plugin.getDataFolder().toPath().resolve("langs"));
