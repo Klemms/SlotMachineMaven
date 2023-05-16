@@ -529,7 +529,7 @@ public class MachineInterractionInventory {
 										player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + (machine.isDisplayWonItemInChat() ? "Enabled" : "Disabled") + " item name in chat");
 										manageMachine(player, machine, entity, block, pagination.getPage());
 							}));
-							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.BELL, 1), ChatContent.GOLD + "Broadcast won item to all players"), Arrays.asList(
+							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(machine.shouldBroadcastWonItem() ? ItemStackUtil.addGlow(new ItemStack(Material.BELL, 1)) : new ItemStack(Material.BELL, 1), ChatContent.GOLD + "Broadcast won item to all players"), Arrays.asList(
 									ChatContent.AQUA + ChatContent.ITALIC + "Should the won player and the won",
 									ChatContent.AQUA + ChatContent.ITALIC + "item be broadcasted to all players ",
 									ChatContent.AQUA + ChatContent.ITALIC + "on the server.",
