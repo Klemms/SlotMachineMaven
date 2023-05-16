@@ -26,6 +26,24 @@ public class Setup {
 
 	public static HashMap<String, String> officialLanguages;
 
+	public static void setupOTALanguages(JavaPlugin plugin) {
+		String language = officialLanguages.get(Config.language);
+
+		plugin.getLogger().log(Level.INFO, "Fetching updates translations for : " + Config.language);
+		try {
+			URL url = new URL("https://distributions.crowdin.net/a39ae3df9b64b4b2421a317dtpi/content/" + Config.language + "/" + language + ".properties");
+			URLConnection urlConnection = url.openConnection();
+			urlConnection.setConnectTimeout(5000);
+			urlConnection.setReadTimeout(5000);
+			GZIPInputStream in = new GZIPInputStream(urlConnection.getInputStream());
+			Language.parseLanguageFromStrings(Config.language, IOUtils.readLines(in, Charset.forName("UTF-8")));
+		} catch (IOException e) {
+			plugin.getLogger().log(Level.INFO, "Couldn't get OTA language updates. Falling back to built-in language.");
+			e.printStackTrace();
+			ExceptionCollector.sendException(SlotPlugin.pl, e);
+		}
+	}
+
 	public static void setupLanguages(JavaPlugin plugin) {
 		officialLanguages = new HashMap<String, String>();
 
@@ -34,7 +52,7 @@ public class Setup {
 		officialLanguages.put("fr", "fr-FR");
 		officialLanguages.put("zh-CN", "zh-CN");
 		officialLanguages.put("zh-TW", "zh-TW");
-		officialLanguages.put("es-ES", "es-ES");
+		//officialLanguages.put("es-ES", "es-ES"); // Translation quality is too bad
 
 		try {
 			Files.createDirectories(plugin.getDataFolder().toPath().resolve("langs"));
@@ -57,37 +75,13 @@ public class Setup {
 			ExceptionCollector.sendException(SlotPlugin.pl, e);
 		}
 
-		boolean loadLocalLanguages = true;
-		if (Config.enableLanguageOTAUpdates) {
-			for (String language : officialLanguages.keySet()) {
-				plugin.getLogger().log(Level.INFO, "Adding official OTA language : " + language);
-				try {
-					URL url = new URL("https://distributions.crowdin.net/a39ae3df9b64b4b2421a317dtpi/content/" + language + "/" + officialLanguages.get(language) + ".properties");
-					URLConnection urlConnection = url.openConnection();
-					urlConnection.setConnectTimeout(5000);
-					urlConnection.setReadTimeout(5000);
-					GZIPInputStream in = new GZIPInputStream(urlConnection.getInputStream());
-					Language.parseLanguageFromStrings(language, IOUtils.readLines(in, Charset.forName("UTF-8")));
-				} catch (IOException e) {
-					loadLocalLanguages = true;
-					plugin.getLogger().log(Level.INFO, "Couldn't get OTA language updates. Falling back to built-in languages.");
-					e.printStackTrace();
-					ExceptionCollector.sendException(SlotPlugin.pl, e);
-					break;
-				}
-				loadLocalLanguages = false;
-			}
-		}
-
-		if (loadLocalLanguages) {
-			for (String language : officialLanguages.keySet()) {
-				plugin.getLogger().log(Level.INFO, "Adding official language : " + language);
-				try {
-					Language.parseLanguageFromStrings(language, IOUtils.readLines(plugin.getResource(officialLanguages.get(language) + ".properties"), Charset.forName("UTF-8")));
-				} catch (IOException e) {
-					e.printStackTrace();
-					ExceptionCollector.sendException(SlotPlugin.pl, e);
-				}
+		for (String language : officialLanguages.keySet()) {
+			plugin.getLogger().log(Level.INFO, "Adding official language : " + language);
+			try {
+				Language.parseLanguageFromStrings(language, IOUtils.readLines(plugin.getResource(officialLanguages.get(language) + ".properties"), Charset.forName("UTF-8")));
+			} catch (IOException e) {
+				e.printStackTrace();
+				ExceptionCollector.sendException(SlotPlugin.pl, e);
 			}
 		}
 

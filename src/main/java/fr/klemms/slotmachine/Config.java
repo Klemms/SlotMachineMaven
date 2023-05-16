@@ -71,7 +71,7 @@ public class Config {
 
         plugin.getConfig().addDefault("language", language);
         if (Util.isAtLeastMC118())
-            plugin.getConfig().setComments("language", Arrays.asList("", "Language to be used", "See the 'Supports Localization' part of the plugin page on Spigot website", "Valid values are : en (english), fr (french), zh-CN (Simplified chinese), zh-TW (Traditional chinese), es-ES (Spanish)", "(Note not all translations are complete)", "You can also create your own translation, please read the 'readme' file in the langs folder for more informations."));
+            plugin.getConfig().setComments("language", Arrays.asList("", "Language to be used", "See the 'Supports Localization' part of the plugin page on Spigot website", "Valid values are : en (english), fr (french), zh-CN (Simplified chinese), zh-TW (Traditional chinese)", "(Note not all translations are complete)", "You can also create your own translation, please read the 'readme' file in the langs folder for more informations."));
 
         plugin.getConfig().addDefault("enableLanguageOTAUpdates", enableLanguageOTAUpdates);
         if (Util.isAtLeastMC118())

@@ -112,6 +112,9 @@ public class SlotPlugin extends JavaPlugin {
 		try {
 			Config.registerConfig(this);
 			Config.readConfig(this);
+			if (Config.enableLanguageOTAUpdates) {
+				Setup.setupOTALanguages(this);
+			}
 			SlotPlugin.readTokens();
 			SlotPlugin.writeTokens();
 			Config.loadMachines(this);
