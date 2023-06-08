@@ -12,10 +12,7 @@ import fr.klemms.slotmachine.metrics.Metrics;
 import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
 import fr.klemms.slotmachine.utils.Util;
-import fr.klemms.slotmachine.utils.sounds.SoundToMaterialList_116;
-import fr.klemms.slotmachine.utils.sounds.SoundToMaterialList_117;
-import fr.klemms.slotmachine.utils.sounds.SoundToMaterialList_118;
-import fr.klemms.slotmachine.utils.sounds.SoundToMaterialList_119;
+import fr.klemms.slotmachine.utils.sounds.*;
 import me.realized.tokenmanager.api.TokenManager;
 import net.milkbowl.vault.economy.Economy;
 import org.apache.commons.io.FileUtils;
@@ -37,7 +34,7 @@ import java.util.logging.Level;
 
 public class SlotPlugin extends JavaPlugin {
 
-	public static final String MC_FOR = "Spigot 1.16/1.17/1.18/1.19";
+	public static final String MC_FOR = "Spigot 1.16/1.17/1.18/1.19/1.20";
 	public static final ItemStack DEFAULT_TOKEN = ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.GOLD_NUGGET, 1), ChatContent.GOLD + "Token"), Collections.singletonList(ChatContent.AQUA + ChatContent.ITALIC + "Default Slot Machine Token"));
 
 	public static volatile SlotPlugin pl;
@@ -96,9 +93,12 @@ public class SlotPlugin extends JavaPlugin {
 		} else if(Util.getMCVersion().startsWith("1.18")) {
 			this.getLogger().log(Level.INFO, "Using 1.18 Sound Mappings");
 			SoundToMaterialList_118.initList();
-		} else {
+		} else if(Util.getMCVersion().startsWith("1.19")) {
 			this.getLogger().log(Level.INFO, "Using 1.19 Sound Mappings");
 			SoundToMaterialList_119.initList();
+		} else {
+			this.getLogger().log(Level.INFO, "Using 1.20 Sound Mappings");
+			SoundToMaterialList_120.initList();
 		}
 
 		isCitizensEnabled = Bukkit.getPluginManager().isPluginEnabled("Citizens");

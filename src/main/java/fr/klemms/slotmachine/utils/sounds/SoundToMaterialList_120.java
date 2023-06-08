@@ -6,7 +6,7 @@ import org.bukkit.Sound;
 
 import java.util.HashMap;
 
-public class SoundToMaterialList_119 {
+public class SoundToMaterialList_120 {
 
 	public static void initList() {
 		SlotPlugin.soundMaterialMap = new HashMap<Sound, Material>();
@@ -2995,6 +2995,8 @@ public class SoundToMaterialList_119 {
 				case BLOCK_AMETHYST_BLOCK_PLACE:
 					SlotPlugin.soundMaterialMap.put(sound, Material.AMETHYST_BLOCK);
 					break;
+				case BLOCK_AMETHYST_BLOCK_RESONATE:
+					break;
 				case BLOCK_AMETHYST_BLOCK_STEP:
 					SlotPlugin.soundMaterialMap.put(sound, Material.AMETHYST_BLOCK);
 					break;
@@ -3949,6 +3951,465 @@ public class SoundToMaterialList_119 {
 					break;
 				case MUSIC_OVERWORLD_SWAMP:
 					SlotPlugin.soundMaterialMap.put(sound, Material.JUKEBOX);
+					break;
+				case BLOCK_BAMBOO_WOOD_BREAK:
+					SlotPlugin.soundMaterialMap.put(sound, Material.BAMBOO_BLOCK);
+					break;
+				case BLOCK_BAMBOO_WOOD_BUTTON_CLICK_OFF:
+					SlotPlugin.soundMaterialMap.put(sound, Material.BAMBOO_BUTTON);
+					break;
+				case BLOCK_BAMBOO_WOOD_BUTTON_CLICK_ON:
+					SlotPlugin.soundMaterialMap.put(sound, Material.BAMBOO_BUTTON);
+					break;
+				case BLOCK_BAMBOO_WOOD_DOOR_CLOSE:
+					SlotPlugin.soundMaterialMap.put(sound, Material.BAMBOO_DOOR);
+					break;
+				case BLOCK_BAMBOO_WOOD_DOOR_OPEN:
+					SlotPlugin.soundMaterialMap.put(sound, Material.BAMBOO_DOOR);
+					break;
+				case BLOCK_BAMBOO_WOOD_FALL:
+					SlotPlugin.soundMaterialMap.put(sound, Material.BAMBOO_BLOCK);
+					break;
+				case BLOCK_BAMBOO_WOOD_FENCE_GATE_CLOSE:
+					SlotPlugin.soundMaterialMap.put(sound, Material.BAMBOO_FENCE_GATE);
+					break;
+				case BLOCK_BAMBOO_WOOD_FENCE_GATE_OPEN:
+					SlotPlugin.soundMaterialMap.put(sound, Material.BAMBOO_FENCE_GATE);
+					break;
+				case BLOCK_BAMBOO_WOOD_HANGING_SIGN_BREAK:
+					SlotPlugin.soundMaterialMap.put(sound, Material.BAMBOO_HANGING_SIGN);
+					break;
+				case BLOCK_BAMBOO_WOOD_HANGING_SIGN_FALL:
+					SlotPlugin.soundMaterialMap.put(sound, Material.BAMBOO_HANGING_SIGN);
+					break;
+				case BLOCK_BAMBOO_WOOD_HANGING_SIGN_HIT:
+					SlotPlugin.soundMaterialMap.put(sound, Material.BAMBOO_HANGING_SIGN);
+					break;
+				case BLOCK_BAMBOO_WOOD_HANGING_SIGN_PLACE:
+					SlotPlugin.soundMaterialMap.put(sound, Material.BAMBOO_HANGING_SIGN);
+					break;
+				case BLOCK_BAMBOO_WOOD_HANGING_SIGN_STEP:
+					SlotPlugin.soundMaterialMap.put(sound, Material.BAMBOO_HANGING_SIGN);
+					break;
+				case BLOCK_BAMBOO_WOOD_HIT:
+					SlotPlugin.soundMaterialMap.put(sound, Material.BAMBOO_BLOCK);
+					break;
+				case BLOCK_BAMBOO_WOOD_PLACE:
+					SlotPlugin.soundMaterialMap.put(sound, Material.BAMBOO_BLOCK);
+					break;
+				case BLOCK_BAMBOO_WOOD_PRESSURE_PLATE_CLICK_OFF:
+					SlotPlugin.soundMaterialMap.put(sound, Material.BAMBOO_PRESSURE_PLATE);
+					break;
+				case BLOCK_BAMBOO_WOOD_PRESSURE_PLATE_CLICK_ON:
+					SlotPlugin.soundMaterialMap.put(sound, Material.BAMBOO_PRESSURE_PLATE);
+					break;
+				case BLOCK_BAMBOO_WOOD_STEP:
+					SlotPlugin.soundMaterialMap.put(sound, Material.BAMBOO_BLOCK);
+					break;
+				case BLOCK_BAMBOO_WOOD_TRAPDOOR_CLOSE:
+					SlotPlugin.soundMaterialMap.put(sound, Material.BAMBOO_TRAPDOOR);
+					break;
+				case BLOCK_BAMBOO_WOOD_TRAPDOOR_OPEN:
+					SlotPlugin.soundMaterialMap.put(sound, Material.BAMBOO_TRAPDOOR);
+					break;
+				case BLOCK_CHERRY_LEAVES_BREAK:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHERRY_LEAVES);
+					break;
+				case BLOCK_CHERRY_LEAVES_FALL:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHERRY_LEAVES);
+					break;
+				case BLOCK_CHERRY_LEAVES_HIT:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHERRY_LEAVES);
+					break;
+				case BLOCK_CHERRY_LEAVES_PLACE:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHERRY_LEAVES);
+					break;
+				case BLOCK_CHERRY_LEAVES_STEP:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHERRY_LEAVES);
+					break;
+				case BLOCK_CHERRY_SAPLING_BREAK:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHERRY_SAPLING);
+					break;
+				case BLOCK_CHERRY_SAPLING_FALL:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHERRY_SAPLING);
+					break;
+				case BLOCK_CHERRY_SAPLING_HIT:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHERRY_SAPLING);
+					break;
+				case BLOCK_CHERRY_SAPLING_PLACE:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHERRY_SAPLING);
+					break;
+				case BLOCK_CHERRY_SAPLING_STEP:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHERRY_SAPLING);
+					break;
+				case BLOCK_CHERRY_WOOD_BREAK:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHERRY_WOOD);
+					break;
+				case BLOCK_CHERRY_WOOD_BUTTON_CLICK_OFF:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHERRY_BUTTON);
+					break;
+				case BLOCK_CHERRY_WOOD_BUTTON_CLICK_ON:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHERRY_BUTTON);
+					break;
+				case BLOCK_CHERRY_WOOD_DOOR_CLOSE:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHERRY_DOOR);
+					break;
+				case BLOCK_CHERRY_WOOD_DOOR_OPEN:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHERRY_DOOR);
+					break;
+				case BLOCK_CHERRY_WOOD_FALL:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHERRY_WOOD);
+					break;
+				case BLOCK_CHERRY_WOOD_FENCE_GATE_CLOSE:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHERRY_FENCE_GATE);
+					break;
+				case BLOCK_CHERRY_WOOD_FENCE_GATE_OPEN:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHERRY_FENCE_GATE);
+					break;
+				case BLOCK_CHERRY_WOOD_HANGING_SIGN_BREAK:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHERRY_HANGING_SIGN);
+					break;
+				case BLOCK_CHERRY_WOOD_HANGING_SIGN_FALL:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHERRY_HANGING_SIGN);
+					break;
+				case BLOCK_CHERRY_WOOD_HANGING_SIGN_HIT:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHERRY_HANGING_SIGN);
+					break;
+				case BLOCK_CHERRY_WOOD_HANGING_SIGN_PLACE:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHERRY_HANGING_SIGN);
+					break;
+				case BLOCK_CHERRY_WOOD_HANGING_SIGN_STEP:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHERRY_HANGING_SIGN);
+					break;
+				case BLOCK_CHERRY_WOOD_HIT:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHERRY_WOOD);
+					break;
+				case BLOCK_CHERRY_WOOD_PLACE:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHERRY_WOOD);
+					break;
+				case BLOCK_CHERRY_WOOD_PRESSURE_PLATE_CLICK_OFF:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHERRY_PRESSURE_PLATE);
+					break;
+				case BLOCK_CHERRY_WOOD_PRESSURE_PLATE_CLICK_ON:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHERRY_PRESSURE_PLATE);
+					break;
+				case BLOCK_CHERRY_WOOD_STEP:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHERRY_WOOD);
+					break;
+				case BLOCK_CHERRY_WOOD_TRAPDOOR_CLOSE:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHERRY_TRAPDOOR);
+					break;
+				case BLOCK_CHERRY_WOOD_TRAPDOOR_OPEN:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHERRY_TRAPDOOR);
+					break;
+				case BLOCK_CHISELED_BOOKSHELF_BREAK:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHISELED_BOOKSHELF);
+					break;
+				case BLOCK_CHISELED_BOOKSHELF_FALL:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHISELED_BOOKSHELF);
+					break;
+				case BLOCK_CHISELED_BOOKSHELF_HIT:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHISELED_BOOKSHELF);
+					break;
+				case BLOCK_CHISELED_BOOKSHELF_INSERT:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHISELED_BOOKSHELF);
+					break;
+				case BLOCK_CHISELED_BOOKSHELF_INSERT_ENCHANTED:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHISELED_BOOKSHELF);
+					break;
+				case BLOCK_CHISELED_BOOKSHELF_PICKUP:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHISELED_BOOKSHELF);
+					break;
+				case BLOCK_CHISELED_BOOKSHELF_PICKUP_ENCHANTED:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHISELED_BOOKSHELF);
+					break;
+				case BLOCK_CHISELED_BOOKSHELF_PLACE:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHISELED_BOOKSHELF);
+					break;
+				case BLOCK_CHISELED_BOOKSHELF_STEP:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CHISELED_BOOKSHELF);
+					break;
+				case BLOCK_DECORATED_POT_BREAK:
+					SlotPlugin.soundMaterialMap.put(sound, Material.DECORATED_POT);
+					break;
+				case BLOCK_DECORATED_POT_FALL:
+					SlotPlugin.soundMaterialMap.put(sound, Material.DECORATED_POT);
+					break;
+				case BLOCK_DECORATED_POT_HIT:
+					SlotPlugin.soundMaterialMap.put(sound, Material.DECORATED_POT);
+					break;
+				case BLOCK_DECORATED_POT_PLACE:
+					SlotPlugin.soundMaterialMap.put(sound, Material.DECORATED_POT);
+					break;
+				case BLOCK_DECORATED_POT_SHATTER:
+					SlotPlugin.soundMaterialMap.put(sound, Material.DECORATED_POT);
+					break;
+				case BLOCK_DECORATED_POT_STEP:
+					SlotPlugin.soundMaterialMap.put(sound, Material.DECORATED_POT);
+					break;
+				case BLOCK_HANGING_SIGN_BREAK:
+					SlotPlugin.soundMaterialMap.put(sound, Material.OAK_HANGING_SIGN);
+					break;
+				case BLOCK_HANGING_SIGN_FALL:
+					SlotPlugin.soundMaterialMap.put(sound, Material.OAK_HANGING_SIGN);
+					break;
+				case BLOCK_HANGING_SIGN_HIT:
+					SlotPlugin.soundMaterialMap.put(sound, Material.OAK_HANGING_SIGN);
+					break;
+				case BLOCK_HANGING_SIGN_PLACE:
+					SlotPlugin.soundMaterialMap.put(sound, Material.OAK_HANGING_SIGN);
+					break;
+				case BLOCK_HANGING_SIGN_STEP:
+					SlotPlugin.soundMaterialMap.put(sound, Material.OAK_HANGING_SIGN);
+					break;
+				case BLOCK_NETHER_WOOD_BREAK:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CRIMSON_PLANKS);
+					break;
+				case BLOCK_NETHER_WOOD_BUTTON_CLICK_OFF:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CRIMSON_BUTTON);
+					break;
+				case BLOCK_NETHER_WOOD_BUTTON_CLICK_ON:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CRIMSON_BUTTON);
+					break;
+				case BLOCK_NETHER_WOOD_DOOR_CLOSE:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CRIMSON_DOOR);
+					break;
+				case BLOCK_NETHER_WOOD_DOOR_OPEN:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CRIMSON_DOOR);
+					break;
+				case BLOCK_NETHER_WOOD_FALL:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CRIMSON_PLANKS);
+					break;
+				case BLOCK_NETHER_WOOD_FENCE_GATE_CLOSE:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CRIMSON_FENCE_GATE);
+					break;
+				case BLOCK_NETHER_WOOD_FENCE_GATE_OPEN:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CRIMSON_FENCE_GATE);
+					break;
+				case BLOCK_NETHER_WOOD_HANGING_SIGN_BREAK:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CRIMSON_HANGING_SIGN);
+					break;
+				case BLOCK_NETHER_WOOD_HANGING_SIGN_FALL:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CRIMSON_HANGING_SIGN);
+					break;
+				case BLOCK_NETHER_WOOD_HANGING_SIGN_HIT:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CRIMSON_HANGING_SIGN);
+					break;
+				case BLOCK_NETHER_WOOD_HANGING_SIGN_PLACE:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CRIMSON_HANGING_SIGN);
+					break;
+				case BLOCK_NETHER_WOOD_HANGING_SIGN_STEP:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CRIMSON_HANGING_SIGN);
+					break;
+				case BLOCK_NETHER_WOOD_HIT:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CRIMSON_PLANKS);
+					break;
+				case BLOCK_NETHER_WOOD_PLACE:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CRIMSON_PLANKS);
+					break;
+				case BLOCK_NETHER_WOOD_PRESSURE_PLATE_CLICK_OFF:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CRIMSON_PRESSURE_PLATE);
+					break;
+				case BLOCK_NETHER_WOOD_PRESSURE_PLATE_CLICK_ON:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CRIMSON_PRESSURE_PLATE);
+					break;
+				case BLOCK_NETHER_WOOD_STEP:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CRIMSON_PLANKS);
+					break;
+				case BLOCK_NETHER_WOOD_TRAPDOOR_CLOSE:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CRIMSON_TRAPDOOR);
+					break;
+				case BLOCK_NETHER_WOOD_TRAPDOOR_OPEN:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CRIMSON_TRAPDOOR);
+					break;
+				case BLOCK_NOTE_BLOCK_IMITATE_CREEPER:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CREEPER_HEAD);
+					break;
+				case BLOCK_NOTE_BLOCK_IMITATE_ENDER_DRAGON:
+					SlotPlugin.soundMaterialMap.put(sound, Material.DRAGON_HEAD);
+					break;
+				case BLOCK_NOTE_BLOCK_IMITATE_PIGLIN:
+					SlotPlugin.soundMaterialMap.put(sound, Material.PIGLIN_HEAD);
+					break;
+				case BLOCK_NOTE_BLOCK_IMITATE_SKELETON:
+					SlotPlugin.soundMaterialMap.put(sound, Material.SKELETON_SKULL);
+					break;
+				case BLOCK_NOTE_BLOCK_IMITATE_WITHER_SKELETON:
+					SlotPlugin.soundMaterialMap.put(sound, Material.WITHER_SKELETON_SKULL);
+					break;
+				case BLOCK_NOTE_BLOCK_IMITATE_ZOMBIE:
+					SlotPlugin.soundMaterialMap.put(sound, Material.ZOMBIE_HEAD);
+					break;
+				case BLOCK_PINK_PETALS_BREAK:
+					SlotPlugin.soundMaterialMap.put(sound, Material.PINK_PETALS);
+					break;
+				case BLOCK_PINK_PETALS_FALL:
+					SlotPlugin.soundMaterialMap.put(sound, Material.PINK_PETALS);
+					break;
+				case BLOCK_PINK_PETALS_HIT:
+					SlotPlugin.soundMaterialMap.put(sound, Material.PINK_PETALS);
+					break;
+				case BLOCK_PINK_PETALS_PLACE:
+					SlotPlugin.soundMaterialMap.put(sound, Material.PINK_PETALS);
+					break;
+				case BLOCK_PINK_PETALS_STEP:
+					SlotPlugin.soundMaterialMap.put(sound, Material.PINK_PETALS);
+					break;
+				case BLOCK_SIGN_WAXED_INTERACT_FAIL:
+					SlotPlugin.soundMaterialMap.put(sound, Material.BAMBOO_SIGN);
+					break;
+				case BLOCK_SNIFFER_EGG_CRACK:
+					SlotPlugin.soundMaterialMap.put(sound, Material.SNIFFER_EGG);
+					break;
+				case BLOCK_SNIFFER_EGG_HATCH:
+					SlotPlugin.soundMaterialMap.put(sound, Material.SNIFFER_EGG);
+					break;
+				case BLOCK_SNIFFER_EGG_PLOP:
+					SlotPlugin.soundMaterialMap.put(sound, Material.SNIFFER_EGG);
+					break;
+				case BLOCK_SUSPICIOUS_GRAVEL_BREAK:
+					SlotPlugin.soundMaterialMap.put(sound, Material.SUSPICIOUS_GRAVEL);
+					break;
+				case BLOCK_SUSPICIOUS_GRAVEL_FALL:
+					SlotPlugin.soundMaterialMap.put(sound, Material.SUSPICIOUS_GRAVEL);
+					break;
+				case BLOCK_SUSPICIOUS_GRAVEL_HIT:
+					SlotPlugin.soundMaterialMap.put(sound, Material.SUSPICIOUS_GRAVEL);
+					break;
+				case BLOCK_SUSPICIOUS_GRAVEL_PLACE:
+					SlotPlugin.soundMaterialMap.put(sound, Material.SUSPICIOUS_GRAVEL);
+					break;
+				case BLOCK_SUSPICIOUS_GRAVEL_STEP:
+					SlotPlugin.soundMaterialMap.put(sound, Material.SUSPICIOUS_GRAVEL);
+					break;
+				case BLOCK_SUSPICIOUS_SAND_BREAK:
+					SlotPlugin.soundMaterialMap.put(sound, Material.SUSPICIOUS_SAND);
+					break;
+				case BLOCK_SUSPICIOUS_SAND_FALL:
+					SlotPlugin.soundMaterialMap.put(sound, Material.SUSPICIOUS_SAND);
+					break;
+				case BLOCK_SUSPICIOUS_SAND_HIT:
+					SlotPlugin.soundMaterialMap.put(sound, Material.SUSPICIOUS_SAND);
+					break;
+				case BLOCK_SUSPICIOUS_SAND_PLACE:
+					SlotPlugin.soundMaterialMap.put(sound, Material.SUSPICIOUS_SAND);
+					break;
+				case BLOCK_SUSPICIOUS_SAND_STEP:
+					SlotPlugin.soundMaterialMap.put(sound, Material.SUSPICIOUS_SAND);
+					break;
+				case ENTITY_CAMEL_AMBIENT:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CAMEL_SPAWN_EGG);
+					break;
+				case ENTITY_CAMEL_DASH:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CAMEL_SPAWN_EGG);
+					break;
+				case ENTITY_CAMEL_DASH_READY:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CAMEL_SPAWN_EGG);
+					break;
+				case ENTITY_CAMEL_DEATH:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CAMEL_SPAWN_EGG);
+					break;
+				case ENTITY_CAMEL_EAT:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CAMEL_SPAWN_EGG);
+					break;
+				case ENTITY_CAMEL_HURT:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CAMEL_SPAWN_EGG);
+					break;
+				case ENTITY_CAMEL_SADDLE:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CAMEL_SPAWN_EGG);
+					break;
+				case ENTITY_CAMEL_SIT:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CAMEL_SPAWN_EGG);
+					break;
+				case ENTITY_CAMEL_STAND:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CAMEL_SPAWN_EGG);
+					break;
+				case ENTITY_CAMEL_STEP:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CAMEL_SPAWN_EGG);
+					break;
+				case ENTITY_CAMEL_STEP_SAND:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CAMEL_SPAWN_EGG);
+					break;
+				case ENTITY_SNIFFER_DEATH:
+					SlotPlugin.soundMaterialMap.put(sound, Material.SNIFFER_SPAWN_EGG);
+					break;
+				case ENTITY_SNIFFER_DIGGING:
+					SlotPlugin.soundMaterialMap.put(sound, Material.SNIFFER_SPAWN_EGG);
+					break;
+				case ENTITY_SNIFFER_DIGGING_STOP:
+					SlotPlugin.soundMaterialMap.put(sound, Material.SNIFFER_SPAWN_EGG);
+					break;
+				case ENTITY_SNIFFER_DROP_SEED:
+					SlotPlugin.soundMaterialMap.put(sound, Material.SNIFFER_SPAWN_EGG);
+					break;
+				case ENTITY_SNIFFER_EAT:
+					SlotPlugin.soundMaterialMap.put(sound, Material.SNIFFER_SPAWN_EGG);
+					break;
+				case ENTITY_SNIFFER_HAPPY:
+					SlotPlugin.soundMaterialMap.put(sound, Material.SNIFFER_SPAWN_EGG);
+					break;
+				case ENTITY_SNIFFER_HURT:
+					SlotPlugin.soundMaterialMap.put(sound, Material.SNIFFER_SPAWN_EGG);
+					break;
+				case ENTITY_SNIFFER_IDLE:
+					SlotPlugin.soundMaterialMap.put(sound, Material.SNIFFER_SPAWN_EGG);
+					break;
+				case ENTITY_SNIFFER_SCENTING:
+					SlotPlugin.soundMaterialMap.put(sound, Material.SNIFFER_SPAWN_EGG);
+					break;
+				case ENTITY_SNIFFER_SEARCHING:
+					SlotPlugin.soundMaterialMap.put(sound, Material.SNIFFER_SPAWN_EGG);
+					break;
+				case ENTITY_SNIFFER_SNIFFING:
+					SlotPlugin.soundMaterialMap.put(sound, Material.SNIFFER_SPAWN_EGG);
+					break;
+				case ENTITY_SNIFFER_STEP:
+					SlotPlugin.soundMaterialMap.put(sound, Material.SNIFFER_SPAWN_EGG);
+					break;
+				case INTENTIONALLY_EMPTY:
+					SlotPlugin.soundMaterialMap.put(sound, Material.DIRT);
+					break;
+				case ITEM_BRUSH_BRUSHING_GENERIC:
+					SlotPlugin.soundMaterialMap.put(sound, Material.BRUSH);
+					break;
+				case ITEM_BRUSH_BRUSHING_GRAVEL:
+					SlotPlugin.soundMaterialMap.put(sound, Material.BRUSH);
+					break;
+				case ITEM_BRUSH_BRUSHING_GRAVEL_COMPLETE:
+					SlotPlugin.soundMaterialMap.put(sound, Material.BRUSH);
+					break;
+				case ITEM_BRUSH_BRUSHING_SAND:
+					SlotPlugin.soundMaterialMap.put(sound, Material.BRUSH);
+					break;
+				case ITEM_BRUSH_BRUSHING_SAND_COMPLETE:
+					SlotPlugin.soundMaterialMap.put(sound, Material.BRUSH);
+					break;
+				case MUSIC_DISC_RELIC:
+					SlotPlugin.soundMaterialMap.put(sound, Material.MUSIC_DISC_RELIC);
+					break;
+				case MUSIC_OVERWORLD_BADLANDS:
+					SlotPlugin.soundMaterialMap.put(sound, Material.NOTE_BLOCK);
+					break;
+				case MUSIC_OVERWORLD_BAMBOO_JUNGLE:
+					SlotPlugin.soundMaterialMap.put(sound, Material.NOTE_BLOCK);
+					break;
+				case MUSIC_OVERWORLD_CHERRY_GROVE:
+					SlotPlugin.soundMaterialMap.put(sound, Material.NOTE_BLOCK);
+					break;
+				case MUSIC_OVERWORLD_DESERT:
+					SlotPlugin.soundMaterialMap.put(sound, Material.NOTE_BLOCK);
+					break;
+				case MUSIC_OVERWORLD_FLOWER_FOREST:
+					SlotPlugin.soundMaterialMap.put(sound, Material.NOTE_BLOCK);
+					break;
+				case MUSIC_OVERWORLD_FOREST:
+					SlotPlugin.soundMaterialMap.put(sound, Material.NOTE_BLOCK);
+					break;
+				case MUSIC_OVERWORLD_JUNGLE:
+					SlotPlugin.soundMaterialMap.put(sound, Material.NOTE_BLOCK);
+					break;
+				case MUSIC_OVERWORLD_SPARSE_JUNGLE:
+					SlotPlugin.soundMaterialMap.put(sound, Material.NOTE_BLOCK);
 					break;
 			}
 		}
