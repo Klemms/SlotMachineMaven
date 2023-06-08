@@ -70,7 +70,7 @@ public class Setup {
 				FileUtils.delete(plugin.getDataFolder().toPath().resolve("langs").resolve("FRENCH.txt").toFile());
 			}
 			IOUtils.copy(plugin.getResource("readme.txt"), new FileOutputStream(plugin.getDataFolder().toPath().resolve("langs").resolve("readme.txt").toFile()));
-			IOUtils.copy(plugin.getResource("en.properties"), new FileOutputStream(plugin.getDataFolder().toPath().resolve("langs").resolve("en-demo.properties").toFile()));
+			IOUtils.copy(plugin.getResource("en-US.properties"), new FileOutputStream(plugin.getDataFolder().toPath().resolve("langs").resolve("en-demo.properties").toFile()));
 		} catch (Exception e) {
 			e.printStackTrace();
 			ExceptionCollector.sendException(SlotPlugin.pl, e);
