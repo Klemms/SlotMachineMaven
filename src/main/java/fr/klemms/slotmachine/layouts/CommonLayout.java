@@ -1,14 +1,6 @@
 package fr.klemms.slotmachine.layouts;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.FixedMetadataValue;
-
-import com.bencodez.votingplugin.user.UserManager;
 import com.bencodez.votingplugin.user.VotingPluginUser;
-
 import fr.klemms.slotmachine.ChatContent;
 import fr.klemms.slotmachine.Config;
 import fr.klemms.slotmachine.SlotMachine;
@@ -18,11 +10,16 @@ import fr.klemms.slotmachine.placeholders.Variables;
 import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
 import me.realized.tm.api.TMAPI;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
 import su.nightexpress.gamepoints.api.GamePointsAPI;
 import su.nightexpress.gamepoints.data.PointUser;
 
 public class CommonLayout {
-	
+
 	public static final ClickableItem leverNoPermission = ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(Material.BARRIER, 1), ChatContent.translateColorCodes(Language.translate(Config.noAccessDefaultString))));
 
 	public static boolean triggerLever(Player player, SlotMachine machine) {
@@ -31,7 +28,7 @@ public class CommonLayout {
 			if (player.hasMetadata("slotmachine_soundremovalprevention"))
 				player.removeMetadata("slotmachine_soundremovalprevention", SlotPlugin.pl);
 		});
-		
+
 		switch(machine.getPriceType()) {
 			case MONEY:
 				if(SlotPlugin.econ.getBalance(player) >= machine.getPullPrice()) {
@@ -57,8 +54,8 @@ public class CommonLayout {
 				}
 			case VOTINGPLUGIN:
 				if (SlotPlugin.votingPlugin != null) {
-					VotingPluginUser user = UserManager.getInstance().getVotingPluginUser(player);
-					
+					VotingPluginUser user = SlotPlugin.votingPlugin.getUserManager().getVotingPluginUser(player);
+
 					if (user == null) {
 						player.sendMessage(Variables.getFormattedString(Language.translate("votingplugin.notenough"), player, machine));
 						player.playSound(player.getLocation(), machine.getErrorSound(), 1.3f, 1f);
@@ -119,7 +116,7 @@ public class CommonLayout {
 							return false;
 						SlotPlugin.tokenManager.setTokens(player, SlotPlugin.tokenManager.getTokens(player).getAsLong() - (long)machine.getPullPrice());
 						return true;
-					} else {	
+					} else {
 						player.sendMessage(Variables.getFormattedString(Language.translate(Config.notEnoughTokensManagerDefaultString), player, machine));
 						player.playSound(player.getLocation(), machine.getErrorSound(), 1.3f, 1f);
 						return false;
@@ -134,7 +131,7 @@ public class CommonLayout {
 				return false;
 		}
 	}
-	
+
 	private static boolean testCooldown(Player player, SlotMachine machine) {
 		if (machine.getPlayerCooldown(player) > 0 && machine.getCooldown() > 0) {
 			player.sendMessage(Variables.getFormattedString(ChatContent.GOLD +  "[" + machine.getSlotMachineName() + "] " + Language.translate("error.cooldown").replace("%cooldown%", String.valueOf(machine.getPlayerCooldown(player))), player, machine));
