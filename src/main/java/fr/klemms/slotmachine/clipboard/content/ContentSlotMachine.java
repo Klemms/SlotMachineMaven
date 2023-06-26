@@ -12,7 +12,7 @@ public class ContentSlotMachine extends Content {
 	public void copyContent(Player player, SlotMachine inputMachine, SlotMachine outputMachine) {
 		outputMachine.setGuiPermission(inputMachine.getGuiPermission());
 		outputMachine.setSlotMachineName(inputMachine.getSlotMachineName());
-		
+
 		outputMachine.setWinMessage(inputMachine.getWinMessage());
 		outputMachine.setLossMessage(inputMachine.getLossMessage());
 		outputMachine.setWinMessage(inputMachine.getWinMessage());
@@ -22,11 +22,11 @@ public class ContentSlotMachine extends Content {
 		outputMachine.setLeverCustom(inputMachine.isLeverCustom());
 		outputMachine.setLeverTitle(inputMachine.getLeverTitle());
 		outputMachine.setLeverDescription(inputMachine.getLeverDescription());
-		
+
 		outputMachine.setVisualType(inputMachine.getVisualType());
 		outputMachine.setPriceType(inputMachine.getPriceType());
 		outputMachine.setPlayMode(inputMachine.getPlayMode());
-		
+
 		outputMachine.setPullPrice(inputMachine.getPullPrice());
 		outputMachine.setChanceToWin(inputMachine.getChanceToWin());
 		outputMachine.setAffectedByLuck(inputMachine.isAffectedByLuck());
@@ -39,7 +39,8 @@ public class ContentSlotMachine extends Content {
 		outputMachine.setSpinSpeed(inputMachine.getSpinSpeed());
 		outputMachine.setCooldown(inputMachine.getCooldown());
 		outputMachine.setTokenIdentifier(inputMachine.getTokenIdentifier());
-		
+		outputMachine.setBroadcastWonItem(inputMachine.shouldBroadcastWonItem());
+
 		outputMachine.setBackgroundItem(new ItemStack(inputMachine.getBackgroundItem()));
 		outputMachine.setEmphasisItem(new ItemStack(inputMachine.getEmphasisItem()));
 		outputMachine.setLeverItem(new ItemStack(inputMachine.getLeverItem()));
@@ -52,7 +53,7 @@ public class ContentSlotMachine extends Content {
 		outputMachine.setCsgoSpinSound(inputMachine.getCsgoSpinSound());
 		outputMachine.setWinSound(inputMachine.getWinSound());
 		outputMachine.setLossSound(inputMachine.getLossSound());
-		
+
 		ClipboardContent.ITEMLIST.contentCopier.copyContent(player, inputMachine, outputMachine);
 	}
 
