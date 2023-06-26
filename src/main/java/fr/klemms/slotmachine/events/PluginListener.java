@@ -63,7 +63,7 @@ public class PluginListener implements Listener {
 			if (SlotPlugin.isCitizensEnabled && CitizensAPI.getNPCRegistry().isNPC(event.getRightClicked()))
 				uuid = CitizensAPI.getNPCRegistry().getNPC(event.getRightClicked()).getUniqueId();
 			
-			SlotMachineEntity machine = SlotMachineEntity.getSlotMachineByEntityUUID(uuid);
+			SlotMachineEntity machine = SlotMachineEntityLink.getAllSlotMachineByEntityUUID(uuid);
 			
 			if(machine != null && openSlotMachine) {
 				event.setCancelled(true);
@@ -74,7 +74,7 @@ public class PluginListener implements Listener {
 	
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event) {
-		SlotMachineBlock smb = SlotMachineBlock.getSlotMachineByBlock(event.getBlock());
+		SlotMachineBlock smb = SlotMachineBlockLink.getAllSlotMachineByBlock(event.getBlock());
 		if(smb != null && smb.isLocked()) {
 			event.setCancelled(true);
 			if(event.getPlayer().hasPermission("slotmachine.machineedit") || event.getPlayer().hasPermission("slotmachine.shopedit") || event.getPlayer().isOp()) {
@@ -184,8 +184,8 @@ public class PluginListener implements Listener {
 			event.setCancelled(true);
 			if(SlotMachine.getSlotMachineByUUID(UUID.fromString(event.getPlayer().getMetadata("slotmachine_changename").get(0).asString())) != null) {
 				SlotMachine slotMachine = SlotMachine.getSlotMachineByUUID(UUID.fromString(event.getPlayer().getMetadata("slotmachine_changename").get(0).asString()));
-				if(slotMachine.getSlotMachineType() == SlotMachineType.ENTITY) {
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadChangeEntityName(slotMachine.getWorldUID(), ((SlotMachineEntity)slotMachine).getEntityUUID(), slotMachine.getChunkX(), slotMachine.getChunkZ(), ChatContent.translateColorCodes(event.getMessage())));
+				if(slotMachine.getSlotMachineType() == SlotMachineType.ENTITY || slotMachine.getSlotMachineType() == SlotMachineType.ENTITY_LINK) {
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadChangeEntityName(((SlotMachineEntity)slotMachine).getEntityUUID(), ChatContent.translateColorCodes(event.getMessage())));
 				}
 				slotMachine.setSlotMachineName(ChatContent.translateColorCodes(event.getMessage()));
 				event.getPlayer().sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("slotmachine.informations.new.name") + " : " + ChatContent.RESET + ChatContent.translateColorCodes(slotMachine.getSlotMachineName()));
@@ -235,7 +235,7 @@ public class PluginListener implements Listener {
 	@EventHandler
 	public void onPlayerFish(PlayerFishEvent event) {
 		if(event.getState() == State.CAUGHT_ENTITY) {
-			if(SlotMachineEntity.getSlotMachineByEntityUUID(event.getCaught().getUniqueId()) != null) {
+			if(SlotMachineEntityLink.getAllSlotMachineByEntityUUID(event.getCaught().getUniqueId()) != null) {
 				event.setCancelled(true);
 			}
 		}
@@ -266,14 +266,14 @@ public class PluginListener implements Listener {
 	
 	@EventHandler
 	public void onItemFrameDamaged(HangingBreakEvent event) {
-		if(SlotMachineEntity.getSlotMachineByEntityUUID(event.getEntity().getUniqueId()) != null) {
+		if(SlotMachineEntityLink.getAllSlotMachineByEntityUUID(event.getEntity().getUniqueId()) != null) {
 			event.setCancelled(true);
 		}
 	}
 	
 	@EventHandler
 	public void onEntityDamaged(EntityDamageEvent event) {
-		if(SlotMachineEntity.getSlotMachineByEntityUUID(event.getEntity().getUniqueId()) != null) {
+		if(SlotMachineEntityLink.getAllSlotMachineByEntityUUID(event.getEntity().getUniqueId()) != null) {
 			event.setCancelled(true);
 		}
 	}
@@ -295,7 +295,7 @@ public class PluginListener implements Listener {
 					event.getPlayer().sendMessage(ChatContent.RED + "[Slot Machine] You don't have the required permissions to edit this Slot Machine");
 				}
 			}
-			SlotMachineBlock machine = SlotMachineBlock.getSlotMachineByBlock(event.getClickedBlock());
+			SlotMachineBlock machine = SlotMachineBlockLink.getAllSlotMachineByBlock(event.getClickedBlock());
 			
 			if(machine != null && openSlotMachine) {
 				event.setCancelled(true);

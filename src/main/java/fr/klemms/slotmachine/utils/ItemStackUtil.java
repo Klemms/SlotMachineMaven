@@ -38,9 +38,11 @@ public class ItemStackUtil {
 	}
 	
 	public static ItemStack setItemStackLore(ItemStack itemStack, List<String> lore) {
-		ItemMeta im = itemStack.getItemMeta();
-		im.setLore(lore);
-		itemStack.setItemMeta(im);
+		if (lore != null) {
+			ItemMeta im = itemStack.getItemMeta();
+			im.setLore(lore);
+			itemStack.setItemMeta(im);
+		}
 		return itemStack;
 	}
 	

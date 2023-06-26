@@ -1,28 +1,33 @@
 package fr.klemms.slotmachine;
 
-import java.util.List;
-import java.util.UUID;
-
-import org.bukkit.entity.Entity;
-
 import fr.klemms.slotmachine.utils.EntityUtil;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
+import org.bukkit.entity.Entity;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.logging.Level;
 
 public class SlotMachineEntity extends SlotMachine {
 	
 	public static synchronized SlotMachineEntity getSlotMachineByEntityUUID(UUID entityUUID) {
 		List<SlotMachine> slotMachines = SlotMachine.getSlotMachinesByType(SlotMachineType.ENTITY);
-		for(int a = 0; a < slotMachines.size(); a++) {
-			if(((SlotMachineEntity)slotMachines.get(a)).getEntityUUID().compareTo(entityUUID) == 0) {
-				return ((SlotMachineEntity)slotMachines.get(a));
+		for (SlotMachine slotMachine : slotMachines) {
+			if (((SlotMachineEntity) slotMachine).getEntityUUID().compareTo(entityUUID) == 0) {
+				return ((SlotMachineEntity) slotMachine);
 			}
 		}
 		return null;
 	}
 	
 	public static synchronized void addSlotMachineEntity(SlotMachineEntity slotMachineEntity) {
-		SlotMachine.addSlotMachine(slotMachineEntity);
+		if (SlotMachineEntityLink.getAllSlotMachineByEntityUUID(slotMachineEntity.entityUUID) == null) {
+			SlotMachine.addSlotMachine(slotMachineEntity);
+		} else {
+			SlotPlugin.pl.getLogger().log(Level.SEVERE, "Slot Machine " + slotMachineEntity.getMachineUUID().toString() + " is duplicated ! Ignoring this one...");
+			Issue.newIssue(Issue.IssueType.MACHINE_READING_ISSUE, "Slot Machine " + slotMachineEntity.getMachineUUID().toString() + " is duplicated ! Ignoring this one...", true);
+		}
 	}
 	
 	public static synchronized void removeSlotMachineEntity(UUID entityUUID) {
@@ -31,8 +36,12 @@ public class SlotMachineEntity extends SlotMachine {
 	
 	private UUID entityUUID;
 
-	public SlotMachineEntity(UUID entityUUID, UUID worldUID, int chunkX, int chunkZ) {
-		super(SlotMachineType.ENTITY, worldUID, chunkX, chunkZ);
+	public SlotMachineEntity(UUID entityUUID) {
+		this(SlotMachineType.ENTITY, entityUUID);
+	}
+
+	public SlotMachineEntity(SlotMachineType slotMachineType, UUID entityUUID) {
+		super(slotMachineType);
 		this.entityUUID = entityUUID;
 	}
 

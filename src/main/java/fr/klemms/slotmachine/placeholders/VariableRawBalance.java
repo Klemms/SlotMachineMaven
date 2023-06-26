@@ -1,6 +1,5 @@
 package fr.klemms.slotmachine.placeholders;
 
-import com.bencodez.votingplugin.user.UserManager;
 import com.bencodez.votingplugin.user.VotingPluginUser;
 import fr.klemms.slotmachine.SlotMachine;
 import fr.klemms.slotmachine.SlotPlugin;
@@ -35,11 +34,11 @@ public class VariableRawBalance implements Variable {
 				return String.valueOf(player.getLevel());
 			case VOTINGPLUGIN:
 				if (SlotPlugin.votingPlugin != null) {
-					VotingPluginUser user = UserManager.getInstance().getVotingPluginUser(player);
-					
+					VotingPluginUser user = SlotPlugin.votingPlugin.getUserManager().getVotingPluginUser(player);
+
 					if (user == null)
 						return "0";
-					
+
 					return String.valueOf(user.getPoints());
 				}
 				break;
@@ -51,7 +50,7 @@ public class VariableRawBalance implements Variable {
 				}
 				break;
 		}
-		
+
 		return "";
 	}
 }

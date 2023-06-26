@@ -35,6 +35,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -50,14 +51,14 @@ public class MachineInterractionInventory {
 			SlotPlugin.pl.getLogger().log(Level.SEVERE, "Both ENTITY and BLOCK variables are null when entering manageMachine. This is not normal");
 			return;
 		}
-		
-		if (entity != null && entity instanceof Player && !(SlotPlugin.isCitizensEnabled && CitizensAPI.getNPCRegistry().isNPC(entity))) {
+
+		if (entity instanceof Player && !(SlotPlugin.isCitizensEnabled && CitizensAPI.getNPCRegistry().isNPC(entity))) {
 			player.sendMessage(ChatContent.RED + "[Slot Machine] You can't create a machine on a player");
 			return;
 		}
-		
+
 		LivingEntity livingEntity = entity instanceof LivingEntity ? (LivingEntity) entity : null;
-		
+
 		SmartInventory inv = SmartInventory.builder()
 				.manager(SlotPlugin.invManager)
 				.id(machine == null ? "managment" : machine.getMachineUUID().toString())
@@ -69,7 +70,7 @@ public class MachineInterractionInventory {
 					@Override
 					public void init(Player player, InventoryContents contents) {
 						Pagination pagination = contents.pagination();
-						
+
 						List<ClickableItem> items = new ArrayList<ClickableItem>();
 
 						if (machine == null) {
@@ -105,6 +106,93 @@ public class MachineInterractionInventory {
 									MachineMethods.createSlotMachineBlock(player, block);
 								}
 							}));
+
+							List<String> createLinkLore = Arrays.asList(
+									ChatContent.AQUA + ChatContent.ITALIC + "Create a link to another Slot Machine from this " + (entity == null ? "block" : "entity"),
+									"",
+									ChatContent.AQUA + "A link will inherit all properties",
+									ChatContent.AQUA + "of the original Slot Machine",
+									"",
+									ChatContent.AQUA + "You won't be able to edit this Slot Machine",
+									"",
+									ChatContent.AQUA + "All changes you do on the original Slot Machine",
+									ChatContent.AQUA + "will affect this one"
+							);
+							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.EARTH), ChatContent.GOLD + "Create a link to another Slot Machine"), createLinkLore), event -> {
+								MachineListInventory.openMachineList(player, 0, new MachineListCallback() {
+									@Override
+									public void callback(SlotMachine pickedSlotMachine) {
+										player.closeInventory();
+										player.playSound(player.getLocation(), Sound.BLOCK_END_PORTAL_SPAWN, 0.3F, 1.3F);
+										if (entity != null) {
+											MachineMethods.createSlotMachineEntityLink(player, entity, pickedSlotMachine);
+										} else if (block != null) {
+											MachineMethods.createSlotMachineBlockLink(player, block, pickedSlotMachine);
+										}
+									}
+								});
+							}));
+						} else if (machine.getSlotMachineType() == SlotMachineType.ENTITY_LINK || machine.getSlotMachineType() == SlotMachineType.BLOCK_LINK) {
+							items.add(ClickableItem.empty(
+									ItemStackUtil.setItemStackLore(
+											ItemStackUtil.changeItemStackName(
+													new ItemStack(PlayerHeadsUtil.INFOS), ChatContent.GOLD + "Slot Machine Informations"),
+											Arrays.asList(
+													ChatContent.AQUA + "Machine UUID : " + ChatContent.GRAY + ChatContent.ITALIC + machine.getMachineUUID().toString()
+											)
+									)));
+
+							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.EARTH), ChatContent.GOLD + "Change Link"),
+									Arrays.asList(
+											ChatContent.AQUA + "Change the original Slot Machine",
+											ChatContent.AQUA + "this machine inherits from"
+									)), event -> {
+								if (event.isLeftClick()) {
+									player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+
+									MachineListInventory.openMachineList(player, 0, new MachineListCallback() {
+										@Override
+										public void callback(SlotMachine pickedSlotMachine) {
+											player.closeInventory();
+											player.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 0.3F, 1.6F);
+											if (machine.getSlotMachineType() == SlotMachineType.ENTITY_LINK) {
+												((SlotMachineEntityLink)machine).setLinkTo(pickedSlotMachine.getMachineUUID());
+												SlotPlugin.saveToDisk();
+											} else if(machine.getSlotMachineType() == SlotMachineType.BLOCK_LINK) {
+												((SlotMachineBlockLink)machine).setLinkTo(pickedSlotMachine.getMachineUUID());
+												SlotPlugin.saveToDisk();
+											}
+											player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully changed link");
+										}
+									});
+								}
+							}));
+
+							if (machine.getSlotMachineType() == SlotMachineType.BLOCK_LINK && block != null) {
+								SlotMachineBlockLink machineBlock = ((SlotMachineBlockLink) machine);
+								if (machineBlock.isLocked())
+									items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.STONE, 1), ChatContent.GOLD + "Make Breakable"), Arrays.asList(
+											ChatContent.AQUA + ChatContent.ITALIC + "Make this block breakable",
+											ChatContent.AQUA + ChatContent.ITALIC + "You will be able to break it"
+									)), event -> {
+										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+										machineBlock.setLocked(false);
+										player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.breakable"));
+										SlotPlugin.saveToDisk();
+										manageMachine(player, machine, entity, block, pagination.getPage());
+									}));
+								else
+									items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.BEDROCK, 1), ChatContent.GOLD + "Make Unbreakable"), Arrays.asList(
+											ChatContent.AQUA + ChatContent.ITALIC + "Make this block unbreakable",
+											ChatContent.AQUA + ChatContent.ITALIC + "No one will be able to break this block"
+									)), event -> {
+										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+										machineBlock.setLocked(true);
+										player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.unbreakable"));
+										SlotPlugin.saveToDisk();
+										manageMachine(player, machine, entity, block, pagination.getPage());
+									}));
+							}
 						} else {
 							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.INFOS), ChatContent.GOLD + "Machine Informations"), Arrays.asList(
 									ChatContent.AQUA + ChatContent.ITALIC + "Display this machine's",
@@ -328,7 +416,7 @@ public class MachineInterractionInventory {
 													machine.setTokenIdentifier(token.identifier);
 													SlotPlugin.saveToDisk();
 												}
-												
+
 											}, false);
 								}));
 							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.DIAMOND, 1), ChatContent.GOLD + "Change Price"), Arrays.asList(
@@ -440,6 +528,20 @@ public class MachineInterractionInventory {
 										SlotPlugin.saveToDisk();
 										player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + (machine.isDisplayWonItemInChat() ? "Enabled" : "Disabled") + " item name in chat");
 										manageMachine(player, machine, entity, block, pagination.getPage());
+							}));
+							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(machine.shouldBroadcastWonItem() ? ItemStackUtil.addGlow(new ItemStack(Material.BELL, 1)) : new ItemStack(Material.BELL, 1), ChatContent.GOLD + "Broadcast won item to all players"), Arrays.asList(
+									ChatContent.AQUA + ChatContent.ITALIC + "Should the won player and the won",
+									ChatContent.AQUA + ChatContent.ITALIC + "item be broadcasted to all players ",
+									ChatContent.AQUA + ChatContent.ITALIC + "on the server.",
+									ChatContent.AQUA + ChatContent.ITALIC + "Click to toggle",
+									"",
+									ChatContent.AQUA + ChatContent.ITALIC + "Current : " + (machine.shouldBroadcastWonItem() ? ChatContent.GREEN + Language.translate("basic.yes") : ChatContent.RED + Language.translate("basic.no"))
+							)), event -> {
+								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+								machine.setBroadcastWonItem(!machine.shouldBroadcastWonItem());
+								SlotPlugin.saveToDisk();
+								player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + (machine.shouldBroadcastWonItem() ? "Enabled" : "Disabled") + " broadcasting to all players");
+								manageMachine(player, machine, entity, block, pagination.getPage());
 							}));
 							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(ItemStackUtil.addGlow(new ItemStack(Material.TRIPWIRE_HOOK, 1)), ChatContent.GOLD + "Change Lever Name"), Arrays.asList(
 									ChatContent.AQUA + ChatContent.ITALIC + "Change the lever's name",
@@ -653,7 +755,7 @@ public class MachineInterractionInventory {
 									}));
 							}
 						}
-						
+
 						if (livingEntity != null) {
 							if (!livingEntity.hasAI())
 								items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.ARMOR_STAND, 1), ChatContent.GOLD + "Turn on AI"), Arrays.asList(
@@ -675,7 +777,7 @@ public class MachineInterractionInventory {
 											player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.turnoffai"));
 											manageMachine(player, machine, entity, block, pagination.getPage());
 								}));
-							
+
 							if (livingEntity.isSilent())
 								items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.NOTE_BLOCK, 1), ChatContent.GOLD + "Enable Sounds"), Arrays.asList(
 										ChatContent.AQUA + ChatContent.ITALIC + "Allow this entity to make sound"
@@ -762,11 +864,11 @@ public class MachineInterractionInventory {
 
 						pagination.setItemsPerPage(4 * 9);
 						pagination.setItems(items.toArray(new ClickableItem[items.size()]));
-						
+
 						contents.fill(ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(Material.BLACK_STAINED_GLASS_PANE, 1), " ")));
 						pagination.addToIterator(contents.newIterator(Type.HORIZONTAL, 1, 0));
-						
-						if (machine != null)
+
+						if (machine != null) {
 							contents.set(0, 7, ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.TRASH_CAN), ChatContent.GOLD + "Remove this Slot Machine"), Arrays.asList(
 									ChatContent.AQUA + ChatContent.ITALIC + "This entity or block will no",
 									ChatContent.AQUA + ChatContent.ITALIC + "longer be a Slot Machine, you will",
@@ -774,19 +876,20 @@ public class MachineInterractionInventory {
 									"",
 									ChatContent.RED + ChatContent.BOLD + "Removing a Slot Machine is",
 									ChatContent.RED + ChatContent.BOLD + "PERMANENT, you can't go back"
-									)), event -> {
-										ConfirmInventory.confirmWindow(player, "Confirm Machine Deletion ?", "No, cancel", "Yes, delete", callback -> {
-											if (callback) {
-												player.playSound(player.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1F, 1F);
-												MachineMethods.removeSlotMachine(player, machine.getMachineUUID());
-												player.closeInventory();
-											} else {
-												manageMachine(player, machine, entity, block, page);
-												player.sendMessage(ChatContent.GREEN + "[Slot Machine] This Slot Machine has NOT been removed");
-											}
-										}, false);
+							)), event -> {
+								ConfirmInventory.confirmWindow(player, "Confirm Machine Deletion ?", "No, cancel", "Yes, delete", callback -> {
+									if (callback) {
+										player.playSound(player.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1F, 1F);
+										MachineMethods.removeSlotMachine(player, machine.getMachineUUID());
+										player.closeInventory();
+									} else {
+										manageMachine(player, machine, entity, block, page);
+										player.sendMessage(ChatContent.GREEN + "[Slot Machine] This Slot Machine has NOT been removed");
+									}
+								}, false);
 							}));
-						
+						}
+
 						if (!pagination.isFirst())
 							contents.set(5, 3, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.LEFT), Language.translate("basic.previouspage")), event -> {
 								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
@@ -798,10 +901,10 @@ public class MachineInterractionInventory {
 								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								manageMachine(player, machine, entity, block, page + 1);
 							}));
-						
+
 						if (!pagination.isFirst() && !pagination.isLast())
 							contents.set(5, 4, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(Material.PAPER), Language.translate("basic.page") + " " + (pagination.getPage() + 1) + "/" + (pagination.last().getPage() + 1))));
-						
+
 						Clipboards.clipboardUI(player, contents, this, 5, 7, 5, 8, new PasteCallback() {
 
 							@Override
@@ -822,12 +925,30 @@ public class MachineInterractionInventory {
 							public void afterPaste(SlotMachine inputMachine, SlotMachine outputMachine) {
 								manageMachine(player, outputMachine, entity, block, 0);
 							}
-							
+
 						});
 					}
 
 					@Override
 					public void update(Player player, InventoryContents contents) { }
+
+					@Override
+					public boolean disableCopyPaste() {
+						if (machine == null) {
+							return false;
+						}
+
+						return machine.getSlotMachineType() == SlotMachineType.ENTITY_LINK || machine.getSlotMachineType() == SlotMachineType.BLOCK_LINK;
+					}
+
+					@Nullable
+					@Override
+					public List<String> disableReason() {
+						return Arrays.asList(
+								ChatContent.AQUA + ChatContent.ITALIC + "Copying and Pasting isn't",
+								ChatContent.AQUA + ChatContent.ITALIC + "currently available for links."
+						);
+					}
 
 					@Override
 					public ClipboardContent gives() {
@@ -853,10 +974,10 @@ public class MachineInterractionInventory {
 					public void reloadUI(boolean movement) {
 						manageMachine(player, machine, entity, block, movement ? 0 : page);
 					}
-					
+
 				})
 				.build();
-		
+
 		inv.open(player, page);
 	}
 }

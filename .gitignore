@@ -32,7 +32,6 @@ cwallet.sso.lck### Cloud9 template
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.ear
 

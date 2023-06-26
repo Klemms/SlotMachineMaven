@@ -14,17 +14,19 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.logging.Level;
 
 public abstract class SlotMachine {
-	
+
 	public static volatile List<SlotMachine> slotMachines = new ArrayList<SlotMachine>();
-	
+
 	/**
 	 * Returns true if the player is rolling in a machine with the 'LIMITED_PLAYER_GLOBAL' play mode
 	 * @param player
@@ -35,10 +37,10 @@ public abstract class SlotMachine {
 			if (sm.getPlayMode() == PlayMode.LIMITED_PLAYER_GLOBAL && sm.isPlayerRolling(player))
 				return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	public static synchronized SlotMachine getSlotMachineByUUID(UUID machineUUID) {
 		for(SlotMachine slotMachine : slotMachines) {
 			if(slotMachine.getMachineUUID().compareTo(machineUUID) == 0) {
@@ -47,30 +49,91 @@ public abstract class SlotMachine {
 		}
 		return null;
 	}
-	
+
 	public static synchronized void addSlotMachine(SlotMachine slotMachineToAdd) {
-		slotMachines.add(slotMachineToAdd);
+		if (SlotMachine.getSlotMachineByUUID(slotMachineToAdd.getMachineUUID()) == null) {
+			slotMachines.add(slotMachineToAdd);
+		} else {
+			SlotPlugin.pl.getLogger().log(Level.SEVERE, "Slot Machine " + slotMachineToAdd.getMachineUUID().toString() + " is duplicated ! Ignoring this one...");
+			Issue.newIssue(Issue.IssueType.MACHINE_READING_ISSUE, "Slot Machine " + slotMachineToAdd.getMachineUUID().toString() + " is duplicated ! Ignoring this one...", true);
+		}
 	}
-	
+
 	public static synchronized void removeSlotMachine(SlotMachine slotMachineToRemove) {
 		if(slotMachineToRemove != null) {
 			slotMachines.remove(slotMachineToRemove);
 		}
 	}
-	
+
 	public static synchronized void removeSlotMachine(UUID machineUUID) {
 		removeSlotMachine(getSlotMachineByUUID(machineUUID));
 	}
-	
+
 	public static synchronized int getSlotMachineCount() {
 		return slotMachines.size();
 	}
-	
+
 	public static synchronized List<SlotMachine> getSlotMachines() {
 		return slotMachines;
 	}
-	
-	public static synchronized List<SlotMachine> getSlotMachinesByType(SlotMachineType slotMachineType) {
+
+	/**
+	 * Get all machines that are not LINKs
+	 * @return A SlotMachine List
+	 */
+	public static synchronized @NotNull List<SlotMachine> getOriginalSlotMachines() {
+		List<SlotMachine> returnMachines = new ArrayList<SlotMachine>();
+
+		for (SlotMachine slotMachine : slotMachines) {
+			if (slotMachine.getSlotMachineType() == SlotMachineType.BLOCK || slotMachine.getSlotMachineType() == SlotMachineType.ENTITY) {
+				returnMachines.add(slotMachine);
+			}
+		}
+
+		return returnMachines;
+	}
+
+	/**
+	 * Get all machines that are LINKs
+	 * @return A SlotMachine List
+	 */
+	public static synchronized @NotNull List<SlotMachine> getLinks() {
+		List<SlotMachine> returnMachines = new ArrayList<SlotMachine>();
+
+		for (SlotMachine slotMachine : slotMachines) {
+			if (slotMachine.getSlotMachineType() == SlotMachineType.BLOCK_LINK || slotMachine.getSlotMachineType() == SlotMachineType.ENTITY_LINK) {
+				returnMachines.add(slotMachine);
+			}
+		}
+
+		return returnMachines;
+	}
+
+	public static synchronized @NotNull List<SlotMachine> getAllSlotMachineEntities() {
+		List<SlotMachine> returnMachines = new ArrayList<SlotMachine>();
+
+		for (SlotMachine slotMachine : slotMachines) {
+			if (slotMachine.getSlotMachineType() == SlotMachineType.ENTITY || slotMachine.getSlotMachineType() == SlotMachineType.ENTITY_LINK) {
+				returnMachines.add(slotMachine);
+			}
+		}
+
+		return returnMachines;
+	}
+
+	public static synchronized @NotNull List<SlotMachine> getAllSlotMachineBlocks() {
+		List<SlotMachine> returnMachines = new ArrayList<SlotMachine>();
+
+		for (SlotMachine slotMachine : slotMachines) {
+			if (slotMachine.getSlotMachineType() == SlotMachineType.BLOCK || slotMachine.getSlotMachineType() == SlotMachineType.BLOCK_LINK) {
+				returnMachines.add(slotMachine);
+			}
+		}
+
+		return returnMachines;
+	}
+
+	public static synchronized @NotNull List<SlotMachine> getSlotMachinesByType(SlotMachineType slotMachineType) {
 		List<SlotMachine> typeSlotMachines = new ArrayList<SlotMachine>();
 		for(SlotMachine slotMachine : slotMachines) {
 			if(slotMachine.getSlotMachineType() == slotMachineType) {
@@ -79,13 +142,10 @@ public abstract class SlotMachine {
 		}
 		return typeSlotMachines;
 	}
-	
+
 	private SlotMachineType slotMachineType;
 	private SmartInventory inventory;
 	private UUID machineUUID;
-	private UUID worldUID;
-	private int chunkX;
-	private int chunkZ;
 	private String guiPermission;
 	private String slotMachineName;
 	private String winMessage;
@@ -106,6 +166,7 @@ public abstract class SlotMachine {
 	private boolean showChanceOfItemOnPreview;
 	private boolean isCitizensNPC;
 	private boolean displayWonItemInChat;
+	private boolean broadcastWonItem;
 	private int secondsBeforePrize;
 	private int spinSpeed;
 	private int timesUsed;
@@ -116,7 +177,7 @@ public abstract class SlotMachine {
 	private HashMap<UUID, List<MachineItem>> row_0 = new HashMap<UUID, List<MachineItem>>();
 	private HashMap<UUID, List<MachineItem>> row_1 = new HashMap<UUID, List<MachineItem>>();
 	private HashMap<UUID, List<MachineItem>> row_2 = new HashMap<UUID, List<MachineItem>>();
-	
+
 	private ItemStack backgroundItem;
 	private ItemStack emphasisItem;
 	private ItemStack leverItem;
@@ -130,16 +191,16 @@ public abstract class SlotMachine {
 	private Sound winSound;
 	private Sound lossSound;
 
-	public SlotMachine(SlotMachineType slotMachineType, UUID worldUID, int chunkX, int chunkZ) {
+	private String lastFileName;
+
+	public SlotMachine(SlotMachineType slotMachineType) {
 		this.slotMachineType = slotMachineType;
 		this.machineUUID = UUID.randomUUID();
-		this.worldUID = worldUID;
-		this.chunkX = chunkX;
-		this.chunkZ = chunkZ;
 		this.visualType = VisualType.SLOTMACHINE;
 		this.priceType = PriceType.MONEY;
 		this.playMode = PlayMode.LIMITED_PLAYER;
 		this.tokenIdentifier = "default";
+		this.lastFileName = "";
 		this.pullPrice = 10D;
 		this.chanceToWin = 0.40D;
 		this.secondsBeforePrize = 3;
@@ -153,6 +214,7 @@ public abstract class SlotMachine {
 		this.lossMessage = "";
 		this.hasLossMessage = true;
 		this.displayWonItemInChat = true;
+		this.broadcastWonItem = false;
 		this.spinSpeed = 6;
 		this.timesUsed = 0;
 		this.cooldown = 0;
@@ -171,14 +233,14 @@ public abstract class SlotMachine {
 		}
 		this.makeInventory();
 	}
-	
+
 	public void resetBackgroundCustomization() {
 		this.backgroundItem = new ItemStack(Material.BLUE_STAINED_GLASS_PANE, 1);
 		this.emphasisItem = new ItemStack(Material.YELLOW_STAINED_GLASS_PANE, 1);
 		this.leverItem = new ItemStack(Material.TRIPWIRE_HOOK, 1);
 		this.itemListItem = new ItemStack(Material.ENDER_CHEST, 1);
 	}
-	
+
 	public void resetSoundCustomization() {
 		this.machineOpeningSound = Sound.ENTITY_EXPERIENCE_ORB_PICKUP;
 		this.leverSound = Sound.BLOCK_LAVA_POP;
@@ -188,35 +250,35 @@ public abstract class SlotMachine {
 		this.winSound = Sound.ENTITY_PLAYER_LEVELUP;
 		this.lossSound = Sound.BLOCK_ANVIL_LAND;
 	}
-	
+
 	public void resetSoundMachineOpening() {
 		this.machineOpeningSound = Sound.ENTITY_EXPERIENCE_ORB_PICKUP;
 	}
-	
+
 	public void resetSoundLever() {
 		this.machineOpeningSound = Sound.BLOCK_LAVA_POP;
 	}
-	
+
 	public void resetSoundSlotMachineSpin() {
 		this.machineOpeningSound = Sound.ENTITY_EXPERIENCE_ORB_PICKUP;
 	}
-	
+
 	public void resetSoundCSGOSpin() {
 		this.machineOpeningSound = Sound.ENTITY_HORSE_STEP_WOOD;
 	}
-	
+
 	public void resetSoundWin() {
 		this.machineOpeningSound = Sound.ENTITY_PLAYER_LEVELUP;
 	}
-	
+
 	public void resetSoundLoss() {
 		this.machineOpeningSound = Sound.BLOCK_ANVIL_LAND;
 	}
-	
+
 	public void resetSoundError() {
 		this.machineOpeningSound = Sound.ENTITY_VILLAGER_NO;
 	}
-	
+
 	public boolean canPlay(Player player) {
 		switch (this.getPlayMode()) {
 			case LIMITED_MACHINE:
@@ -231,10 +293,10 @@ public abstract class SlotMachine {
 				return true;
 		}
 	}
-	
+
 	public void makeInventory() {
 		InventoryProvider provider = null;
-		
+
 		switch(this.getVisualType()) {
 			case CSGOWHEEL:
 				provider = new CSGOLayout(this);
@@ -248,7 +310,7 @@ public abstract class SlotMachine {
 			default:
 				provider = new SlotMachineLayout(this);
 		}
-		
+
 		this.inventory = SmartInventory.builder()
 				.manager(SlotPlugin.invManager)
 				.title(this.getSlotMachineName())
@@ -258,18 +320,18 @@ public abstract class SlotMachine {
 					if (!event.getPlayer().hasMetadata("slotmachine_soundremovalprevention")) {
 						if (event.getPlayer() instanceof Player) {
 							Player player = (Player)event.getPlayer();
-							
+
 							player.stopSound(this.getMachineOpeningSound());
 						}
 					}
 				}))
 				.build();
 	}
-	
+
 	public SmartInventory getInventories() {
 		return this.inventory;
 	}
-	
+
 	public void openMachine(Player player, boolean updateItems) {
 		if (updateItems) {
 			this.row_0.put(player.getUniqueId(), this.createRandomItemPool(false));
@@ -278,7 +340,7 @@ public abstract class SlotMachine {
 		}
 		this.inventory.open(player);
 	}
-	
+
 	public List<MachineItem> createRandomItemPool(boolean isLastRound) {
 		List<MachineItem> poolList = new ArrayList<MachineItem>();
 		if(this.getVisualType() == VisualType.SLOTMACHINE) {
@@ -308,7 +370,7 @@ public abstract class SlotMachine {
 		}
 		return poolList;
 	}
-	
+
 	public ItemStack getToken() {
 		if (Config.tokens.get(this.getTokenIdentifier()) == null) {
 			Token.getDefaultToken(); // This makes sure a default token always exists
@@ -318,33 +380,33 @@ public abstract class SlotMachine {
 
 		return Config.tokens.get(this.getTokenIdentifier());
 	}
-	
+
 	public double getItemChance(MachineItem item) {
 		int totalWeight = getAllWeightCombined();
-		
+
 		return 1F / totalWeight * item.getWeight() * this.getChanceToWin();
 	}
-	
+
 	public int getAllWeightCombined() {
 		int weight = 0;
-		
+
 		for (MachineItem item : this.getSlotMachineItems()) {
 			weight += item.getWeight();
 		}
-		
+
 		return weight;
 	}
-	
+
 	public boolean canAnItemBeWon() {
 		for(MachineItem machineItem : this.getSlotMachineItems()) {
 			if(machineItem.getWeight() > 0) {
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
-	
+
 	public MachineItem getRandomItemFromPoolWithWeight() {
 		List<MachineItem> itemListWithWeight = new ArrayList<MachineItem>();
 		for(MachineItem machineItem : this.slotMachineItems) {
@@ -361,7 +423,7 @@ public abstract class SlotMachine {
 		}
 		return null;
 	}
-	
+
 	public MachineItem getRandomItemFromPool(MachineItem... itemsToExclude) {
 		List<MachineItem> itemList = this.getSlotMachineItems(itemsToExclude);
 		double random = ThreadLocalRandom.current().nextDouble(0D, 1D);
@@ -371,18 +433,9 @@ public abstract class SlotMachine {
 				return itemList.get((int)a);
 			}
 		}
-		
+
 		MachineItem machineItem = new MachineItem(ItemStackUtil.changeItemStackName(new ItemStack(Material.NETHER_STAR, 1), ChatContent.RED + ChatContent.ITALIC + "[Slot Machine] No item available to create an item pool."), 1);
 		return machineItem;
-	}
-
-	public UUID getWorldUID() {
-		return worldUID;
-	}
-
-	public SlotMachine setWorldUID(UUID worldUID) {
-		this.worldUID = worldUID;
-		return this;
 	}
 
 	public String getGuiPermission() {
@@ -397,17 +450,17 @@ public abstract class SlotMachine {
 	public List<MachineItem> getSlotMachineItems(MachineItem... itemsToExclude) {
 		if(itemsToExclude.length > 0) {
 			List<MachineItem> finalItems = new ArrayList<MachineItem>(this.slotMachineItems);
-			
+
 			for(MachineItem mi : itemsToExclude) {
 				finalItems.remove(mi);
 			}
-			
+
 			return finalItems;
 		}
-		
+
 		return slotMachineItems;
 	}
-	
+
 	public boolean playerHasPermission(Player player) {
 		return player.hasPermission(this.getGuiPermission());
 	}
@@ -423,12 +476,12 @@ public abstract class SlotMachine {
 		}
 		return this;
 	}
-	
+
 	public SlotMachine addItem(MachineItem item) {
 		this.slotMachineItems.add(item);
 		return this;
 	}
-	
+
 	public SlotMachine removeItem(MachineItem item) {
 		this.slotMachineItems.remove(item);
 		return this;
@@ -437,36 +490,18 @@ public abstract class SlotMachine {
 	public boolean isPlayerRolling(Player player) {
 		return this.isRolling.containsKey(player.getUniqueId()) ? this.isRolling.get(player.getUniqueId()) : false;
 	}
-	
+
 	public void setPlayerRolling(Player player, boolean rolling) {
 		this.isRolling.put(player.getUniqueId(), rolling);
 	}
-	
+
 	public boolean hasSomeoneRolling() {
 		for (Boolean bool : this.isRolling.values()) {
 			if (bool)
 				return true;
 		}
-		
+
 		return false;
-	}
-
-	public int getChunkX() {
-		return chunkX;
-	}
-
-	public SlotMachine setChunkX(int chunkX) {
-		this.chunkX = chunkX;
-		return this;
-	}
-
-	public int getChunkZ() {
-		return chunkZ;
-	}
-
-	public SlotMachine setChunkZ(int chunkZ) {
-		this.chunkZ = chunkZ;
-		return this;
 	}
 
 	public String getChatName() {
@@ -512,39 +547,39 @@ public abstract class SlotMachine {
 		this.secondsBeforePrize = secondsBeforePrize;
 		return this;
 	}
-	
+
 	public HashMap<UUID, List<MachineItem>> getRow0() {
 		return this.row_0;
 	}
-	
+
 	public List<MachineItem> getPlayerRow0(Player player) {
 		return this.row_0.get(player.getUniqueId());
 	}
-	
+
 	public void setPlayerRow0(Player player, List<MachineItem> list) {
 		this.row_0.put(player.getUniqueId(), list);
 	}
-	
+
 	public HashMap<UUID, List<MachineItem>> getRow1() {
 		return this.row_1;
 	}
-	
+
 	public List<MachineItem> getPlayerRow1(Player player) {
 		return this.row_1.get(player.getUniqueId());
 	}
-	
+
 	public void setPlayerRow1(Player player, List<MachineItem> list) {
 		this.row_1.put(player.getUniqueId(), list);
 	}
-	
+
 	public HashMap<UUID, List<MachineItem>> getRow2() {
 		return this.row_2;
 	}
-	
+
 	public List<MachineItem> getPlayerRow2(Player player) {
 		return this.row_2.get(player.getUniqueId());
 	}
-	
+
 	public void setPlayerRow2(Player player, List<MachineItem> list) {
 		this.row_2.put(player.getUniqueId(), list);
 	}
@@ -669,20 +704,20 @@ public abstract class SlotMachine {
 	public void setAffectedByLuck(boolean isAffectedByLuck) {
 		this.isAffectedByLuck = isAffectedByLuck;
 	}
-	
+
 	public boolean allowContentPreview() {
 		return this.allowContentPreview;
 	}
-	
+
 	public SlotMachine allowContentPreview(boolean allowContentPreview) {
 		this.allowContentPreview = allowContentPreview;
 		return this;
 	}
-	
+
 	public boolean showItemWeightOnPreview() {
 		return this.showItemWeightOnPreview;
 	}
-	
+
 	public SlotMachine showItemWeightOnPreview(boolean showItemWeightOnPreview) {
 		this.showItemWeightOnPreview = showItemWeightOnPreview;
 		return this;
@@ -695,24 +730,24 @@ public abstract class SlotMachine {
 	public void setCitizensNPC(boolean isCitizensNPC) {
 		this.isCitizensNPC = isCitizensNPC;
 	}
-	
+
 	public String getFinalWinMessage() {
 		if (!this.hasWinMessage())
 			return ChatContent.DARK_PURPLE + ChatContent.ITALIC + "None";
-		
+
 		if (this.getWinMessage().equals(""))
 			return Config.defaultWinMessage;
-		
+
 		return this.getWinMessage();
 	}
-	
+
 	public String getFinalLossMessage() {
 		if (!this.hasLossMessage())
 			return ChatContent.DARK_PURPLE + ChatContent.ITALIC + "None";
-		
+
 		if (this.getLossMessage().equals(""))
 			return Config.defaultLossMessage;
-		
+
 		return this.getLossMessage();
 	}
 
@@ -738,6 +773,14 @@ public abstract class SlotMachine {
 
 	public void setDisplayWonItemInChat(boolean displayWonItemInChat) {
 		this.displayWonItemInChat = displayWonItemInChat;
+	}
+
+	public boolean shouldBroadcastWonItem() {
+		return broadcastWonItem;
+	}
+
+	public void setBroadcastWonItem(boolean broadcastWonItem) {
+		this.broadcastWonItem = broadcastWonItem;
 	}
 
 	public int getSpinSpeed() {
@@ -867,17 +910,17 @@ public abstract class SlotMachine {
 
 	public int getPlayerCooldown(Player player) {
 		SMPlayerConfig plc = PlayerConfig.getSMPlayerConfig(player, this);
-		
+
 		if (plc != null) {
 			return plc.getCooldown();
 		}
-		
+
 		return 0;
 	}
 
 	public void setPlayerCooldown(Player player, int cooldown) {
 		SMPlayerConfig plc = PlayerConfig.getOrCreateSMPlayerConfig(player, this, true);
-		
+
 		plc.setCooldown(cooldown);
 		plc.saveToDisk();
 	}
@@ -888,5 +931,13 @@ public abstract class SlotMachine {
 
 	public void setCooldown(int cooldown) {
 		this.cooldown = cooldown;
+	}
+
+	public String getLastFileName() {
+		return lastFileName;
+	}
+
+	public void setLastFileName(String lastFileName) {
+		this.lastFileName = lastFileName;
 	}
 }

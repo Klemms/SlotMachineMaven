@@ -2,29 +2,24 @@ package fr.klemms.slotmachine.threads;
 
 import fr.klemms.slotmachine.ChatContent;
 import fr.klemms.slotmachine.utils.EntityUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 
 import java.util.UUID;
 
 public class ThreadChangeEntityName extends Thread {
-	
-	private UUID worldUID;
+
 	private UUID entityUID;
-	private int chunkX;
-	private int chunkZ;
 	private String customName;
 	
-	public ThreadChangeEntityName(UUID worldUID, UUID entityUID, int chunkX, int chunkZ, String customName) {
-		this.worldUID = worldUID;
+	public ThreadChangeEntityName(UUID entityUID, String customName) {
 		this.entityUID = entityUID;
-		this.chunkX = chunkX;
-		this.chunkZ = chunkZ;
 		this.customName = customName;
 	}
 	
 	@Override
 	public void run() {
-		Entity entity = EntityUtil.getEntityByUUIDLoadChunks(this.worldUID, this.chunkX, this.chunkZ, this.entityUID);
+		Entity entity = Bukkit.getEntity(this.entityUID);
 		if(entity != null) {
 			if(!this.customName.equals("null")) {
 				entity.setCustomName(ChatContent.translateColorCodes(this.customName));

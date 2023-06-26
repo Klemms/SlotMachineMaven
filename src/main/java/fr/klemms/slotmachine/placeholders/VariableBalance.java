@@ -1,15 +1,12 @@
 package fr.klemms.slotmachine.placeholders;
 
-import org.bukkit.entity.Player;
-
-import com.bencodez.votingplugin.user.UserManager;
 import com.bencodez.votingplugin.user.VotingPluginUser;
-
 import fr.klemms.slotmachine.SlotMachine;
 import fr.klemms.slotmachine.SlotPlugin;
 import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.PlayerUtil;
 import me.realized.tm.api.TMAPI;
+import org.bukkit.entity.Player;
 import su.nightexpress.gamepoints.api.GamePointsAPI;
 import su.nightexpress.gamepoints.data.PointUser;
 
@@ -37,11 +34,11 @@ public class VariableBalance implements Variable {
 				return player.getLevel() + " " + Language.translate("currency.levels").toLowerCase();
 			case VOTINGPLUGIN:
 				if (SlotPlugin.votingPlugin != null) {
-					VotingPluginUser user = UserManager.getInstance().getVotingPluginUser(player);
-					
+					VotingPluginUser user = SlotPlugin.votingPlugin.getUserManager().getVotingPluginUser(player);
+
 					if (user == null)
 						return "0";
-					
+
 					return "" + user.getPoints();
 				}
 				break;
@@ -53,7 +50,7 @@ public class VariableBalance implements Variable {
 				}
 				break;
 		}
-		
+
 		return "";
 	}
 }
