@@ -49,11 +49,21 @@ public class Setup {
 		officialLanguages = new HashMap<String, String>();
 
 		// Language code to file name
-		officialLanguages.put("en", "en-US");
-		officialLanguages.put("fr", "fr-FR");
-		officialLanguages.put("zh-CN", "zh-CN");
-		officialLanguages.put("zh-TW", "zh-TW");
-		//officialLanguages.put("es-ES", "es-ES"); // Translation quality is too bad
+		// High Quality Languages
+		officialLanguages.put("en", "en-US");		// English
+		officialLanguages.put("fr", "fr-FR");		// French
+		officialLanguages.put("zh-CN", "zh-CN");	// Simplified Chinese
+		officialLanguages.put("zh-TW", "zh-TW");	// Traditional Chinese
+
+		// Unfinished Languages
+		officialLanguages.put("es-ES", "es-ES");	// Spanish
+		officialLanguages.put("ko", "ko-KR");		// Korean
+		officialLanguages.put("pt-BR", "pt-BR");	// Portuguese (Brazil)
+		officialLanguages.put("tr", "tr-TR");		// Turkish
+		officialLanguages.put("vi", "vi-VN");		// Vietnamese
+
+		// Finished but Unknown Quality Languages
+		officialLanguages.put("ru", "ru-RU");		// Russian
 
 		try {
 			Files.createDirectories(plugin.getDataFolder().toPath().resolve("langs"));

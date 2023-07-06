@@ -55,7 +55,7 @@ public class Config {
 
     public static volatile Material adminToolMaterial = Material.BLAZE_ROD;
 
-    private static boolean quickReload = true;
+    public static boolean quickReload = true;
 
     public static void registerConfig(JavaPlugin plugin) {
         if (Util.isAtLeastMC118())
@@ -71,11 +71,34 @@ public class Config {
 
         plugin.getConfig().addDefault("language", language);
         if (Util.isAtLeastMC118())
-            plugin.getConfig().setComments("language", Arrays.asList("", "Language to be used", "See the 'Supports Localization' part of the plugin page on Spigot website", "Valid values are : en (english), fr (french), zh-CN (Simplified chinese), zh-TW (Traditional chinese)", "(Note not all translations are complete)", "You can also create your own translation, please read the 'readme' file in the langs folder for more informations."));
+            plugin.getConfig().setComments("language", Arrays.asList("",
+                    "Language to be used",
+                    "See the 'Supports Localization' part of the plugin page on Spigot website",
+                    "Valid values are :",
+                    "en    (english)              -- Default value - Complete and high quality",
+                    "fr    (french)               --               - Complete and high quality",
+                    "zh-CN (Simplified Chinese)   --               - Complete and high quality",
+                    "zh-TW (Traditional Chinese)  --               - Complete and high quality",
+                    "ru    (Russian)              --               - Complete but quality is unknown",
+                    "es-ES (Spanish)              --               - Very incomplete and quality may be low",
+                    "ko    (Korean)               --               - Very incomplete and quality is unknown",
+                    "pt-BR (Brazilian Portuguese) --               - Incomplete and unknown quality",
+                    "tr    (tr-TR)                --               - Incomplete and unknown quality",
+                    "vi    (Vietnamese)           --               - Very incomplete and quality may be low",
+                    "",
+                    "IMPORTANT NOTE : If you did not disable language over-the-air updates,",
+                    "your selected language will get updated automatically when the plugin loads/at server startup or",
+                    "by running the /smupdatelanguages command.",
+                    "Because of that the quality and coverage of the language you selected may improve over time.",
+                    "",
+                    "Want to contribute to the quality of your language or find your language is missing ?",
+                    "Head here and help us translate the plugin : https://crowdin.com/project/slot-machine/invite?h=85a84eff6fc4e68863a2560c3d765e491657749",
+                    "",
+                    "You can also create your own translation, please read the 'readme' file in the langs folder for more informations."));
 
         plugin.getConfig().addDefault("enableLanguageOTAUpdates", enableLanguageOTAUpdates);
         if (Util.isAtLeastMC118())
-            plugin.getConfig().setComments("enableLanguageOTAUpdates", Arrays.asList("", "Allows you to receive updates for the official language files without having to update the plugin", "Updates are done when the plugin loads", "Updates are fetched directly from Crowdin, our official translation platform", "You can help us translate the plugin by going to https://crowdin.com/project/slot-machine"));
+            plugin.getConfig().setComments("enableLanguageOTAUpdates", Arrays.asList("", "Allows you to receive updates for the official language files without having to update the plugin", "Updates are done when the plugin loads", "You can force an update with the command /smupdatelanguages and the changes will be applied immediately", "Updates are fetched directly from Crowdin, our official translation platform", "You can help us translate the plugin by going to https://crowdin.com/project/slot-machine"));
 
         plugin.getConfig().addDefault("backupMachinesOnPluginUnload", backupMachinesOnPluginUnload);
         if (Util.isAtLeastMC118())
@@ -138,6 +161,7 @@ public class Config {
         plugin.getConfig().options().copyDefaults(true);
         plugin.saveConfig();
 
+        System.out.println("quick " + quickReload);
         if (quickReload) {
             quickReload = false;
             registerConfig(plugin);

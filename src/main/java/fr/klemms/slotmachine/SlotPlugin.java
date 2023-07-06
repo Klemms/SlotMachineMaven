@@ -69,6 +69,7 @@ public class SlotPlugin extends JavaPlugin {
 	public void onEnable() {
 		pl = this;
 		issues = new ArrayList<Issue>();
+		Config.quickReload = true;
 
 		this.getLogger().log(Level.INFO, "Detected Minecraft version " + Util.getMCVersion());
 		this.getLogger().log(Level.INFO, "Slot Machine version " + this.getDescription().getVersion() + " (" + VERSION + ") for " + MC_FOR);
@@ -212,6 +213,16 @@ public class SlotPlugin extends JavaPlugin {
 			}
 
 		}));
+
+		metrics.addCustomChart(new Metrics.SimplePie("slot_machine_language", () -> {
+			if (Language.isValidLanguage(Config.language)) {
+				return Config.language;
+			} else {
+				return "custom";
+			}
+		}));
+
+		metrics.addCustomChart(new Metrics.SimplePie("slot_machine_language_custom", () -> Config.language));
 
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
 			Iterator<Issue> iss = issues.iterator();

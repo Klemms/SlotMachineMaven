@@ -49,3 +49,8 @@ commands:
         usage: /smcooldown <player/@a(all players online)/@everyone(all players)> <slot machine uuid/all> reset
         permission: slotmachine.smcooldown
         permission-message: You do not have permission
+    smupdatelanguages:
+        description: Fetches the latest updates for your selected language directly from Crowdin, the updated translations are applied immediately
+        usage: /smupdatelanguages
+        permission: slotmachine.slotmachine
+        permission-message: You do not have permission
