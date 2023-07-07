@@ -26,7 +26,7 @@ public class Setup {
 
 	public static HashMap<String, String> officialLanguages;
 
-	public static void setupOTALanguages(JavaPlugin plugin) {
+	public static boolean setupOTALanguages(JavaPlugin plugin) {
 		String language = officialLanguages.get(Config.language);
 
 		plugin.getLogger().log(Level.INFO, "Fetching updated translations from Crowdin for : " + Config.language);
@@ -38,10 +38,12 @@ public class Setup {
 			GZIPInputStream in = new GZIPInputStream(urlConnection.getInputStream());
 			Language.parseLanguageFromStrings(Config.language, IOUtils.readLines(in, Charset.forName("UTF-8")));
 			plugin.getLogger().log(Level.INFO, "Success !");
-		} catch (IOException e) {
+			return true;
+		} catch (Exception e) {
 			plugin.getLogger().log(Level.INFO, "Couldn't get OTA language updates. Falling back to built-in language.");
 			e.printStackTrace();
 			ExceptionCollector.sendException(SlotPlugin.pl, e);
+			return false;
 		}
 	}
 

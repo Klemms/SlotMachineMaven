@@ -135,6 +135,7 @@ public class SlotPlugin extends JavaPlugin {
 		Objects.requireNonNull(getCommand("smsavetodisk")).setExecutor(new CommandSMSaveToDisk());
 		Objects.requireNonNull(getCommand("smcooldown")).setExecutor(new CommandCooldown());
 		Objects.requireNonNull(getCommand("smreload")).setExecutor(new CommandReloadMachines());
+		Objects.requireNonNull(getCommand("smupdatelanguages")).setExecutor(new CommandUpdateLanguages());
 
 		playerRewardsQueue = new HashMap<UUID, List<ItemStack>>();
 
