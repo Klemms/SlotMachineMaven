@@ -908,6 +908,27 @@ public abstract class SlotMachine {
 		this.showChanceOfItemOnPreview = showChanceOfItemOnPreview;
 	}
 
+	public void updateCooldown(Player player) {
+		int playerCooldown = this.getPlayerCooldown(player);
+		int machineCooldown = this.getCooldown();
+
+		if (playerCooldown > 0 && playerCooldown > machineCooldown) {
+			this.setPlayerCooldown(player, machineCooldown);
+		}
+	}
+
+	public boolean isPlayerInCooldown(Player player) {
+		int playerCooldown = this.getPlayerCooldown(player);
+		int machineCooldown = this.getCooldown();
+
+		if (playerCooldown > 0 && playerCooldown > machineCooldown) {
+			this.setPlayerCooldown(player, machineCooldown);
+			return machineCooldown > 0;
+		}
+
+		return playerCooldown > 0;
+	}
+
 	public int getPlayerCooldown(Player player) {
 		SMPlayerConfig plc = PlayerConfig.getSMPlayerConfig(player, this);
 
