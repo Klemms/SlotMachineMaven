@@ -289,7 +289,6 @@ public class SlotPlugin extends JavaPlugin {
 
 				Iterator<ItemStack> it = items.iterator();
 				boolean updateInventory = false;
-				System.out.println(items.size());
 				while(it.hasNext()) {
 					ItemStack is = it.next();
 
@@ -301,8 +300,6 @@ public class SlotPlugin extends JavaPlugin {
 						break;
 					}
 				}
-				System.out.println(items.size());
-				System.out.println("-----");
 
 				if (updateInventory) {
 					player.updateInventory();

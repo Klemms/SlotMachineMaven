@@ -161,7 +161,6 @@ public class Config {
         plugin.getConfig().options().copyDefaults(true);
         plugin.saveConfig();
 
-        System.out.println("quick " + quickReload);
         if (quickReload) {
             quickReload = false;
             registerConfig(plugin);
