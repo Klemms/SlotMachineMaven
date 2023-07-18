@@ -28,6 +28,11 @@ public class VariableRawBalance implements Variable {
 					return "null";
 				}
 				break;
+			case PLAYERPOINTS:
+				if(SlotPlugin.playerPointsAPI != null) {
+					return String.valueOf(SlotPlugin.playerPointsAPI.look(player.getUniqueId()));
+				}
+				break;
 			case TOKEN:
 				return String.valueOf(PlayerUtil.countItems(player, slotMachine.getToken()));
 			case EXPERIENCE:

@@ -93,6 +93,24 @@ public class LayoutUtils {
                     player.playSound(player.getLocation(), machine.getErrorSound(), 1.3f, 1f);
                     return false;
                 }
+            case PLAYERPOINTS:
+                if(SlotPlugin.playerPointsAPI != null) {
+                    if (SlotPlugin.playerPointsAPI.look(player.getUniqueId()) >= ((int)machine.getPullPrice())) {
+                        if (!testAndApplyCooldown(player, machine)) {
+                            return false;
+                        }
+                        SlotPlugin.playerPointsAPI.take(player.getUniqueId(), ((int)machine.getPullPrice()));
+                        return true;
+                    } else {
+                        player.sendMessage(Variables.getFormattedString(Language.translate("playerpoints.notenough"), player, machine));
+                        player.playSound(player.getLocation(), machine.getErrorSound(), 1.3f, 1f);
+                        return false;
+                    }
+                } else {
+                    player.sendMessage(ChatContent.RED + machine.getChatName() + Language.translate("slotmachine.access.missingplayerpoints"));
+                    player.playSound(player.getLocation(), machine.getErrorSound(), 1.3f, 1f);
+                    return false;
+                }
             case TOKEN:
                 if(player.getInventory().containsAtLeast(machine.getToken(), (int)machine.getPullPrice())) {
                     if (!testAndApplyCooldown(player, machine))

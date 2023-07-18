@@ -664,6 +664,12 @@ public abstract class SlotMachine {
 				this.setLeverDescription(Language.translate("slotmachine.lever.description.gamepoints"));
 			}
 		}
+		if(priceType == PriceType.PLAYERPOINTS) {
+			if(!this.isLeverCustom()) {
+				this.setLeverTitle(Language.translate("slotmachine.lever.title.playerpoints"));
+				this.setLeverDescription(Language.translate("slotmachine.lever.description.playerpoints"));
+			}
+		}
 		if(priceType == PriceType.TOKENMANAGER) {
 			if(!this.isLeverCustom()) {
 				this.setLeverTitle(Language.translate("slotmachine.lever.title.tokenmanager"));

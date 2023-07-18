@@ -10,16 +10,13 @@ public class VariablePrice implements Variable {
 	@Override
 	public String getVariable(Player player, SlotMachine slotMachine) {
 		switch(slotMachine.getPriceType()) {
-			case EXPERIENCE:
-				return String.valueOf((int)slotMachine.getPullPrice());
-			case VOTINGPLUGIN:
-				return String.valueOf((int)slotMachine.getPullPrice());
 			case MONEY:
 				return Util.formatNumber(slotMachine.getPullPrice());
+			case EXPERIENCE:
+			case VOTINGPLUGIN:
 			case GAMEPOINTS:
-				return String.valueOf((int)slotMachine.getPullPrice());
+			case PLAYERPOINTS:
 			case TOKEN:
-				return String.valueOf((int)slotMachine.getPullPrice());
 			case TOKENMANAGER:
 				return String.valueOf((int)slotMachine.getPullPrice());
 			default:

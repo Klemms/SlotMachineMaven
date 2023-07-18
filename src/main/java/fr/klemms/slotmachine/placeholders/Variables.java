@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum Variables {
-	
+
 	PLAYER(new VariablePlayer(), "player", "placeholders.player"),
 	BALANCE(new VariableBalance(), "balance", "placeholders.balance"),
 	RAW_BALANCE(new VariableRawBalance(), "rawBalance", "placeholders.rawbalance"),
@@ -19,30 +19,31 @@ public enum Variables {
 	ITEMS(new VariableItems(), "items", "placeholders.items"),
 	MACHINE_NAME(new VariableMachineName(), "machineName", "placeholders.machineName"),
 	GAME_POINTS(new VariableGamePoints(), "gamePoints", "placeholders.gamePoints"),
+	PLAYER_POINTS(new VariablePlayerPoints(), "pPoints", "placeholders.playerPoints"),
 	CHANCE_TO_WIN(new VariableChanceToWin(), "chanceToWin", "placeholders.chanceToWin"),
 	TM_TOKENS(new VariableTMTokens(), "tmTokensPlayer", "placeholders.tmTokensPlayer"),
 	TOKENNAME(new VariableTokenName(), "tokenName", "placeholders.tokenName"),
 	TOKENS(new VariableTokens(), "tkens", "placeholders.tokens"),
 	EXPERIENCE(new VariableExperience(), "experience", "placeholders.experience"),
 	VOTINGPLUGIN(new VariableVotingPlugin(), "votingplugin", "placeholders.votingplugin");
-	
+
 	public Variable variable;
 	public String variableName;
 	public String variableDescription;
-	
+
 	Variables(Variable variable, String variableName, String variableDescription) {
 		this.variable = variable;
 		this.variableName = variableName;
 		this.variableDescription = variableDescription;
 	}
-	
+
 	public static String replaceVariable(Player player, SlotMachine slotMachine, String command) {
 		for(int a = 0; a < Variables.values().length; a++) {
 			command = command.replace("$" + Variables.values()[a].variableName, Variables.values()[a].variable.getVariable(player, slotMachine));
 		}
 		return SlotPlugin.isPlaceholderAPIEnabled ? PlaceholderAPI.setPlaceholders(player, command) : command;
 	}
-	
+
 	public static List<String> getFormattedStrings(String message, Player player, SlotMachine slotMachine) {
 		List<String> messageList = new ArrayList<String>();
 		String[] messages = message.split("\\$newline");
@@ -51,7 +52,7 @@ public enum Variables {
 		}
 		return messageList;
 	}
-	
+
 	public static String getFormattedString(String message, Player player, SlotMachine slotMachine) {
 		return ChatContent.translateColorCodes(Variables.replaceVariable(player, slotMachine, message));
 	}

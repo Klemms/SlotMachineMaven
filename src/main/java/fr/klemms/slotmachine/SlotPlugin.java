@@ -17,6 +17,8 @@ import me.realized.tokenmanager.api.TokenManager;
 import net.milkbowl.vault.economy.Economy;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.black_ixx.playerpoints.PlayerPoints;
+import org.black_ixx.playerpoints.PlayerPointsAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -58,6 +60,8 @@ public class SlotPlugin extends JavaPlugin {
 	public static TokenManager tokenManager;
 
 	public static boolean isPlaceholderAPIEnabled = false;
+
+	public static PlayerPointsAPI playerPointsAPI;
 
 	protected static HashMap<UUID, PlayerConfig> playerConfigs;
 
@@ -108,6 +112,9 @@ public class SlotPlugin extends JavaPlugin {
 
 		if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null)
 			isPlaceholderAPIEnabled = true;
+
+		if (Bukkit.getPluginManager().isPluginEnabled("PlayerPoints"))
+			playerPointsAPI = PlayerPoints.getInstance().getAPI();
 
 		Setup.setupLanguages(this);
 		try {

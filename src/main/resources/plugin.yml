@@ -1,7 +1,7 @@
 name: SlotMachine
 main: fr.klemms.slotmachine.SlotPlugin
 version: 6.7.0
-softdepend: [Vault, Multiverse-Core, MultiWorld, GamePoints, TokenManager, Citizens, ReWorld, UltraRegions, VotingPlugin, My_Worlds, PlaceholderAPI]
+softdepend: [Vault, Multiverse-Core, MultiWorld, GamePoints, TokenManager, Citizens, ReWorld, UltraRegions, VotingPlugin, My_Worlds, PlaceholderAPI, PlayerPoints]
 load: POSTWORLD
 author: Klemms
 api-version: 1.16

@@ -28,6 +28,11 @@ public class VariableBalance implements Variable {
 					return "null";
 				}
 				break;
+			case PLAYERPOINTS:
+				if(SlotPlugin.playerPointsAPI != null) {
+					return String.valueOf(SlotPlugin.playerPointsAPI.lookFormatted(player.getUniqueId()));
+				}
+				break;
 			case TOKEN:
 				return PlayerUtil.countItems(player, slotMachine.getToken()) + " " + Language.translate("currency.tokens");
 			case EXPERIENCE:
