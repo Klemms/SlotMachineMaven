@@ -277,12 +277,13 @@ public class SlotPlugin extends JavaPlugin {
 					continue;
 				}
 
+				List<ItemStack> items = playerRewardsQueue.get(uuid);
+
 				if (player.getInventory().firstEmpty() < 0) {
-					player.sendMessage(ChatContent.RED + "[Slot Machine] " + ChatContent.translateColorCodes(Language.translate("slotmachine.giveitem.noroom")));
+					player.sendMessage(ChatContent.YELLOW + "[Slot Machine] " + ChatContent.translateColorCodes(Language.translate("slotmachine.rewards.waiting").replace("%amount%", String.valueOf(items.size()))));
 					continue;
 				}
 
-				List<ItemStack> items = playerRewardsQueue.get(uuid);
 				if (items.size() == 0) {
 					toRemove.add(uuid);
 					continue;

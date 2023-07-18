@@ -21,7 +21,7 @@ public class PlayerUtil {
 			playerRewards.add(item);
 			SlotPlugin.playerRewardsQueue.put(player.getUniqueId(), playerRewards);
 
-			player.sendMessage(ChatContent.YELLOW + "[Slot Machine] " + ChatContent.translateColorCodes(Language.translate("slotmachine.rewards.waiting").replace("%amount%", String.valueOf(playerRewards.size()))));
+			player.sendMessage(ChatContent.RED + "[Slot Machine] " + ChatContent.translateColorCodes(Language.translate("slotmachine.giveitem.noroom")));
 		}
 	}
 
