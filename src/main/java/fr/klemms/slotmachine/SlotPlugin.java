@@ -439,9 +439,9 @@ public class SlotPlugin extends JavaPlugin {
 					yamlFile.set("lossSound", slotMachine.getLossSound().toString());
 					yamlFile.set("errorSound", slotMachine.getErrorSound().toString());
 
-					yamlFile.set("itemCount", slotMachine.getSlotMachineItems().size());
-					if (slotMachine.getSlotMachineItems().size() == 0)
-						yamlFile.set("items", null);
+					yamlFile.set("itemCount", null);
+					yamlFile.set("items", null);
+
 					for (int b = 0; b < slotMachine.getSlotMachineItems().size(); b++) {
 						MachineItem item = slotMachine.getSlotMachineItems().get(b);
 
@@ -451,6 +451,7 @@ public class SlotPlugin extends JavaPlugin {
 						yamlFile.set("items." + b + ".item", item.getItemStack());
 						yamlFile.set("items." + b + ".weight", item.getWeight());
 
+						yamlFile.set("items." + b + ".rewards", null);
 						for (int c = 0; c < item.getRewards().size(); c++) {
 							MachineItem.Reward reward = item.getRewards().get(c);
 							yamlFile.set("items." + b + ".rewards." + c + ".type", reward.rewardType.toString());

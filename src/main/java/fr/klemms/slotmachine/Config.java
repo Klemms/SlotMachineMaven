@@ -22,12 +22,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Level;
 
 public class Config {
 
-    public static volatile int pluginVersion = 5;
+    public static volatile int pluginVersion = 6;
 
     public static volatile boolean debug = false;
 
@@ -200,7 +201,12 @@ public class Config {
     }
 
     public static void loadMachines(JavaPlugin plugin) {
-        if (plugin.getConfig().getInt("pluginVersion") == 4 || plugin.getConfig().getInt("pluginVersion") == 5) {
+        if (plugin.getConfig().getInt("pluginVersion") < 6) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("HHmmss_dd-MMM-yyyy", new Locale.Builder().setLanguage("en").setRegion("US").build());
+            Setup.makeBackup("MACHINES_BACKUP-" + dateFormat.format(new Date()));
+            plugin.getConfig().set("pluginVersion", Config.pluginVersion);
+        }
+        if (plugin.getConfig().getInt("pluginVersion") == 4 || plugin.getConfig().getInt("pluginVersion") == 5 || plugin.getConfig().getInt("pluginVersion") == 6) {
             plugin.getLogger().log(Level.INFO, Language.translate("config.version").replace("%version%", String.valueOf(plugin.getConfig().getInt("pluginVersion"))));
             if (Files.exists(plugin.getDataFolder().toPath().resolve("machines"))) {
                 Collection<File> detectedFiles = FileUtils.listFiles(plugin.getDataFolder().toPath().resolve("machines").toFile(), TrueFileFilter.INSTANCE, null);
@@ -428,49 +434,62 @@ public class Config {
                             }
 
                             List<MachineItem> slotMachineItems = new ArrayList<MachineItem>();
-                            for (int b = 0; b < ymlFile.getInt("itemCount"); b++) {
+                            if (ymlFile.contains("items")) {
+                                Set<String> items = ymlFile.getConfigurationSection("items").getKeys(false);
 
-                                if (ymlFile.isSet("items." + b + ".reward")) {
-                                    MachineItem.RewardType rewardType = ymlFile.isSet("items." + b + ".rewardType") ? MachineItem.RewardType.valueOf(ymlFile.getString("items." + b + ".rewardType")) : null;
-                                    if (rewardType != null) {
-                                        if (rewardType == RewardType.ITEM) {
-                                            slotMachineItems.add(new MachineItem(ymlFile.getItemStack("items." + b + ".item"), ymlFile.getInt("items." + b + ".weight"), Arrays.asList(new MachineItem.Reward(ymlFile.getItemStack("items." + b + ".reward")))));
-                                        } else if (rewardType == RewardType.COMMAND) {
-                                            slotMachineItems.add(new MachineItem(ymlFile.getItemStack("items." + b + ".item"), ymlFile.getInt("items." + b + ".weight"), Arrays.asList(new MachineItem.Reward(ymlFile.getString("items." + b + ".reward")))));
+                                int i = 0;
+
+                                for (String itm : items) {
+                                    if (ymlFile.isSet("itemCount")) {
+                                        if (!(i < ymlFile.getInt("itemCount"))) {
+                                            break;
                                         }
-                                    } else {
-                                        slotMachineItems.add(new MachineItem(ymlFile.getItemStack("items." + b + ".item"), ymlFile.getInt("items." + b + ".weight")));
+                                        i++;
                                     }
-                                } else if (ymlFile.isSet("items." + b + ".rewards")) {
-                                    Set<String> strRewards = ymlFile.getConfigurationSection("items." + b + ".rewards").getKeys(false);
-                                    List<Reward> rewards = new ArrayList<Reward>();
+                                    String item = "items." + itm;
 
-                                    for (String str : strRewards) {
-                                        if (ymlFile.isSet("items." + b + ".rewards." + str + ".type") && (ymlFile.isSet("items." + b + ".rewards." + str + ".item") || ymlFile.isSet("items." + b + ".rewards." + str + ".command"))) {
-                                            if (RewardType.valueOf(ymlFile.getString("items." + b + ".rewards." + str + ".type")) == RewardType.ITEM) {
-                                                rewards.add(new MachineItem.Reward(ymlFile.getItemStack("items." + b + ".rewards." + str + ".item")));
-                                            } else if (RewardType.valueOf(ymlFile.getString("items." + b + ".rewards." + str + ".type")) == RewardType.COMMAND) {
-                                                rewards.add(new MachineItem.Reward(ymlFile.getString("items." + b + ".rewards." + str + ".command")));
+                                    if (ymlFile.isSet(item + ".reward")) {
+                                        MachineItem.RewardType rewardType = ymlFile.isSet(item + ".rewardType") ? MachineItem.RewardType.valueOf(ymlFile.getString(item + ".rewardType")) : null;
+                                        if (rewardType != null) {
+                                            if (rewardType == RewardType.ITEM) {
+                                                slotMachineItems.add(new MachineItem(ymlFile.getItemStack(item + ".item"), ymlFile.getInt(item + ".weight"), Arrays.asList(new MachineItem.Reward(ymlFile.getItemStack(item + ".reward")))));
+                                            } else if (rewardType == RewardType.COMMAND) {
+                                                slotMachineItems.add(new MachineItem(ymlFile.getItemStack(item + ".item"), ymlFile.getInt(item + ".weight"), Arrays.asList(new MachineItem.Reward(ymlFile.getString(item + ".reward")))));
                                             }
                                         } else {
-                                            Issue.newIssue(IssueType.MACHINE_READING_ISSUE, "Machine " + slotMachine.getMachineUUID().toString() + " has a malformed item reward (" + str + ")", true);
-                                            SlotPlugin.pl.getLogger().log(Level.SEVERE, "Machine " + slotMachine.getMachineUUID().toString() + " has a malformed item reward (" + str + "), we're not loading this reward");
+                                            slotMachineItems.add(new MachineItem(ymlFile.getItemStack(item + ".item"), ymlFile.getInt(item + ".weight")));
                                         }
-                                    }
-                                    MachineItem it = new MachineItem(ymlFile.getItemStack("items." + b + ".item"), ymlFile.getInt("items." + b + ".weight"), rewards);
+                                    } else if (ymlFile.isSet(item + ".rewards")) {
+                                        Set<String> strRewards = ymlFile.getConfigurationSection(item + ".rewards").getKeys(false);
+                                        List<Reward> rewards = new ArrayList<Reward>();
 
-                                    if (ymlFile.isSet("items." + b + ".stats.timesWon")) {
-                                        it.itemStats.timesWon = ymlFile.getInt("items." + b + ".stats.timesWon");
-                                    }
+                                        for (String str : strRewards) {
+                                            if (ymlFile.isSet(item + ".rewards." + str + ".type") && (ymlFile.isSet(item + ".rewards." + str + ".item") || ymlFile.isSet(item + ".rewards." + str + ".command"))) {
+                                                if (RewardType.valueOf(ymlFile.getString(item + ".rewards." + str + ".type")) == RewardType.ITEM) {
+                                                    rewards.add(new MachineItem.Reward(ymlFile.getItemStack(item + ".rewards." + str + ".item")));
+                                                } else if (RewardType.valueOf(ymlFile.getString(item + ".rewards." + str + ".type")) == RewardType.COMMAND) {
+                                                    rewards.add(new MachineItem.Reward(ymlFile.getString(item + ".rewards." + str + ".command")));
+                                                }
+                                            } else {
+                                                Issue.newIssue(IssueType.MACHINE_READING_ISSUE, "Machine " + slotMachine.getMachineUUID().toString() + " has a malformed item reward (" + str + ")", true);
+                                                SlotPlugin.pl.getLogger().log(Level.SEVERE, "Machine " + slotMachine.getMachineUUID().toString() + " has a malformed item reward (" + str + "), we're not loading this reward");
+                                            }
+                                        }
+                                        MachineItem it = new MachineItem(ymlFile.getItemStack(item + ".item"), ymlFile.getInt(item + ".weight"), rewards);
 
-                                    slotMachineItems.add(it);
-                                } else {
-                                    slotMachineItems.add(
-                                            new MachineItem(
-                                                    ymlFile.getItemStack("items." + b + ".item"),
-                                                    ymlFile.getInt("items." + b + ".weight")
-                                            )
-                                    );
+                                        if (ymlFile.isSet(item + ".stats.timesWon")) {
+                                            it.itemStats.timesWon = ymlFile.getInt(item + ".stats.timesWon");
+                                        }
+
+                                        slotMachineItems.add(it);
+                                    } else {
+                                        slotMachineItems.add(
+                                                new MachineItem(
+                                                        ymlFile.getItemStack(item + ".item"),
+                                                        ymlFile.getInt(item + ".weight")
+                                                )
+                                        );
+                                    }
                                 }
                             }
                             slotMachine.setSlotMachineItems(slotMachineItems);
@@ -654,6 +673,7 @@ public class Config {
             SlotPlugin.pl.getConfig().set("defaultToken", null);
             SlotPlugin.pl.saveConfig();
         }
-        SlotPlugin.saveToDisk();
+        SlotPlugin.saveMachinesToDisk();
+        plugin.saveConfig();
     }
 }
