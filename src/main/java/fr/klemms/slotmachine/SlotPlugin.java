@@ -48,6 +48,7 @@ public class SlotPlugin extends JavaPlugin {
 	public static boolean supportEnding = false;
 	public static String supportMessage = "";
 	public static boolean shouldSaveMachinesToDisk = true;
+	public static boolean suspendSaving = false;
 
 	public static HashMap<Sound, Material> soundMaterialMap;
 
@@ -143,6 +144,7 @@ public class SlotPlugin extends JavaPlugin {
 		Objects.requireNonNull(getCommand("smcooldown")).setExecutor(new CommandCooldown());
 		Objects.requireNonNull(getCommand("smreload")).setExecutor(new CommandReloadMachines());
 		Objects.requireNonNull(getCommand("smupdatelanguages")).setExecutor(new CommandUpdateLanguages());
+		Objects.requireNonNull(getCommand("smbackup")).setExecutor(new CommandSlotMachineBackup());
 
 		playerRewardsQueue = new HashMap<UUID, List<ItemStack>>();
 
@@ -266,9 +268,12 @@ public class SlotPlugin extends JavaPlugin {
 
 		// Saving
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
-			saveCooldownsToDisk();
-			if (shouldSaveMachinesToDisk)
-				saveMachinesToDisk();
+			if (!suspendSaving) {
+				saveCooldownsToDisk();
+				if (shouldSaveMachinesToDisk) {
+					saveMachinesToDisk();
+				}
+			}
 		}, 10 * 20, 10 * 20);
 
 		// Items Giving

@@ -26,15 +26,17 @@ public class Setup {
 
 	public static HashMap<String, String> officialLanguages;
 
-	public static void makeBackup(String backupName) {
+	public static boolean makeBackup(String backupName) {
 		try {
 			SlotPlugin.pl.getLogger().log(Level.INFO, "Creating a backup of /machines to /" + backupName);
 			FileUtils.copyDirectory(SlotPlugin.pl.getDataFolder().toPath().resolve("machines").toFile(), SlotPlugin.pl.getDataFolder().toPath().resolve(backupName).toFile(), false);
+			return true;
 		} catch (IOException e) {
 			SlotPlugin.pl.getLogger().log(Level.INFO, "Backup creation failed");
 			e.printStackTrace();
 			Issue.newIssue(Issue.IssueType.MACHINES_BACKUP, "Creating a backup for your machines failed, see your server logs for the related exception. Your disk may be FULL.", true);
 			ExceptionCollector.sendException(SlotPlugin.pl, e);
+			return false;
 		}
 	}
 
