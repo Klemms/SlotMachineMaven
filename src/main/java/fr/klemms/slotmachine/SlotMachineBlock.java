@@ -22,7 +22,7 @@ public class SlotMachineBlock extends SlotMachine {
 		}
 		return null;
 	}
-	
+
 	public static synchronized void addSlotMachineBlock(SlotMachineBlock slotMachineBlock) {
 		if (SlotMachineBlockLink.getAllSlotMachineByBlock(slotMachineBlock.getBlock()) == null) {
 			SlotMachine.addSlotMachine(slotMachineBlock);
@@ -31,7 +31,7 @@ public class SlotMachineBlock extends SlotMachine {
 			Issue.newIssue(Issue.IssueType.MACHINE_READING_ISSUE, "Slot Machine " + slotMachineBlock.getMachineUUID().toString() + " is duplicated ! Ignoring this one...", true);
 		}
 	}
-	
+
 	public static synchronized void removeSlotMachineBlock(Block block) {
 		removeSlotMachine(getSlotMachineByBlock(block));
 	}
@@ -96,7 +96,13 @@ public class SlotMachineBlock extends SlotMachine {
 	}
 
 	public Block getBlock() {
-		return Bukkit.getWorld(this.getWorldUID()).getBlockAt(this.getBlockX(), this.getBlockY(), this.getBlockZ());
+		World world = Bukkit.getWorld(this.getWorldUID());
+
+		if (world != null) {
+			return world.getBlockAt(this.getBlockX(), this.getBlockY(), this.getBlockZ());
+		}
+
+		return null;
 	}
 
 	public boolean isSame(Block block) {
