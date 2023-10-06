@@ -106,7 +106,7 @@ public class Setup {
 			plugin.getLogger().log(Level.INFO, "Adding official language : " + language);
 			try {
 				Language.parseLanguageFromStrings(language, IOUtils.readLines(plugin.getResource(officialLanguages.get(language) + ".properties"), Charset.forName("UTF-8")));
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 				ExceptionCollector.sendException(SlotPlugin.pl, e);
 			}

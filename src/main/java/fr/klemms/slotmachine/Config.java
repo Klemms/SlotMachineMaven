@@ -49,6 +49,8 @@ public class Config {
     public static volatile boolean anonymouslyReportExceptionsToDevelopper = true;
     public static volatile boolean showItemName = true;
 
+    public static boolean noDefaultPermission = false;
+
     public static volatile double luckLevelToPercentConversion = 12.5F;
     public static volatile double badLuckLevelToPercentConversion = -12.5F;
 
@@ -100,6 +102,10 @@ public class Config {
         plugin.getConfig().addDefault("enableLanguageOTAUpdates", enableLanguageOTAUpdates);
         if (Util.isAtLeastMC118())
             plugin.getConfig().setComments("enableLanguageOTAUpdates", Arrays.asList("", "Allows you to receive updates for the official language files without having to update the plugin", "Updates are done when the plugin loads", "You can force an update with the command /smupdatelanguages and the changes will be applied immediately", "Updates are fetched directly from Crowdin, our official translation platform", "You can help us translate the plugin by going to https://crowdin.com/project/slot-machine"));
+
+        plugin.getConfig().addDefault("noPermissionNeededForDefaultAccess", noDefaultPermission);
+        if (Util.isAtLeastMC118())
+            plugin.getConfig().setComments("noPermissionNeededForDefaultAccess", Arrays.asList("", "Don't require players to have the 'slotmachine.access.default' permission to play", "Note : Slot Machines using a different permission name will still require permission"));
 
         plugin.getConfig().addDefault("backupMachinesOnPluginUnload", backupMachinesOnPluginUnload);
         if (Util.isAtLeastMC118())
@@ -192,7 +198,9 @@ public class Config {
         goodLuckDefaultString = SlotPlugin.pl.getConfig().getString("goodLuck");
         luckLevelToPercentConversion = SlotPlugin.pl.getConfig().getDouble("luckLevelToPercentConversion");
         badLuckLevelToPercentConversion = SlotPlugin.pl.getConfig().getDouble("badLuckLevelToPercentConversion");
-        adminToolMaterial = Material.getMaterial(SlotPlugin.pl.getConfig().getString("adminToolMaterial"));
+        Material tool = Material.getMaterial(SlotPlugin.pl.getConfig().getString("adminToolMaterial"));
+        adminToolMaterial = tool != null ? tool : Material.BLAZE_ROD;
+        noDefaultPermission = SlotPlugin.pl.getConfig().getBoolean("noPermissionNeededForDefaultAccess");
 
         if (adminToolMaterial == null)
             adminToolMaterial = Material.BLAZE_ROD;

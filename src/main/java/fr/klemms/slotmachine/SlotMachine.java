@@ -462,7 +462,11 @@ public abstract class SlotMachine {
 	}
 
 	public boolean playerHasPermission(Player player) {
-		return player.hasPermission(this.getGuiPermission());
+		return player.hasPermission(this.getGuiPermission()) || player.isOp() ||
+                (
+                        this.getGuiPermission().equals("slotmachine.access.default") &&
+                        Config.noDefaultPermission
+				);
 	}
 
 	public SlotMachine setSlotMachineItems(List<MachineItem> slotMachineItems) {
