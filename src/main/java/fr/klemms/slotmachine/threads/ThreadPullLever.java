@@ -13,6 +13,7 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
@@ -224,7 +225,7 @@ public class ThreadPullLever extends Thread {
 			for(MachineItem.Reward reward : wonItem.getRewards()) {
 				switch (reward.rewardType) {
 					case ITEM:
-						PlayerUtil.givePlayerItem(player, reward.itemReward);
+						PlayerUtil.givePlayerItem(player, new ItemStack(reward.itemReward));
 						break;
 					case COMMAND:
 						Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Variables.replaceVariable(player, machine, reward.commandReward)));
