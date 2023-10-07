@@ -77,8 +77,12 @@ public class Setup {
 		officialLanguages.put("pt-BR", "pt-BR");	// Portuguese (Brazil)
 		officialLanguages.put("tr", "tr-TR");		// Turkish
 		officialLanguages.put("vi", "vi-VN");		// Vietnamese
+		officialLanguages.put("it", "it-IT");		// Italian
+		officialLanguages.put("ja", "ja-JP");		// Japanese
+		officialLanguages.put("ro", "ro-RO");		// Japanese
 
 		// Finished but Unknown Quality Languages
+		officialLanguages.put("de", "de-DE");		// German
 		officialLanguages.put("ru", "ru-RU");		// Russian
 
 		try {
