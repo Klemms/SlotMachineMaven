@@ -3,6 +3,7 @@ package fr.klemms.slotmachine;
 import com.bencodez.votingplugin.VotingPluginHooks;
 import fr.klemms.slotmachine.Issue.IssueType;
 import fr.klemms.slotmachine.MachineItem.RewardType;
+import fr.klemms.slotmachine.api.events.SlotMachineReadyEvent;
 import fr.klemms.slotmachine.clipboard.Clipboards;
 import fr.klemms.slotmachine.commands.*;
 import fr.klemms.slotmachine.events.PluginListener;
@@ -324,6 +325,8 @@ public class SlotPlugin extends JavaPlugin {
 				playerRewardsQueue.remove(uuid);
 			}
 		}, 10 * 20, 10 * 20);
+
+		Bukkit.getPluginManager().callEvent(new SlotMachineReadyEvent());
 	}
 
 	@Override
