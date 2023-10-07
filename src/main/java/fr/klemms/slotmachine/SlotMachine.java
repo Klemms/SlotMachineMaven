@@ -9,6 +9,7 @@ import fr.klemms.slotmachine.layouts.SlotMachineLayout;
 import fr.klemms.slotmachine.tokens.Token;
 import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -231,7 +232,7 @@ public abstract class SlotMachine {
 		if(SlotPlugin.econ == null) {
 			this.setPriceType(PriceType.TOKEN);
 		}
-		this.makeInventory();
+		this.makeInventory(null);
 	}
 
 	public void resetBackgroundCustomization() {
@@ -294,7 +295,7 @@ public abstract class SlotMachine {
 		}
 	}
 
-	public void makeInventory() {
+	public void makeInventory(Player player) {
 		InventoryProvider provider = null;
 
 		switch(this.getVisualType()) {
@@ -311,17 +312,23 @@ public abstract class SlotMachine {
 				provider = new SlotMachineLayout(this);
 		}
 
+		String machineName = this.getSlotMachineName();
+
+		if (player != null && SlotPlugin.isPlaceholderAPIEnabled) {
+			machineName = PlaceholderAPI.setPlaceholders(player, machineName);
+		}
+
 		this.inventory = SmartInventory.builder()
 				.manager(SlotPlugin.invManager)
-				.title(this.getSlotMachineName())
+				.title(machineName)
 				.size(this.getVisualType().rows, this.getVisualType().columns)
 				.provider(provider)
 				.listener(new InventoryListener<InventoryCloseEvent>(InventoryCloseEvent.class, event -> {
 					if (!event.getPlayer().hasMetadata("slotmachine_soundremovalprevention")) {
 						if (event.getPlayer() instanceof Player) {
-							Player player = (Player)event.getPlayer();
+							Player pl = (Player)event.getPlayer();
 
-							player.stopSound(this.getMachineOpeningSound());
+							pl.stopSound(this.getMachineOpeningSound());
 						}
 					}
 				}))
@@ -333,6 +340,7 @@ public abstract class SlotMachine {
 	}
 
 	public void openMachine(Player player, boolean updateItems) {
+		this.makeInventory(player);
 		if (updateItems) {
 			this.row_0.put(player.getUniqueId(), this.createRandomItemPool(false));
 			this.row_1.put(player.getUniqueId(), this.createRandomItemPool(false));
@@ -518,7 +526,7 @@ public abstract class SlotMachine {
 
 	public SlotMachine setSlotMachineName(String slotMachineName) {
 		this.slotMachineName = slotMachineName;
-		this.makeInventory();
+		this.makeInventory(null);
 		return this;
 	}
 
@@ -688,7 +696,7 @@ public abstract class SlotMachine {
 
 	public void setVisualType(VisualType visualType) {
 		this.visualType = visualType;
-		this.makeInventory();
+		this.makeInventory(null);
 	}
 
 	public boolean isLeverCustom() {
