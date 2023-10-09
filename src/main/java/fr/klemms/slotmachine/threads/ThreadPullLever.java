@@ -28,7 +28,7 @@ public class ThreadPullLever extends Thread {
 	private InventoryContents contents;
 	private InterractionCallback callback;
 
-	public ThreadPullLever( Player player, SlotMachine machine, InventoryContents contents, InterractionCallback callback) {
+	public ThreadPullLever(Player player, SlotMachine machine, InventoryContents contents, InterractionCallback callback) {
 		this.machine = machine;
 		this.player = player;
 		this.contents = contents;

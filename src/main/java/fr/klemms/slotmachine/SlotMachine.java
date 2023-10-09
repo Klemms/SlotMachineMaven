@@ -232,7 +232,7 @@ public abstract class SlotMachine {
 		if(SlotPlugin.econ == null) {
 			this.setPriceType(PriceType.TOKEN);
 		}
-		this.makeInventory(null);
+		this.makeInventory();
 	}
 
 	public void resetBackgroundCustomization() {
@@ -295,7 +295,7 @@ public abstract class SlotMachine {
 		}
 	}
 
-	public void makeInventory(Player player) {
+	public void makeInventory() {
 		InventoryProvider provider = null;
 
 		switch(this.getVisualType()) {
@@ -314,9 +314,9 @@ public abstract class SlotMachine {
 
 		String machineName = this.getSlotMachineName();
 
-		if (player != null && SlotPlugin.isPlaceholderAPIEnabled) {
+		/*if (player != null && SlotPlugin.isPlaceholderAPIEnabled) {
 			machineName = PlaceholderAPI.setPlaceholders(player, machineName);
-		}
+		}*/
 
 		this.inventory = SmartInventory.builder()
 				.manager(SlotPlugin.invManager)
@@ -340,12 +340,18 @@ public abstract class SlotMachine {
 	}
 
 	public void openMachine(Player player, boolean updateItems) {
-		this.makeInventory(player);
+		String machineName = this.getSlotMachineName();
+
+		if (player != null && SlotPlugin.isPlaceholderAPIEnabled) {
+			machineName = PlaceholderAPI.setPlaceholders(player, machineName);
+		}
+
 		if (updateItems) {
 			this.row_0.put(player.getUniqueId(), this.createRandomItemPool(false));
 			this.row_1.put(player.getUniqueId(), this.createRandomItemPool(false));
 			this.row_2.put(player.getUniqueId(), this.createRandomItemPool(false));
 		}
+		this.inventory.setTitle(machineName);
 		this.inventory.open(player);
 	}
 
@@ -526,7 +532,7 @@ public abstract class SlotMachine {
 
 	public SlotMachine setSlotMachineName(String slotMachineName) {
 		this.slotMachineName = slotMachineName;
-		this.makeInventory(null);
+		this.makeInventory();
 		return this;
 	}
 
@@ -696,7 +702,7 @@ public abstract class SlotMachine {
 
 	public void setVisualType(VisualType visualType) {
 		this.visualType = visualType;
-		this.makeInventory(null);
+		this.makeInventory();
 	}
 
 	public boolean isLeverCustom() {

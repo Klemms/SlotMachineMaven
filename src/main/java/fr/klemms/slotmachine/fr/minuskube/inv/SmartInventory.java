@@ -1,18 +1,17 @@
 package fr.klemms.slotmachine.fr.minuskube.inv;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
+import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryContents;
+import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryProvider;
+import fr.klemms.slotmachine.fr.minuskube.inv.opener.InventoryOpener;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 
-import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryContents;
-import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryProvider;
-import fr.klemms.slotmachine.fr.minuskube.inv.opener.InventoryOpener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @SuppressWarnings("unchecked")
 public class SmartInventory {
@@ -52,18 +51,18 @@ public class SmartInventory {
         this.manager.setContents(player, contents);
         try {
         	this.provider.init(player, contents);
-        	
+
         	// If the current inventory has been closed or replaced within the init method, returns
             if (!this.manager.getContents(player).equals(Optional.of(contents))) {
                 return null;
             }
-        	
+
             InventoryOpener opener = this.manager.findOpener(type)
                     .orElseThrow(() -> new IllegalStateException("No opener found for the inventory type " + type.name()));
             Inventory handle = opener.open(this, player);
 
             this.manager.setInventory(player, this);
-            
+
             return handle;
         } catch (Exception e) {
             this.manager.handleInventoryOpenError(this, player, e);
@@ -85,7 +84,13 @@ public class SmartInventory {
     }
 
     public String getId() { return id; }
+
     public String getTitle() { return title; }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public InventoryType getType() { return type; }
     public int getRows() { return rows; }
     public int getColumns() { return columns; }
