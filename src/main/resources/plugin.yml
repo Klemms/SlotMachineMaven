@@ -9,11 +9,6 @@ commands:
     slotmachineversion:
         description: Tells you Slot Machine's version
         usage: /slotmachineversion
-    slotmachine:
-        description: Gives the Slot Machine maker tool
-        usage: /slotmachine
-        permission: slotmachine.slotmachine
-        permission-message: You do not have permission
     openmachine:
         description: Opens a Slot Machine for a player
         usage: /openmachine <Player Name> <Machine UUID> [true/false | true to override the machine's permission]
@@ -57,5 +52,5 @@ commands:
     smbackup:
         description: Forces a save of all machines to the disk and then creates a backup copy in the plugin directory
         usage: /smbackup
-        permission: slotmachine.backup
+        permission: slotmachine.slotmachine
         permission-message: You do not have permission

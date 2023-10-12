@@ -135,7 +135,6 @@ public class SlotPlugin extends JavaPlugin {
 			ExceptionCollector.sendException(this, e);
 		}
 
-		Objects.requireNonNull(getCommand("slotmachine")).setExecutor(new CommandSlotMachine());
 		Objects.requireNonNull(getCommand("openmachine")).setExecutor(new CommandOpenMachine());
 		Objects.requireNonNull(getCommand("tpmachine")).setExecutor(new CommandTPMachine());
 		Objects.requireNonNull(getCommand("givetokens")).setExecutor(new CommandGiveTokens());
