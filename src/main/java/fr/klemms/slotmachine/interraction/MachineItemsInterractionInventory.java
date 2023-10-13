@@ -50,14 +50,14 @@ public class MachineItemsInterractionInventory {
 						Pagination pagination = contents.pagination();
 
 						contents.fill(ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(Material.BLACK_STAINED_GLASS_PANE, 1), " ")));
-						
+
 						pagination.setItemsPerPage(4 * 9);
 						List<ClickableItem> items = new ArrayList<ClickableItem>();
-						
+
 						for(final MachineItem item : machine.getSlotMachineItems())  {
 							List<String> isLore = new ArrayList<String>();
 							isLore.add(ChatContent.DARK_AQUA + ChatContent.ITALIC + " - Right click to take this item back");
-							isLore.add(ChatContent.DARK_AQUA + ChatContent.ITALIC + " - Left click to change this item's weight");
+							isLore.add(ChatContent.GOLD + ChatContent.ITALIC + " [NEW !]" + ChatContent.DARK_AQUA + " - Left click to edit this item");
 							isLore.add(ChatContent.DARK_AQUA + " ------------ Statistics ------------");
 							isLore.add(ChatContent.DARK_AQUA + " - " + Language.translate("basic.weight") + " : " + item.getWeight() + " (" + Util.formatNumberTwoDigits(machine.getItemChance(item) * 100) + "% chance to win)");
 							isLore.add(ChatContent.DARK_AQUA + " - Times won : " + item.itemStats.timesWon);
@@ -81,14 +81,14 @@ public class MachineItemsInterractionInventory {
 									}
 								} else if (event.isLeftClick() && event.getCursor().getType() == Material.AIR) {
 									player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-									ChangeItemWeight.changeItemWeight(player, machine, item, page);
+									ItemEdit.editItem(player, machine, item, page);
 								}
 							}));
 						}
-						
+
 						pagination.setItems(items.toArray(new ClickableItem[items.size()]));
 						pagination.addToIterator(contents.newIterator(SlotIterator.Type.HORIZONTAL, 1, 0));
-						
+
 						contents.set(0, 2, ClickableItem.empty(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.INFOS), ChatContent.GOLD + "Informations"), Arrays.asList(
 								ChatContent.AQUA + "Right click an item to remove it from",
 								ChatContent.AQUA + "the Slot Machine, it will be given back",
@@ -110,14 +110,14 @@ public class MachineItemsInterractionInventory {
 								ChatContent.GRAY + "Times won stat for items has been",
 								ChatContent.GRAY + "added in Slot Machine 6.3.0"
 								))));
-						
+
 						contents.set(0, 4, ClickableItem.empty(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.SMALL_INFOS), ChatContent.GOLD + "Machine Statistics"), Arrays.asList(
 								ChatContent.AQUA + "This machine has been used " + ChatContent.DARK_AQUA + machine.getTimesUsed() + ChatContent.AQUA + " times",
 								"",
 								ChatContent.GRAY + "Note : Times used stat has been",
 								ChatContent.GRAY + "added in Slot machine 6.2.1"
 								))));
-						
+
 						contents.set(0, 6, ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.BARRIER), ChatContent.RED + "Clear ALL Items"), Arrays.asList(
 								ChatContent.GRAY + "Remove ALL items from this machine",
 								ChatContent.GRAY + "This will NOT give you back the items"
@@ -131,9 +131,9 @@ public class MachineItemsInterractionInventory {
 									} else
 										manageItems(player, machine, page);
 								}, false);
-								
+
 						}));
-						
+
 						contents.set(0, 7, ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.TRASH_CAN), ChatContent.RED + "Reset all Statistics"), Arrays.asList(
 								ChatContent.GRAY + "This will reset this machine's and all",
 								ChatContent.GRAY + "items statistics to 0"
@@ -150,7 +150,7 @@ public class MachineItemsInterractionInventory {
 									} else
 										manageItems(player, machine, page);
 								}, false);
-								
+
 						}));
 
 						contents.set(5, 1, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.BACK), Language.translate("basic.back")), event -> {
@@ -160,8 +160,8 @@ public class MachineItemsInterractionInventory {
 							else if (machine instanceof SlotMachineBlock)
 								MachineInterractionInventory.manageMachine(player, machine, null, ((SlotMachineBlock) machine).getBlock(), 0);
 						}));
-						
-						
+
+
 						if (!pagination.isFirst())
 							contents.set(5, 3, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.LEFT), Language.translate("basic.previouspage")), event -> {
 								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
@@ -173,22 +173,22 @@ public class MachineItemsInterractionInventory {
 								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								manageItems(player, machine, page + 1);
 							}));
-						
+
 						if (pagination.getItems().length > 0 && (pagination.getItems().length % pagination.getItemsPerPage()) == 0)
 							contents.set(5, 7, ClickableItem.empty(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.SMALL_INFOS), ChatContent.GOLD + "Adding Items"), Arrays.asList(
 									ChatContent.AQUA + "You can continue adding items by",
 									ChatContent.AQUA + "dropping them on this info icon,",
 									ChatContent.AQUA + "this will create a new page."
 									))));
-						
+
 						contents.set(5, 4, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(Material.PAPER), Language.translate("basic.page") + " " + (pagination.getPage() + 1))));
-						
+
 						Clipboards.clipboardUI(player, contents, this, 5, 7, 5, 8, null);
 					}
 
 					@Override
 					public void update(Player player, InventoryContents contents) {
-						
+
 					}
 
 					@Override
@@ -221,15 +221,15 @@ public class MachineItemsInterractionInventory {
 					public SlotMachine paste(SlotMachine clipboardMachine) {
 						return machine;
 					}
-					
+
 					@Override
 					public void reloadUI(boolean movement) {
 						manageItems(player, machine, movement ? 0 : page);
 					}
-					
+
 				})
 				.build();
-		
+
 		inv.open(player, page);
 	}
 }

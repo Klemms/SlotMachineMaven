@@ -1,13 +1,5 @@
 package fr.klemms.slotmachine.interraction;
 
-import java.util.Arrays;
-
-import org.apache.commons.lang3.StringUtils;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
 import fr.klemms.slotmachine.ChatContent;
 import fr.klemms.slotmachine.MachineItem;
 import fr.klemms.slotmachine.SlotMachine;
@@ -19,6 +11,13 @@ import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryProvider;
 import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
 import fr.klemms.slotmachine.utils.PlayerHeadsUtil;
+import org.apache.commons.lang3.StringUtils;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.Arrays;
 
 public class ChangeItemWeight {
 
@@ -34,10 +33,10 @@ public class ChangeItemWeight {
 					public void init(Player player, InventoryContents contents) {
 						contents.fill(ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(Material.BLACK_STAINED_GLASS_PANE, 1), " ")));
 
-						contents.fillRow(1, ClickableItem.empty(null));
-						contents.fillRow(2, ClickableItem.empty(null));
-						contents.fillRow(3, ClickableItem.empty(null));
-						
+						contents.fillRow(1, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(Material.GRAY_STAINED_GLASS_PANE, 1), " ")));
+						contents.fillRow(2, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(Material.GRAY_STAINED_GLASS_PANE, 1), " ")));
+						contents.fillRow(3, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(Material.GRAY_STAINED_GLASS_PANE, 1), " ")));
+
 						contents.set(2, 1, ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.MINUS_SIGN), ChatContent.GOLD + "Minus (-)"), Arrays.asList(
 								ChatContent.AQUA + "Decrement weight",
 								ChatContent.AQUA + "",
@@ -61,7 +60,7 @@ public class ChangeItemWeight {
 										ChangeItemWeight.changeItemWeight(player, machine, item, backpage);
 									}
 								}));
-						
+
 						contents.set(2, 7, ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.PLUS_SIGN), ChatContent.GOLD + "Plus (+)"), Arrays.asList(
 								ChatContent.AQUA + "Increment weight",
 								ChatContent.AQUA + "",
@@ -85,7 +84,7 @@ public class ChangeItemWeight {
 										ChangeItemWeight.changeItemWeight(player, machine, item, backpage);
 									}
 								}));
-						
+
 						if (item.getWeight() > 999 || item.getWeight() < 0) {
 							contents.set(2, 4, ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.BARRIER, 1), ChatContent.GOLD + "Invalid Weight"), Arrays.asList(
 									ChatContent.AQUA + "This item's weight is out of ",
@@ -112,18 +111,18 @@ public class ChangeItemWeight {
 							contents.set(2, 3, ClickableItem.empty(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(digitToHead(hundredsDigit)), ChatContent.GOLD + hundredsDigit), Arrays.asList(
 									ChatContent.AQUA + "Current Weight : " + ChatContent.DARK_AQUA + item.getWeight()
 									))));
-							
+
 							int dozensDigit = dozensDigit(item.getWeight());
 							contents.set(2, 4, ClickableItem.empty(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(digitToHead(dozensDigit)), ChatContent.GOLD + dozensDigit), Arrays.asList(
 									ChatContent.AQUA + "Current Weight : " + ChatContent.DARK_AQUA + item.getWeight()
 									))));
-							
+
 							int unitDigit = unitDigit(item.getWeight());
 							contents.set(2, 5, ClickableItem.empty(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(digitToHead(unitDigit)), ChatContent.GOLD + unitDigit), Arrays.asList(
 									ChatContent.AQUA + "Current Weight : " + ChatContent.DARK_AQUA + item.getWeight()
 									))));
 						}
-						
+
 						contents.set(0, 2, ClickableItem.empty(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.INFOS), ChatContent.GOLD + "Informations"), Arrays.asList(
 								ChatContent.AQUA + "Click on + or - to increment and",
 								ChatContent.AQUA + "decrement the item's weight",
@@ -137,7 +136,7 @@ public class ChangeItemWeight {
 								ChatContent.AQUA + "to 2 billions however this editor will",
 								ChatContent.AQUA + "only allow you to edit it up to 999"
 								))));
-						
+
 						contents.set(0, 6, ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.ONE_BLACKBG), ChatContent.RED + "Reset to 1"), Arrays.asList(
 								ChatContent.GRAY + "Resets the weight to 1"
 							)), event -> {
@@ -152,34 +151,34 @@ public class ChangeItemWeight {
 										ChangeItemWeight.changeItemWeight(player, machine, item, backpage);
 									}
 								}, false);
-								
+
 						}));
 
 						contents.set(4, 1, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.BACK), Language.translate("basic.back")), event -> {
 							player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-							MachineItemsInterractionInventory.manageItems(player, machine, backpage);
+							ItemEdit.editItem(player, machine, item, backpage);
 						}));
 
-						contents.set(4, 6, ClickableItem.empty(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.SMALL_INFOS), ChatContent.GOLD + "Item Being Edited"), Arrays.asList(
+						contents.set(4, 7, ClickableItem.empty(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.SMALL_INFOS), ChatContent.GOLD + "Item Being Edited"), Arrays.asList(
 								ChatContent.AQUA + "The item on the right is the item",
 								ChatContent.AQUA + "currently being edited"
 								))));
-						
-						contents.set(4, 7, ClickableItem.empty(new ItemStack(item.getItemStack())));
-						
+
+						contents.set(4, 8, ClickableItem.empty(new ItemStack(item.getItemStack())));
+
 					}
 
 					@Override
 					public void update(Player player, InventoryContents contents) {
-						
+
 					}
-					
+
 				})
 				.build();
-		
+
 		inv.open(player);
 	}
-	
+
 	private static ItemStack digitToHead(int digit) {
 		switch(digit) {
 			case 1:
@@ -203,21 +202,21 @@ public class ChangeItemWeight {
 		}
 		return PlayerHeadsUtil.ZERO_BLACKBG;
 	}
-	
+
 	private static int hundredsDigit(int weight) {
 		if (weight >= 100) {
 			return Character.getNumericValue(StringUtils.reverse(String.valueOf(weight)).toCharArray()[2]);
 		}
 		return 0;
 	}
-	
+
 	private static int dozensDigit(int weight) {
 		if (weight >= 10) {
 			return Character.getNumericValue(StringUtils.reverse(String.valueOf(weight)).toCharArray()[1]);
 		}
 		return 0;
 	}
-	
+
 	private static int unitDigit(int weight) {
 		return Character.getNumericValue(StringUtils.reverse(String.valueOf(weight)).toCharArray()[0]);
 	}
