@@ -6,6 +6,7 @@ import fr.klemms.slotmachine.fr.minuskube.inv.InventoryListener;
 import fr.klemms.slotmachine.fr.minuskube.inv.SmartInventory;
 import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryContents;
 import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryProvider;
+import fr.klemms.slotmachine.interraction.rewards.RewardsCustomization;
 import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
 import fr.klemms.slotmachine.utils.PlayerHeadsUtil;

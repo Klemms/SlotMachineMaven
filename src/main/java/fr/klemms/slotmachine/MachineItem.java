@@ -1,16 +1,15 @@
 package fr.klemms.slotmachine;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.apache.commons.lang3.text.WordUtils;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class MachineItem {
 
@@ -43,7 +42,7 @@ public class MachineItem {
 			return new ComponentBuilder(WordUtils.capitalizeFully(itemStack.getType().toString().replace('_', ' '))).color(ChatColor.WHITE).create();
 		}
 	}
-	
+
 	public MachineItem copy() {
 		List<Reward> newRewards = new ArrayList<Reward>();
 		for (int i = 0; i < rewards.size(); i++) {
@@ -53,12 +52,12 @@ public class MachineItem {
 				newRewards.add(new Reward(rewards.get(i).commandReward));
 			}
 		}
-		
+
 		MachineItem newItem = new MachineItem(new ItemStack(this.itemStack), weight, newRewards);
-		
+
 		return newItem;
 	}
-	
+
 	public String getRealName() {
 		return itemStack.getItemMeta().hasDisplayName() ? itemStack.getItemMeta().getDisplayName() : WordUtils.capitalizeFully(itemStack.getType().toString().replace('_', ' '));
 	}
@@ -87,22 +86,26 @@ public class MachineItem {
 		this.rewards = rewards;
 	}
 
+	public void addReward(Reward reward) {
+		this.rewards.add(reward);
+	}
+
 	public enum RewardType {
 		ITEM,
 		COMMAND
 	}
-	
+
 	public static class Reward {
-		
+
 		public ItemStack itemReward = null;
 		public String commandReward = null;
 		public RewardType rewardType;
-		
+
 		public Reward(ItemStack itemReward) {
 			this.rewardType = RewardType.ITEM;
 			this.itemReward = itemReward;
 		}
-		
+
 		public Reward(String commandReward) {
 			this.rewardType = RewardType.COMMAND;
 			this.commandReward = commandReward;

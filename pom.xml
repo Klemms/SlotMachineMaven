@@ -15,7 +15,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
-				<version>3.2.4</version>
+				<version>3.5.1</version>
 				<configuration>
 					<relocations>
 						<relocation>
@@ -23,12 +23,20 @@
 							<shadedPattern>fr.klemms.slotmachine.libs.bstats</shadedPattern>
 						</relocation>
 						<relocation>
-							<pattern>org.apache</pattern>
-							<shadedPattern>fr.klemms.slotmachine.libs.apache</shadedPattern>
+							<pattern>org.apache.commons.lang3</pattern>
+							<shadedPattern>fr.klemms.slotmachine.libs.apache.lang3</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>org.apache.commons.io</pattern>
+							<shadedPattern>fr.klemms.slotmachine.libs.apache.io</shadedPattern>
 						</relocation>
 						<relocation>
 							<pattern>dev.dbassett</pattern>
 							<shadedPattern>fr.klemms.slotmachine.libs.skullcreator</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>net.wesjd.anvilgui</pattern>
+							<shadedPattern>fr.klemms.slotmachine.libs.anvilgui</shadedPattern>
 						</relocation>
 					</relocations>
 				</configuration>
@@ -84,6 +92,11 @@
 			<id>rosewood-repo</id>
 			<url>https://repo.rosewooddev.io/repository/public/</url>
 		</repository>
+
+		<repository>
+			<id>codemc-snapshots</id>
+			<url>https://repo.codemc.io/repository/maven-snapshots/</url>
+		</repository>
 	</repositories>
 
 	<dependencies>
@@ -99,6 +112,12 @@
 			<artifactId>playerpoints</artifactId>
 			<version>3.2.6</version>
 			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.wesjd</groupId>
+			<artifactId>anvilgui</artifactId>
+			<version>1.9.0-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
