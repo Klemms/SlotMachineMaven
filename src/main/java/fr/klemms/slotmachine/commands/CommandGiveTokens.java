@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class CommandGiveTokens implements CommandExecutor {
-	
+
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if(args.length >= 2) {
@@ -43,7 +43,7 @@ public class CommandGiveTokens implements CommandExecutor {
 							is = Config.tokens.get(args[2]);
 							player.getInventory().addItem(ItemStackUtil.changeItemStackAmount(new ItemStack(is), amount));
 							player.updateInventory();
-							sender.sendMessage(ChatContent.GREEN + "[Slot Machine] You have successfully given " + amount + " " + args[2] + " to" + player.getName());
+							sender.sendMessage(ChatContent.GREEN + "[Slot Machine] You have successfully given " + amount + " token '" + args[2] + "' to " + player.getName());
 						} else {
 							TokensInventory.showManagementScreen(player, 0, "Pick a Token to give", "Left click to pick this Token", new TokenSelectionListener() {
 
@@ -52,9 +52,9 @@ public class CommandGiveTokens implements CommandExecutor {
 									player.closeInventory();
 									player.getInventory().addItem(ItemStackUtil.changeItemStackAmount(new ItemStack(token.itemStack), amount));
 									player.updateInventory();
-									sender.sendMessage(ChatContent.GREEN + "[Slot Machine] You have successfully given " + amount + " " + token.identifier + " to" + player.getName());
+									sender.sendMessage(ChatContent.GREEN + "[Slot Machine] You have successfully given " + amount + " token '" + args[2] + "' to " + player.getName());
 								}
-								
+
 							}, false);
 						}
 					}

@@ -55,7 +55,7 @@ public abstract class CommonLayout implements InventoryProvider {
 						if (LayoutUtils.triggerLever(player, machine)) {
 							machine.addUse();
 							machine.setPlayerRolling(player, true);
-							if (Config.goodLuckDefaultString.length() > 0)
+							if (!Config.goodLuckDefaultString.isEmpty())
 								player.sendMessage(Variables.getFormattedString(Language.translate(Config.goodLuckDefaultString), player, machine));
 							player.playSound(player.getLocation(), machine.getLeverSound(), 1.9f, 1.2f);
 							Bukkit.getScheduler().runTaskLaterAsynchronously(SlotPlugin.pl, new ThreadPullLever(player, machine, contents, callback -> {

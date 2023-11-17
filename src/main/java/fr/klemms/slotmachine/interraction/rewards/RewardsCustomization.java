@@ -78,10 +78,9 @@ public class RewardsCustomization {
 							return;
 
 						rewards.set(slot, new MachineItem.Reward(new ItemStack(event.getCursor())));
+						player.playSound(player.getLocation(), Sound.BLOCK_LAVA_POP, 2F, 1.5F);
 						SlotPlugin.saveToDisk();
 						RewardsCustomization.rewardsCustomization(player, machine, item, backPage, page);
-
-						player.sendMessage(String.valueOf(event.getSlot()));
 					}
 				}))
 				.provider(new InventoryProvider() {
@@ -130,70 +129,91 @@ public class RewardsCustomization {
 									"",
 									ChatContent.AQUA + "Reward Type : " + ChatContent.GOLD + (reward.rewardType == MachineItem.RewardType.ITEM ? "Item" : "Command"),
 									"",
-									ChatContent.AQUA + (reward.rewardType == MachineItem.RewardType.ITEM ? "Drag and drop an item" : "Click here to edit"),
-									ChatContent.AQUA + (reward.rewardType == MachineItem.RewardType.ITEM ? "here to replace it" : "the command"),
+									ChatContent.AQUA + (reward.rewardType == MachineItem.RewardType.ITEM ? "Drag and drop an item" : ChatContent.DARK_AQUA + "[Left Click]" + ChatContent.AQUA + " to edit the command"),
+									ChatContent.AQUA + (reward.rewardType == MachineItem.RewardType.ITEM ? "here to replace it" : ""),
 									"",
 									ChatContent.DARK_RED + "[Right Click]" + ChatContent.RED + " to remove reward."
 							), ChatContent.GOLD + "Reward"), event -> {
-								if (item.getRewards().size() == 1) {
-									player.sendMessage(ChatContent.RED + "[Slot Machine] You can't remove the last reward of an item");
-									player.closeInventory();
-									return;
-								}
-
-								Iterator<MachineItem.Reward> rewardIterator = item.getRewards().iterator();
-								while (rewardIterator.hasNext()) {
-									MachineItem.Reward rew = rewardIterator.next();
-									if (reward.equals(rew)) {
-										rewardIterator.remove();
-										SlotPlugin.saveToDisk();
-										RewardsCustomization.rewardsCustomization(player, machine, item, backPage, 0);
-										break;
+								if (event.isRightClick()) {
+									if (item.getRewards().size() == 1) {
+										player.sendMessage(ChatContent.RED + "[Slot Machine] You can't remove the last reward of an item");
+										player.closeInventory();
+										return;
 									}
+
+									Iterator<MachineItem.Reward> rewardIterator = item.getRewards().iterator();
+									while (rewardIterator.hasNext()) {
+										MachineItem.Reward rew = rewardIterator.next();
+										if (reward.equals(rew)) {
+											rewardIterator.remove();
+											SlotPlugin.saveToDisk();
+											RewardsCustomization.rewardsCustomization(player, machine, item, backPage, 0);
+											break;
+										}
+									}
+								} else if (event.isLeftClick() && reward.rewardType == MachineItem.RewardType.COMMAND) {
+									StringInput.inputString(player, "Edit the command", reward.commandReward, text -> {
+										reward.commandReward = text;
+										SlotPlugin.saveToDisk();
+										RewardsCustomization.rewardsCustomization(player, machine, item, backPage, page);
+									}, true);
 								}
 							}));
 
-							contents.set(3, i + 3, ClickableItem.of(ItemStackUtil.addLoreLines(new ItemStack(reward.rewardType == MachineItem.RewardType.ITEM ? reward.itemReward : PlayerHeadsUtil.COMMAND_BLOCK),
-									ChatContent.AQUA + (reward.rewardType == MachineItem.RewardType.ITEM ? "Drag and drop an item" : "Click here to edit"),
-									ChatContent.AQUA + (reward.rewardType == MachineItem.RewardType.ITEM ? "here to replace it" : "the command"),
+							contents.set(3, i + 3, ClickableItem.of(ItemStackUtil.changeItemStackName(ItemStackUtil.addLoreLines(new ItemStack(reward.rewardType == MachineItem.RewardType.ITEM ? reward.itemReward : PlayerHeadsUtil.COMMAND_BLOCK),
+									ChatContent.AQUA + (reward.rewardType == MachineItem.RewardType.ITEM ? "Drag and drop an item" : ChatContent.DARK_AQUA + "[Left Click]" + ChatContent.AQUA + " to edit the command"),
+									ChatContent.AQUA + (reward.rewardType == MachineItem.RewardType.ITEM ? "here to replace it" : ""),
 									"",
 									ChatContent.DARK_RED + "[Right Click]" + ChatContent.RED + " to remove reward.",
-									"--------------",
-									""
-							), event -> {
-								if (item.getRewards().size() == 1) {
-									player.sendMessage(ChatContent.RED + "[Slot Machine] You can't remove the last reward of an item");
-									player.closeInventory();
-									return;
-								}
-
-								Iterator<MachineItem.Reward> rewardIterator = item.getRewards().iterator();
-								while (rewardIterator.hasNext()) {
-									MachineItem.Reward rew = rewardIterator.next();
-									if (reward.equals(rew)) {
-										rewardIterator.remove();
-										SlotPlugin.saveToDisk();
-										RewardsCustomization.rewardsCustomization(player, machine, item, backPage, 0);
-										break;
+									"",
+									reward.rewardType == MachineItem.RewardType.ITEM ? "--------------" : ChatContent.GRAY + "Command :",
+									reward.rewardType == MachineItem.RewardType.ITEM ? "" : ChatContent.PINK + reward.commandReward
+							), reward.rewardType == MachineItem.RewardType.COMMAND ? ChatContent.GOLD + "Command" : null), event -> {
+								if (event.isRightClick()) {
+									if (item.getRewards().size() == 1) {
+										player.sendMessage(ChatContent.RED + "[Slot Machine] You can't remove the last reward of an item");
+										player.closeInventory();
+										return;
 									}
+
+									Iterator<MachineItem.Reward> rewardIterator = item.getRewards().iterator();
+									while (rewardIterator.hasNext()) {
+										MachineItem.Reward rew = rewardIterator.next();
+										if (reward.equals(rew)) {
+											rewardIterator.remove();
+											SlotPlugin.saveToDisk();
+											RewardsCustomization.rewardsCustomization(player, machine, item, backPage, 0);
+											break;
+										}
+									}
+								} else if (event.isLeftClick() && reward.rewardType == MachineItem.RewardType.COMMAND) {
+									StringInput.inputString(player, "Edit the command", reward.commandReward, text -> {
+										reward.commandReward = text;
+										SlotPlugin.saveToDisk();
+										RewardsCustomization.rewardsCustomization(player, machine, item, backPage, page);
+									}, true);
 								}
 							}));
 						}
 
 						if ((item.getRewards().size() - (5 * page)) < 5) {
-							contents.set(3, 3 + (item.getRewards().size() - (5 * page)), ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.PLUS_SIGN), ChatContent.GOLD + "Add Reward"), event -> {
+							contents.set(3, 3 + (item.getRewards().size() - (5 * page)), ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.PLUS_SIGN), ChatContent.GOLD + "Add a Reward"), event -> {
 								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								AddRewardChoice.addReward(player, machine, item, backPage, page, rewardType -> {
 									if (rewardType == MachineItem.RewardType.ITEM) {
 										RewardAddItemInput.addReward(player, "Put the item you want to add", false, newItem -> {
 											item.addReward(new MachineItem.Reward(newItem));
+											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1.5F, 1.5F);
 											SlotPlugin.saveToDisk();
 											RewardsCustomization.rewardsCustomization(player, machine, item, backPage, page);
 										});
 									} else if (rewardType == MachineItem.RewardType.COMMAND) {
 										StringInput.inputString(player, "Type the command", "Check [i] for infos", text -> {
-											System.out.println("test 123, " + text);
-										});
+											item.addReward(new MachineItem.Reward(text));
+											player.playSound(player.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 1.5F, 2F);
+											SlotPlugin.saveToDisk();
+											RewardsCustomization.rewardsCustomization(player, machine, item, backPage, page);
+										}, false);
 									}
 								});
 							}));

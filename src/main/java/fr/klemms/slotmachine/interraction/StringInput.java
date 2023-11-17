@@ -17,7 +17,7 @@ import java.util.List;
 
 public class StringInput {
 
-	public static void inputString(Player player, String title, String placeholder, StringInputCallback callback) {
+	public static void inputString(Player player, String title, String placeholder, StringInputCallback callback, boolean allowNoChange) {
 		List<String> variableLore = new ArrayList<String>();
 
 		for (Variables var : Variables.values()) {
@@ -36,7 +36,7 @@ public class StringInput {
 						return Collections.emptyList();
 					}
 
-					if (!stateSnapshot.getText().trim().isEmpty() && !stateSnapshot.getText().equals(placeholder)) {
+					if (!stateSnapshot.getText().trim().isEmpty() && (allowNoChange || !stateSnapshot.getText().equals(placeholder))) {
 						return Collections.singletonList(
                                 AnvilGUI.ResponseAction.run(() -> {
 									callback.callback(stateSnapshot.getText().trim());

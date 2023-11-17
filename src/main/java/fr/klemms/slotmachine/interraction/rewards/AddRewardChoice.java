@@ -37,12 +37,12 @@ public class AddRewardChoice {
 						contents.set(0, 1, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.INFOS), ChatContent.GOLD + "Pick the kind of reward you want to add")));
 
 						contents.set(2, 3, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(Material.GRASS_BLOCK), ChatContent.GOLD + "Add an item reward"), event -> {
-							player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1F, 1F);
+							player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, 2F, 1.2F);
 							callback.callback(MachineItem.RewardType.ITEM);
 						}));
 
 						contents.set(2, 5, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(Material.COMMAND_BLOCK), ChatContent.GOLD + "Add a command reward"), event -> {
-							player.playSound(player.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 1F, 1F);
+							player.playSound(player.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 2F, 2F);
 							callback.callback(MachineItem.RewardType.COMMAND);
 						}));
 
