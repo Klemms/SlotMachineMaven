@@ -69,8 +69,8 @@
 		</repository>
 
 		<repository>
-			<id>everything</id>
-			<url>https://repo.citizensnpcs.co/</url>
+			<id>citizens-repo</id>
+			<url>https://maven.citizensnpcs.co/repo</url>
 		</repository>
 
 		<repository>
@@ -103,7 +103,7 @@
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
-			<version>1.20.2-R0.1-SNAPSHOT</version>
+			<version>1.20.4-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -130,7 +130,7 @@
 		<dependency>
 			<groupId>net.citizensnpcs</groupId>
 			<artifactId>citizensapi</artifactId>
-			<version>2.0.30-SNAPSHOT</version>
+			<version>2.0.33-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>provided</scope>
 		</dependency>
@@ -181,7 +181,7 @@
 		<dependency>
 			<groupId>com.bencodez</groupId>
 			<artifactId>votingplugin</artifactId>
-			<version>6.14.1</version>
+			<version>6.15.1</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -204,7 +204,7 @@
 		<dependency>
 			<groupId>me.clip</groupId>
 			<artifactId>placeholderapi</artifactId>
-			<version>2.11.4</version>
+			<version>2.11.5</version>
 			<scope>provided</scope>
 		</dependency>
 
