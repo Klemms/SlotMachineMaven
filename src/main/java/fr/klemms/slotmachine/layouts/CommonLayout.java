@@ -61,7 +61,7 @@ public abstract class CommonLayout implements InventoryProvider {
 							Bukkit.getScheduler().runTaskLaterAsynchronously(SlotPlugin.pl, new ThreadPullLever(player, machine, contents, callback -> {
 								Bukkit.getScheduler().runTask(SlotPlugin.pl, () -> {
 									machine.setPlayerRolling(player, false);
-									SlotPlugin.saveToDisk();
+									machine.save();
 								});
 							}), 0);
 							machine.openMachine(player, false);

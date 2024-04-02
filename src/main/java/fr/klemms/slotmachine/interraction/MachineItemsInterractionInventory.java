@@ -37,7 +37,7 @@ public class MachineItemsInterractionInventory {
 					if (event.getCursor().getType() != Material.AIR && event.isLeftClick()) {
 						MachineItem item = new MachineItem(new ItemStack(event.getCursor()), 1);
 						machine.addItem(item);
-						SlotPlugin.saveToDisk();
+						machine.save();
 						event.setCursor(null);
 						event.setCancelled(true);
 						manageItems(player, machine, page);
@@ -75,7 +75,7 @@ public class MachineItemsInterractionInventory {
 									else {
 										player.getInventory().addItem(new ItemStack(item.getItemStack()));
 										machine.removeItem(item);
-										SlotPlugin.saveToDisk();
+										machine.save();
 										player.updateInventory();
 										manageItems(player, machine, page);
 									}
@@ -126,7 +126,7 @@ public class MachineItemsInterractionInventory {
 									if (callback) {
 										player.playSound(player.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1F, 1F);
 										machine.setSlotMachineItems(new ArrayList<MachineItem>());
-										SlotPlugin.saveToDisk();
+										machine.save();
 										manageItems(player, machine, 0);
 									} else
 										manageItems(player, machine, page);
@@ -145,7 +145,7 @@ public class MachineItemsInterractionInventory {
 											it.itemStats.timesWon = 0;
 										}
 										machine.setTimesUsed(0);
-										SlotPlugin.saveToDisk();
+										machine.save();
 										manageItems(player, machine, page);
 									} else
 										manageItems(player, machine, page);

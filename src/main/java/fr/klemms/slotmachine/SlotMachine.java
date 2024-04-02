@@ -168,6 +168,7 @@ public abstract class SlotMachine {
 	private boolean isCitizensNPC;
 	private boolean displayWonItemInChat;
 	private boolean broadcastWonItem;
+	private boolean needsSaving;
 	private int secondsBeforePrize;
 	private int spinSpeed;
 	private int timesUsed;
@@ -219,6 +220,7 @@ public abstract class SlotMachine {
 		this.spinSpeed = 6;
 		this.timesUsed = 0;
 		this.cooldown = 0;
+		this.needsSaving = true;
 		this.setPriceType(this.getPriceType());
 		this.setSlotMachineName("Slot Machine");
 		this.guiPermission = "slotmachine.access.default";
@@ -389,7 +391,7 @@ public abstract class SlotMachine {
 		if (Config.tokens.get(this.getTokenIdentifier()) == null) {
 			Token.getDefaultToken(); // This makes sure a default token always exists
 			this.setTokenIdentifier("default");
-			SlotPlugin.saveToDisk();
+			this.save();
 		}
 
 		return Config.tokens.get(this.getTokenIdentifier());
@@ -913,7 +915,7 @@ public abstract class SlotMachine {
 
 	public void addUse() {
 		this.setTimesUsed(this.getTimesUsed() + 1);
-		SlotPlugin.saveToDisk();
+		this.save();
 	}
 
 	public PlayMode getPlayMode() {
@@ -984,5 +986,17 @@ public abstract class SlotMachine {
 
 	public void setLastFileName(String lastFileName) {
 		this.lastFileName = lastFileName;
+	}
+
+	public boolean needsSaving() {
+		return this.needsSaving;
+	}
+
+	public void save() {
+		this.needsSaving = true;
+	}
+
+	public void setSaved() {
+		this.needsSaving = false;
 	}
 }

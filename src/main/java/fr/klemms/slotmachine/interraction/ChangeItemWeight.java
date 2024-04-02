@@ -45,17 +45,17 @@ public class ChangeItemWeight {
 								)), event -> {
 									if (event.isLeftClick() && item.getWeight() - 1 >= 0) {
 										item.setWeight(item.getWeight() - 1);
-										SlotPlugin.saveToDisk();
+										machine.save();
 										player.playSound(player.getLocation(), Sound.ENTITY_PAINTING_PLACE, 1F, 0.7F);
 										ChangeItemWeight.changeItemWeight(player, machine, item, backpage);
 									} else if(event.isRightClick() && item.getWeight() - 10 >= 0) {
 										item.setWeight(item.getWeight() - 10);
-										SlotPlugin.saveToDisk();
+										machine.save();
 										player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1F, 1.7F);
 										ChangeItemWeight.changeItemWeight(player, machine, item, backpage);
 									} else {
 										item.setWeight(999);
-										SlotPlugin.saveToDisk();
+										machine.save();
 										player.playSound(player.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 1F, 1.6F);
 										ChangeItemWeight.changeItemWeight(player, machine, item, backpage);
 									}
@@ -69,17 +69,17 @@ public class ChangeItemWeight {
 								)), event -> {
 									if (event.isLeftClick() && item.getWeight() + 1 <= 999) {
 										item.setWeight(item.getWeight() + 1);
-										SlotPlugin.saveToDisk();
+										machine.save();
 										player.playSound(player.getLocation(), Sound.ENTITY_PAINTING_PLACE, 1F, 1.3F);
 										ChangeItemWeight.changeItemWeight(player, machine, item, backpage);
 									} else if(event.isRightClick() && item.getWeight() + 10 <= 999) {
 										item.setWeight(item.getWeight() + 10);
-										SlotPlugin.saveToDisk();
+										machine.save();
 										player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_CLOSE, 1F, 2F);
 										ChangeItemWeight.changeItemWeight(player, machine, item, backpage);
 									} else {
 										item.setWeight(0);
-										SlotPlugin.saveToDisk();
+										machine.save();
 										player.playSound(player.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 1F, 2F);
 										ChangeItemWeight.changeItemWeight(player, machine, item, backpage);
 									}
@@ -97,7 +97,7 @@ public class ChangeItemWeight {
 										ConfirmInventory.confirmWindow(player, "Reset to 1 ?", "No, don't reset", "Yes, reset to 1", result -> {
 											if (result) {
 												item.setWeight(1);
-												SlotPlugin.saveToDisk();
+												machine.save();
 												player.playSound(player.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 1F, 2F);
 												ChangeItemWeight.changeItemWeight(player, machine, item, backpage);
 											} else {
@@ -143,7 +143,7 @@ public class ChangeItemWeight {
 								ConfirmInventory.confirmWindow(player, "Reset to 1 ?", "No, don't reset", "Yes, reset to 1", result -> {
 									if (result) {
 										item.setWeight(1);
-										SlotPlugin.saveToDisk();
+										machine.save();
 										player.playSound(player.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 1F, 2F);
 										ChangeItemWeight.changeItemWeight(player, machine, item, backpage);
 									} else {

@@ -685,7 +685,7 @@ public class Config {
             SlotPlugin.pl.getConfig().set("defaultToken", null);
             SlotPlugin.pl.saveConfig();
         }
-        SlotPlugin.saveMachinesToDisk();
+        SlotPlugin.saveMachinesToDisk(true);
         plugin.saveConfig();
     }
 }

@@ -271,10 +271,16 @@ public class SlotPlugin extends JavaPlugin {
 			if (!suspendSaving) {
 				saveCooldownsToDisk();
 				if (shouldSaveMachinesToDisk) {
-					saveMachinesToDisk();
+					saveMachinesToDisk(true);
 				}
 			}
 		}, 10 * 20, 10 * 20);
+
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
+			if (!suspendSaving) {
+				saveMachinesToDisk(false);
+			}
+		}, 15 * 20, 30 * 20);
 
 		// Items Giving
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
@@ -331,7 +337,7 @@ public class SlotPlugin extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		saveCooldownsToDisk();
-		saveMachinesToDisk();
+		saveMachinesToDisk(true);
 
 		if(Config.backupMachinesOnPluginUnload) {
 			try {
@@ -372,7 +378,7 @@ public class SlotPlugin extends JavaPlugin {
 		shouldSaveMachinesToDisk = true;
 	}
 
-	public static void saveMachinesToDisk() {
+	public static void saveMachinesToDisk(boolean allMachines) {
 		try {
 			Files.createDirectories(pl.getDataFolder().toPath().resolve("machines"));
 		} catch (IOException e) {
@@ -383,7 +389,11 @@ public class SlotPlugin extends JavaPlugin {
 
 		if(Files.exists(pl.getDataFolder().toPath().resolve("machines"))) {
 			for(SlotMachine slotMachine : SlotMachine.getSlotMachines()) {
-				YamlConfiguration yamlFile = YamlConfiguration.loadConfiguration(pl.getDataFolder().toPath().resolve("machines").resolve(slotMachine.getMachineUUID().toString() + ".yml").toFile());
+				if (!allMachines && !slotMachine.needsSaving()) {
+					continue;
+				}
+
+				YamlConfiguration yamlFile = new YamlConfiguration();
 
 				yamlFile.set("saveTime", DateFormat.getDateTimeInstance().format(new Date()).toString());
 				yamlFile.set("machineType", slotMachine.getSlotMachineType().toString());
@@ -487,6 +497,7 @@ public class SlotPlugin extends JavaPlugin {
 					}
 
 					yamlFile.save(pl.getDataFolder().toPath().resolve("machines").resolve(fileName).toFile());
+					slotMachine.setSaved();
 				} catch (IOException e) {
 					e.printStackTrace();
 					ExceptionCollector.sendException(SlotPlugin.pl, e);
@@ -495,11 +506,11 @@ public class SlotPlugin extends JavaPlugin {
 			shouldSaveMachinesToDisk = false;
 			return;
 		}
-		pl.getLogger().log(Level.SEVERE, "Couldn't save Machines ! Please contact the developper");
+		pl.getLogger().log(Level.SEVERE, "Couldn't save Machines ! Please contact the developer");
 	}
 
 	public static void writeTokens() {
-		YamlConfiguration yamlFile = YamlConfiguration.loadConfiguration(pl.getDataFolder().toPath().resolve("tokens.yml").toFile());
+		YamlConfiguration yamlFile = new YamlConfiguration();
 
 		yamlFile.set("tokenCount", Config.tokens.size());
 		yamlFile.set("tokens", null);

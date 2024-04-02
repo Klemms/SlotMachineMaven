@@ -33,7 +33,7 @@ public class MachineSoundCustomization {
 						contents.fillRow(2, ClickableItem.empty(null));
 						contents.fillRow(3, ClickableItem.empty(null));
 						contents.fillRow(4, ClickableItem.empty(null));
-						
+
 						contents.set(2, 1, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.HEADSET), ChatContent.GOLD + "Machine Interraction Sound"), event -> {
 							player.playSound(player.getLocation(), machine.getMachineOpeningSound(), 1.9f, 1.2f);
 						}));
@@ -44,14 +44,14 @@ public class MachineSoundCustomization {
 									machine.setMachineOpeningSound(sound);
 									player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully changed sound to '" + sound.toString() + "'");
 									player.playSound(player.getLocation(), machine.getMachineOpeningSound(), 1.9f, 1.2f);
-									SlotPlugin.saveToDisk();
+									machine.save();
 								}, 1.9f, 1.2f);
 							} else if (event.isRightClick()) {
 								ConfirmInventory.confirmWindow(player, "Reset this sound to default ?", "No, cancel", "Yes, reset", (result) -> {
 									if (result) {
 										machine.resetSoundMachineOpening();
 										player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully reset sound");
-										SlotPlugin.saveToDisk();
+										machine.save();
 									}
 									customizeSounds(player, machine);
 								}, false);
@@ -68,14 +68,14 @@ public class MachineSoundCustomization {
 									machine.setLeverSound(sound);
 									player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully changed sound to '" + sound.toString() + "'");
 									player.playSound(player.getLocation(), machine.getLeverSound(), 1.9f, 1.2f);
-									SlotPlugin.saveToDisk();
+									machine.save();
 								}, 1.9f, 1.2f);
 							} else if (event.isRightClick()) {
 								ConfirmInventory.confirmWindow(player, "Reset this sound to default ?", "No, cancel", "Yes, reset", (result) -> {
 									if (result) {
 										machine.resetSoundLever();
 										player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully reset sound");
-										SlotPlugin.saveToDisk();
+										machine.save();
 									}
 									customizeSounds(player, machine);
 								}, false);
@@ -92,20 +92,20 @@ public class MachineSoundCustomization {
 									machine.setWinSound(sound);
 									player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully changed sound to '" + sound.toString() + "'");
 									player.playSound(player.getLocation(), machine.getWinSound(), 1.9f, 0.9f);
-									SlotPlugin.saveToDisk();
+									machine.save();
 								}, 1.9f, 0.9f);
 							} else if (event.isRightClick()) {
 								ConfirmInventory.confirmWindow(player, "Reset this sound to default ?", "No, cancel", "Yes, reset", (result) -> {
 									if (result) {
 										machine.resetSoundWin();
 										player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully reset sound");
-										SlotPlugin.saveToDisk();
+										machine.save();
 									}
 									customizeSounds(player, machine);
 								}, false);
 							}
 						}));
-						
+
 						contents.set(2, 4, ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.HEADSET), ChatContent.GOLD + "Error Sound"), Arrays.asList(
 								ChatContent.AQUA + "The sound played when errors occur",
 								ChatContent.AQUA + "such as when the machine is stil on",
@@ -120,14 +120,14 @@ public class MachineSoundCustomization {
 									machine.setErrorSound(sound);
 									player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully changed sound to '" + sound.toString() + "'");
 									player.playSound(player.getLocation(), machine.getErrorSound(), 1.3f, 1f);
-									SlotPlugin.saveToDisk();
+									machine.save();
 								}, 1.3f, 1f);
 							} else if (event.isRightClick()) {
 								ConfirmInventory.confirmWindow(player, "Reset this sound to default ?", "No, cancel", "Yes, reset", (result) -> {
 									if (result) {
 										machine.resetSoundError();
 										player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully reset sound");
-										SlotPlugin.saveToDisk();
+										machine.save();
 									}
 									customizeSounds(player, machine);
 								}, false);
@@ -144,20 +144,20 @@ public class MachineSoundCustomization {
 									machine.setLossSound(sound);
 									player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully changed sound to '" + sound.toString() + "'");
 									player.playSound(player.getLocation(), machine.getLossSound(), 0.3f, 0.7f);
-									SlotPlugin.saveToDisk();
+									machine.save();
 								}, 0.3f, 0.7f);
 							} else if (event.isRightClick()) {
 								ConfirmInventory.confirmWindow(player, "Reset this sound to default ?", "No, cancel", "Yes, reset", (result) -> {
 									if (result) {
 										machine.resetSoundLoss();
 										player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully reset sound");
-										SlotPlugin.saveToDisk();
+										machine.save();
 									}
 									customizeSounds(player, machine);
 								}, false);
 							}
 						}));
-						
+
 						contents.set(2, 6, ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.HEADSET), ChatContent.GOLD + "Slot Machine Layout Sound"), Arrays.asList(
 								ChatContent.AQUA + "The sound items make when spinning",
 								ChatContent.AQUA + "in a Slot Machine with the default",
@@ -172,14 +172,14 @@ public class MachineSoundCustomization {
 									machine.setSlotmachineSpinSound(sound);
 									player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully changed sound to '" + sound.toString() + "'");
 									player.playSound(player.getLocation(), machine.getSlotmachineSpinSound(), 0.4f, 0.9f);
-									SlotPlugin.saveToDisk();
+									machine.save();
 								}, 0.4f, 0.9f);
 							} else if (event.isRightClick()) {
 								ConfirmInventory.confirmWindow(player, "Reset this sound to default ?", "No, cancel", "Yes, reset", (result) -> {
 									if (result) {
 										machine.resetSoundSlotMachineSpin();
 										player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully reset sound");
-										SlotPlugin.saveToDisk();
+										machine.save();
 									}
 									customizeSounds(player, machine);
 								}, false);
@@ -200,21 +200,21 @@ public class MachineSoundCustomization {
 									machine.setCsgoSpinSound(sound);
 									player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully changed sound to '" + sound.toString() + "'");
 									player.playSound(player.getLocation(), machine.getCsgoSpinSound(), 0.7f, 0.9f);
-									SlotPlugin.saveToDisk();
+									machine.save();
 								}, 0.7f, 0.9f);
 							} else if (event.isRightClick()) {
 								ConfirmInventory.confirmWindow(player, "Reset this sound to default ?", "No, cancel", "Yes, reset", (result) -> {
 									if (result) {
 										machine.resetSoundCSGOSpin();
 										player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully reset sound");
-										SlotPlugin.saveToDisk();
+										machine.save();
 									}
 									customizeSounds(player, machine);
 								}, false);
 							}
 						}));
-						
-						
+
+
 						contents.set(0, 2, ClickableItem.empty(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.INFOS), ChatContent.GOLD + "Informations"), Arrays.asList(
 								ChatContent.AQUA + "Click on any sound icon to hear",
 								ChatContent.AQUA + "a preview of the sound (Pitch and",
@@ -233,7 +233,7 @@ public class MachineSoundCustomization {
 								ChatContent.GRAY + "Note : Sounds pitch and volume are",
 								ChatContent.GRAY + "not customizable"
 								))));
-						
+
 						contents.set(0, 6, ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.BARRIER), ChatContent.RED + "Reset to default"), Arrays.asList(
 								ChatContent.GRAY + "Resets all sound customization",
 								ChatContent.GRAY + "to default values"
@@ -243,11 +243,11 @@ public class MachineSoundCustomization {
 										player.playSound(player.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1F, 1F);
 										machine.resetSoundCustomization();
 										player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully reset all sounds to default");
-										SlotPlugin.saveToDisk();
+										machine.save();
 									}
 									customizeSounds(player, machine);
 								}, false);
-								
+
 						}));
 
 						contents.set(5, 1, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.BACK), Language.translate("basic.back")), event -> {
@@ -257,17 +257,17 @@ public class MachineSoundCustomization {
 							else if (machine instanceof SlotMachineBlock)
 								MachineInterractionInventory.manageMachine(player, machine, null, ((SlotMachineBlock) machine).getBlock(), 0);
 						}));
-						
+
 					}
 
 					@Override
 					public void update(Player player, InventoryContents contents) {
-						
+
 					}
-					
+
 				})
 				.build();
-		
+
 		inv.open(player);
 	}
 }

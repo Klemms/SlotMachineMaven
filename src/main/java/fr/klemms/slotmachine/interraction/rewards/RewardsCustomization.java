@@ -44,7 +44,7 @@ public class RewardsCustomization {
 							case 28:
 								event.setCancelled(true);
 								item.setItemStack(new ItemStack(event.getCursor()));
-								SlotPlugin.saveToDisk();
+								machine.save();
 								RewardsCustomization.rewardsCustomization(player, machine, item, backPage, page);
 								return;
 							case 21:
@@ -79,7 +79,7 @@ public class RewardsCustomization {
 
 						rewards.set(slot, new MachineItem.Reward(new ItemStack(event.getCursor())));
 						player.playSound(player.getLocation(), Sound.BLOCK_LAVA_POP, 2F, 1.5F);
-						SlotPlugin.saveToDisk();
+						machine.save();
 						RewardsCustomization.rewardsCustomization(player, machine, item, backPage, page);
 					}
 				}))
@@ -101,7 +101,7 @@ public class RewardsCustomization {
 									List<MachineItem.Reward> newRewards = new ArrayList<MachineItem.Reward>();
 									newRewards.add(new MachineItem.Reward(new ItemStack(item.getItemStack())));
 									item.setRewards(newRewards);
-									SlotPlugin.saveToDisk();
+									machine.save();
 									player.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1.5F, 1F);
 								}
 								RewardsCustomization.rewardsCustomization(player, machine, item, backPage, page);
@@ -146,7 +146,7 @@ public class RewardsCustomization {
 										MachineItem.Reward rew = rewardIterator.next();
 										if (reward.equals(rew)) {
 											rewardIterator.remove();
-											SlotPlugin.saveToDisk();
+											machine.save();
 											RewardsCustomization.rewardsCustomization(player, machine, item, backPage, 0);
 											break;
 										}
@@ -154,7 +154,7 @@ public class RewardsCustomization {
 								} else if (event.isLeftClick() && reward.rewardType == MachineItem.RewardType.COMMAND) {
 									StringInput.inputString(player, "Edit the command", reward.commandReward, text -> {
 										reward.commandReward = text;
-										SlotPlugin.saveToDisk();
+										machine.save();
 										RewardsCustomization.rewardsCustomization(player, machine, item, backPage, page);
 									}, true);
 								}
@@ -181,7 +181,7 @@ public class RewardsCustomization {
 										MachineItem.Reward rew = rewardIterator.next();
 										if (reward.equals(rew)) {
 											rewardIterator.remove();
-											SlotPlugin.saveToDisk();
+											machine.save();
 											RewardsCustomization.rewardsCustomization(player, machine, item, backPage, 0);
 											break;
 										}
@@ -189,7 +189,7 @@ public class RewardsCustomization {
 								} else if (event.isLeftClick() && reward.rewardType == MachineItem.RewardType.COMMAND) {
 									StringInput.inputString(player, "Edit the command", reward.commandReward, text -> {
 										reward.commandReward = text;
-										SlotPlugin.saveToDisk();
+										machine.save();
 										RewardsCustomization.rewardsCustomization(player, machine, item, backPage, page);
 									}, true);
 								}
@@ -204,14 +204,14 @@ public class RewardsCustomization {
 										RewardAddItemInput.addReward(player, "Put the item you want to add", false, newItem -> {
 											item.addReward(new MachineItem.Reward(newItem));
 											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1.5F, 1.5F);
-											SlotPlugin.saveToDisk();
+											machine.save();
 											RewardsCustomization.rewardsCustomization(player, machine, item, backPage, page);
 										});
 									} else if (rewardType == MachineItem.RewardType.COMMAND) {
 										StringInput.inputString(player, "Type the command", "Check [i] for infos", text -> {
 											item.addReward(new MachineItem.Reward(text));
 											player.playSound(player.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 1.5F, 2F);
-											SlotPlugin.saveToDisk();
+											machine.save();
 											RewardsCustomization.rewardsCustomization(player, machine, item, backPage, page);
 										}, false);
 									}

@@ -17,7 +17,7 @@ public class CommandSlotMachineBackup implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		sender.sendMessage(ChatContent.PINK + "[Slot Machine] Saving all machines to disk...");
 		SlotPlugin.suspendSaving = true;
-		SlotPlugin.saveMachinesToDisk();
+		SlotPlugin.saveMachinesToDisk(true);
 		SimpleDateFormat dateFormat = new SimpleDateFormat("HHmmss_dd-MMM-yyyy", new Locale.Builder().setLanguage("en").setRegion("US").build());
 		String backupName = "MACHINES_BACKUP-" + dateFormat.format(new Date());
 		sender.sendMessage(ChatContent.PINK + "[Slot Machine] Creating a backup of /machines to : /" + backupName);

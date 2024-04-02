@@ -157,10 +157,10 @@ public class MachineInterractionInventory {
 											player.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 0.3F, 1.6F);
 											if (machine.getSlotMachineType() == SlotMachineType.ENTITY_LINK) {
 												((SlotMachineEntityLink)machine).setLinkTo(pickedSlotMachine.getMachineUUID());
-												SlotPlugin.saveToDisk();
+												machine.save();
 											} else if(machine.getSlotMachineType() == SlotMachineType.BLOCK_LINK) {
 												((SlotMachineBlockLink)machine).setLinkTo(pickedSlotMachine.getMachineUUID());
-												SlotPlugin.saveToDisk();
+												machine.save();
 											}
 											player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully changed link");
 										}
@@ -178,7 +178,7 @@ public class MachineInterractionInventory {
 										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 										machineBlock.setLocked(false);
 										player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.breakable"));
-										SlotPlugin.saveToDisk();
+										machine.save();
 										manageMachine(player, machine, entity, block, pagination.getPage());
 									}));
 								else
@@ -189,7 +189,7 @@ public class MachineInterractionInventory {
 										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 										machineBlock.setLocked(true);
 										player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.unbreakable"));
-										SlotPlugin.saveToDisk();
+										machine.save();
 										manageMachine(player, machine, entity, block, pagination.getPage());
 									}));
 							}
@@ -262,7 +262,7 @@ public class MachineInterractionInventory {
 											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 											machine.setVisualType(VisualType.SLOTMACHINE);
 											player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.slotmachine"));
-											SlotPlugin.saveToDisk();
+											machine.save();
 											manageMachine(player, machine, entity, block, pagination.getPage());
 								}));
 							if (machine.getVisualType() != VisualType.CSGOWHEEL)
@@ -276,7 +276,7 @@ public class MachineInterractionInventory {
 											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 											machine.setVisualType(VisualType.CSGOWHEEL);
 											player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.csgowheel"));
-											SlotPlugin.saveToDisk();
+											machine.save();
 											manageMachine(player, machine, entity, block, pagination.getPage());
 								}));
 							if (machine.getVisualType() != VisualType.CSGOWHEEL_VERTICAL)
@@ -290,7 +290,7 @@ public class MachineInterractionInventory {
 											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 											machine.setVisualType(VisualType.CSGOWHEEL_VERTICAL);
 											player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.csgowheelvertical"));
-											SlotPlugin.saveToDisk();
+											machine.save();
 											manageMachine(player, machine, entity, block, pagination.getPage());
 								}));
 							if (machine.getPriceType() != PriceType.TOKEN)
@@ -305,7 +305,7 @@ public class MachineInterractionInventory {
 											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 											machine.setPriceType(PriceType.TOKEN);
 											player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.paymenttokens"));
-											SlotPlugin.saveToDisk();
+											machine.save();
 											manageMachine(player, machine, entity, block, pagination.getPage());
 								}));
 							if (machine.getPriceType() != PriceType.MONEY)
@@ -321,7 +321,7 @@ public class MachineInterractionInventory {
 												player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 												machine.setPriceType(PriceType.MONEY);
 												player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.paymentmoney"));
-												SlotPlugin.saveToDisk();
+												machine.save();
 												manageMachine(player, machine, entity, block, pagination.getPage());
 									}));
 								} else {
@@ -348,7 +348,7 @@ public class MachineInterractionInventory {
 											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 											machine.setPriceType(PriceType.TOKENMANAGER);
 											player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.paymenttokenmanager"));
-											SlotPlugin.saveToDisk();
+											machine.save();
 											manageMachine(player, machine, entity, block, pagination.getPage());
 								}));
 							if (machine.getPriceType() != PriceType.GAMEPOINTS && SlotPlugin.isGamePointsEnabled)
@@ -363,7 +363,7 @@ public class MachineInterractionInventory {
 											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 											machine.setPriceType(PriceType.GAMEPOINTS);
 											player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.paymentgamepoints"));
-											SlotPlugin.saveToDisk();
+											machine.save();
 											manageMachine(player, machine, entity, block, pagination.getPage());
 								}));
 
@@ -379,7 +379,7 @@ public class MachineInterractionInventory {
 									player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 									machine.setPriceType(PriceType.PLAYERPOINTS);
 									player.sendMessage(ChatContent.GREEN + "[Slot Machine] Payment changed to PLAYER POINTS for this Slot Machine");
-									SlotPlugin.saveToDisk();
+									machine.save();
 									manageMachine(player, machine, entity, block, pagination.getPage());
 								}));
 
@@ -395,7 +395,7 @@ public class MachineInterractionInventory {
 											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 											machine.setPriceType(PriceType.VOTINGPLUGIN);
 											player.sendMessage(ChatContent.GREEN + "[Slot Machine] This machine will now use VotingPlugin as a currency");
-											SlotPlugin.saveToDisk();
+											machine.save();
 											manageMachine(player, machine, entity, block, pagination.getPage());
 								}));
 							if (machine.getPriceType() != PriceType.EXPERIENCE)
@@ -410,7 +410,7 @@ public class MachineInterractionInventory {
 											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 											machine.setPriceType(PriceType.EXPERIENCE);
 											player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.paymentexperience"));
-											SlotPlugin.saveToDisk();
+											machine.save();
 											manageMachine(player, machine, entity, block, pagination.getPage());
 								}));
 							if (machine.getPriceType() == PriceType.TOKEN)
@@ -430,7 +430,7 @@ public class MachineInterractionInventory {
 													player.closeInventory();
 													player.sendMessage(ChatContent.GREEN + "[Slot Machine] The Token for this Slot Machine has been changed");
 													machine.setTokenIdentifier(token.identifier);
-													SlotPlugin.saveToDisk();
+													machine.save();
 												}
 
 											}, false);
@@ -466,7 +466,7 @@ public class MachineInterractionInventory {
 										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 										machine.setAffectedByLuck(!machine.isAffectedByLuck());
 										player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully switched luck effect");
-										SlotPlugin.saveToDisk();
+										machine.save();
 										manageMachine(player, machine, entity, block, pagination.getPage());
 							}));
 							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.LARGE_FERN, 1), ChatContent.GOLD + "Change Chance to Win"), Arrays.asList(
@@ -541,7 +541,7 @@ public class MachineInterractionInventory {
 									)), event -> {
 										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 										machine.setDisplayWonItemInChat(!machine.isDisplayWonItemInChat());
-										SlotPlugin.saveToDisk();
+										machine.save();
 										player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + (machine.isDisplayWonItemInChat() ? "Enabled" : "Disabled") + " item name in chat");
 										manageMachine(player, machine, entity, block, pagination.getPage());
 							}));
@@ -555,7 +555,7 @@ public class MachineInterractionInventory {
 							)), event -> {
 								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								machine.setBroadcastWonItem(!machine.shouldBroadcastWonItem());
-								SlotPlugin.saveToDisk();
+								machine.save();
 								player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + (machine.shouldBroadcastWonItem() ? "Enabled" : "Disabled") + " broadcasting to all players");
 								manageMachine(player, machine, entity, block, pagination.getPage());
 							}));
@@ -597,7 +597,7 @@ public class MachineInterractionInventory {
 											player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully reset to default");
 											machine.setLeverCustom(false);
 											machine.setPriceType(machine.getPriceType());
-											SlotPlugin.saveToDisk();
+											machine.save();
 											manageMachine(player, machine, entity, block, pagination.getPage());
 										}
 							}));
@@ -639,7 +639,7 @@ public class MachineInterractionInventory {
 									player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully reset to default");
 									machine.setLeverCustom(false);
 									machine.setPriceType(machine.getPriceType());
-									SlotPlugin.saveToDisk();
+									machine.save();
 									manageMachine(player, machine, entity, block, pagination.getPage());
 								}
 							}));
@@ -650,7 +650,7 @@ public class MachineInterractionInventory {
 										)), event -> {
 											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 											machine.allowContentPreview(false);
-											SlotPlugin.saveToDisk();
+											machine.save();
 											player.sendMessage(ChatContent.GREEN + "[Slot Machine] Disabled item preview");
 											manageMachine(player, machine, entity, block, pagination.getPage());
 								}));
@@ -661,7 +661,7 @@ public class MachineInterractionInventory {
 										)), event -> {
 											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 											machine.allowContentPreview(true);
-											SlotPlugin.saveToDisk();
+											machine.save();
 											player.sendMessage(ChatContent.GREEN + "[Slot Machine] Enabled item preview");
 											manageMachine(player, machine, entity, block, pagination.getPage());
 								}));
@@ -673,7 +673,7 @@ public class MachineInterractionInventory {
 											)), event -> {
 												player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 												machine.showItemWeightOnPreview(false);
-												SlotPlugin.saveToDisk();
+												machine.save();
 												player.sendMessage(ChatContent.GREEN + "[Slot Machine] Disabled item weight");
 												manageMachine(player, machine, entity, block, pagination.getPage());
 									}));
@@ -684,7 +684,7 @@ public class MachineInterractionInventory {
 											)), event -> {
 												player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 												machine.showItemWeightOnPreview(true);
-												SlotPlugin.saveToDisk();
+												machine.save();
 												player.sendMessage(ChatContent.GREEN + "[Slot Machine] Enabled item weight");
 												manageMachine(player, machine, entity, block, pagination.getPage());
 									}));
@@ -698,7 +698,7 @@ public class MachineInterractionInventory {
 											)), event -> {
 												player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 												machine.showChanceOfItemOnPreview(false);
-												SlotPlugin.saveToDisk();
+												machine.save();
 												player.sendMessage(ChatContent.GREEN + "[Slot Machine] Disabled item chance");
 												manageMachine(player, machine, entity, block, pagination.getPage());
 									}));
@@ -711,7 +711,7 @@ public class MachineInterractionInventory {
 											)), event -> {
 												player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 												machine.showChanceOfItemOnPreview(true);
-												SlotPlugin.saveToDisk();
+												machine.save();
 												player.sendMessage(ChatContent.GREEN + "[Slot Machine] Enabled item chance");
 												manageMachine(player, machine, entity, block, pagination.getPage());
 									}));
@@ -755,7 +755,7 @@ public class MachineInterractionInventory {
 												player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 												machineBlock.setLocked(false);
 												player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.breakable"));
-												SlotPlugin.saveToDisk();
+												machine.save();
 												manageMachine(player, machine, entity, block, pagination.getPage());
 									}));
 								else
@@ -766,7 +766,7 @@ public class MachineInterractionInventory {
 												player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 												machineBlock.setLocked(true);
 												player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("command.slotmachineaction.unbreakable"));
-												SlotPlugin.saveToDisk();
+												machine.save();
 												manageMachine(player, machine, entity, block, pagination.getPage());
 									}));
 							}

@@ -12,9 +12,9 @@ public class CommandSMSaveToDisk implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		sender.sendMessage("[Slot Machine] " + Language.translate("command.smsavetodisk.saving"));
 		SlotPlugin.saveCooldownsToDisk();
-		SlotPlugin.saveMachinesToDisk();
+		SlotPlugin.saveMachinesToDisk(true);
 		sender.sendMessage("[Slot Machine] " + Language.translate("command.smsavetodisk.saved"));
-		
+
 		return true;
 	}
 }

@@ -22,19 +22,19 @@ import java.util.UUID;
 import java.util.logging.Level;
 
 public class MachineMethods {
-	
+
 	/*private static ChatColor nextButtonColor = ChatColor.AQUA;
-	
+
 	private static ChatColor getButtonColor() {
 		return nextButtonColor == ChatColor.AQUA ? (nextButtonColor = ChatColor.DARK_AQUA) : (nextButtonColor = ChatColor.AQUA);
 	}*/
-	
+
 	public static void openmachine(Player player, SlotMachine machine) {
 		if (machine instanceof SlotMachineEntity)
 			player.setMetadata("slotmachineinteractentity", new FixedMetadataValue(SlotPlugin.pl, "yes"));
 		if (machine instanceof SlotMachineBlock)
 			player.setMetadata("slotmachineinteractblock", new FixedMetadataValue(SlotPlugin.pl, "yes"));
-		
+
 		Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new Runnable() {
 			@Override
 			public void run() {
@@ -48,7 +48,7 @@ public class MachineMethods {
 		} else if (machine.getSlotMachineType() == SlotMachineType.ENTITY_LINK) {
 			machine = ((SlotMachineEntityLink)machine).getLink();
 		}
-		
+
 		if(machine.getSlotMachineItems().size() > 0) {
 			if(machine.getPriceType() == PriceType.GAMEPOINTS && !SlotPlugin.isGamePointsEnabled) {
 				player.sendMessage(ChatContent.RED + "[Slot Machine] " + Language.translate("slotmachine.access.missinggamepoints"));
@@ -66,7 +66,7 @@ public class MachineMethods {
 				player.sendMessage(ChatContent.RED + "[Slot Machine] " + Language.translate("slotmachine.access.missingvault"));
 				return;
 			}
-			
+
 			player.closeInventory();
 			machine.openMachine(player, true);
 			player.playSound(player.getLocation(), machine.getMachineOpeningSound(), 1.9f, 1.2f);
@@ -74,13 +74,13 @@ public class MachineMethods {
 			player.sendMessage(ChatContent.RED + "[Slot Machine] " + Language.translate("slotmachine.access.notsetup"));
 		}
 	}
-	
+
 	public static void magicWand(Player player, Entity entity, Block block) {
 		if (entity != null)
 			player.setMetadata("slotmachineinteractentity", new FixedMetadataValue(SlotPlugin.pl, "yes"));
 		if (block != null)
 			player.setMetadata("slotmachineinteractblock", new FixedMetadataValue(SlotPlugin.pl, "yes"));
-		
+
 		Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new Runnable() {
 			@Override
 			public void run() {
@@ -88,12 +88,12 @@ public class MachineMethods {
 				player.removeMetadata("slotmachineinteractblock", SlotPlugin.pl);
 			}
 		});
-		
-		
+
+
 		UUID uuid = entity != null ? entity.getUniqueId() : null;
 		if (uuid != null && SlotPlugin.isCitizensEnabled && CitizensAPI.getNPCRegistry().isNPC(entity))
 			uuid = CitizensAPI.getNPCRegistry().getNPC(entity).getUniqueId();
-		
+
 		SlotMachine machine = null;
 		if (entity != null) {
 			machine = SlotMachineEntityLink.getAllSlotMachineByEntityUUID(uuid);
@@ -128,7 +128,7 @@ public class MachineMethods {
 			}
 
 			SlotPlugin.pl.getLogger().log(Level.INFO, "New SlotMachine (Entity)" + (isCitizensNPC ? " (Citizens NPC)" : "") + " (Created by : " + player.getName() + ") : '" + entity.getType().toString() + "' with UUID '" + uuid.toString() + "' in world '" + entity.getWorld().getName() + "' at '" + entity.getLocation().getX() + " " + entity.getLocation().getY() + " " + entity.getLocation().getZ() + "'");
-			SlotPlugin.saveToDisk();
+			slotMachineEntityLink.save();
 			return slotMachineEntityLink;
 		} else {
 			player.sendMessage(ChatContent.RED + ChatContent.BOLD + "[Slot Machine] " + Language.translate("slotmachine.alreadyslotmachine"));
@@ -139,12 +139,12 @@ public class MachineMethods {
 	public static SlotMachineEntity createSlotMachineEntity(Player player, Entity entity) {
 		UUID uuid = entity.getUniqueId();
 		boolean isCitizensNPC = false;
-		
+
 		if (SlotPlugin.isCitizensEnabled && CitizensAPI.getNPCRegistry().isNPC(entity)) {
 			uuid = CitizensAPI.getNPCRegistry().getNPC(entity).getUniqueId();
 			isCitizensNPC = true;
 		}
-		
+
 		if(SlotMachineEntity.getSlotMachineByEntityUUID(uuid) == null) {
 			if(!isCitizensNPC && entity instanceof LivingEntity) {
 				((LivingEntity)entity).setAI(false);
@@ -154,14 +154,14 @@ public class MachineMethods {
 			slotMachineEntity.setCitizensNPC(isCitizensNPC);
 			SlotMachineEntity.addSlotMachineEntity(slotMachineEntity);
 			player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("slotmachine.created").replace("%entityUUID%", uuid.toString()));
-			
+
 			if(SlotPlugin.econ == null) {
 				player.sendMessage(ChatContent.BOLD + ChatContent.AQUA + "[Slot Machine] " + Language.translate("slotmachine.tokensfallback"));
 			}
-			
-			
+
+
 			SlotPlugin.pl.getLogger().log(Level.INFO, "New SlotMachine (Entity)" + (isCitizensNPC ? " (Citizens NPC)" : "") + " (Created by : " + player.getName() + ") : '" + entity.getType().toString() + "' with UUID '" + uuid.toString() + "' in world '" + entity.getWorld().getName() + "' at '" + entity.getLocation().getX() + " " + entity.getLocation().getY() + " " + entity.getLocation().getZ() + "'");
-			SlotPlugin.saveToDisk();
+			slotMachineEntity.save();
 			return slotMachineEntity;
 		} else {
 			player.sendMessage(ChatContent.RED + ChatContent.BOLD + "[Slot Machine] " + Language.translate("slotmachine.alreadyslotmachine"));
@@ -180,7 +180,7 @@ public class MachineMethods {
 			}
 
 			SlotPlugin.pl.getLogger().log(Level.INFO, "New SlotMachine (Block) (Created by : " + player.getName() + ") : '" + block.getType().toString() + "' in world '" + block.getWorld().getName() + "' at '" + block.getLocation().getX() + " " + block.getLocation().getY() + " " + block.getLocation().getZ() + "'");
-			SlotPlugin.saveToDisk();
+			slotMachineBlockLink.save();
 			return slotMachineBlockLink;
 		} else {
 			player.sendMessage(ChatContent.RED + ChatContent.BOLD + "[Slot Machine] " + Language.translate("slotmachine.alreadyslotmachine"));
@@ -193,20 +193,20 @@ public class MachineMethods {
 			SlotMachineBlock slotMachineBlock = new SlotMachineBlock(block.getX(), block.getY(), block.getZ(), true, block.getWorld().getUID());
 			SlotMachineBlock.addSlotMachineBlock(slotMachineBlock);
 			player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("slotmachine.created.block").replace("%location%", block.getX() + "," + block.getY() + "," + block.getZ()));
-			
+
 			if(SlotPlugin.econ == null) {
 				player.sendMessage(ChatContent.BOLD + ChatContent.AQUA + "[Slot Machine] " + Language.translate("slotmachine.tokensfallback"));
 			}
-			
+
 			SlotPlugin.pl.getLogger().log(Level.INFO, "New SlotMachine (Block) (Created by : " + player.getName() + ") : '" + block.getType().toString() + "' in world '" + block.getWorld().getName() + "' at '" + block.getLocation().getX() + " " + block.getLocation().getY() + " " + block.getLocation().getZ() + "'");
-			SlotPlugin.saveToDisk();
+			slotMachineBlock.save();
 			return slotMachineBlock;
 		} else {
 			player.sendMessage(ChatContent.RED + ChatContent.BOLD + "[Slot Machine] " + Language.translate("slotmachine.alreadyslotmachine"));
 			return SlotMachineBlock.getSlotMachineByBlock(block);
 		}
 	}
-	
+
 	public static void removeSlotMachine(Player player, UUID machineUUID) {
 		if(SlotMachine.getSlotMachineByUUID(machineUUID) != null) {
 			SlotMachine slotMachine = SlotMachine.getSlotMachineByUUID(machineUUID);
@@ -220,12 +220,12 @@ public class MachineMethods {
 				Issue.newIssue(IssueType.MACHINE_REMOVAL_EXCEPTION, e.getMessage(), true);
 				ExceptionCollector.sendException(SlotPlugin.pl, e);
 			}
-			SlotPlugin.saveToDisk();
+			slotMachine.save();
 		} else {
 			player.sendMessage(ChatContent.RED + ChatContent.BOLD + "[Slot Machine] " + Language.translate("slotmachine.notslotmachine"));
 		}
 	}
-	
+
 	public static void sendSlotMachineInformations(Player player, SlotMachine slotMachine) {
 		player.sendMessage(ChatContent.translateColorCodes("&#1976d2&l---- &#81c784&l" + Language.translate("slotmachine.informations") + "&#1976d2&l ----"));
 		if(slotMachine.getSlotMachineType() == SlotMachineType.ENTITY || slotMachine.getSlotMachineType() == SlotMachineType.ENTITY_LINK) {
@@ -251,7 +251,7 @@ public class MachineMethods {
 		player.sendMessage(ChatContent.translateColorCodes("&#1976d2-- &#81c784" + Language.translate("slotmachine.informations.leverdescription") + " : " + ChatContent.RESET + ChatContent.GOLD + slotMachine.getLeverDescription()));
 		player.sendMessage(ChatContent.translateColorCodes("&#1976d2-- &#81c784" + Language.translate("slotmachine.informations.items") + " : " + ChatContent.RESET + ChatContent.GOLD + slotMachine.getSlotMachineItems().size() + " items"));
 		player.sendMessage(ChatContent.translateColorCodes("&#1976d2&l------------------------------"));
-		
+
 		player.spigot().sendMessage(new ComponentBuilder(" -- Click to copy this machine's UUID to your clipboard --")
 				.color(ChatColor.GOLD).italic(true)
 				.event(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, slotMachine.getMachineUUID().toString()))
