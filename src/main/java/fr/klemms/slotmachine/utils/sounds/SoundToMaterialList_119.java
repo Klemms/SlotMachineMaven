@@ -349,26 +349,19 @@ public class SoundToMaterialList_119 {
 					SlotPlugin.soundMaterialMap.put(sound, Material.FLINT_AND_STEEL);
 					break;
 				case BLOCK_FROGLIGHT_BREAK:
-					break;
 				case BLOCK_FROGLIGHT_FALL:
-					break;
 				case BLOCK_FROGLIGHT_HIT:
-					break;
 				case BLOCK_FROGLIGHT_PLACE:
-					break;
 				case BLOCK_FROGLIGHT_STEP:
+					SlotPlugin.soundMaterialMap.put(sound, Material.OCHRE_FROGLIGHT);
 					break;
 				case BLOCK_FROGSPAWN_BREAK:
-					break;
 				case BLOCK_FROGSPAWN_FALL:
-					break;
 				case BLOCK_FROGSPAWN_HATCH:
-					break;
 				case BLOCK_FROGSPAWN_HIT:
-					break;
 				case BLOCK_FROGSPAWN_PLACE:
-					break;
 				case BLOCK_FROGSPAWN_STEP:
+					SlotPlugin.soundMaterialMap.put(sound, Material.FROGSPAWN);
 					break;
 				case BLOCK_FUNGUS_BREAK:
 					SlotPlugin.soundMaterialMap.put(sound, Material.CRIMSON_FUNGUS);
@@ -2954,6 +2947,7 @@ public class SoundToMaterialList_119 {
 					SlotPlugin.soundMaterialMap.put(sound, Material.SOUL_SAND);
 					break;
 				case UI_BUTTON_CLICK:
+					SlotPlugin.soundMaterialMap.put(sound, Material.NOTE_BLOCK);
 					break;
 				case UI_CARTOGRAPHY_TABLE_TAKE_RESULT:
 					SlotPlugin.soundMaterialMap.put(sound, Material.CARTOGRAPHY_TABLE);
@@ -2971,14 +2965,11 @@ public class SoundToMaterialList_119 {
 					SlotPlugin.soundMaterialMap.put(sound, Material.STONECUTTER);
 					break;
 				case UI_TOAST_CHALLENGE_COMPLETE:
-					break;
 				case UI_TOAST_IN:
-					break;
 				case UI_TOAST_OUT:
-					break;
 				case WEATHER_RAIN:
-					break;
 				case WEATHER_RAIN_ABOVE:
+					SlotPlugin.soundMaterialMap.put(sound, Material.NOTE_BLOCK);
 					break;
 				case BLOCK_AMETHYST_BLOCK_BREAK:
 					SlotPlugin.soundMaterialMap.put(sound, Material.AMETHYST_BLOCK);
@@ -3233,14 +3224,11 @@ public class SoundToMaterialList_119 {
 					SlotPlugin.soundMaterialMap.put(sound, Material.LARGE_AMETHYST_BUD);
 					break;
 				case BLOCK_MANGROVE_ROOTS_BREAK:
-					break;
 				case BLOCK_MANGROVE_ROOTS_FALL:
-					break;
 				case BLOCK_MANGROVE_ROOTS_HIT:
-					break;
 				case BLOCK_MANGROVE_ROOTS_PLACE:
-					break;
 				case BLOCK_MANGROVE_ROOTS_STEP:
+					SlotPlugin.soundMaterialMap.put(sound, Material.MANGROVE_ROOTS);
 					break;
 				case BLOCK_MEDIUM_AMETHYST_BUD_BREAK:
 					SlotPlugin.soundMaterialMap.put(sound, Material.MEDIUM_AMETHYST_BUD);
