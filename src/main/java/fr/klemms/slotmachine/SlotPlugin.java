@@ -90,7 +90,9 @@ public class SlotPlugin extends JavaPlugin {
 			return;
 		}
 
-		if (Util.getMCVersion().startsWith("1.20") && !Util.getMCVersion().startsWith("1.20.6")) {
+		// Using some unreleased version numbers because Mojang seems to find it funny to release versions
+		// which should be major versions as minor versions...
+		if (Util.getMCVersion().startsWith("1.20") && !Util.getMCVersion().startsWith("1.20.6") && !Util.getMCVersion().startsWith("1.20.7") && !Util.getMCVersion().startsWith("1.20.8")) {
 			this.getLogger().log(Level.SEVERE, "When on Minecraft 1.20, this version of Slot Machine only supports Spigot 1.20.6+");
 			this.getLogger().log(Level.SEVERE, "Please use an older release of Slot Machine while you haven't upgraded yet");
 			this.getLogger().log(Level.SEVERE, "Slot Machine will now disable.");
