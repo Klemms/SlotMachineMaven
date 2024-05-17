@@ -90,17 +90,6 @@ public class SlotPlugin extends JavaPlugin {
 			return;
 		}
 
-		// Using some unreleased version numbers because Mojang seems to find it funny to release versions
-		// which should be major versions as minor versions...
-		if (Util.getMCVersion().startsWith("1.20") && !Util.getMCVersion().startsWith("1.20.6") && !Util.getMCVersion().startsWith("1.20.7") && !Util.getMCVersion().startsWith("1.20.8")) {
-			this.getLogger().log(Level.SEVERE, "When on Minecraft 1.20, this version of Slot Machine only supports Spigot 1.20.6+");
-			this.getLogger().log(Level.SEVERE, "Please use an older release of Slot Machine while you haven't upgraded yet");
-			this.getLogger().log(Level.SEVERE, "Slot Machine will now disable.");
-			Config.backupMachinesOnPluginUnload = false;
-			Bukkit.getPluginManager().disablePlugin(this);
-			return;
-		}
-
 		invManager = new InventoryManager(this);
 		invManager.init();
 
@@ -119,6 +108,14 @@ public class SlotPlugin extends JavaPlugin {
 		} else {
 			this.getLogger().log(Level.INFO, "Using 1.20 Sound Mappings");
 			SoundToMaterialList_120.initList();
+		}
+
+		// Using some unreleased version numbers because Mojang seems to find it funny to release versions
+		// which should be major versions as minor versions...
+		if (Util.getMCVersion().startsWith("1.20") && !Util.getMCVersion().startsWith("1.20.6") && !Util.getMCVersion().startsWith("1.20.7") && !Util.getMCVersion().startsWith("1.20.8")) {
+			this.getLogger().log(Level.SEVERE, "When on Spigot 1.20.X, this version of Slot Machine only supports Spigot 1.20.6+");
+			this.getLogger().log(Level.SEVERE, "Please use an older release of Slot Machine while you haven't upgraded yet");
+			Issue.newIssue(IssueType.VERSION_ISSUE, "When on Spigot 1.20.X, Slot Machine should only be used on Spigot 1.20.6+. This may lead to issues.", true);
 		}
 
 		isCitizensEnabled = Bukkit.getPluginManager().isPluginEnabled("Citizens");
