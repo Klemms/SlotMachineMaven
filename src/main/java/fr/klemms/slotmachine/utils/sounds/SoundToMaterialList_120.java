@@ -3126,10 +3126,30 @@ public class SoundToMaterialList_120 {
 				case BLOCK_COPPER_BREAK:
 					SlotPlugin.soundMaterialMap.put(sound, Material.COPPER_INGOT);
 					break;
-				case BLOCK_COPPER_FALL:
+                case BLOCK_COPPER_BULB_BREAK:
+                case BLOCK_COPPER_BULB_FALL:
+                case BLOCK_COPPER_BULB_HIT:
+                case BLOCK_COPPER_BULB_PLACE:
+                case BLOCK_COPPER_BULB_STEP:
+                case BLOCK_COPPER_BULB_TURN_OFF:
+                case BLOCK_COPPER_BULB_TURN_ON:
+					SlotPlugin.soundMaterialMap.put(sound, Material.COPPER_BULB);
+                    break;
+                case BLOCK_COPPER_DOOR_CLOSE:
+                case BLOCK_COPPER_DOOR_OPEN:
+					SlotPlugin.soundMaterialMap.put(sound, Material.COPPER_DOOR);
+                    break;
+                case BLOCK_COPPER_FALL:
 					SlotPlugin.soundMaterialMap.put(sound, Material.COPPER_INGOT);
 					break;
-				case BLOCK_COPPER_HIT:
+                case BLOCK_COPPER_GRATE_BREAK:
+                case BLOCK_COPPER_GRATE_FALL:
+                case BLOCK_COPPER_GRATE_HIT:
+                case BLOCK_COPPER_GRATE_PLACE:
+                case BLOCK_COPPER_GRATE_STEP:
+					SlotPlugin.soundMaterialMap.put(sound, Material.COPPER_GRATE);
+                    break;
+                case BLOCK_COPPER_HIT:
 					SlotPlugin.soundMaterialMap.put(sound, Material.COPPER_INGOT);
 					break;
 				case BLOCK_COPPER_PLACE:
@@ -4411,7 +4431,84 @@ public class SoundToMaterialList_120 {
 				case MUSIC_OVERWORLD_SPARSE_JUNGLE:
 					SlotPlugin.soundMaterialMap.put(sound, Material.NOTE_BLOCK);
 					break;
-			}
+                case BLOCK_COPPER_TRAPDOOR_CLOSE:
+                case BLOCK_COPPER_TRAPDOOR_OPEN:
+					SlotPlugin.soundMaterialMap.put(sound, Material.COPPER_TRAPDOOR);
+                    break;
+                case BLOCK_CRAFTER_CRAFT:
+                case BLOCK_CRAFTER_FAIL:
+					SlotPlugin.soundMaterialMap.put(sound, Material.CRAFTER);
+                    break;
+                case BLOCK_DECORATED_POT_INSERT:
+                case BLOCK_DECORATED_POT_INSERT_FAIL:
+					SlotPlugin.soundMaterialMap.put(sound, Material.DECORATED_POT);
+                    break;
+                case BLOCK_HANGING_SIGN_WAXED_INTERACT_FAIL:
+					SlotPlugin.soundMaterialMap.put(sound, Material.OAK_HANGING_SIGN);
+                    break;
+                case BLOCK_POLISHED_TUFF_BREAK:
+                case BLOCK_POLISHED_TUFF_FALL:
+                case BLOCK_POLISHED_TUFF_HIT:
+                case BLOCK_POLISHED_TUFF_PLACE:
+                case BLOCK_POLISHED_TUFF_STEP:
+					SlotPlugin.soundMaterialMap.put(sound, Material.POLISHED_TUFF);
+                    break;
+                case BLOCK_SPONGE_ABSORB:
+                case BLOCK_SPONGE_BREAK:
+                case BLOCK_SPONGE_FALL:
+                case BLOCK_SPONGE_HIT:
+                case BLOCK_SPONGE_PLACE:
+                case BLOCK_SPONGE_STEP:
+					SlotPlugin.soundMaterialMap.put(sound, Material.SPONGE);
+                    break;
+                case BLOCK_TRIAL_SPAWNER_AMBIENT:
+                case BLOCK_TRIAL_SPAWNER_BREAK:
+                case BLOCK_TRIAL_SPAWNER_CLOSE_SHUTTER:
+                case BLOCK_TRIAL_SPAWNER_DETECT_PLAYER:
+                case BLOCK_TRIAL_SPAWNER_EJECT_ITEM:
+                case BLOCK_TRIAL_SPAWNER_FALL:
+                case BLOCK_TRIAL_SPAWNER_HIT:
+                case BLOCK_TRIAL_SPAWNER_OPEN_SHUTTER:
+                case BLOCK_TRIAL_SPAWNER_PLACE:
+                case BLOCK_TRIAL_SPAWNER_SPAWN_MOB:
+                case BLOCK_TRIAL_SPAWNER_STEP:
+					SlotPlugin.soundMaterialMap.put(sound, Material.TRIAL_SPAWNER);
+                    break;
+                case BLOCK_TUFF_BRICKS_BREAK:
+                case BLOCK_TUFF_BRICKS_FALL:
+                case BLOCK_TUFF_BRICKS_HIT:
+                case BLOCK_TUFF_BRICKS_PLACE:
+                case BLOCK_TUFF_BRICKS_STEP:
+					SlotPlugin.soundMaterialMap.put(sound, Material.TUFF_BRICKS);
+                    break;
+                case BLOCK_WET_SPONGE_BREAK:
+                case BLOCK_WET_SPONGE_FALL:
+                case BLOCK_WET_SPONGE_HIT:
+                case BLOCK_WET_SPONGE_PLACE:
+                case BLOCK_WET_SPONGE_STEP:
+					SlotPlugin.soundMaterialMap.put(sound, Material.WET_SPONGE);
+                    break;
+                case ENTITY_BREEZE_DEATH:
+                case ENTITY_BREEZE_HURT:
+                case ENTITY_BREEZE_IDLE_AIR:
+                case ENTITY_BREEZE_IDLE_GROUND:
+                case ENTITY_BREEZE_INHALE:
+                case ENTITY_BREEZE_JUMP:
+                case ENTITY_BREEZE_LAND:
+                case ENTITY_BREEZE_SHOOT:
+                case ENTITY_BREEZE_SLIDE:
+					SlotPlugin.soundMaterialMap.put(sound, Material.BREEZE_SPAWN_EGG);
+                    break;
+                case ENTITY_GENERIC_WIND_BURST:
+					SlotPlugin.soundMaterialMap.put(sound, Material.NOTE_BLOCK);
+                    break;
+                case ENTITY_PARROT_IMITATE_BREEZE:
+					SlotPlugin.soundMaterialMap.put(sound, Material.PARROT_SPAWN_EGG);
+                    break;
+                case ENTITY_PLAYER_TELEPORT:
+					SlotPlugin.soundMaterialMap.put(sound, Material.PLAYER_HEAD);
+                    break;
+            }
 		}
 	}
 }
