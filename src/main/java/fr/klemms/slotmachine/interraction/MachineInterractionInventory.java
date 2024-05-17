@@ -449,7 +449,7 @@ public class MachineInterractionInventory {
 										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.changeprice") + " :");
 										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
 							}));
-							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(machine.isAffectedByLuck() ? new ItemStack(Material.GLASS_BOTTLE, 1) : PotionUtil.makePotion(PotionEffectType.LUCK, 1200, 0, Color.GREEN, true), ChatContent.GOLD + "Luck Effect"), Arrays.asList(
+							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(machine.isAffectedByLuck() ? new ItemStack(Material.GLASS_BOTTLE, 1) : PotionUtil.makePotion(PotionEffectType.LUCK, 1200, 0, Color.GREEN), ChatContent.GOLD + "Luck Effect"), Arrays.asList(
 									ChatContent.AQUA + ChatContent.ITALIC + "Should this machine's chance to win be",
 									ChatContent.AQUA + ChatContent.ITALIC + "affected by Minecraft's luck potion effect",
 									"",
