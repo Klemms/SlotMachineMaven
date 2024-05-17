@@ -28,7 +28,7 @@ public abstract class CommonLayout implements InventoryProvider {
 		this.update = 20;
 	}
 
-	public ClickableItem generateLever(Player player, InventoryContents contents) {
+	public ClickableItem generateLever(Player player, InventoryContents contents, int leverX, int leverY) {
 		List<String> lore = new ArrayList<String>();
 		lore.addAll(Variables.getFormattedStrings(machine.getLeverDescription(), player, machine));
 		if (machine.getCooldown() > 0) {
@@ -42,7 +42,7 @@ public abstract class CommonLayout implements InventoryProvider {
 			machine.updateCooldown(player);
 		}
 
-		ItemStack leverItem = new ItemStack(machine.getLeverItem());
+		ItemStack leverItem = new ItemStack(machine.isPlayerRolling(player) ? machine.getLeverItemActivated() : machine.getLeverItem());
 		if (machine.getCooldown() > 0 && machine.isPlayerInCooldown(player)) {
 			leverItem = ItemStackUtil.changeItemStackAmount(leverItem, machine.getPlayerCooldown(player) + 1);
 		}
@@ -58,10 +58,11 @@ public abstract class CommonLayout implements InventoryProvider {
 							if (!Config.goodLuckDefaultString.isEmpty())
 								player.sendMessage(Variables.getFormattedString(Language.translate(Config.goodLuckDefaultString), player, machine));
 							player.playSound(player.getLocation(), machine.getLeverSound(), 1.9f, 1.2f);
-							Bukkit.getScheduler().runTaskLaterAsynchronously(SlotPlugin.pl, new ThreadPullLever(player, machine, contents, callback -> {
+							Bukkit.getScheduler().runTaskLaterAsynchronously(SlotPlugin.pl, new ThreadPullLever(player, machine, contents, conts -> {
 								Bukkit.getScheduler().runTask(SlotPlugin.pl, () -> {
 									machine.setPlayerRolling(player, false);
 									machine.save();
+									contents.set(leverX, leverY, generateLever(player, conts, leverX, leverY));
 								});
 							}), 0);
 							machine.openMachine(player, false);

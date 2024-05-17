@@ -59,17 +59,23 @@ public class SlotMachineLayout extends CommonLayout {
 				ItemPreviewInventory.showPreview(player, machine, 0);
 			}));
 
-		ClickableItem lever = generateLever(player, contents);
+		final int leverX = machine.allowContentPreview() ? 3 : 2;
+		final int leverY = 7;
+
+		ClickableItem lever = generateLever(player, contents, leverX, leverY);
 		if (!machine.playerHasPermission(player))
 			lever = LayoutUtils.leverNoPermission;
-		contents.set(machine.allowContentPreview() ? 3 : 2, 7, lever);
+		contents.set(leverX, leverY, lever);
 	}
 
 	@Override
 	public void update(Player player, InventoryContents contents) {
 		if (update <= 0) {
 			if (machine.getCooldown() > 0) {
-				contents.set(machine.allowContentPreview() ? 3 : 2, 7, generateLever(player, contents));
+				final int leverX = machine.allowContentPreview() ? 3 : 2;
+				final int leverY = 7;
+
+				contents.set(leverX, leverY, generateLever(player, contents, leverX, leverY));
 			}
 			update = 20;
 		} else {

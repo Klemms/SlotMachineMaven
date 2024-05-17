@@ -183,6 +183,7 @@ public abstract class SlotMachine {
 	private ItemStack backgroundItem;
 	private ItemStack emphasisItem;
 	private ItemStack leverItem;
+	private ItemStack leverItemActivated;
 	private ItemStack itemListItem;
 
 	private Sound machineOpeningSound;
@@ -241,6 +242,7 @@ public abstract class SlotMachine {
 		this.backgroundItem = new ItemStack(Material.BLUE_STAINED_GLASS_PANE, 1);
 		this.emphasisItem = new ItemStack(Material.YELLOW_STAINED_GLASS_PANE, 1);
 		this.leverItem = new ItemStack(Material.TRIPWIRE_HOOK, 1);
+		this.leverItemActivated = new ItemStack(Material.TRIPWIRE_HOOK, 1);
 		this.itemListItem = new ItemStack(Material.ENDER_CHEST, 1);
 	}
 
@@ -839,6 +841,14 @@ public abstract class SlotMachine {
 
 	public void setLeverItem(ItemStack leverItem) {
 		this.leverItem = leverItem;
+	}
+
+	public ItemStack getLeverItemActivated() {
+		return leverItemActivated;
+	}
+
+	public void setLeverItemActivated(ItemStack leverItem) {
+		this.leverItemActivated = leverItem;
 	}
 
 	public ItemStack getItemListItem() {

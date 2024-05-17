@@ -4,7 +4,7 @@ import fr.klemms.slotmachine.*;
 import fr.klemms.slotmachine.Issue.IssueType;
 import fr.klemms.slotmachine.exceptioncollector.ExceptionCollector;
 import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryContents;
-import fr.klemms.slotmachine.interraction.InterractionCallback;
+import fr.klemms.slotmachine.interraction.MachinePlayCallback;
 import fr.klemms.slotmachine.placeholders.Variables;
 import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.PlayerUtil;
@@ -26,9 +26,9 @@ public class ThreadPullLever extends Thread {
 	private SlotMachine machine;
 	private Player player;
 	private InventoryContents contents;
-	private InterractionCallback callback;
+	private MachinePlayCallback callback;
 
-	public ThreadPullLever(Player player, SlotMachine machine, InventoryContents contents, InterractionCallback callback) {
+	public ThreadPullLever(Player player, SlotMachine machine, InventoryContents contents, MachinePlayCallback callback) {
 		this.machine = machine;
 		this.player = player;
 		this.contents = contents;
@@ -213,7 +213,7 @@ public class ThreadPullLever extends Thread {
 				player.spigot().sendMessage(finalMessage.create());
 			}
 
-			callback.callback(true);
+			callback.callback(this.contents);
 		} catch(Exception globalException) {
 			globalException.printStackTrace();
 			ExceptionCollector.sendException(SlotPlugin.pl, globalException);

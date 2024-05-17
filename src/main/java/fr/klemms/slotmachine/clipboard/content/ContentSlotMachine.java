@@ -44,6 +44,7 @@ public class ContentSlotMachine extends Content {
 		outputMachine.setBackgroundItem(new ItemStack(inputMachine.getBackgroundItem()));
 		outputMachine.setEmphasisItem(new ItemStack(inputMachine.getEmphasisItem()));
 		outputMachine.setLeverItem(new ItemStack(inputMachine.getLeverItem()));
+		outputMachine.setLeverItemActivated(new ItemStack(inputMachine.getLeverItemActivated()));
 		outputMachine.setItemListItem(new ItemStack(inputMachine.getItemListItem()));
 
 		outputMachine.setMachineOpeningSound(inputMachine.getMachineOpeningSound());

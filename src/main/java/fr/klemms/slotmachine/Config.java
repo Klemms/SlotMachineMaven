@@ -410,6 +410,18 @@ public class Config {
                                     slotMachine.setLeverItem(mat == null ? null : new ItemStack(mat, 1));
                                 }
                             }
+                            if (ymlFile.isSet("leverItemActivated")) {
+                                if (ymlFile.isItemStack("leverItemActivated")) {
+                                    slotMachine.setLeverItemActivated(ymlFile.getItemStack("leverItemActivated"));
+                                } else if (ItemStackUtil.isValidMaterial(ymlFile.getString("leverItemActivated"))) {
+                                    Material mat = Material.getMaterial(ymlFile.getString("leverItemActivated"));
+                                    mat = mat == Material.AIR ? null : mat;
+                                    slotMachine.setLeverItemActivated(mat == null ? null : new ItemStack(mat, 1));
+                                }
+                            } else {
+                                // Fallback to the regular leverItem, this is to help when upgrading existing machines
+                                slotMachine.setLeverItemActivated(new ItemStack(slotMachine.getLeverItem()));
+                            }
                             if (ymlFile.isSet("itemListItem")) {
                                 if (ymlFile.isItemStack("itemListItem")) {
                                     slotMachine.setItemListItem(ymlFile.getItemStack("itemListItem"));
