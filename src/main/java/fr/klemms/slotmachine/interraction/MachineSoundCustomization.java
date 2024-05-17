@@ -42,7 +42,7 @@ public class MachineSoundCustomization {
 								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								MachineSoundlistInventory.openSoundlist(player, machine, 0, (sound) -> {
 									machine.setMachineOpeningSound(sound);
-									player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully changed sound to '" + sound.toString() + "'");
+									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + sound.toString() + "'");
 									player.playSound(player.getLocation(), machine.getMachineOpeningSound(), 1.9f, 1.2f);
 									machine.save();
 								}, 1.9f, 1.2f);
@@ -50,7 +50,7 @@ public class MachineSoundCustomization {
 								ConfirmInventory.confirmWindow(player, "Reset this sound to default ?", "No, cancel", "Yes, reset", (result) -> {
 									if (result) {
 										machine.resetSoundMachineOpening();
-										player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully reset sound");
+										player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully reset sound");
 										machine.save();
 									}
 									customizeSounds(player, machine);
@@ -66,7 +66,7 @@ public class MachineSoundCustomization {
 								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								MachineSoundlistInventory.openSoundlist(player, machine, 0, (sound) -> {
 									machine.setLeverSound(sound);
-									player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully changed sound to '" + sound.toString() + "'");
+									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + sound.toString() + "'");
 									player.playSound(player.getLocation(), machine.getLeverSound(), 1.9f, 1.2f);
 									machine.save();
 								}, 1.9f, 1.2f);
@@ -74,7 +74,7 @@ public class MachineSoundCustomization {
 								ConfirmInventory.confirmWindow(player, "Reset this sound to default ?", "No, cancel", "Yes, reset", (result) -> {
 									if (result) {
 										machine.resetSoundLever();
-										player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully reset sound");
+										player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully reset sound");
 										machine.save();
 									}
 									customizeSounds(player, machine);
@@ -90,7 +90,7 @@ public class MachineSoundCustomization {
 								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								MachineSoundlistInventory.openSoundlist(player, machine, 0, (sound) -> {
 									machine.setWinSound(sound);
-									player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully changed sound to '" + sound.toString() + "'");
+									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + sound.toString() + "'");
 									player.playSound(player.getLocation(), machine.getWinSound(), 1.9f, 0.9f);
 									machine.save();
 								}, 1.9f, 0.9f);
@@ -98,7 +98,7 @@ public class MachineSoundCustomization {
 								ConfirmInventory.confirmWindow(player, "Reset this sound to default ?", "No, cancel", "Yes, reset", (result) -> {
 									if (result) {
 										machine.resetSoundWin();
-										player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully reset sound");
+										player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully reset sound");
 										machine.save();
 									}
 									customizeSounds(player, machine);
@@ -118,7 +118,7 @@ public class MachineSoundCustomization {
 								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								MachineSoundlistInventory.openSoundlist(player, machine, 0, (sound) -> {
 									machine.setErrorSound(sound);
-									player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully changed sound to '" + sound.toString() + "'");
+									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + sound.toString() + "'");
 									player.playSound(player.getLocation(), machine.getErrorSound(), 1.3f, 1f);
 									machine.save();
 								}, 1.3f, 1f);
@@ -126,7 +126,7 @@ public class MachineSoundCustomization {
 								ConfirmInventory.confirmWindow(player, "Reset this sound to default ?", "No, cancel", "Yes, reset", (result) -> {
 									if (result) {
 										machine.resetSoundError();
-										player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully reset sound");
+										player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully reset sound");
 										machine.save();
 									}
 									customizeSounds(player, machine);
@@ -142,7 +142,7 @@ public class MachineSoundCustomization {
 								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								MachineSoundlistInventory.openSoundlist(player, machine, 0, (sound) -> {
 									machine.setLossSound(sound);
-									player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully changed sound to '" + sound.toString() + "'");
+									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + sound.toString() + "'");
 									player.playSound(player.getLocation(), machine.getLossSound(), 0.3f, 0.7f);
 									machine.save();
 								}, 0.3f, 0.7f);
@@ -150,7 +150,7 @@ public class MachineSoundCustomization {
 								ConfirmInventory.confirmWindow(player, "Reset this sound to default ?", "No, cancel", "Yes, reset", (result) -> {
 									if (result) {
 										machine.resetSoundLoss();
-										player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully reset sound");
+										player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully reset sound");
 										machine.save();
 									}
 									customizeSounds(player, machine);
@@ -170,7 +170,7 @@ public class MachineSoundCustomization {
 								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								MachineSoundlistInventory.openSoundlist(player, machine, 0, (sound) -> {
 									machine.setSlotmachineSpinSound(sound);
-									player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully changed sound to '" + sound.toString() + "'");
+									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + sound.toString() + "'");
 									player.playSound(player.getLocation(), machine.getSlotmachineSpinSound(), 0.4f, 0.9f);
 									machine.save();
 								}, 0.4f, 0.9f);
@@ -178,7 +178,7 @@ public class MachineSoundCustomization {
 								ConfirmInventory.confirmWindow(player, "Reset this sound to default ?", "No, cancel", "Yes, reset", (result) -> {
 									if (result) {
 										machine.resetSoundSlotMachineSpin();
-										player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully reset sound");
+										player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully reset sound");
 										machine.save();
 									}
 									customizeSounds(player, machine);
@@ -198,7 +198,7 @@ public class MachineSoundCustomization {
 								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								MachineSoundlistInventory.openSoundlist(player, machine, 0, (sound) -> {
 									machine.setCsgoSpinSound(sound);
-									player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully changed sound to '" + sound.toString() + "'");
+									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + sound.toString() + "'");
 									player.playSound(player.getLocation(), machine.getCsgoSpinSound(), 0.7f, 0.9f);
 									machine.save();
 								}, 0.7f, 0.9f);
@@ -206,7 +206,7 @@ public class MachineSoundCustomization {
 								ConfirmInventory.confirmWindow(player, "Reset this sound to default ?", "No, cancel", "Yes, reset", (result) -> {
 									if (result) {
 										machine.resetSoundCSGOSpin();
-										player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully reset sound");
+										player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully reset sound");
 										machine.save();
 									}
 									customizeSounds(player, machine);
@@ -242,7 +242,7 @@ public class MachineSoundCustomization {
 									if (callback) {
 										player.playSound(player.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1F, 1F);
 										machine.resetSoundCustomization();
-										player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully reset all sounds to default");
+										player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully reset all sounds to default");
 										machine.save();
 									}
 									customizeSounds(player, machine);

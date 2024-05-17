@@ -2,6 +2,7 @@ package fr.klemms.slotmachine.commands;
 
 import fr.klemms.slotmachine.ChatContent;
 import fr.klemms.slotmachine.Config;
+import fr.klemms.slotmachine.SlotPlugin;
 import fr.klemms.slotmachine.tokens.Token;
 import fr.klemms.slotmachine.tokens.TokenSelectionListener;
 import fr.klemms.slotmachine.tokens.TokensInventory;
@@ -31,7 +32,7 @@ public class CommandGiveTokens implements CommandExecutor {
 			} else if(Bukkit.getPlayer(args[0]) != null) {
 				players.add(Bukkit.getPlayer(args[0]));
 			} else {
-				sender.sendMessage(ChatContent.RED + "[Slot Machine] This player does not exist or is not online. Please use <player name> or @a or @r");
+				sender.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + "This player does not exist or is not online. Please use <player name> or @a or @r");
 				return true;
 			}
 			if(players.size() > 0) {
@@ -43,7 +44,7 @@ public class CommandGiveTokens implements CommandExecutor {
 							is = Config.tokens.get(args[2]);
 							player.getInventory().addItem(ItemStackUtil.changeItemStackAmount(new ItemStack(is), amount));
 							player.updateInventory();
-							sender.sendMessage(ChatContent.GREEN + "[Slot Machine] You have successfully given " + amount + " token '" + args[2] + "' to " + player.getName());
+							sender.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "You have successfully given " + amount + " token '" + args[2] + "' to " + player.getName());
 						} else {
 							TokensInventory.showManagementScreen(player, 0, "Pick a Token to give", "Left click to pick this Token", new TokenSelectionListener() {
 
@@ -52,7 +53,7 @@ public class CommandGiveTokens implements CommandExecutor {
 									player.closeInventory();
 									player.getInventory().addItem(ItemStackUtil.changeItemStackAmount(new ItemStack(token.itemStack), amount));
 									player.updateInventory();
-									sender.sendMessage(ChatContent.GREEN + "[Slot Machine] You have successfully given " + amount + " token '" + args[2] + "' to " + player.getName());
+									sender.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "You have successfully given " + amount + " token '" + args[2] + "' to " + player.getName());
 								}
 
 							}, false);

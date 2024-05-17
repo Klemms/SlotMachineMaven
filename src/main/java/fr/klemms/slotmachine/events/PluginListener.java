@@ -29,7 +29,7 @@ public class PluginListener implements Listener {
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		if (event.getPlayer().isOp() && SlotPlugin.supportEnding) {
-			event.getPlayer().sendMessage(ChatContent.AQUA + "[Slot Machine] " + ChatContent.PINK + SlotPlugin.supportMessage);
+			event.getPlayer().sendMessage(ChatContent.AQUA + SlotPlugin.CHAT_PREFIX + ChatContent.PINK + SlotPlugin.supportMessage);
 		}
 	}
 
@@ -56,7 +56,7 @@ public class PluginListener implements Listener {
 
 					MachineMethods.magicWand(event.getPlayer(), event.getRightClicked(), null);
 				} else if(Config.debug) {
-					event.getPlayer().sendMessage(ChatContent.RED + "[Slot Machine] You don't have the required permissions to edit this Slot Machine");
+					event.getPlayer().sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + "You don't have the required permissions to edit this Slot Machine");
 				}
 			}
 			UUID uuid = event.getRightClicked().getUniqueId();
@@ -78,7 +78,7 @@ public class PluginListener implements Listener {
 		if(smb != null && smb.isLocked()) {
 			event.setCancelled(true);
 			if(event.getPlayer().hasPermission("slotmachine.machineedit") || event.getPlayer().hasPermission("slotmachine.shopedit") || event.getPlayer().isOp()) {
-				event.getPlayer().sendMessage(ChatContent.RED + smb.getChatName() + Language.translate("slotmachine.breakblock.cant"));
+				event.getPlayer().sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + Language.translate("slotmachine.breakblock.cant"));
 			}
 		}
 	}
@@ -155,10 +155,10 @@ public class PluginListener implements Listener {
 						slotMachine.save();
 						event.getPlayer().sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("slotmachine.informations.new.spinduration") + " : " + ChatContent.RESET + slotMachine.getSecondsBeforePrize());
 					} else {
-						event.getPlayer().sendMessage(ChatContent.RED + ChatContent.BOLD + "[Slot Machine] Number must be greater than 0");
+						event.getPlayer().sendMessage(ChatContent.RED + ChatContent.BOLD + SlotPlugin.CHAT_PREFIX + "Number must be greater than 0");
 					}
 				} else {
-					event.getPlayer().sendMessage(ChatContent.RED + ChatContent.BOLD + "[Slot Machine] " + Language.translate("error.notvalidinteger"));
+					event.getPlayer().sendMessage(ChatContent.RED + ChatContent.BOLD + SlotPlugin.CHAT_PREFIX + Language.translate("error.notvalidinteger"));
 				}
 			}
 		}
@@ -173,10 +173,10 @@ public class PluginListener implements Listener {
 						slotMachine.save();
 						event.getPlayer().sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("slotmachine.informations.new.chancetowin") + " : " + ChatContent.RESET + (int)(slotMachine.getChanceToWin() * 100) + "%");
 					} else {
-						event.getPlayer().sendMessage(ChatContent.RED + ChatContent.BOLD + "[Slot Machine] Number must be between 0 and 100 (included)");
+						event.getPlayer().sendMessage(ChatContent.RED + ChatContent.BOLD + SlotPlugin.CHAT_PREFIX + "Number must be between 0 and 100 (included)");
 					}
 				} else {
-					event.getPlayer().sendMessage(ChatContent.RED + ChatContent.BOLD + "[Slot Machine] " + Language.translate("error.notvaliddecimal"));
+					event.getPlayer().sendMessage(ChatContent.RED + ChatContent.BOLD + SlotPlugin.CHAT_PREFIX + Language.translate("error.notvaliddecimal"));
 				}
 			}
 		}
@@ -211,7 +211,7 @@ public class PluginListener implements Listener {
 					slotMachine.save();
 					event.getPlayer().sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("slotmachine.informations.new.price") + " : " + ChatContent.RESET + Util.formatNumber(slotMachine.getPullPrice()));
 				} else {
-					event.getPlayer().sendMessage(ChatContent.RED + ChatContent.BOLD + "[Slot Machine] " + Language.translate("error.notvaliddecimal"));
+					event.getPlayer().sendMessage(ChatContent.RED + ChatContent.BOLD + SlotPlugin.CHAT_PREFIX + Language.translate("error.notvaliddecimal"));
 				}
 			}
 		}
@@ -223,9 +223,9 @@ public class PluginListener implements Listener {
 				if(NumberUtils.isCreatable(event.getMessage())) {
 					slotMachine.setCooldown(NumberUtils.createInteger(event.getMessage().replace("\"", "")));
 					slotMachine.save();
-					event.getPlayer().sendMessage(ChatContent.GREEN + "[Slot Machine] New machine's cooldown : " + slotMachine.getCooldown() + "s");
+					event.getPlayer().sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "New machine's cooldown : " + slotMachine.getCooldown() + "s");
 				} else {
-					event.getPlayer().sendMessage(ChatContent.RED + "[Slot Machine] " + Language.translate("error.notvalidinteger"));
+					event.getPlayer().sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + Language.translate("error.notvalidinteger"));
 				}
 			}
 		}
@@ -292,7 +292,7 @@ public class PluginListener implements Listener {
 
 					MachineMethods.magicWand(event.getPlayer(), null, event.getClickedBlock());
 				} else if(Config.debug) {
-					event.getPlayer().sendMessage(ChatContent.RED + "[Slot Machine] You don't have the required permissions to edit this Slot Machine");
+					event.getPlayer().sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + "You don't have the required permissions to edit this Slot Machine");
 				}
 			}
 			SlotMachineBlock machine = SlotMachineBlockLink.getAllSlotMachineByBlock(event.getClickedBlock());

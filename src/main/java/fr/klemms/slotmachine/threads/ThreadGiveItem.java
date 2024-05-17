@@ -27,7 +27,7 @@ public class ThreadGiveItem extends Thread {
 				player.getInventory().addItem(this.is);
 				player.updateInventory();
 			} else {
-				player.sendMessage(ChatContent.RED + "[Slot Machine] " + ChatContent.translateColorCodes(Language.translate("slotmachine.giveitem.noroom")));
+				player.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + ChatContent.translateColorCodes(Language.translate("slotmachine.giveitem.noroom")));
 				Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, this, 10 * 20);
 			}
 		}

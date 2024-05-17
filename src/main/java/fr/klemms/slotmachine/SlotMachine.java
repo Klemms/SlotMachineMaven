@@ -450,7 +450,7 @@ public abstract class SlotMachine {
 			}
 		}
 
-		MachineItem machineItem = new MachineItem(ItemStackUtil.changeItemStackName(new ItemStack(Material.NETHER_STAR, 1), ChatContent.RED + ChatContent.ITALIC + "[Slot Machine] No item available to create an item pool."), 1);
+		MachineItem machineItem = new MachineItem(ItemStackUtil.changeItemStackName(new ItemStack(Material.NETHER_STAR, 1), ChatContent.RED + ChatContent.ITALIC + SlotPlugin.CHAT_PREFIX + "No item available to create an item pool."), 1);
 		return machineItem;
 	}
 

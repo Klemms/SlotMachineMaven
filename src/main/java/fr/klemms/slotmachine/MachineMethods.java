@@ -51,19 +51,19 @@ public class MachineMethods {
 
 		if(machine.getSlotMachineItems().size() > 0) {
 			if(machine.getPriceType() == PriceType.GAMEPOINTS && !SlotPlugin.isGamePointsEnabled) {
-				player.sendMessage(ChatContent.RED + "[Slot Machine] " + Language.translate("slotmachine.access.missinggamepoints"));
+				player.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + Language.translate("slotmachine.access.missinggamepoints"));
 				return;
 			}
 			if(machine.getPriceType() == PriceType.TOKENMANAGER && !SlotPlugin.oldTokenManagerWorks && SlotPlugin.tokenManager == null) {
-				player.sendMessage(ChatContent.RED + "[Slot Machine] " + Language.translate("slotmachine.access.missingtokenmanager"));
+				player.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + Language.translate("slotmachine.access.missingtokenmanager"));
 				return;
 			}
 			if(machine.getPriceType() == PriceType.VOTINGPLUGIN && SlotPlugin.votingPlugin == null) {
-				player.sendMessage(ChatContent.RED + "[Slot Machine] " + Language.translate("slotmachine.access.missingvotingplugin"));
+				player.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + Language.translate("slotmachine.access.missingvotingplugin"));
 				return;
 			}
 			if(machine.getPriceType() == PriceType.MONEY && SlotPlugin.econ == null) {
-				player.sendMessage(ChatContent.RED + "[Slot Machine] " + Language.translate("slotmachine.access.missingvault"));
+				player.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + Language.translate("slotmachine.access.missingvault"));
 				return;
 			}
 
@@ -71,7 +71,7 @@ public class MachineMethods {
 			machine.openMachine(player, true);
 			player.playSound(player.getLocation(), machine.getMachineOpeningSound(), 1.9f, 1.2f);
 		} else {
-			player.sendMessage(ChatContent.RED + "[Slot Machine] " + Language.translate("slotmachine.access.notsetup"));
+			player.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + Language.translate("slotmachine.access.notsetup"));
 		}
 	}
 
@@ -121,17 +121,17 @@ public class MachineMethods {
 			SlotMachineEntityLink slotMachineEntityLink = new SlotMachineEntityLink(linkTo.getMachineUUID(), entity.getUniqueId());
 			slotMachineEntityLink.setCitizensNPC(isCitizensNPC);
 			SlotMachineEntityLink.addSlotMachineEntity(slotMachineEntityLink);
-			player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("slotmachine.created").replace("%entityUUID%", uuid.toString()));
+			player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("slotmachine.created").replace("%entityUUID%", uuid.toString()));
 
 			if(SlotPlugin.econ == null) {
-				player.sendMessage(ChatContent.BOLD + ChatContent.AQUA + "[Slot Machine] " + Language.translate("slotmachine.tokensfallback"));
+				player.sendMessage(ChatContent.BOLD + ChatContent.AQUA + SlotPlugin.CHAT_PREFIX + Language.translate("slotmachine.tokensfallback"));
 			}
 
 			SlotPlugin.pl.getLogger().log(Level.INFO, "New SlotMachine (Entity)" + (isCitizensNPC ? " (Citizens NPC)" : "") + " (Created by : " + player.getName() + ") : '" + entity.getType().toString() + "' with UUID '" + uuid.toString() + "' in world '" + entity.getWorld().getName() + "' at '" + entity.getLocation().getX() + " " + entity.getLocation().getY() + " " + entity.getLocation().getZ() + "'");
 			slotMachineEntityLink.save();
 			return slotMachineEntityLink;
 		} else {
-			player.sendMessage(ChatContent.RED + ChatContent.BOLD + "[Slot Machine] " + Language.translate("slotmachine.alreadyslotmachine"));
+			player.sendMessage(ChatContent.RED + ChatContent.BOLD + SlotPlugin.CHAT_PREFIX + Language.translate("slotmachine.alreadyslotmachine"));
 			return SlotMachineEntityLink.getAllSlotMachineByEntityUUID(entity.getUniqueId());
 		}
 	}
@@ -153,10 +153,10 @@ public class MachineMethods {
 			SlotMachineEntity slotMachineEntity = new SlotMachineEntity(uuid);
 			slotMachineEntity.setCitizensNPC(isCitizensNPC);
 			SlotMachineEntity.addSlotMachineEntity(slotMachineEntity);
-			player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("slotmachine.created").replace("%entityUUID%", uuid.toString()));
+			player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("slotmachine.created").replace("%entityUUID%", uuid.toString()));
 
 			if(SlotPlugin.econ == null) {
-				player.sendMessage(ChatContent.BOLD + ChatContent.AQUA + "[Slot Machine] " + Language.translate("slotmachine.tokensfallback"));
+				player.sendMessage(ChatContent.BOLD + ChatContent.AQUA + SlotPlugin.CHAT_PREFIX + Language.translate("slotmachine.tokensfallback"));
 			}
 
 
@@ -164,7 +164,7 @@ public class MachineMethods {
 			slotMachineEntity.save();
 			return slotMachineEntity;
 		} else {
-			player.sendMessage(ChatContent.RED + ChatContent.BOLD + "[Slot Machine] " + Language.translate("slotmachine.alreadyslotmachine"));
+			player.sendMessage(ChatContent.RED + ChatContent.BOLD + SlotPlugin.CHAT_PREFIX + Language.translate("slotmachine.alreadyslotmachine"));
 			return SlotMachineEntity.getSlotMachineByEntityUUID(uuid);
 		}
 	}
@@ -173,17 +173,17 @@ public class MachineMethods {
 		if(SlotMachineBlockLink.getAllSlotMachineByBlock(block) == null) {
 			SlotMachineBlockLink slotMachineBlockLink = new SlotMachineBlockLink(linkTo.getMachineUUID(), block.getX(), block.getY(), block.getZ(), true, block.getWorld().getUID());
 			SlotMachineBlockLink.addSlotMachineBlock(slotMachineBlockLink);
-			player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("slotmachine.created.block").replace("%location%", block.getX() + "," + block.getY() + "," + block.getZ()));
+			player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("slotmachine.created.block").replace("%location%", block.getX() + "," + block.getY() + "," + block.getZ()));
 
 			if(SlotPlugin.econ == null) {
-				player.sendMessage(ChatContent.BOLD + ChatContent.AQUA + "[Slot Machine] " + Language.translate("slotmachine.tokensfallback"));
+				player.sendMessage(ChatContent.BOLD + ChatContent.AQUA + SlotPlugin.CHAT_PREFIX + Language.translate("slotmachine.tokensfallback"));
 			}
 
 			SlotPlugin.pl.getLogger().log(Level.INFO, "New SlotMachine (Block) (Created by : " + player.getName() + ") : '" + block.getType().toString() + "' in world '" + block.getWorld().getName() + "' at '" + block.getLocation().getX() + " " + block.getLocation().getY() + " " + block.getLocation().getZ() + "'");
 			slotMachineBlockLink.save();
 			return slotMachineBlockLink;
 		} else {
-			player.sendMessage(ChatContent.RED + ChatContent.BOLD + "[Slot Machine] " + Language.translate("slotmachine.alreadyslotmachine"));
+			player.sendMessage(ChatContent.RED + ChatContent.BOLD + SlotPlugin.CHAT_PREFIX + Language.translate("slotmachine.alreadyslotmachine"));
 			return SlotMachineBlockLink.getAllSlotMachineByBlock(block);
 		}
 	}
@@ -192,17 +192,17 @@ public class MachineMethods {
 		if(SlotMachineBlock.getSlotMachineByBlock(block) == null) {
 			SlotMachineBlock slotMachineBlock = new SlotMachineBlock(block.getX(), block.getY(), block.getZ(), true, block.getWorld().getUID());
 			SlotMachineBlock.addSlotMachineBlock(slotMachineBlock);
-			player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("slotmachine.created.block").replace("%location%", block.getX() + "," + block.getY() + "," + block.getZ()));
+			player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("slotmachine.created.block").replace("%location%", block.getX() + "," + block.getY() + "," + block.getZ()));
 
 			if(SlotPlugin.econ == null) {
-				player.sendMessage(ChatContent.BOLD + ChatContent.AQUA + "[Slot Machine] " + Language.translate("slotmachine.tokensfallback"));
+				player.sendMessage(ChatContent.BOLD + ChatContent.AQUA + SlotPlugin.CHAT_PREFIX + Language.translate("slotmachine.tokensfallback"));
 			}
 
 			SlotPlugin.pl.getLogger().log(Level.INFO, "New SlotMachine (Block) (Created by : " + player.getName() + ") : '" + block.getType().toString() + "' in world '" + block.getWorld().getName() + "' at '" + block.getLocation().getX() + " " + block.getLocation().getY() + " " + block.getLocation().getZ() + "'");
 			slotMachineBlock.save();
 			return slotMachineBlock;
 		} else {
-			player.sendMessage(ChatContent.RED + ChatContent.BOLD + "[Slot Machine] " + Language.translate("slotmachine.alreadyslotmachine"));
+			player.sendMessage(ChatContent.RED + ChatContent.BOLD + SlotPlugin.CHAT_PREFIX + Language.translate("slotmachine.alreadyslotmachine"));
 			return SlotMachineBlock.getSlotMachineByBlock(block);
 		}
 	}
@@ -211,7 +211,7 @@ public class MachineMethods {
 		if(SlotMachine.getSlotMachineByUUID(machineUUID) != null) {
 			SlotMachine slotMachine = SlotMachine.getSlotMachineByUUID(machineUUID);
 			SlotMachine.removeSlotMachine(slotMachine);
-			player.sendMessage(ChatContent.GREEN + "[Slot Machine] " + Language.translate("slotmachine.removed"));
+			player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("slotmachine.removed"));
 			SlotPlugin.pl.getLogger().log(Level.INFO, Language.translate("slotmachine.removed.logs"));
 			try {
 				Files.deleteIfExists(SlotPlugin.pl.getDataFolder().toPath().resolve("machines").resolve(slotMachine.getMachineUUID().toString() + ".yml"));
@@ -222,7 +222,7 @@ public class MachineMethods {
 			}
 			slotMachine.save();
 		} else {
-			player.sendMessage(ChatContent.RED + ChatContent.BOLD + "[Slot Machine] " + Language.translate("slotmachine.notslotmachine"));
+			player.sendMessage(ChatContent.RED + ChatContent.BOLD + SlotPlugin.CHAT_PREFIX + Language.translate("slotmachine.notslotmachine"));
 		}
 	}
 

@@ -71,7 +71,7 @@ public class MachineItemsInterractionInventory {
 								if (event.isRightClick()) {
 									player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 									if (player.getInventory().firstEmpty() < 0)
-										player.sendMessage(ChatContent.RED + "[Slot Machine] You need a free slot in your inventory");
+										player.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + "You need a free slot in your inventory");
 									else {
 										player.getInventory().addItem(new ItemStack(item.getItemStack()));
 										machine.removeItem(item);

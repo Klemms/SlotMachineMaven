@@ -71,7 +71,7 @@ public class LayoutUtils {
                         return false;
                     }
                 } else {
-                    player.sendMessage(ChatContent.RED + machine.getChatName() + Language.translate("slotmachine.access.missingvotingplugin"));
+                    player.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + Language.translate("slotmachine.access.missingvotingplugin"));
                     player.playSound(player.getLocation(), machine.getErrorSound(), 1.3f, 1f);
                     return false;
                 }
@@ -89,7 +89,7 @@ public class LayoutUtils {
                         return false;
                     }
                 } else {
-                    player.sendMessage(ChatContent.RED + machine.getChatName() + Language.translate("slotmachine.access.missinggamepoints"));
+                    player.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + Language.translate("slotmachine.access.missinggamepoints"));
                     player.playSound(player.getLocation(), machine.getErrorSound(), 1.3f, 1f);
                     return false;
                 }
@@ -107,7 +107,7 @@ public class LayoutUtils {
                         return false;
                     }
                 } else {
-                    player.sendMessage(ChatContent.RED + machine.getChatName() + Language.translate("slotmachine.access.missingplayerpoints"));
+                    player.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + Language.translate("slotmachine.access.missingplayerpoints"));
                     player.playSound(player.getLocation(), machine.getErrorSound(), 1.3f, 1f);
                     return false;
                 }
@@ -140,7 +140,7 @@ public class LayoutUtils {
                         return false;
                     }
                 } else {
-                    player.sendMessage(ChatContent.RED + "[Slot Machine] " + Language.translate("slotmachine.access.missingtokenmanager"));
+                    player.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + Language.translate("slotmachine.access.missingtokenmanager"));
                     player.playSound(player.getLocation(), machine.getErrorSound(), 1.3f, 1f);
                     return false;
                 }

@@ -58,7 +58,7 @@ public class PlayModePick {
 							items.add(ClickableItem.of(is, event -> {
 								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								machine.setPlayMode(mode);
-								player.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully changed play mode to : " + mode.title);
+								player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed play mode to : " + mode.title);
 								machine.save();
 
 								if (machine instanceof SlotMachineEntity)

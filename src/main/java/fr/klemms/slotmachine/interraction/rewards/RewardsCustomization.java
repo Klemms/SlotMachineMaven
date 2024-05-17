@@ -136,7 +136,7 @@ public class RewardsCustomization {
 							), ChatContent.GOLD + "Reward"), event -> {
 								if (event.isRightClick()) {
 									if (item.getRewards().size() == 1) {
-										player.sendMessage(ChatContent.RED + "[Slot Machine] You can't remove the last reward of an item");
+										player.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + "You can't remove the last reward of an item");
 										player.closeInventory();
 										return;
 									}
@@ -171,7 +171,7 @@ public class RewardsCustomization {
 							), reward.rewardType == MachineItem.RewardType.COMMAND ? ChatContent.GOLD + "Command" : null), event -> {
 								if (event.isRightClick()) {
 									if (item.getRewards().size() == 1) {
-										player.sendMessage(ChatContent.RED + "[Slot Machine] You can't remove the last reward of an item");
+										player.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + "You can't remove the last reward of an item");
 										player.closeInventory();
 										return;
 									}

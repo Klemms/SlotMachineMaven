@@ -2,6 +2,7 @@ package fr.klemms.slotmachine.clipboard;
 
 import fr.klemms.slotmachine.ChatContent;
 import fr.klemms.slotmachine.SlotMachine;
+import fr.klemms.slotmachine.SlotPlugin;
 import fr.klemms.slotmachine.fr.minuskube.inv.ClickableItem;
 import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryContents;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
@@ -59,7 +60,7 @@ public class Clipboards {
 			content.set(copyRow, copyColumn, ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.COPY), ChatContent.GOLD + "Copy '" + cpp.gives().contentTitle + "' to Clipboard"), copyLore), event -> {
 				cb.cbContent = cpp.gives();
 				cb.cbMachine = cpp.copy();
-				pl.sendMessage(ChatContent.AQUA + "[Slot Machine] Copied '" + cpp.gives().contentTitle + "' to Clipboard");
+				pl.sendMessage(ChatContent.AQUA + SlotPlugin.CHAT_PREFIX + "Copied '" + cpp.gives().contentTitle + "' to Clipboard");
 				pl.playSound(pl.getLocation(), Sound.ENTITY_CHICKEN_EGG, 1f, 1f);
 				cpp.reloadUI(false);
 			}));
@@ -85,7 +86,7 @@ public class Clipboards {
 						outputMachine = callback.beforePaste(inputMachine, outputMachine);
 
 					ppp.accepts().contentCopier.copyContent(pl, inputMachine, outputMachine);
-					pl.sendMessage(ChatContent.AQUA + "[Slot Machine] Successfully pasted to '" + ppp.accepts().contentTitle + "'");
+					pl.sendMessage(ChatContent.AQUA + SlotPlugin.CHAT_PREFIX + "Successfully pasted to '" + ppp.accepts().contentTitle + "'");
 					pl.playSound(pl.getLocation(), Sound.ENTITY_VILLAGER_CELEBRATE, 1f, 1f);
 					ppp.reloadUI(true);
 

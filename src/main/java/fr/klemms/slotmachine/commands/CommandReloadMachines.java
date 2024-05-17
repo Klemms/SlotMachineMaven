@@ -12,13 +12,13 @@ public class CommandReloadMachines implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		sender.sendMessage(ChatContent.PINK + "[Slot Machine] Please make sure no one is currently using machines...");
-		sender.sendMessage(ChatContent.PINK + "[Slot Machine] It is recommended to run /smsavetodisk before making changes to files");
+		sender.sendMessage(ChatContent.PINK + SlotPlugin.CHAT_PREFIX + "Please make sure no one is currently using machines...");
+		sender.sendMessage(ChatContent.PINK + SlotPlugin.CHAT_PREFIX + "It is recommended to run /smsavetodisk before making changes to files");
 		SlotMachine.slotMachines.clear();
 		Config.loadMachines(SlotPlugin.pl);
 		Config.tokens.clear();
 		SlotPlugin.readTokens();
-		sender.sendMessage(ChatContent.GREEN + "[Slot Machine] Machines and tokens reloaded");
+		sender.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Machines and tokens reloaded");
 
 		return true;
 	}

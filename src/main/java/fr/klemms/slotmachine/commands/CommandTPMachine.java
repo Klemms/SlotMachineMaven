@@ -3,6 +3,7 @@ package fr.klemms.slotmachine.commands;
 import fr.klemms.slotmachine.ChatContent;
 import fr.klemms.slotmachine.SlotMachineEntity;
 import fr.klemms.slotmachine.SlotMachineEntityLink;
+import fr.klemms.slotmachine.SlotPlugin;
 import fr.klemms.slotmachine.translation.Language;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -21,13 +22,13 @@ public class CommandTPMachine implements CommandExecutor {
 				if(slotMachine.getEntity() != null) {
 					slotMachine.getEntity().teleport(((Player)sender).getLocation());
 					slotMachine.save();
-					sender.sendMessage(ChatContent.RED + "[Slot Machine] " + Language.translate("command.tpmachine.successful"));
+					sender.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + Language.translate("command.tpmachine.successful"));
 					return true;
 				}
-				sender.sendMessage(ChatContent.RED + "[Slot Machine] " + Language.translate("command.tpmachine.cantfindentity"));
+				sender.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + Language.translate("command.tpmachine.cantfindentity"));
 				return false;
 			}
-			sender.sendMessage(ChatContent.RED + "[Slot Machine] " + Language.translate("command.tpmachine.cantfindmachine"));
+			sender.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + Language.translate("command.tpmachine.cantfindmachine"));
 			return false;
 		}
 		return false;

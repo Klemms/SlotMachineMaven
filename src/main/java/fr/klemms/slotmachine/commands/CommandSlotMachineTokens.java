@@ -22,7 +22,7 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 
 public class CommandSlotMachineTokens implements CommandExecutor {
-	
+
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (sender instanceof Player) {
@@ -36,17 +36,17 @@ public class CommandSlotMachineTokens implements CommandExecutor {
 								if (!token.identifier.equals("default")) {
 									ConfirmInventory.confirmWindow(player, "Delete this token ? (" + ChatContent.ITALIC + token.identifier + ChatContent.RESET + ")", "No, cancel", "Yes, delete '" + token.identifier + "'", (boolean result) -> {
 										if (result) {
-											player.sendMessage(ChatContent.AQUA + "[Slot Machine] Token " + token.identifier + " has been removed");
+											player.sendMessage(ChatContent.AQUA + SlotPlugin.CHAT_PREFIX + "Token " + token.identifier + " has been removed");
 											Config.tokens.remove(token.identifier);
 											SlotPlugin.writeTokens();
 										}
 									}, true);
 								} else {
-									player.sendMessage(ChatContent.AQUA + "[Slot Machine] You can't delete your default token. To replace it add a token with the name 'default'");
+									player.sendMessage(ChatContent.AQUA + SlotPlugin.CHAT_PREFIX + "You can't delete your default token. To replace it add a token with the name 'default'");
 								}
 							}
 						};
-						
+
 						TokensInventory.showManagementScreen(player, 0, "Tokens Manager", "Left click to remove this token", listToken, true);
 						return true;
 					case "add":
@@ -55,8 +55,8 @@ public class CommandSlotMachineTokens implements CommandExecutor {
 							if (is != null && is.getType() != Material.AIR) {
 								Config.tokens.put(args[1].toLowerCase(), ItemStackUtil.changeItemStackAmount(new ItemStack(player.getInventory().getItemInMainHand()), 1));
 								SlotPlugin.writeTokens();
-								
-								BaseComponent[] successMessage = new ComponentBuilder("[Slot Machine] Token '" + args[1].toLowerCase() + "' has been added ")
+
+								BaseComponent[] successMessage = new ComponentBuilder(SlotPlugin.CHAT_PREFIX + "Token '" + args[1].toLowerCase() + "' has been added ")
 								.color(ChatColor.GREEN)
 								.append(new ComponentBuilder("[Open Token List]")
 										.color(ChatColor.AQUA)
@@ -64,13 +64,13 @@ public class CommandSlotMachineTokens implements CommandExecutor {
 										.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/slotmachinetoken list"))
 										.create())
 								.create();
-								
+
 								player.spigot().sendMessage(successMessage);
 							} else
-								player.sendMessage(ChatContent.AQUA + "[Slot Machine] Have an item in your main hand before executing this command");
+								player.sendMessage(ChatContent.AQUA + SlotPlugin.CHAT_PREFIX + "Have an item in your main hand before executing this command");
 							return true;
 						}
-						player.sendMessage(ChatContent.RED + "[Slot Machine] Please add an identifier for this Token");
+						player.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + "Please add an identifier for this Token");
 						return false;
 					default:
 						return false;
@@ -78,7 +78,7 @@ public class CommandSlotMachineTokens implements CommandExecutor {
 			}
 			return false;
 		}
-		sender.sendMessage(ChatContent.RED + "[Slot Machine] You must be a player");
+		sender.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + "You must be a player");
 		return false;
 	}
 }

@@ -40,6 +40,8 @@ public class SlotPlugin extends JavaPlugin {
 	public static final String MC_FOR = "Spigot 1.16/1.17/1.18/1.19/1.20";
 	public static final ItemStack DEFAULT_TOKEN = ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.GOLD_NUGGET, 1), ChatContent.GOLD + "Token"), Collections.singletonList(ChatContent.AQUA + ChatContent.ITALIC + "Default Slot Machine Token"));
 
+	public static final String CHAT_PREFIX = "[Slot Machine] ";
+
 	public static volatile SlotPlugin pl;
 	public static Economy econ = null;
 	public static VotingPluginHooks votingPlugin = null;
@@ -243,7 +245,7 @@ public class SlotPlugin extends JavaPlugin {
 				boolean remove = false;
 				for (Player player : Bukkit.getOnlinePlayers()) {
 					if (player.isOp()) {
-						player.sendMessage(ChatContent.DARK_RED + ChatContent.BOLD + "[Slot Machine] " + ChatContent.RED
+						player.sendMessage(ChatContent.DARK_RED + ChatContent.BOLD + SlotPlugin.CHAT_PREFIX + ChatContent.RED
 								+ (issue.amount > 1 ? ChatContent.ITALIC + "(" + issue.amount + "x) " + ChatContent.RED : "") + issue.getLocalizedTitle());
 						player.sendMessage(ChatContent.DARK_RED + ChatContent.BOLD + " - " + ChatContent.RED + issue.description);
 						remove = true;
@@ -298,7 +300,7 @@ public class SlotPlugin extends JavaPlugin {
 				List<ItemStack> items = playerRewardsQueue.get(uuid);
 
 				if (player.getInventory().firstEmpty() < 0) {
-					player.sendMessage(ChatContent.YELLOW + "[Slot Machine] " + ChatContent.translateColorCodes(Language.translate("slotmachine.rewards.waiting").replace("%amount%", String.valueOf(items.size()))));
+					player.sendMessage(ChatContent.YELLOW + SlotPlugin.CHAT_PREFIX + ChatContent.translateColorCodes(Language.translate("slotmachine.rewards.waiting").replace("%amount%", String.valueOf(items.size()))));
 					continue;
 				}
 

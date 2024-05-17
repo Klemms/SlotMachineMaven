@@ -29,7 +29,7 @@ public class CommandOpenMachine implements CommandExecutor {
 			try {
 				machineUUID = UUID.fromString(args[1]);
 			} catch(IllegalArgumentException e) {
-				sender.sendMessage(ChatContent.RED + "[Slot Machine] Invalid Slot Machine UUID");
+				sender.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + "Invalid Slot Machine UUID");
 				return false;
 			}
 			SlotMachine slotMachine = SlotMachine.getSlotMachineByUUID(machineUUID);
@@ -38,31 +38,31 @@ public class CommandOpenMachine implements CommandExecutor {
 					if(slotMachine.playerHasPermission(player) || overridePermission) {
 						if(slotMachine.getSlotMachineItems().size() > 0) {
 							if(slotMachine.getPriceType() == PriceType.GAMEPOINTS && !SlotPlugin.isGamePointsEnabled) {
-								sender.sendMessage(ChatContent.RED + "[Slot Machine] " + Language.translate("slotmachine.access.missinggamepoints"));
+								sender.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + Language.translate("slotmachine.access.missinggamepoints"));
 							} else if(slotMachine.getPriceType() == PriceType.MONEY && SlotPlugin.econ == null) {
-								sender.sendMessage(ChatContent.RED + "[Slot Machine] " + Language.translate("slotmachine.access.missingvault"));
+								sender.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + Language.translate("slotmachine.access.missingvault"));
 							} else {
 								player.closeInventory();
 								slotMachine.openMachine(player, true);
 								player.playSound(player.getLocation(), slotMachine.getMachineOpeningSound(), 1.9f, 1.2f);
-								sender.sendMessage(ChatContent.GREEN + "[Slot Machine] Successfully opened machine for " + player.getName());
+								sender.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully opened machine for " + player.getName());
 							}
 						} else {
-							sender.sendMessage(ChatContent.RED + "[Slot Machine] " + Language.translate("command.openmachine.noitems"));
+							sender.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + Language.translate("command.openmachine.noitems"));
 						}
 					} else {
-						sender.sendMessage(ChatContent.RED + "[Slot Machine] " + Language.translate("command.openmachine.nopermissionandhelp"));
-						player.sendMessage(ChatContent.RED + "[Slot Machine] " + Language.translate("permission.denied"));
+						sender.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + Language.translate("command.openmachine.nopermissionandhelp"));
+						player.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + Language.translate("permission.denied"));
 					}
 					return true;
 				}
-				sender.sendMessage(ChatContent.RED + "[Slot Machine] Slot Machine not detected");
+				sender.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + "Slot Machine not detected");
 				return true;
 			}
-			sender.sendMessage(ChatContent.RED + "[Slot Machine] Player not detected");
+			sender.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + "Player not detected");
 			return true;
 		}
-		sender.sendMessage(ChatContent.RED + "[Slot Machine] Not enough arguments");
+		sender.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + "Not enough arguments");
 		return false;
 	}
 }

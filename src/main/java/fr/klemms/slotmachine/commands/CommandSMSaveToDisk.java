@@ -7,13 +7,13 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 public class CommandSMSaveToDisk implements CommandExecutor {
-	
+
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		sender.sendMessage("[Slot Machine] " + Language.translate("command.smsavetodisk.saving"));
+		sender.sendMessage(SlotPlugin.CHAT_PREFIX + Language.translate("command.smsavetodisk.saving"));
 		SlotPlugin.saveCooldownsToDisk();
 		SlotPlugin.saveMachinesToDisk(true);
-		sender.sendMessage("[Slot Machine] " + Language.translate("command.smsavetodisk.saved"));
+		sender.sendMessage(SlotPlugin.CHAT_PREFIX + Language.translate("command.smsavetodisk.saved"));
 
 		return true;
 	}
