@@ -69,7 +69,7 @@ public class MachineMethods {
 
 			player.closeInventory();
 			machine.openMachine(player, true);
-			player.playSound(player.getLocation(), machine.getMachineOpeningSound(), 1.9f, 1.2f);
+			player.playSound(player.getLocation(), machine.getMachineOpeningSound().getKey(), 1.9f, 1.2f);
 		} else {
 			player.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + Language.translate("slotmachine.access.notsetup"));
 		}

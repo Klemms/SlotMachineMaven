@@ -9,6 +9,7 @@ import fr.klemms.slotmachine.layouts.SlotMachineLayout;
 import fr.klemms.slotmachine.tokens.Token;
 import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
+import fr.klemms.slotmachine.utils.sounds.SSound;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -186,13 +187,13 @@ public abstract class SlotMachine {
 	private ItemStack leverItemActivated;
 	private ItemStack itemListItem;
 
-	private Sound machineOpeningSound;
-	private Sound leverSound;
-	private Sound slotmachineSpinSound;
-	private Sound errorSound;
-	private Sound csgoSpinSound;
-	private Sound winSound;
-	private Sound lossSound;
+	private SSound machineOpeningSound;
+	private SSound leverSound;
+	private SSound slotmachineSpinSound;
+	private SSound errorSound;
+	private SSound csgoSpinSound;
+	private SSound winSound;
+	private SSound lossSound;
 
 	private String lastFileName;
 
@@ -247,41 +248,41 @@ public abstract class SlotMachine {
 	}
 
 	public void resetSoundCustomization() {
-		this.machineOpeningSound = Sound.ENTITY_EXPERIENCE_ORB_PICKUP;
-		this.leverSound = Sound.BLOCK_LAVA_POP;
-		this.slotmachineSpinSound = Sound.ENTITY_EXPERIENCE_ORB_PICKUP;
-		this.errorSound = Sound.ENTITY_VILLAGER_NO;
-		this.csgoSpinSound = Sound.ENTITY_HORSE_STEP_WOOD;
-		this.winSound = Sound.ENTITY_PLAYER_LEVELUP;
-		this.lossSound = Sound.BLOCK_ANVIL_LAND;
+		this.machineOpeningSound = new SSound(Sound.ENTITY_EXPERIENCE_ORB_PICKUP);
+		this.leverSound = new SSound(Sound.BLOCK_LAVA_POP);
+		this.slotmachineSpinSound = new SSound(Sound.ENTITY_EXPERIENCE_ORB_PICKUP);
+		this.errorSound = new SSound(Sound.ENTITY_VILLAGER_NO);
+		this.csgoSpinSound = new SSound(Sound.ENTITY_HORSE_STEP_WOOD);
+		this.winSound = new SSound(Sound.ENTITY_PLAYER_LEVELUP);
+		this.lossSound = new SSound(Sound.BLOCK_ANVIL_LAND);
 	}
 
 	public void resetSoundMachineOpening() {
-		this.machineOpeningSound = Sound.ENTITY_EXPERIENCE_ORB_PICKUP;
+		this.machineOpeningSound = new SSound(Sound.ENTITY_EXPERIENCE_ORB_PICKUP);
 	}
 
 	public void resetSoundLever() {
-		this.machineOpeningSound = Sound.BLOCK_LAVA_POP;
+		this.leverSound = new SSound(Sound.BLOCK_LAVA_POP);
 	}
 
 	public void resetSoundSlotMachineSpin() {
-		this.machineOpeningSound = Sound.ENTITY_EXPERIENCE_ORB_PICKUP;
+		this.slotmachineSpinSound = new SSound(Sound.ENTITY_EXPERIENCE_ORB_PICKUP);
 	}
 
 	public void resetSoundCSGOSpin() {
-		this.machineOpeningSound = Sound.ENTITY_HORSE_STEP_WOOD;
+		this.csgoSpinSound = new SSound(Sound.ENTITY_HORSE_STEP_WOOD);
 	}
 
 	public void resetSoundWin() {
-		this.machineOpeningSound = Sound.ENTITY_PLAYER_LEVELUP;
+		this.winSound = new SSound(Sound.ENTITY_PLAYER_LEVELUP);
 	}
 
 	public void resetSoundLoss() {
-		this.machineOpeningSound = Sound.BLOCK_ANVIL_LAND;
+		this.lossSound = new SSound(Sound.BLOCK_ANVIL_LAND);
 	}
 
 	public void resetSoundError() {
-		this.machineOpeningSound = Sound.ENTITY_VILLAGER_NO;
+		this.errorSound = new SSound(Sound.ENTITY_VILLAGER_NO);
 	}
 
 	public boolean canPlay(Player player) {
@@ -332,7 +333,7 @@ public abstract class SlotMachine {
 						if (event.getPlayer() instanceof Player) {
 							Player pl = (Player)event.getPlayer();
 
-							pl.stopSound(this.getMachineOpeningSound());
+							pl.stopSound(this.getMachineOpeningSound().getKey());
 						}
 					}
 				}))
@@ -859,59 +860,59 @@ public abstract class SlotMachine {
 		this.itemListItem = itemListItem;
 	}
 
-	public Sound getMachineOpeningSound() {
+	public SSound getMachineOpeningSound() {
 		return machineOpeningSound;
 	}
 
-	public void setMachineOpeningSound(Sound machineOpeningSound) {
+	public void setMachineOpeningSound(SSound machineOpeningSound) {
 		this.machineOpeningSound = machineOpeningSound;
 	}
 
-	public Sound getLeverSound() {
+	public SSound getLeverSound() {
 		return leverSound;
 	}
 
-	public void setLeverSound(Sound leverSound) {
+	public void setLeverSound(SSound leverSound) {
 		this.leverSound = leverSound;
 	}
 
-	public Sound getErrorSound() {
+	public SSound getErrorSound() {
 		return errorSound;
 	}
 
-	public void setErrorSound(Sound errorSound) {
+	public void setErrorSound(SSound errorSound) {
 		this.errorSound = errorSound;
 	}
 
-	public Sound getSlotmachineSpinSound() {
+	public SSound getSlotmachineSpinSound() {
 		return slotmachineSpinSound;
 	}
 
-	public void setSlotmachineSpinSound(Sound slotmachineSpinSound) {
+	public void setSlotmachineSpinSound(SSound slotmachineSpinSound) {
 		this.slotmachineSpinSound = slotmachineSpinSound;
 	}
 
-	public Sound getCsgoSpinSound() {
+	public SSound getCsgoSpinSound() {
 		return csgoSpinSound;
 	}
 
-	public void setCsgoSpinSound(Sound csgoSpinSound) {
+	public void setCsgoSpinSound(SSound csgoSpinSound) {
 		this.csgoSpinSound = csgoSpinSound;
 	}
 
-	public Sound getWinSound() {
+	public SSound getWinSound() {
 		return winSound;
 	}
 
-	public void setWinSound(Sound winSound) {
+	public void setWinSound(SSound winSound) {
 		this.winSound = winSound;
 	}
 
-	public Sound getLossSound() {
+	public SSound getLossSound() {
 		return lossSound;
 	}
 
-	public void setLossSound(Sound lossSound) {
+	public void setLossSound(SSound lossSound) {
 		this.lossSound = lossSound;
 	}
 

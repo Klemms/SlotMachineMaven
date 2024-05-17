@@ -8,12 +8,12 @@ import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.EntityUtil;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
 import fr.klemms.slotmachine.utils.Util;
+import fr.klemms.slotmachine.utils.sounds.SSound;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -432,29 +432,29 @@ public class Config {
                                 }
                             }
 
-                            if (ymlFile.isSet("machineOpeningSound") && Util.isValidSound(ymlFile.getString("machineOpeningSound"))) {
-                                slotMachine.setMachineOpeningSound(Sound.valueOf(ymlFile.getString("machineOpeningSound")));
+                            if (ymlFile.isSet("machineOpeningSound")) {
+                                slotMachine.setMachineOpeningSound(SSound.fromInput(ymlFile.getString("machineOpeningSound")));
                             }
-                            if (ymlFile.isSet("leverSound") && Util.isValidSound(ymlFile.getString("leverSound"))) {
-                                slotMachine.setLeverSound(Sound.valueOf(ymlFile.getString("leverSound")));
+                            if (ymlFile.isSet("leverSound")) {
+                                slotMachine.setLeverSound(SSound.fromInput(ymlFile.getString("leverSound")));
                             }
-                            if (ymlFile.isSet("slotmachineSpinSound") && Util.isValidSound(ymlFile.getString("slotmachineSpinSound"))) {
-                                slotMachine.setSlotmachineSpinSound(Sound.valueOf(ymlFile.getString("slotmachineSpinSound")));
+                            if (ymlFile.isSet("slotmachineSpinSound")) {
+                                slotMachine.setSlotmachineSpinSound(SSound.fromInput(ymlFile.getString("slotmachineSpinSound")));
                             }
-                            if (ymlFile.isSet("errorSound") && Util.isValidSound(ymlFile.getString("errorSound"))) {
-                                slotMachine.setErrorSound(Sound.valueOf(ymlFile.getString("errorSound")));
+                            if (ymlFile.isSet("errorSound")) {
+                                slotMachine.setErrorSound(SSound.fromInput(ymlFile.getString("errorSound")));
                             }
-                            if (ymlFile.isSet("csgoSpinSound") && Util.isValidSound(ymlFile.getString("csgoSpinSound"))) {
-                                slotMachine.setCsgoSpinSound(Sound.valueOf(ymlFile.getString("csgoSpinSound")));
+                            if (ymlFile.isSet("csgoSpinSound")) {
+                                slotMachine.setCsgoSpinSound(SSound.fromInput(ymlFile.getString("csgoSpinSound")));
                             }
-                            if (ymlFile.isSet("winSound") && Util.isValidSound(ymlFile.getString("winSound"))) {
-                                slotMachine.setWinSound(Sound.valueOf(ymlFile.getString("winSound")));
+                            if (ymlFile.isSet("winSound")) {
+                                slotMachine.setWinSound(SSound.fromInput(ymlFile.getString("winSound")));
                             }
-                            if (ymlFile.isSet("lossSound") && Util.isValidSound(ymlFile.getString("lossSound"))) {
-                                slotMachine.setLossSound(Sound.valueOf(ymlFile.getString("lossSound")));
+                            if (ymlFile.isSet("lossSound")) {
+                                slotMachine.setLossSound(SSound.fromInput(ymlFile.getString("lossSound")));
                             }
-                            if (ymlFile.isSet("errorSound") && Util.isValidSound(ymlFile.getString("errorSound"))) {
-                                slotMachine.setErrorSound(Sound.valueOf(ymlFile.getString("errorSound")));
+                            if (ymlFile.isSet("errorSound")) {
+                                slotMachine.setErrorSound(SSound.fromInput(ymlFile.getString("errorSound")));
                             }
 
                             List<MachineItem> slotMachineItems = new ArrayList<MachineItem>();

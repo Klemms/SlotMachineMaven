@@ -17,7 +17,7 @@ import java.util.List;
 
 public class StringInput {
 
-	public static void inputString(Player player, String title, String placeholder, StringInputCallback callback, boolean allowNoChange) {
+	public static void inputString(Player player, String title, String placeholder, StringInputCallback callback, boolean allowNoChange, boolean showPlaceholders) {
 		List<String> variableLore = new ArrayList<String>();
 
 		for (Variables var : Variables.values()) {
@@ -28,7 +28,7 @@ public class StringInput {
 				.plugin(SlotPlugin.pl)
 				.title(title)
 				.itemLeft(ItemStackUtil.changeItemStackName(new ItemStack(Material.COMMAND_BLOCK), ChatContent.GOLD + "Validate with the green button"))
-				.itemRight(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.INFOS), ChatContent.GOLD + "You can use those placeholders :"), variableLore))
+				.itemRight(showPlaceholders ? ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.INFOS), ChatContent.GOLD + "You can use those placeholders :"), variableLore) : null)
 				.itemOutput(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.CHECKMARK), " "))
 				.text(placeholder)
 				.onClick((slot, stateSnapshot) -> {

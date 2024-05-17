@@ -44,7 +44,7 @@ public class CommandOpenMachine implements CommandExecutor {
 							} else {
 								player.closeInventory();
 								slotMachine.openMachine(player, true);
-								player.playSound(player.getLocation(), slotMachine.getMachineOpeningSound(), 1.9f, 1.2f);
+								player.playSound(player.getLocation(), slotMachine.getMachineOpeningSound().getKey(), 1.9f, 1.2f);
 								sender.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully opened machine for " + player.getName());
 							}
 						} else {

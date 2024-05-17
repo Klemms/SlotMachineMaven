@@ -156,7 +156,7 @@ public class RewardsCustomization {
 										reward.commandReward = text;
 										machine.save();
 										RewardsCustomization.rewardsCustomization(player, machine, item, backPage, page);
-									}, true);
+									}, true, true);
 								}
 							}));
 
@@ -191,7 +191,7 @@ public class RewardsCustomization {
 										reward.commandReward = text;
 										machine.save();
 										RewardsCustomization.rewardsCustomization(player, machine, item, backPage, page);
-									}, true);
+									}, true, true);
 								}
 							}));
 						}
@@ -213,7 +213,7 @@ public class RewardsCustomization {
 											player.playSound(player.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 1.5F, 2F);
 											machine.save();
 											RewardsCustomization.rewardsCustomization(player, machine, item, backPage, page);
-										}, false);
+										}, false, true);
 									}
 								});
 							}));

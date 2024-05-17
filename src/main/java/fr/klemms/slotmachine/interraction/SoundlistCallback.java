@@ -1,8 +1,8 @@
 package fr.klemms.slotmachine.interraction;
 
-import org.bukkit.Sound;
+import fr.klemms.slotmachine.utils.sounds.SSound;
 
 public interface SoundlistCallback {
 
-	public void callback(Sound pickedSound);
+	public void callback(SSound pickedSound);
 }
