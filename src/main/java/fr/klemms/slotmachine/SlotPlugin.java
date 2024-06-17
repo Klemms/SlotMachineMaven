@@ -37,7 +37,7 @@ import java.util.logging.Level;
 
 public class SlotPlugin extends JavaPlugin {
 
-	public static final String MC_FOR = "Spigot 1.16/1.17/1.18/1.19/1.20";
+	public static final String MC_FOR = "Spigot 1.16/1.17/1.18/1.19/1.20/1.21";
 	public static final ItemStack DEFAULT_TOKEN = ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.GOLD_NUGGET, 1), ChatContent.GOLD + "Token"), Collections.singletonList(ChatContent.AQUA + ChatContent.ITALIC + "Default Slot Machine Token"));
 
 	public static final String CHAT_PREFIX = "[Slot Machine] ";
@@ -46,7 +46,7 @@ public class SlotPlugin extends JavaPlugin {
 	public static Economy econ = null;
 	public static VotingPluginHooks votingPlugin = null;
 	public static final String BRANCH = "release";
-	public static final int VERSION = 81;
+	public static final int VERSION = 82;
 	public static Metrics metrics;
 	public static boolean supportEnding = false;
 	public static String supportMessage = "";
