@@ -84,6 +84,7 @@ public class Setup {
 		// Finished but Unknown Quality Languages
 		officialLanguages.put("de", "de-DE");		// German
 		officialLanguages.put("ru", "ru-RU");		// Russian
+		officialLanguages.put("hu", "hu-HU");		// Russian
 
 		try {
 			Files.createDirectories(plugin.getDataFolder().toPath().resolve("langs"));
