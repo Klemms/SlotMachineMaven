@@ -4442,6 +4442,8 @@ public class SoundToMaterialList_121 {
                 case BLOCK_SPONGE_STEP:
 					SlotPlugin.soundMaterialMap.put(sound, Material.SPONGE);
                     break;
+                case BLOCK_TRIAL_SPAWNER_AMBIENT_OMINOUS:
+                case BLOCK_TRIAL_SPAWNER_OMINOUS_ACTIVATE:
                 case BLOCK_TRIAL_SPAWNER_ABOUT_TO_SPAWN_ITEM:
                 case BLOCK_TRIAL_SPAWNER_SPAWN_ITEM:
                 case BLOCK_TRIAL_SPAWNER_SPAWN_ITEM_BEGIN:
@@ -4489,6 +4491,7 @@ public class SoundToMaterialList_121 {
                 case ENTITY_PLAYER_TELEPORT:
 					SlotPlugin.soundMaterialMap.put(sound, Material.PLAYER_HEAD);
                     break;
+                case BLOCK_VAULT_REJECT_REWARDED_PLAYER:
                 case BLOCK_VAULT_ACTIVATE:
                 case BLOCK_VAULT_AMBIENT:
                 case BLOCK_VAULT_BREAK:
@@ -4570,6 +4573,15 @@ public class SoundToMaterialList_121 {
                 case ITEM_WOLF_ARMOR_DAMAGE:
                 case ITEM_WOLF_ARMOR_REPAIR:
 					SlotPlugin.soundMaterialMap.put(sound, Material.WOLF_ARMOR);
+                    break;
+                case MUSIC_DISC_CREATOR:
+					SlotPlugin.soundMaterialMap.put(sound, Material.MUSIC_DISC_CREATOR);
+                    break;
+                case MUSIC_DISC_CREATOR_MUSIC_BOX:
+					SlotPlugin.soundMaterialMap.put(sound, Material.MUSIC_DISC_CREATOR_MUSIC_BOX);
+                    break;
+                case MUSIC_DISC_PRECIPICE:
+					SlotPlugin.soundMaterialMap.put(sound, Material.MUSIC_DISC_PRECIPICE);
                     break;
             }
 		}
