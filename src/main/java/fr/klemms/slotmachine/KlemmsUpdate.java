@@ -1,13 +1,11 @@
 package fr.klemms.slotmachine;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.logging.Level;
-
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ClickEvent.Action;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.hover.content.Text;
 import org.apache.commons.io.IOUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -20,27 +18,31 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ClickEvent.Action;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.hover.content.Text;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.logging.Level;
 
 public class KlemmsUpdate implements Listener {
-	
+
+	private final String API_BASE_URL = "https://api.klemms.fr";
+	private final String API_URL = API_BASE_URL + "/minecraft/plugins/update-check";
+
 	private JavaPlugin plugin;
 	private String project;
 	private int version;
 	private String branch;
 	private Path folderPath;
 	private final Path configFile;
-	
+
 	private boolean check_for_updates = true;
 	private boolean log_if_update_found = true;
 	private boolean notice_admins = true;
 	private int delay_between_checks = 30;
-	
+
 	private boolean needsUpdate = false;
 	private JSONObject latestVersion = null;
 
@@ -49,53 +51,53 @@ public class KlemmsUpdate implements Listener {
 		this.project = _project;
 		this.version = _version;
 		this.branch = _branch;
-		
+
 		_plugin.getServer().getPluginManager().registerEvents(this, _plugin);
-		
+
 		this.folderPath = this.plugin.getDataFolder().getParentFile().toPath().resolve("KlemmsPlugins");
 		if(!Files.exists(this.folderPath))
 			Files.createDirectories(this.folderPath);
 		this.configFile = this.folderPath.resolve("update_config.yml");
-		
+
 		this.makeConfig();
-		
+
 		plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new Runnable() {
 
 			@Override
 			public void run() {
 				if(check_for_updates) {
-					
+
 					try {
-						URL url = new URL("https://klemms.ovh:8443/checkupdate/1.0/" +
+						URL url = new URL(API_URL + "/" +
 								"?pluginName=" + project +
 								"&branch=" + branch +
 								"&formattedVersion=" + plugin.getDescription().getVersion() +
 								"&version=" + version +
 								"&minecraftVersion=" + getMCVersion());
-						
+
 						String output = IOUtils.toString(url, Charset.forName("utf-8"));
 						JSONParser parser = new JSONParser();
 						JSONObject updateObject = (JSONObject)parser.parse(output);
-						
+
 						if((boolean)updateObject.get("needsUpdate")) {
 							needsUpdate = (boolean)updateObject.get("needsUpdate");
-							JSONObject version = (JSONObject) updateObject.get("relatedVersion");
+							JSONObject version = (JSONObject) updateObject.get("version");
 							latestVersion = version;
 							if(log_if_update_found) {
-								plugin.getLogger().log(Level.INFO, "Update " + version.get("formatted_version").toString() + " is available for your version of Spigot at " + version.get("url").toString());
+								plugin.getLogger().log(Level.INFO, "Update " + version.get("version").toString() + " is available for your version of Spigot at " + version.get("changelogURL").toString());
 							}
 							if(notice_admins) {
 								for(Player player : Bukkit.getOnlinePlayers()) {
 									if(player.isOp()) {
-										player.spigot().sendMessage(new ComponentBuilder("[" + version.get("formatted_name").toString() + "] Update " + version.get("formatted_version").toString() + " is available for your version of Spigot. Click Here")
-											.event(new ClickEvent(Action.OPEN_URL, version.get("url").toString()))
-											.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(new ComponentBuilder(version.get("url").toString()).create())))
+										player.spigot().sendMessage(new ComponentBuilder("[" + version.get("name").toString() + "] Update " + version.get("version").toString() + " is available for your version of Spigot. Click Here")
+											.event(new ClickEvent(Action.OPEN_URL, version.get("changelogURL").toString()))
+											.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(new ComponentBuilder(version.get("changelogURL").toString()).create())))
 											.color(ChatColor.AQUA).create());
-									} 
+									}
 								}
 							}
 						}
-						
+
 					} catch (MalformedURLException e) {
 						e.printStackTrace();
 					} catch (IOException e) {
@@ -105,23 +107,23 @@ public class KlemmsUpdate implements Listener {
 					}
 				}
 			}
-			
+
 		}, 1 * 20, this.delay_between_checks * 20 * 60);
 	}
-	
+
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		if (event.getPlayer().isOp() && notice_admins && needsUpdate && latestVersion != null) {
-			event.getPlayer().spigot().sendMessage(new ComponentBuilder("[" + latestVersion.get("formatted_name").toString() + "] Update " + latestVersion.get("formatted_version").toString() + " is available for your version of Spigot. Click Here")
-					.event(new ClickEvent(Action.OPEN_URL, latestVersion.get("url").toString()))
-					.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(new ComponentBuilder(latestVersion.get("url").toString()).create())))
+			event.getPlayer().spigot().sendMessage(new ComponentBuilder("[" + latestVersion.get("name").toString() + "] Update " + latestVersion.get("version").toString() + " is available for your version of Spigot. Click Here")
+					.event(new ClickEvent(Action.OPEN_URL, latestVersion.get("changelogURL").toString()))
+					.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(new ComponentBuilder(latestVersion.get("changelogURL").toString()).create())))
 					.color(ChatColor.AQUA).create());
 		}
 	}
-	
+
 	private void makeConfig() throws IOException {
 		YamlConfiguration updateFile = YamlConfiguration.loadConfiguration(this.configFile.toFile());
-		
+
 		if(Files.exists(this.configFile)) {
 			this.check_for_updates = updateFile.getBoolean("check_for_updates", check_for_updates);
 			this.log_if_update_found = updateFile.getBoolean("log_if_update_found", log_if_update_found);
@@ -133,11 +135,11 @@ public class KlemmsUpdate implements Listener {
 			updateFile.set("notice_admins", notice_admins);
 			updateFile.set("delay_between_checks_in_minutes", delay_between_checks);
 		}
-		
+
 		updateFile.save(this.configFile.toFile());
 	}
-	
+
 	public static String getMCVersion() {
 		return Bukkit.getBukkitVersion().split("-")[0];
 	}
-} 
+}
