@@ -4443,8 +4443,6 @@ public class SoundToMaterialList_120 {
 					SlotPlugin.soundMaterialMap.put(sound, Material.SPONGE);
                     break;
                 case BLOCK_TRIAL_SPAWNER_ABOUT_TO_SPAWN_ITEM:
-                case BLOCK_TRIAL_SPAWNER_AMBIENT_CHARGED:
-                case BLOCK_TRIAL_SPAWNER_CHARGE_ACTIVATE:
                 case BLOCK_TRIAL_SPAWNER_SPAWN_ITEM:
                 case BLOCK_TRIAL_SPAWNER_SPAWN_ITEM_BEGIN:
                 case BLOCK_TRIAL_SPAWNER_AMBIENT:

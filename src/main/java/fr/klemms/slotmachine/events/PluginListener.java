@@ -235,7 +235,7 @@ public class PluginListener implements Listener {
 	@EventHandler
 	public void onPlayerFish(PlayerFishEvent event) {
 		if(event.getState() == State.CAUGHT_ENTITY) {
-			if(SlotMachineEntityLink.getAllSlotMachineByEntityUUID(event.getCaught().getUniqueId()) != null) {
+			if(event.getCaught() != null && SlotMachineEntityLink.getAllSlotMachineByEntityUUID(event.getCaught().getUniqueId()) != null) {
 				event.setCancelled(true);
 			}
 		}
