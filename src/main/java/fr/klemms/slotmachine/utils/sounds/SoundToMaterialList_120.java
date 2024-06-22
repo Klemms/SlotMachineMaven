@@ -261,13 +261,13 @@ public class SoundToMaterialList_120 {
 				case BLOCK_CHORUS_FLOWER_GROW:
 					SlotPlugin.soundMaterialMap.put(sound, Material.CHORUS_FRUIT);
 					break;
-                case BLOCK_COBWEB_BREAK:
+                /*case BLOCK_COBWEB_BREAK:
                 case BLOCK_COBWEB_FALL:
                 case BLOCK_COBWEB_HIT:
                 case BLOCK_COBWEB_PLACE:
                 case BLOCK_COBWEB_STEP:
 					SlotPlugin.soundMaterialMap.put(sound, Material.COBWEB);
-                    break;
+                    break;*/
                 case BLOCK_COMPARATOR_CLICK:
 					SlotPlugin.soundMaterialMap.put(sound, Material.COMPARATOR);
 					break;
@@ -451,13 +451,13 @@ public class SoundToMaterialList_120 {
 				case BLOCK_GRINDSTONE_USE:
 					SlotPlugin.soundMaterialMap.put(sound, Material.GRINDSTONE);
 					break;
-                case BLOCK_HEAVY_CORE_BREAK:
+                /*case BLOCK_HEAVY_CORE_BREAK:
                 case BLOCK_HEAVY_CORE_FALL:
                 case BLOCK_HEAVY_CORE_HIT:
                 case BLOCK_HEAVY_CORE_PLACE:
                 case BLOCK_HEAVY_CORE_STEP:
 					SlotPlugin.soundMaterialMap.put(sound, Material.HEAVY_CORE);
-                    break;
+                    break;*/
                 case BLOCK_HONEY_BLOCK_BREAK:
 					SlotPlugin.soundMaterialMap.put(sound, Material.HONEY_BLOCK);
 					break;
@@ -4442,9 +4442,9 @@ public class SoundToMaterialList_120 {
                 case BLOCK_SPONGE_STEP:
 					SlotPlugin.soundMaterialMap.put(sound, Material.SPONGE);
                     break;
-                case BLOCK_TRIAL_SPAWNER_ABOUT_TO_SPAWN_ITEM:
+                /*case BLOCK_TRIAL_SPAWNER_ABOUT_TO_SPAWN_ITEM:
                 case BLOCK_TRIAL_SPAWNER_SPAWN_ITEM:
-                case BLOCK_TRIAL_SPAWNER_SPAWN_ITEM_BEGIN:
+                case BLOCK_TRIAL_SPAWNER_SPAWN_ITEM_BEGIN:*/
                 case BLOCK_TRIAL_SPAWNER_AMBIENT:
                 case BLOCK_TRIAL_SPAWNER_BREAK:
                 case BLOCK_TRIAL_SPAWNER_CLOSE_SHUTTER:
@@ -4489,7 +4489,7 @@ public class SoundToMaterialList_120 {
                 case ENTITY_PLAYER_TELEPORT:
 					SlotPlugin.soundMaterialMap.put(sound, Material.PLAYER_HEAD);
                     break;
-                case BLOCK_VAULT_ACTIVATE:
+                /*case BLOCK_VAULT_ACTIVATE:
                 case BLOCK_VAULT_AMBIENT:
                 case BLOCK_VAULT_BREAK:
                 case BLOCK_VAULT_CLOSE_SHUTTER:
@@ -4570,7 +4570,7 @@ public class SoundToMaterialList_120 {
                 case ITEM_WOLF_ARMOR_DAMAGE:
                 case ITEM_WOLF_ARMOR_REPAIR:
 					SlotPlugin.soundMaterialMap.put(sound, Material.WOLF_ARMOR);
-                    break;
+                    break;*/
             }
 		}
 	}
