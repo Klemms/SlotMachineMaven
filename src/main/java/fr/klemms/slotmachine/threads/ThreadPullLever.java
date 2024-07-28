@@ -225,7 +225,9 @@ public class ThreadPullLever extends Thread {
 			for(MachineItem.Reward reward : wonItem.getRewards()) {
 				switch (reward.rewardType) {
 					case ITEM:
-						PlayerUtil.givePlayerItem(player, new ItemStack(reward.itemReward));
+						Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, () -> {
+							PlayerUtil.givePlayerItem(player, new ItemStack(reward.itemReward));
+						});
 						break;
 					case COMMAND:
 						Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Variables.replaceVariable(player, machine, reward.commandReward)));
