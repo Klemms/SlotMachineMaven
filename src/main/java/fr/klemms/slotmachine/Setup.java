@@ -43,21 +43,26 @@ public class Setup {
 	public static boolean setupOTALanguages(JavaPlugin plugin) {
 		String language = officialLanguages.get(Config.language);
 
-		plugin.getLogger().log(Level.INFO, "Fetching updated translations from Crowdin for : " + Config.language);
-		try {
-			URL url = new URL("https://distributions.crowdin.net/a39ae3df9b64b4b2421a317dtpi/content/" + Config.language + "/" + language + ".properties");
-			URLConnection urlConnection = url.openConnection();
-			urlConnection.setConnectTimeout(5000);
-			urlConnection.setReadTimeout(5000);
-			GZIPInputStream in = new GZIPInputStream(urlConnection.getInputStream());
-			Language.parseLanguageFromStrings(Config.language, IOUtils.readLines(in, Charset.forName("UTF-8")));
-			plugin.getLogger().log(Level.INFO, "Success !");
+		if (language != null) {
+			plugin.getLogger().log(Level.INFO, "Fetching updated translations from Crowdin for : " + Config.language);
+			try {
+				URL url = new URL("https://distributions.crowdin.net/a39ae3df9b64b4b2421a317dtpi/content/" + Config.language + "/" + language + ".properties");
+				URLConnection urlConnection = url.openConnection();
+				urlConnection.setConnectTimeout(5000);
+				urlConnection.setReadTimeout(5000);
+				GZIPInputStream in = new GZIPInputStream(urlConnection.getInputStream());
+				Language.parseLanguageFromStrings(Config.language, IOUtils.readLines(in, Charset.forName("UTF-8")));
+				plugin.getLogger().log(Level.INFO, "Success !");
+				return true;
+			} catch (Exception e) {
+				plugin.getLogger().log(Level.INFO, "Couldn't get OTA language updates. Falling back to built-in language.");
+				e.printStackTrace();
+				ExceptionCollector.sendException(SlotPlugin.pl, e);
+				return false;
+			}
+		} else {
+			plugin.getLogger().log(Level.INFO, "Custom language detected.");
 			return true;
-		} catch (Exception e) {
-			plugin.getLogger().log(Level.INFO, "Couldn't get OTA language updates. Falling back to built-in language.");
-			e.printStackTrace();
-			ExceptionCollector.sendException(SlotPlugin.pl, e);
-			return false;
 		}
 	}
 
