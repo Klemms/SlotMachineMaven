@@ -19,7 +19,7 @@ public class MachineItem {
 	public ItemStat itemStats;
 
 	public MachineItem(ItemStack itemStack, int weight) {
-		this(itemStack, weight, Arrays.asList(new Reward(itemStack)));
+		this(itemStack, weight, new ArrayList<Reward>(Arrays.asList(new Reward(itemStack))));
 	}
 
 	public MachineItem(ItemStack itemStack, int weight, List<Reward> rewards) {

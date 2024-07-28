@@ -477,9 +477,9 @@ public class Config {
                                         MachineItem.RewardType rewardType = ymlFile.isSet(item + ".rewardType") ? MachineItem.RewardType.valueOf(ymlFile.getString(item + ".rewardType")) : null;
                                         if (rewardType != null) {
                                             if (rewardType == RewardType.ITEM) {
-                                                slotMachineItems.add(new MachineItem(ymlFile.getItemStack(item + ".item"), ymlFile.getInt(item + ".weight"), Arrays.asList(new MachineItem.Reward(ymlFile.getItemStack(item + ".reward")))));
+                                                slotMachineItems.add(new MachineItem(ymlFile.getItemStack(item + ".item"), ymlFile.getInt(item + ".weight"), new ArrayList<Reward>(Arrays.asList(new MachineItem.Reward(ymlFile.getItemStack(item + ".reward"))))));
                                             } else if (rewardType == RewardType.COMMAND) {
-                                                slotMachineItems.add(new MachineItem(ymlFile.getItemStack(item + ".item"), ymlFile.getInt(item + ".weight"), Arrays.asList(new MachineItem.Reward(ymlFile.getString(item + ".reward")))));
+                                                slotMachineItems.add(new MachineItem(ymlFile.getItemStack(item + ".item"), ymlFile.getInt(item + ".weight"), new ArrayList<Reward>(Arrays.asList(new MachineItem.Reward(ymlFile.getString(item + ".reward"))))));
                                             }
                                         } else {
                                             slotMachineItems.add(new MachineItem(ymlFile.getItemStack(item + ".item"), ymlFile.getInt(item + ".weight")));
