@@ -106,13 +106,15 @@ public class SlotMachineBlock extends SlotMachine {
 	}
 
 	public boolean isSame(Block block) {
-		World world = Bukkit.getWorld(this.getWorldUID());
+		if (block != null) {
+			World world = Bukkit.getWorld(this.getWorldUID());
 
-		if (world != null) {
-			if (block.getWorld().equals(world)) {
-				Block thisBlock = world.getBlockAt(this.getBlockX(), this.getBlockY(), this.getBlockZ());
-				if (thisBlock != null) {
-					return block.equals(thisBlock);
+			if (world != null) {
+				if (block.getWorld().equals(world)) {
+					Block thisBlock = world.getBlockAt(this.getBlockX(), this.getBlockY(), this.getBlockZ());
+					if (thisBlock != null) {
+						return block.equals(thisBlock);
+					}
 				}
 			}
 		}
