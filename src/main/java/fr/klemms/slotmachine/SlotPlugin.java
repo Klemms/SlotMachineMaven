@@ -113,9 +113,7 @@ public class SlotPlugin extends JavaPlugin {
 		// Using some unreleased version numbers because Mojang seems to find it funny to release versions
 		// which should be major versions as minor versions...
 		if (Util.getMCVersion().startsWith("1.20") && !Util.getMCVersion().startsWith("1.20.6") && !Util.getMCVersion().startsWith("1.20.7") && !Util.getMCVersion().startsWith("1.20.8")) {
-			this.getLogger().log(Level.SEVERE, "When on Spigot 1.20.X, this version of Slot Machine only supports Spigot 1.20.6+");
-			this.getLogger().log(Level.SEVERE, "Please use an older release of Slot Machine while you haven't upgraded yet");
-			Issue.newIssue(IssueType.VERSION_ISSUE, "When on Spigot 1.20.X, Slot Machine should only be used on Spigot 1.20.6+. This may lead to issues.", true);
+			this.getLogger().log(Level.SEVERE, "When on Spigot 1.20.X, it is recommended to use Spigot 1.20.6");
 		}
 
 		isCitizensEnabled = Bukkit.getPluginManager().isPluginEnabled("Citizens");
