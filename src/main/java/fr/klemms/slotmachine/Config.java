@@ -383,6 +383,9 @@ public class Config {
                             if (ymlFile.isSet("cooldown")) {
                                 slotMachine.setCooldown(ymlFile.getInt("cooldown"));
                             }
+                            if (ymlFile.isSet("coinsEngineCurrencyName")) {
+                                slotMachine.setCoinsEngineCurrencyName(ymlFile.getString("coinsEngineCurrencyName"));
+                            }
 
                             if (ymlFile.isSet("backgroundItem")) {
                                 if (ymlFile.isItemStack("backgroundItem")) {

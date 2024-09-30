@@ -196,6 +196,7 @@ public abstract class SlotMachine {
 	private SSound lossSound;
 
 	private String lastFileName;
+	private String coinsEngineCurrencyName;
 
 	public SlotMachine(SlotMachineType slotMachineType) {
 		this.slotMachineType = slotMachineType;
@@ -229,6 +230,7 @@ public abstract class SlotMachine {
 		this.slotMachineItems = new ArrayList<MachineItem>();
 		this.isRolling = new HashMap<UUID, Boolean>();
 		this.isCitizensNPC = false;
+		this.coinsEngineCurrencyName = null;
 
 		this.resetBackgroundCustomization();
 		this.resetSoundCustomization();
@@ -1009,5 +1011,13 @@ public abstract class SlotMachine {
 
 	public void setSaved() {
 		this.needsSaving = false;
+	}
+
+	public String getCoinsEngineCurrencyName() {
+		return coinsEngineCurrencyName;
+	}
+
+	public void setCoinsEngineCurrencyName(String coinsEngineCurrencyName) {
+		this.coinsEngineCurrencyName = coinsEngineCurrencyName;
 	}
 }

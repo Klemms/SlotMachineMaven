@@ -165,7 +165,7 @@ public class SlotPlugin extends JavaPlugin {
 
 		this.getServer().getPluginManager().registerEvents(new PluginListener(), this);
 
-		if(this.getServer().getPluginManager().getPlugin("GamePoints") != null) {
+		if(this.getServer().getPluginManager().getPlugin("CoinsEngine") != null) {
 			SlotPlugin.isGamePointsEnabled = true;
 		}
 
@@ -468,6 +468,8 @@ public class SlotPlugin extends JavaPlugin {
 					yamlFile.set("winSound", slotMachine.getWinSound().toString());
 					yamlFile.set("lossSound", slotMachine.getLossSound().toString());
 					yamlFile.set("errorSound", slotMachine.getErrorSound().toString());
+
+					yamlFile.set("coinsEngineCurrencyName", slotMachine.getCoinsEngineCurrencyName());
 
 					yamlFile.set("itemCount", null);
 					yamlFile.set("items", null);

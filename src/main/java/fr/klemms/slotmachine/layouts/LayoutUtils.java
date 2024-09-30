@@ -15,8 +15,8 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
-import su.nightexpress.gamepoints.api.GamePointsAPI;
-import su.nightexpress.gamepoints.data.PointUser;
+import su.nightexpress.coinsengine.api.CoinsEngineAPI;
+import su.nightexpress.coinsengine.api.currency.Currency;
 
 public class LayoutUtils {
 
@@ -77,11 +77,24 @@ public class LayoutUtils {
                 }
             case GAMEPOINTS:
                 if(SlotPlugin.isGamePointsEnabled) {
-                    PointUser user = GamePointsAPI.getUserData(player);
-                    if(user != null && user.getBalance() >= (int)machine.getPullPrice()) {
+                    Currency currency = CoinsEngineAPI.getCurrency(machine.getCoinsEngineCurrencyName());
+
+                    if (currency == null) {
+                        player.sendMessage(Variables.getFormattedString(
+                                Language.translate("gamepoints.invalidcurrency").replace("%currencyName%", machine.getCoinsEngineCurrencyName()),
+                                player,
+                                machine
+                        ));
+                        player.playSound(player.getLocation(), machine.getErrorSound().getKey(), 1.3f, 1f);
+                        return false;
+                    }
+
+                    double userBalance = CoinsEngineAPI.getBalance(player, currency);
+
+                    if(userBalance >= ((int)machine.getPullPrice())) {
                         if (!testAndApplyCooldown(player, machine))
                             return false;
-                        user.takePoints((int)machine.getPullPrice());
+                        CoinsEngineAPI.removeBalance(player, currency, ((int)machine.getPullPrice()));
                         return true;
                     } else {
                         player.sendMessage(Variables.getFormattedString(Language.translate(Config.notEnoughGamePointsDefaultString), player, machine));
