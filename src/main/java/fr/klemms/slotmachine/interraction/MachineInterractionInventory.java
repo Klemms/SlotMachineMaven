@@ -10,6 +10,10 @@ import fr.klemms.slotmachine.fr.minuskube.inv.SmartInventory;
 import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryContents;
 import fr.klemms.slotmachine.fr.minuskube.inv.content.Pagination;
 import fr.klemms.slotmachine.fr.minuskube.inv.content.SlotIterator.Type;
+import fr.klemms.slotmachine.interraction.machinemenu.MenuItem;
+import fr.klemms.slotmachine.interraction.machinemenu.MenuItemChangeLeverDescription;
+import fr.klemms.slotmachine.interraction.machinemenu.MenuItemChangeLeverName;
+import fr.klemms.slotmachine.interraction.machinemenu.MenuState;
 import fr.klemms.slotmachine.interraction.providers.CopyPastableProvider;
 import fr.klemms.slotmachine.placeholders.Variables;
 import fr.klemms.slotmachine.tokens.Token;
@@ -72,6 +76,13 @@ public class MachineInterractionInventory {
 						Pagination pagination = contents.pagination();
 
 						List<ClickableItem> items = new ArrayList<ClickableItem>();
+
+						MenuState state = new MenuState() {
+							@Override
+							public void reloadPage() {
+								manageMachine(player, machine, entity, block, pagination.getPage());
+							}
+						};
 
 						if (machine == null) {
 							List<String> createMachineLore = new ArrayList<String>();
@@ -559,7 +570,11 @@ public class MachineInterractionInventory {
 								player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + (machine.shouldBroadcastWonItem() ? "Enabled" : "Disabled") + " broadcasting to all players");
 								manageMachine(player, machine, entity, block, pagination.getPage());
 							}));
-							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(ItemStackUtil.addGlow(new ItemStack(Material.TRIPWIRE_HOOK, 1)), ChatContent.GOLD + "Change Lever Name"), Arrays.asList(
+
+							items.add(MenuItem.getMenuItem(machine, player, new MenuItemChangeLeverName(), state));
+							items.add(MenuItem.getMenuItem(machine, player, new MenuItemChangeLeverDescription(), state));
+
+							/*items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(ItemStackUtil.addGlow(new ItemStack(Material.TRIPWIRE_HOOK, 1)), ChatContent.GOLD + "Change Lever Name"), Arrays.asList(
 									ChatContent.AQUA + ChatContent.ITALIC + "Change the lever's name",
 									"",
 									ChatContent.RED + "Right Click" + ChatContent.AQUA + ChatContent.ITALIC + " to reset to ",
@@ -600,7 +615,9 @@ public class MachineInterractionInventory {
 											machine.save();
 											manageMachine(player, machine, entity, block, pagination.getPage());
 										}
-							}));
+							}));*/
+
+
 							List<String> leverDescLore = new ArrayList<String>();
 							leverDescLore.add(ChatContent.AQUA + ChatContent.ITALIC + "Change the lever's description");
 							leverDescLore.add("");
