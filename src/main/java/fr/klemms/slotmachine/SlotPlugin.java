@@ -37,7 +37,7 @@ import java.util.logging.Level;
 
 public class SlotPlugin extends JavaPlugin {
 
-	public static final String MC_FOR = "Spigot 1.16/1.17/1.18/1.19/1.20/1.21";
+	public static final String MC_FOR = "Spigot 1.18/1.19/1.20/1.21";
 	public static final ItemStack DEFAULT_TOKEN = ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.GOLD_NUGGET, 1), ChatContent.GOLD + "Token"), Collections.singletonList(ChatContent.AQUA + ChatContent.ITALIC + "Default Slot Machine Token"));
 
 	public static final String CHAT_PREFIX = "[Slot Machine] ";
@@ -83,8 +83,9 @@ public class SlotPlugin extends JavaPlugin {
 		this.getLogger().log(Level.INFO, "Slot Machine version " + this.getDescription().getVersion() + " (" + VERSION + ") for " + MC_FOR);
 		if (Util.getMCVersion().startsWith("1.7") || Util.getMCVersion().startsWith("1.8") || Util.getMCVersion().startsWith("1.9") ||
 				Util.getMCVersion().startsWith("1.10") || Util.getMCVersion().startsWith("1.11") || Util.getMCVersion().startsWith("1.12")
-				|| Util.getMCVersion().startsWith("1.13") || Util.getMCVersion().startsWith("1.14") || Util.getMCVersion().startsWith("1.15")) {
-			this.getLogger().log(Level.SEVERE, "This version of Slot Machine can only work on Spigot 1.16 or greater");
+				|| Util.getMCVersion().startsWith("1.13") || Util.getMCVersion().startsWith("1.14") || Util.getMCVersion().startsWith("1.15")
+				|| Util.getMCVersion().startsWith("1.16") || Util.getMCVersion().startsWith("1.17")) {
+			this.getLogger().log(Level.SEVERE, "This version of Slot Machine can only work on Spigot 1.18 or greater");
 			Config.backupMachinesOnPluginUnload = false;
 			Bukkit.getPluginManager().disablePlugin(this);
 			return;
@@ -93,20 +94,14 @@ public class SlotPlugin extends JavaPlugin {
 		invManager = new InventoryManager(this);
 		invManager.init();
 
-		if (Util.getMCVersion().startsWith("1.16")) {
-			this.getLogger().log(Level.INFO, "Using 1.16 Sound Mappings");
-			SoundToMaterialList_116.initList();
-		} else if(Util.getMCVersion().startsWith("1.17")) {
-			this.getLogger().log(Level.INFO, "Using 1.17 Sound Mappings");
-			SoundToMaterialList_117.initList();
-		} else if(Util.getMCVersion().startsWith("1.18")) {
+		if(Util.getMCVersion().startsWith("1.18")) {
 			this.getLogger().log(Level.INFO, "Using 1.18 Sound Mappings");
 			SoundToMaterialList_118.initList();
 		} else if(Util.getMCVersion().startsWith("1.19")) {
 			this.getLogger().log(Level.INFO, "Using 1.19 Sound Mappings");
 			SoundToMaterialList_119.initList();
 		} else {
-			this.getLogger().log(Level.INFO, "Using 1.20 Sound Mappings");
+			this.getLogger().log(Level.INFO, "Using 1.20/1.21 Sound Mappings");
 			SoundToMaterialList_120.initList();
 		}
 
