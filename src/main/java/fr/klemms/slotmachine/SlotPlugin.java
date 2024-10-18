@@ -13,7 +13,9 @@ import fr.klemms.slotmachine.metrics.Metrics;
 import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
 import fr.klemms.slotmachine.utils.Util;
-import fr.klemms.slotmachine.utils.sounds.*;
+import fr.klemms.slotmachine.utils.sounds.SoundToMaterialList_118;
+import fr.klemms.slotmachine.utils.sounds.SoundToMaterialList_119;
+import fr.klemms.slotmachine.utils.sounds.SoundToMaterialList_120;
 import me.realized.tokenmanager.api.TokenManager;
 import net.milkbowl.vault.economy.Economy;
 import org.apache.commons.io.FileUtils;
@@ -264,10 +266,12 @@ public class SlotPlugin extends JavaPlugin {
 
 		// Cooldown
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
-			for (PlayerConfig plc : SlotPlugin.playerConfigs.values()) {
-				for (SMPlayerConfig smpc : plc.getMachinesConfig().values()) {
-					if (smpc.getCooldown() > 0) {
-						smpc.setCooldown(smpc.getCooldown() - 1);
+			if (SlotPlugin.playerConfigs != null) {
+				for (PlayerConfig plc : SlotPlugin.playerConfigs.values()) {
+					for (SMPlayerConfig smpc : plc.getMachinesConfig().values()) {
+						if (smpc.getCooldown() > 0) {
+							smpc.setCooldown(smpc.getCooldown() - 1);
+						}
 					}
 				}
 			}
@@ -369,15 +373,17 @@ public class SlotPlugin extends JavaPlugin {
 	}
 
 	public static void saveCooldownsToDisk() {
-		for (PlayerConfig plc : SlotPlugin.playerConfigs.values()) {
-			boolean write = false;
-			for (SMPlayerConfig smpc : plc.getMachinesConfig().values()) {
-				if (smpc.changed)
-					write = true;
-				smpc.changed = false;
+		if (SlotPlugin.playerConfigs != null) {
+			for (PlayerConfig plc : SlotPlugin.playerConfigs.values()) {
+				boolean write = false;
+				for (SMPlayerConfig smpc : plc.getMachinesConfig().values()) {
+					if (smpc.changed)
+						write = true;
+					smpc.changed = false;
+				}
+				if (write)
+					PlayerConfig.writeSpecificPlayerConfig(plc);
 			}
-			if (write)
-				PlayerConfig.writeSpecificPlayerConfig(plc);
 		}
 	}
 
