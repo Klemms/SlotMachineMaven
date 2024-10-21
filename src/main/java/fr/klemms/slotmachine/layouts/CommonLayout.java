@@ -11,6 +11,7 @@ import fr.klemms.slotmachine.placeholders.Variables;
 import fr.klemms.slotmachine.threads.ThreadPullLever;
 import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
+import fr.klemms.slotmachine.utils.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -58,7 +59,7 @@ public abstract class CommonLayout implements InventoryProvider {
 							if (!Config.goodLuckDefaultString.isEmpty())
 								player.sendMessage(Variables.getFormattedString(Language.translate(Config.goodLuckDefaultString), player, machine));
 
-							player.playSound(player.getLocation(), machine.getLeverSound().getKey(), 1.9f, 1.2f);
+							Util.playSoundPlayer(player, machine.getLeverSound(), 1.9f, 1.2f);
 							Bukkit.getScheduler().runTaskLaterAsynchronously(SlotPlugin.pl, new ThreadPullLever(player, machine, contents, conts -> {
 								Bukkit.getScheduler().runTask(SlotPlugin.pl, () -> {
 									machine.setPlayerRolling(player, false);
