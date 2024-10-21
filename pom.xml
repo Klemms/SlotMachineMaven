@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ovh.klemms</groupId>
 	<artifactId>slotmachine</artifactId>
-	<version>6.8.2</version>
+	<version>6.8.3</version>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -31,12 +31,12 @@
 							<shadedPattern>fr.klemms.slotmachine.libs.apache.io</shadedPattern>
 						</relocation>
 						<relocation>
-							<pattern>dev.dbassett</pattern>
-							<shadedPattern>fr.klemms.slotmachine.libs.skullcreator</shadedPattern>
-						</relocation>
-						<relocation>
 							<pattern>net.wesjd.anvilgui</pattern>
 							<shadedPattern>fr.klemms.slotmachine.libs.anvilgui</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>org.json</pattern>
+							<shadedPattern>fr.klemms.slotmachine.libs.org.json</shadedPattern>
 						</relocation>
 					</relocations>
 				</configuration>
@@ -71,11 +71,6 @@
 		<repository>
 			<id>citizens-repo</id>
 			<url>https://maven.citizensnpcs.co/repo</url>
-		</repository>
-
-		<repository>
-			<id>skullcreator-repo</id>
-			<url>https://github.com/deanveloper/SkullCreator/raw/mvn-repo/</url>
 		</repository>
 
 		<repository>
@@ -117,7 +112,7 @@
 		<dependency>
 			<groupId>net.wesjd</groupId>
 			<artifactId>anvilgui</artifactId>
-			<version>1.10.0-SNAPSHOT</version>
+			<version>1.10.2-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
@@ -169,13 +164,6 @@
 				</exclusion>
 			</exclusions>
 			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>dev.dbassett</groupId>
-			<artifactId>skullcreator</artifactId>
-			<version>3.0.0</version>
-			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
@@ -248,6 +236,14 @@
 			<groupId>com.googlecode.json-simple</groupId>
 			<artifactId>json-simple</artifactId>
 			<version>1.1.1</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.json/json -->
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20240303</version>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>

@@ -153,7 +153,11 @@ public class RewardsCustomization {
 									}
 								} else if (event.isLeftClick() && reward.rewardType == MachineItem.RewardType.COMMAND) {
 									StringInput.inputString(player, "Edit the command", reward.commandReward, text -> {
-										reward.commandReward = text;
+										if (text.startsWith("/")) {
+											reward.commandReward = text.substring(1);
+										} else {
+											reward.commandReward = text;
+										}
 										machine.save();
 										RewardsCustomization.rewardsCustomization(player, machine, item, backPage, page);
 									}, true, true);
@@ -209,7 +213,11 @@ public class RewardsCustomization {
 										});
 									} else if (rewardType == MachineItem.RewardType.COMMAND) {
 										StringInput.inputString(player, "Type the command", "Check [i] for infos", text -> {
-											item.addReward(new MachineItem.Reward(text));
+											if (text.startsWith("/")) {
+												item.addReward(new MachineItem.Reward(text.substring(1)));
+											} else {
+												item.addReward(new MachineItem.Reward(text));
+											}
 											player.playSound(player.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 1.5F, 2F);
 											machine.save();
 											RewardsCustomization.rewardsCustomization(player, machine, item, backPage, page);
