@@ -163,7 +163,8 @@ public class SlotPlugin extends JavaPlugin {
 		this.getServer().getPluginManager().registerEvents(new PluginListener(), this);
 
 		if(this.getServer().getPluginManager().getPlugin("CoinsEngine") != null) {
-			SlotPlugin.isGamePointsEnabled = true;
+			//TODO : Change to true when we re-enable coinsengine/gamepoints
+			SlotPlugin.isGamePointsEnabled = false;
 		}
 
 		if(this.getServer().getPluginManager().getPlugin("TokenManager") != null) {

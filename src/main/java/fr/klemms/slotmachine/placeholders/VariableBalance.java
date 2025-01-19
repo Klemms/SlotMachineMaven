@@ -7,8 +7,6 @@ import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.PlayerUtil;
 import me.realized.tm.api.TMAPI;
 import org.bukkit.entity.Player;
-import su.nightexpress.gamepoints.api.GamePointsAPI;
-import su.nightexpress.gamepoints.data.PointUser;
 
 public class VariableBalance implements Variable {
 
@@ -18,14 +16,6 @@ public class VariableBalance implements Variable {
 			case MONEY:
 				if(SlotPlugin.econ != null) {
 					return SlotPlugin.econ.format(SlotPlugin.econ.getBalance(player));
-				}
-				break;
-			case GAMEPOINTS:
-				if(SlotPlugin.isGamePointsEnabled) {
-					PointUser user = GamePointsAPI.getUserData(player);
-					if (user != null)
-						return String.valueOf(user.getBalance());
-					return "null";
 				}
 				break;
 			case PLAYERPOINTS:

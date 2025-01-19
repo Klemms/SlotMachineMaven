@@ -18,7 +18,6 @@ public enum Variables {
 	//RAW_PRICE(new VariableRawPrice(), "rawPrice", "placeholders.rawprice"),
 	ITEMS(new VariableItems(), "items", "placeholders.items"),
 	MACHINE_NAME(new VariableMachineName(), "machineName", "placeholders.machineName"),
-	GAME_POINTS(new VariableGamePoints(), "gamePoints", "placeholders.gamePoints"),
 	PLAYER_POINTS(new VariablePlayerPoints(), "pPoints", "placeholders.playerPoints"),
 	CHANCE_TO_WIN(new VariableChanceToWin(), "chanceToWin", "placeholders.chanceToWin"),
 	TM_TOKENS(new VariableTMTokens(), "tmTokensPlayer", "placeholders.tmTokensPlayer"),
