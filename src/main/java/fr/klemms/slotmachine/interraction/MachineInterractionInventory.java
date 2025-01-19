@@ -10,10 +10,7 @@ import fr.klemms.slotmachine.fr.minuskube.inv.SmartInventory;
 import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryContents;
 import fr.klemms.slotmachine.fr.minuskube.inv.content.Pagination;
 import fr.klemms.slotmachine.fr.minuskube.inv.content.SlotIterator.Type;
-import fr.klemms.slotmachine.interraction.machinemenu.MenuItem;
-import fr.klemms.slotmachine.interraction.machinemenu.MenuItemChangeLeverDescription;
-import fr.klemms.slotmachine.interraction.machinemenu.MenuItemChangeLeverName;
-import fr.klemms.slotmachine.interraction.machinemenu.MenuState;
+import fr.klemms.slotmachine.interraction.machinemenu.*;
 import fr.klemms.slotmachine.interraction.providers.CopyPastableProvider;
 import fr.klemms.slotmachine.placeholders.Variables;
 import fr.klemms.slotmachine.tokens.Token;
@@ -77,11 +74,8 @@ public class MachineInterractionInventory {
 
 						List<ClickableItem> items = new ArrayList<ClickableItem>();
 
-						MenuState state = new MenuState() {
-							@Override
-							public void reloadPage() {
-								manageMachine(player, machine, entity, block, pagination.getPage());
-							}
+						MenuState state = () -> {
+							manageMachine(player, machine, entity, block, pagination.getPage());
 						};
 
 						if (machine == null) {
@@ -480,7 +474,9 @@ public class MachineInterractionInventory {
 										machine.save();
 										manageMachine(player, machine, entity, block, pagination.getPage());
 							}));
-							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.LARGE_FERN, 1), ChatContent.GOLD + "Change Chance to Win"), Arrays.asList(
+
+							items.add(MenuItem.getMenuItem(machine, player, new MenuItemChangeChanceToWin(), state));
+							/*items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.LARGE_FERN, 1), ChatContent.GOLD + "Change Chance to Win"), Arrays.asList(
 									ChatContent.AQUA + ChatContent.ITALIC + "Change the chance players",
 									ChatContent.AQUA + ChatContent.ITALIC + "have to win",
 									"",
@@ -493,8 +489,10 @@ public class MachineInterractionInventory {
 										player.setMetadata("slotmachine_changechance", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
 										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.chancetowin") + " :");
 										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
-							}));
-							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.CLOCK, 1), ChatContent.GOLD + "Change Play Duration"), Arrays.asList(
+							}));*/
+
+							items.add(MenuItem.getMenuItem(machine, player, new MenuItemChangePlayDuration(), state));
+							/*items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.CLOCK, 1), ChatContent.GOLD + "Change Play Duration"), Arrays.asList(
 									ChatContent.AQUA + ChatContent.ITALIC + "Change how much time the items",
 									ChatContent.AQUA + ChatContent.ITALIC + "in the machine are 'spinning'",
 									ChatContent.AQUA + ChatContent.ITALIC + "",
@@ -510,7 +508,8 @@ public class MachineInterractionInventory {
 										player.setMetadata("slotmachine_changeduration", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
 										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.spinduration").replace("%spinDuration%", String.valueOf(machine.getSecondsBeforePrize())));
 										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
-							}));
+							}));*/
+
 							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.GREEN_BANNER, 1), ChatContent.GOLD + "Change Win Message"), Arrays.asList(
 									ChatContent.AQUA + ChatContent.ITALIC + "Change the message players",
 									ChatContent.AQUA + ChatContent.ITALIC + "will see when winning",
@@ -571,10 +570,11 @@ public class MachineInterractionInventory {
 								manageMachine(player, machine, entity, block, pagination.getPage());
 							}));
 
-							items.add(MenuItem.getMenuItem(machine, player, new MenuItemChangeLeverName(), state));
-							items.add(MenuItem.getMenuItem(machine, player, new MenuItemChangeLeverDescription(), state));
+							// TODO: Re-implement later
+							/*items.add(MenuItem.getMenuItem(machine, player, new MenuItemChangeLeverName(), state));
+							items.add(MenuItem.getMenuItem(machine, player, new MenuItemChangeLeverDescription(), state));*/
 
-							/*items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(ItemStackUtil.addGlow(new ItemStack(Material.TRIPWIRE_HOOK, 1)), ChatContent.GOLD + "Change Lever Name"), Arrays.asList(
+							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(ItemStackUtil.addGlow(new ItemStack(Material.TRIPWIRE_HOOK, 1)), ChatContent.GOLD + "Change Lever Name"), Arrays.asList(
 									ChatContent.AQUA + ChatContent.ITALIC + "Change the lever's name",
 									"",
 									ChatContent.RED + "Right Click" + ChatContent.AQUA + ChatContent.ITALIC + " to reset to ",
@@ -615,7 +615,7 @@ public class MachineInterractionInventory {
 											machine.save();
 											manageMachine(player, machine, entity, block, pagination.getPage());
 										}
-							}));*/
+							}));
 
 
 							List<String> leverDescLore = new ArrayList<String>();
@@ -748,7 +748,9 @@ public class MachineInterractionInventory {
 										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 										MachineSoundCustomization.customizeSounds(player, machine);
 							}));
-							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(PlayerHeadsUtil.CLOCK, ChatContent.GOLD + "Set Cooldown"), Arrays.asList(
+
+							items.add(MenuItem.getMenuItem(machine, player, new MenuItemChangeCooldown(), state));
+							/*items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(PlayerHeadsUtil.CLOCK, ChatContent.GOLD + "Set Cooldown"), Arrays.asList(
 									ChatContent.AQUA + ChatContent.ITALIC + "Sets this machine cooldown.",
 									ChatContent.AQUA + ChatContent.ITALIC + "",
 									ChatContent.AQUA + ChatContent.ITALIC + "- Value is in seconds",
@@ -761,7 +763,8 @@ public class MachineInterractionInventory {
 										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Write the cooldown you want this machine to have in seconds (integer), 0 means no cooldown :");
 										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Current cooldown : " + machine.getCooldown() + "s");
 										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
-							}));
+							}));*/
+
 							if (block != null) {
 								SlotMachineBlock machineBlock = ((SlotMachineBlock) machine);
 								if (machineBlock.isLocked())
