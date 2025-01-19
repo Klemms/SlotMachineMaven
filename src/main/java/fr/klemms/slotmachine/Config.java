@@ -88,7 +88,7 @@ public class Config {
                     "it    (Italian)              --               - Complete but quality is unknown",
                     "es-ES (Spanish)              --               - Complete but quality is unknown",
                     "pt-BR (Brazilian Portuguese) --               - Complete but quality is unknown",
-                    "cz    (Czech)                --               - Complete but quality is unknown",
+                    "cs    (Czech)                --               - Complete but quality is unknown",
                     "ja    (Japanese)             --               - Incomplete and unknown quality",
                     "tr    (tr-TR)                --               - Incomplete and unknown quality",
                     "ko    (Korean)               --               - Very incomplete and quality is unknown",

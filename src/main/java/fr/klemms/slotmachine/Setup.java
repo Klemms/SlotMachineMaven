@@ -90,7 +90,7 @@ public class Setup {
 		officialLanguages.put("ru", "ru-RU");		// Russian
 		officialLanguages.put("hu", "hu-HU");		// Russian
 		officialLanguages.put("pt-BR", "pt-BR");	// Portuguese (Brazil)
-		officialLanguages.put("cz", "cs-CZ");		// Czech
+		officialLanguages.put("cs", "cs-CZ");		// Czech
 
 		try {
 			Files.createDirectories(plugin.getDataFolder().toPath().resolve("langs"));
