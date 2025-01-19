@@ -4,6 +4,7 @@ import fr.klemms.slotmachine.Issue.IssueType;
 import fr.klemms.slotmachine.exceptioncollector.ExceptionCollector;
 import fr.klemms.slotmachine.interraction.MachineInterractionInventory;
 import fr.klemms.slotmachine.translation.Language;
+import fr.klemms.slotmachine.utils.Util;
 import net.citizensnpcs.api.CitizensAPI;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -69,7 +70,7 @@ public class MachineMethods {
 
 			player.closeInventory();
 			machine.openMachine(player, true);
-			player.playSound(player.getLocation(), machine.getMachineOpeningSound().getKey(), 1.9f, 1.2f);
+			Util.playSoundPlayer(player, machine.getMachineOpeningSound(), 1.9f, 1.2f);
 		} else {
 			player.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + Language.translate("slotmachine.access.notsetup"));
 		}

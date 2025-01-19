@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ovh.klemms</groupId>
 	<artifactId>slotmachine</artifactId>
-	<version>6.8.3</version>
+	<version>6.8.4-BETA</version>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -112,7 +112,7 @@
 		<dependency>
 			<groupId>net.wesjd</groupId>
 			<artifactId>anvilgui</artifactId>
-			<version>1.10.2-SNAPSHOT</version>
+			<version>1.10.4-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>

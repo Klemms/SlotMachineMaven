@@ -1,5 +1,6 @@
 package fr.klemms.slotmachine.threads;
 
+import fr.klemms.slotmachine.utils.Util;
 import fr.klemms.slotmachine.utils.sounds.SSound;
 import org.bukkit.entity.Player;
 
@@ -19,6 +20,6 @@ public class ThreadPlaySound extends Thread {
 
 	@Override
 	public void run() {
-		player.playSound(player.getLocation(), this.sound.getKey(), this.volume, this.pitch);
+		Util.playSoundPlayer(player, sound, this.volume, this.pitch);
 	}
 }

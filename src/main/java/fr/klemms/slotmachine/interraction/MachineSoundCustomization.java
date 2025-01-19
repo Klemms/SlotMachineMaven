@@ -8,6 +8,7 @@ import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryProvider;
 import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
 import fr.klemms.slotmachine.utils.PlayerHeadsUtil;
+import fr.klemms.slotmachine.utils.Util;
 import fr.klemms.slotmachine.utils.sounds.SSound;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -35,7 +36,7 @@ public class MachineSoundCustomization {
 						contents.fillRow(3, ClickableItem.empty(null));
 
 						contents.set(1, 1, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.HEADSET), ChatContent.GOLD + "Machine Interraction Sound"), event -> {
-							player.playSound(player.getLocation(), machine.getMachineOpeningSound().getKey(), 1.9f, 1.2f);
+							Util.playSoundPlayer(player, machine.getMachineOpeningSound(), 1.9f, 1.2f);
 						}));
 						contents.set(2, 1, ClickableItem.of(ItemStackUtil.addLoreLines(ItemStackUtil.changeItemStackName(new ItemStack(Material.NOTE_BLOCK, 1), machine.getMachineOpeningSound().toString()), "", ChatContent.AQUA + "Left Click : Select new Minecraft sound", "", ChatContent.AQUA + "Right Click : Type custom sound"), event -> {
 							if (event.isLeftClick()) {
@@ -43,7 +44,7 @@ public class MachineSoundCustomization {
 								MachineSoundlistInventory.openSoundlist(player, machine, 0, (sound) -> {
 									machine.setMachineOpeningSound(sound);
 									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + sound.toString() + "'");
-									player.playSound(player.getLocation(), machine.getMachineOpeningSound().getKey(), 1.9f, 1.2f);
+									Util.playSoundPlayer(player, machine.getMachineOpeningSound(), 1.9f, 1.2f);
 									machine.save();
 								}, 1.9f, 1.2f);
 							} else if (event.isRightClick()) {
@@ -51,7 +52,7 @@ public class MachineSoundCustomization {
 									SSound newSound = SSound.fromInput(text);
 									machine.setMachineOpeningSound(newSound);
 									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + newSound + "'");
-									player.playSound(player.getLocation(), machine.getMachineOpeningSound().getKey(), 1.9f, 1.2f);
+									Util.playSoundPlayer(player, machine.getMachineOpeningSound(), 1.9f, 1.2f);
 									machine.save();
 									customizeSounds(player, machine);
 								}, true, false);
@@ -71,7 +72,7 @@ public class MachineSoundCustomization {
 						}));
 
 						contents.set(1, 2, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.HEADSET), ChatContent.GOLD + "Lever Sound"), event -> {
-							player.playSound(player.getLocation(), machine.getLeverSound().getKey(), 1.9f, 1.2f);
+							Util.playSoundPlayer(player, machine.getLeverSound(), 1.9f, 1.2f);
 						}));
 						contents.set(2, 2, ClickableItem.of(ItemStackUtil.addLoreLines(ItemStackUtil.changeItemStackName(new ItemStack(Material.NOTE_BLOCK, 2), machine.getLeverSound().toString()), "", ChatContent.AQUA + "Left Click : Select new Minecraft sound", "", ChatContent.AQUA + "Right Click : Type custom sound"), event -> {
 							if (event.isLeftClick()) {
@@ -79,7 +80,7 @@ public class MachineSoundCustomization {
 								MachineSoundlistInventory.openSoundlist(player, machine, 0, (sound) -> {
 									machine.setLeverSound(sound);
 									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + sound.toString() + "'");
-									player.playSound(player.getLocation(), machine.getLeverSound().getKey(), 1.9f, 1.2f);
+									Util.playSoundPlayer(player, machine.getLeverSound(), 1.9f, 1.2f);
 									machine.save();
 								}, 1.9f, 1.2f);
 							} else if (event.isRightClick()) {
@@ -87,7 +88,7 @@ public class MachineSoundCustomization {
 									SSound newSound = SSound.fromInput(text);
 									machine.setLeverSound(newSound);
 									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + newSound + "'");
-									player.playSound(player.getLocation(), machine.getLeverSound().getKey(), 1.9f, 1.2f);
+									Util.playSoundPlayer(player, machine.getLeverSound(), 1.9f, 1.2f);
 									machine.save();
 									customizeSounds(player, machine);
 								}, true, false);
@@ -107,7 +108,7 @@ public class MachineSoundCustomization {
 						}));
 
 						contents.set(1, 3, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.HEADSET), ChatContent.GOLD + "Win Sound"), event -> {
-							player.playSound(player.getLocation(), machine.getWinSound().getKey(), 1.9f, 0.9f);
+							Util.playSoundPlayer(player, machine.getWinSound(), 1.9f, 0.9f);
 						}));
 						contents.set(2, 3, ClickableItem.of(ItemStackUtil.addLoreLines(ItemStackUtil.changeItemStackName(new ItemStack(Material.NOTE_BLOCK, 3), machine.getWinSound().toString()), "", ChatContent.AQUA + "Left Click : Select new Minecraft sound", "", ChatContent.AQUA + "Right Click : Type custom sound"), event -> {
 							if (event.isLeftClick()) {
@@ -115,7 +116,7 @@ public class MachineSoundCustomization {
 								MachineSoundlistInventory.openSoundlist(player, machine, 0, (sound) -> {
 									machine.setWinSound(sound);
 									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + sound.toString() + "'");
-									player.playSound(player.getLocation(), machine.getWinSound().getKey(), 1.9f, 0.9f);
+									Util.playSoundPlayer(player, machine.getWinSound(), 1.9f, 0.9f);
 									machine.save();
 								}, 1.9f, 0.9f);
 							} else if (event.isRightClick()) {
@@ -123,7 +124,7 @@ public class MachineSoundCustomization {
 									SSound newSound = SSound.fromInput(text);
 									machine.setWinSound(newSound);
 									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + newSound + "'");
-									player.playSound(player.getLocation(), machine.getWinSound().getKey(), 1.9f, 1.2f);
+									Util.playSoundPlayer(player, machine.getWinSound(), 1.9f, 0.9f);
 									machine.save();
 									customizeSounds(player, machine);
 								}, true, false);
@@ -147,7 +148,7 @@ public class MachineSoundCustomization {
 								ChatContent.AQUA + "such as when the machine is stil on",
 								ChatContent.AQUA + "cooldown for the player"
 								)), event -> {
-							player.playSound(player.getLocation(), machine.getErrorSound().getKey(), 1.3f, 1f);
+							Util.playSoundPlayer(player, machine.getErrorSound(), 1.3f, 1f);
 						}));
 						contents.set(2, 4, ClickableItem.of(ItemStackUtil.addLoreLines(ItemStackUtil.changeItemStackName(new ItemStack(Material.NOTE_BLOCK, 3), machine.getErrorSound().toString()), "", ChatContent.AQUA + "Left Click : Select new Minecraft sound", "", ChatContent.AQUA + "Right Click : Type custom sound"), event -> {
 							if (event.isLeftClick()) {
@@ -155,7 +156,7 @@ public class MachineSoundCustomization {
 								MachineSoundlistInventory.openSoundlist(player, machine, 0, (sound) -> {
 									machine.setErrorSound(sound);
 									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + sound.toString() + "'");
-									player.playSound(player.getLocation(), machine.getErrorSound().getKey(), 1.3f, 1f);
+									Util.playSoundPlayer(player, machine.getErrorSound(), 1.3f, 1f);
 									machine.save();
 								}, 1.3f, 1f);
 							} else if (event.isRightClick()) {
@@ -163,7 +164,7 @@ public class MachineSoundCustomization {
 									SSound newSound = SSound.fromInput(text);
 									machine.setErrorSound(newSound);
 									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + newSound + "'");
-									player.playSound(player.getLocation(), machine.getErrorSound().getKey(), 1.9f, 1.2f);
+									Util.playSoundPlayer(player, machine.getErrorSound(), 1.3f, 1f);
 									machine.save();
 									customizeSounds(player, machine);
 								}, true, false);
@@ -183,7 +184,7 @@ public class MachineSoundCustomization {
 						}));
 
 						contents.set(1, 5, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.HEADSET), ChatContent.GOLD + "Loss Sound"), event -> {
-							player.playSound(player.getLocation(), machine.getLossSound().getKey(), 0.3f, 0.7f);
+							Util.playSoundPlayer(player, machine.getLossSound(), 0.3f, 0.7f);
 						}));
 						contents.set(2, 5, ClickableItem.of(ItemStackUtil.addLoreLines(ItemStackUtil.changeItemStackName(new ItemStack(Material.NOTE_BLOCK, 4), machine.getLossSound().toString()), "", ChatContent.AQUA + "Left Click : Select new Minecraft sound", "", ChatContent.AQUA + "Right Click : Type custom sound"), event -> {
 							if (event.isLeftClick()) {
@@ -191,7 +192,7 @@ public class MachineSoundCustomization {
 								MachineSoundlistInventory.openSoundlist(player, machine, 0, (sound) -> {
 									machine.setLossSound(sound);
 									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + sound.toString() + "'");
-									player.playSound(player.getLocation(), machine.getLossSound().getKey(), 0.3f, 0.7f);
+									Util.playSoundPlayer(player, machine.getLossSound(), 0.3f, 0.7f);
 									machine.save();
 								}, 0.3f, 0.7f);
 							} else if (event.isRightClick()) {
@@ -199,7 +200,7 @@ public class MachineSoundCustomization {
 									SSound newSound = SSound.fromInput(text);
 									machine.setLossSound(newSound);
 									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + newSound + "'");
-									player.playSound(player.getLocation(), machine.getLossSound().getKey(), 1.9f, 1.2f);
+									Util.playSoundPlayer(player, machine.getLossSound(), 0.3f, 0.7f);
 									machine.save();
 									customizeSounds(player, machine);
 								}, true, false);
@@ -223,7 +224,7 @@ public class MachineSoundCustomization {
 								ChatContent.AQUA + "in a Slot Machine with the default",
 								ChatContent.AQUA + "'Slot Machine' layout"
 								)), event -> {
-									player.playSound(player.getLocation(), machine.getSlotmachineSpinSound().getKey(), 0.4f, 0.9f);
+									Util.playSoundPlayer(player, machine.getSlotmachineSpinSound(), 0.4f, 0.9f);
 								}));
 						contents.set(2, 6, ClickableItem.of(ItemStackUtil.addLoreLines(ItemStackUtil.changeItemStackName(new ItemStack(Material.NOTE_BLOCK, 5), machine.getSlotmachineSpinSound().toString()), "", ChatContent.AQUA + "Left Click : Select new Minecraft sound", "", ChatContent.AQUA + "Right Click : Type custom sound"), event -> {
 							if (event.isLeftClick()) {
@@ -231,7 +232,7 @@ public class MachineSoundCustomization {
 								MachineSoundlistInventory.openSoundlist(player, machine, 0, (sound) -> {
 									machine.setSlotmachineSpinSound(sound);
 									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + sound.toString() + "'");
-									player.playSound(player.getLocation(), machine.getSlotmachineSpinSound().getKey(), 0.4f, 0.9f);
+									Util.playSoundPlayer(player, machine.getSlotmachineSpinSound(), 0.4f, 0.9f);
 									machine.save();
 								}, 0.4f, 0.9f);
 							} else if (event.isRightClick()) {
@@ -239,7 +240,7 @@ public class MachineSoundCustomization {
 									SSound newSound = SSound.fromInput(text);
 									machine.setSlotmachineSpinSound(newSound);
 									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + newSound + "'");
-									player.playSound(player.getLocation(), machine.getSlotmachineSpinSound().getKey(), 1.9f, 1.2f);
+									Util.playSoundPlayer(player, machine.getSlotmachineSpinSound(), 0.4f, 0.9f);
 									machine.save();
 									customizeSounds(player, machine);
 								}, true, false);
@@ -263,7 +264,7 @@ public class MachineSoundCustomization {
 								ChatContent.AQUA + "in a Slot Machine with a CSGO-like",
 								ChatContent.AQUA + "layout"
 								)), event -> {
-									player.playSound(player.getLocation(), machine.getCsgoSpinSound().getKey(), 0.7f, 0.9f);
+									Util.playSoundPlayer(player, machine.getCsgoSpinSound(), 0.7f, 0.9f);
 								}));
 						contents.set(2, 7, ClickableItem.of(ItemStackUtil.addLoreLines(ItemStackUtil.changeItemStackName(new ItemStack(Material.NOTE_BLOCK, 6), machine.getCsgoSpinSound().toString()), "", ChatContent.AQUA + "Left Click : Select new Minecraft sound", "", ChatContent.AQUA + "Right Click : Type custom sound"), event -> {
 							if (event.isLeftClick()) {
@@ -271,7 +272,7 @@ public class MachineSoundCustomization {
 								MachineSoundlistInventory.openSoundlist(player, machine, 0, (sound) -> {
 									machine.setCsgoSpinSound(sound);
 									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + sound.toString() + "'");
-									player.playSound(player.getLocation(), machine.getCsgoSpinSound().getKey(), 0.7f, 0.9f);
+									Util.playSoundPlayer(player, machine.getCsgoSpinSound(), 0.7f, 0.9f);
 									machine.save();
 								}, 0.7f, 0.9f);
 							} else if (event.isRightClick()) {
@@ -279,7 +280,7 @@ public class MachineSoundCustomization {
 									SSound newSound = SSound.fromInput(text);
 									machine.setCsgoSpinSound(newSound);
 									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + newSound + "'");
-									player.playSound(player.getLocation(), machine.getCsgoSpinSound().getKey(), 1.9f, 1.2f);
+									Util.playSoundPlayer(player, machine.getCsgoSpinSound(), 0.7f, 0.9f);
 									machine.save();
 									customizeSounds(player, machine);
 								}, true, false);

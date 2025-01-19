@@ -1,8 +1,10 @@
 package fr.klemms.slotmachine.utils;
 
+import fr.klemms.slotmachine.utils.sounds.SSound;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 import org.bukkit.map.MinecraftFont;
 
 import java.text.DecimalFormat;
@@ -131,5 +133,13 @@ public class Util {
 
 	public static boolean isValidUUID(String uuid) {
 		return uuid.matches("[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}");
+	}
+
+	public static void playSoundPlayer(Player player, SSound sound, float volume, float pitch) {
+		if (sound.isCustomKey()) {
+			player.playSound(player.getLocation(), sound.getKey(), 1f, 1f);
+		} else {
+			player.playSound(player.getLocation(), sound.getKey(), volume, pitch);
+		}
 	}
 }
