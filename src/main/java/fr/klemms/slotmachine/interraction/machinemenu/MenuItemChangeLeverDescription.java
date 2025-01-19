@@ -5,6 +5,7 @@ import fr.klemms.slotmachine.SlotMachine;
 import fr.klemms.slotmachine.SlotPlugin;
 import fr.klemms.slotmachine.interraction.StringInput;
 import fr.klemms.slotmachine.placeholders.Variables;
+import fr.klemms.slotmachine.utils.PlayerUtil;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -72,13 +73,7 @@ public class MenuItemChangeLeverDescription extends MenuItem {
                                 machine.setLeverCustom(true);
                                 machine.save();
                             } else {
-                                player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.8F, 1.5F);
-
-                                player.sendMessage(
-                                        ChatContent.RED +
-                                                SlotPlugin.CHAT_PREFIX +
-                                                "Lever title needs to have at least 1 character"
-                                );
+                                PlayerUtil.sendErrorMessage(player, "Lever description needs to have at least 1 character");
                             }
                         },
                         true,
