@@ -79,17 +79,18 @@ public class Setup {
 		// Unfinished Languages
 		officialLanguages.put("es-ES", "es-ES");	// Spanish
 		officialLanguages.put("ko", "ko-KR");		// Korean
-		officialLanguages.put("pt-BR", "pt-BR");	// Portuguese (Brazil)
 		officialLanguages.put("tr", "tr-TR");		// Turkish
 		officialLanguages.put("vi", "vi-VN");		// Vietnamese
 		officialLanguages.put("it", "it-IT");		// Italian
 		officialLanguages.put("ja", "ja-JP");		// Japanese
-		officialLanguages.put("ro", "ro-RO");		// Japanese
+		officialLanguages.put("ro", "ro-RO");		// Romanian
 
 		// Finished but Unknown Quality Languages
 		officialLanguages.put("de", "de-DE");		// German
 		officialLanguages.put("ru", "ru-RU");		// Russian
 		officialLanguages.put("hu", "hu-HU");		// Russian
+		officialLanguages.put("pt-BR", "pt-BR");	// Portuguese (Brazil)
+		officialLanguages.put("cz", "cs-CZ");		// Czech
 
 		try {
 			Files.createDirectories(plugin.getDataFolder().toPath().resolve("langs"));
