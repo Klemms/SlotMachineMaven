@@ -1,15 +1,16 @@
 package fr.klemms.slotmachine.utils.sounds;
 
-import org.apache.commons.lang3.EnumUtils;
 import org.bukkit.Sound;
 
 public class SSound {
 
     public static SSound fromInput(String inputSound) {
-        if (EnumUtils.isValidEnum(Sound.class, inputSound)) {
-            return new SSound(Sound.valueOf(inputSound));
+        try {
+            Sound s = Sound.valueOf(inputSound);
+            return new SSound(s);
+        } catch (Exception e) {
+            return new SSound(inputSound);
         }
-        return new SSound(inputSound);
     }
 
     public Sound sound = null;
