@@ -55,6 +55,25 @@ public class MachineItemsInterractionInventory {
 						List<ClickableItem> items = new ArrayList<ClickableItem>();
 
 						for(final MachineItem item : machine.getSlotMachineItems())  {
+							if (item.getItemStack() == null) {
+								player.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + "An error occurred while getting this machine's items : ItemStack missing, your machine file may be corrupt, restoring a backup is recommended");
+								player.playSound(player, Sound.BLOCK_ANVIL_LAND, 1.5f, 1f);
+								contents.set(2, 4, ClickableItem.empty(
+										ItemStackUtil.setItemStackLore(
+                                                ItemStackUtil.changeItemStackName(new ItemStack(Material.BARRIER), ChatContent.RED + "An Error Occurred"),
+                                                Arrays.asList(
+												    ChatContent.GRAY + "An error occurred while",
+                                                        ChatContent.GRAY + "getting this machine's items :",
+                                                    "",
+                                                        ChatContent.GRAY + "ItemStack missing, your",
+                                                        ChatContent.GRAY + "machine file may be corrupt,",
+                                                    ChatContent.GRAY + "restoring a backup is recommended"
+												)
+										)
+								));
+								return;
+							}
+
 							List<String> isLore = new ArrayList<String>();
 							isLore.add(ChatContent.DARK_AQUA + ChatContent.ITALIC + " - Right click to take this item back");
 							isLore.add(ChatContent.GOLD + ChatContent.ITALIC + " [NEW !]" + ChatContent.DARK_AQUA + " - Left click to edit this item");
