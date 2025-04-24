@@ -410,6 +410,7 @@ public class SlotPlugin extends JavaPlugin {
 				YamlConfiguration yamlFile = new YamlConfiguration();
 
 				yamlFile.set("saveTime", DateFormat.getDateTimeInstance().format(new Date()).toString());
+				yamlFile.set("iVersion", VERSION);
 				yamlFile.set("machineType", slotMachine.getSlotMachineType().toString());
 				if(slotMachine.getSlotMachineType() == SlotMachineType.ENTITY || slotMachine.getSlotMachineType() == SlotMachineType.ENTITY_LINK) {
 					yamlFile.set("entityUID", ((SlotMachineEntity)slotMachine).getEntityUUID().toString());

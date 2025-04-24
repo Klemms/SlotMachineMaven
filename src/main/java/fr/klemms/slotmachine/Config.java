@@ -223,6 +223,8 @@ public class Config {
         if (plugin.getConfig().getInt("pluginVersion") == 4 || plugin.getConfig().getInt("pluginVersion") == 5 || plugin.getConfig().getInt("pluginVersion") == 6) {
             plugin.getLogger().log(Level.INFO, Language.translate("config.version").replace("%version%", String.valueOf(plugin.getConfig().getInt("pluginVersion"))));
             if (Files.exists(plugin.getDataFolder().toPath().resolve("machines"))) {
+                boolean saveMade = false;
+
                 Collection<File> detectedFiles = FileUtils.listFiles(plugin.getDataFolder().toPath().resolve("machines").toFile(), TrueFileFilter.INSTANCE, null);
                 plugin.getLogger().log(Level.INFO, Language.translate("load.slotmachine.detected").replace("%amount%", String.valueOf(detectedFiles.size())));
                 for (File file : detectedFiles) {
@@ -234,6 +236,16 @@ public class Config {
                     YamlConfiguration ymlFile = YamlConfiguration.loadConfiguration(file);
                     plugin.getLogger().log(Level.INFO, Language.translate("load.slotmachine.loading").replace("%file%", file.getName()));
                     try {
+                        if (!saveMade && (!ymlFile.contains("iVersion") || ymlFile.getInt("iVersion", 0) < SlotPlugin.VERSION)) {
+                            plugin.getLogger().log(Level.INFO, "Detected Slot Machine version upgrade, making a backup of machines called : " + "MACHINES_BACKUP-UPGRADE-TO-" + SlotPlugin.VERSION);
+                            Setup.makeBackup("MACHINES_BACKUP-UPGRADE-TO-" + SlotPlugin.VERSION);
+                            saveMade = true;
+                        }
+
+                        if (ymlFile.getInt("iVersion", 0) > SlotPlugin.VERSION) {
+                            plugin.getLogger().log(Level.WARNING, "Machine file '" + file.getName() + "' is coming from a newer version of Slot Machine, plugin downgrade is not recommended as it could lead to data loss. Current Plugin version : " + SlotPlugin.VERSION + " - File version : " + ymlFile.getInt("iVersion", 0));
+                        }
+
                         UUID machineUUID = UUID.randomUUID();;
                         try {
                             if (!ymlFile.contains("machineType") || ymlFile.getString("machineType") == null) {
