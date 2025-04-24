@@ -54,20 +54,20 @@ public class MachineItemsInterractionInventory {
 						pagination.setItemsPerPage(4 * 9);
 						List<ClickableItem> items = new ArrayList<ClickableItem>();
 
-						for(final MachineItem item : machine.getSlotMachineItems())  {
+						for (final MachineItem item : machine.getSlotMachineItems()) {
 							if (item.getItemStack() == null) {
 								player.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + "An error occurred while getting this machine's items : ItemStack missing, your machine file may be corrupt, restoring a backup is recommended");
 								player.playSound(player, Sound.BLOCK_ANVIL_LAND, 1.5f, 1f);
 								contents.set(2, 4, ClickableItem.empty(
 										ItemStackUtil.setItemStackLore(
-                                                ItemStackUtil.changeItemStackName(new ItemStack(Material.BARRIER), ChatContent.RED + "An Error Occurred"),
-                                                Arrays.asList(
-												    ChatContent.GRAY + "An error occurred while",
-                                                        ChatContent.GRAY + "getting this machine's items :",
-                                                    "",
-                                                        ChatContent.GRAY + "ItemStack missing, your",
-                                                        ChatContent.GRAY + "machine file may be corrupt,",
-                                                    ChatContent.GRAY + "restoring a backup is recommended"
+												ItemStackUtil.changeItemStackName(new ItemStack(Material.BARRIER), ChatContent.RED + "An Error Occurred"),
+												Arrays.asList(
+														ChatContent.GRAY + "An error occurred while",
+														ChatContent.GRAY + "getting this machine's items :",
+														"",
+														ChatContent.GRAY + "ItemStack missing, your",
+														ChatContent.GRAY + "machine file may be corrupt,",
+														ChatContent.GRAY + "restoring a backup is recommended"
 												)
 										)
 								));
@@ -128,47 +128,47 @@ public class MachineItemsInterractionInventory {
 								ChatContent.GRAY + "was added in Slot Machine 6.2.1",
 								ChatContent.GRAY + "Times won stat for items has been",
 								ChatContent.GRAY + "added in Slot Machine 6.3.0"
-								))));
+						))));
 
 						contents.set(0, 4, ClickableItem.empty(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.SMALL_INFOS), ChatContent.GOLD + "Machine Statistics"), Arrays.asList(
 								ChatContent.AQUA + "This machine has been used " + ChatContent.DARK_AQUA + machine.getTimesUsed() + ChatContent.AQUA + " times",
 								"",
 								ChatContent.GRAY + "Note : Times used stat has been",
 								ChatContent.GRAY + "added in Slot machine 6.2.1"
-								))));
+						))));
 
 						contents.set(0, 6, ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.BARRIER), ChatContent.RED + "Clear ALL Items"), Arrays.asList(
 								ChatContent.GRAY + "Remove ALL items from this machine",
 								ChatContent.GRAY + "This will NOT give you back the items"
-							)), event -> {
-								ConfirmInventory.confirmWindow(player, "Clear all items ?", "No, cancel", "Yes, clear them", callback -> {
-									if (callback) {
-										player.playSound(player.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1F, 1F);
-										machine.setSlotMachineItems(new ArrayList<MachineItem>());
-										machine.save();
-										manageItems(player, machine, 0);
-									} else
-										manageItems(player, machine, page);
-								}, false);
+						)), event -> {
+							ConfirmInventory.confirmWindow(player, "Clear all items ?", "No, cancel", "Yes, clear them", callback -> {
+								if (callback) {
+									player.playSound(player.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1F, 1F);
+									machine.setSlotMachineItems(new ArrayList<MachineItem>());
+									machine.save();
+									manageItems(player, machine, 0);
+								} else
+									manageItems(player, machine, page);
+							}, false);
 
 						}));
 
 						contents.set(0, 7, ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.TRASH_CAN), ChatContent.RED + "Reset all Statistics"), Arrays.asList(
 								ChatContent.GRAY + "This will reset this machine's and all",
 								ChatContent.GRAY + "items statistics to 0"
-							)), event -> {
-								ConfirmInventory.confirmWindow(player, "Reset all Statistics ?", "No, cancel", "Yes, reset", callback -> {
-									if (callback) {
-										player.playSound(player.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1F, 1F);
-										for(MachineItem it : machine.getSlotMachineItems()) {
-											it.itemStats.timesWon = 0;
-										}
-										machine.setTimesUsed(0);
-										machine.save();
-										manageItems(player, machine, page);
-									} else
-										manageItems(player, machine, page);
-								}, false);
+						)), event -> {
+							ConfirmInventory.confirmWindow(player, "Reset all Statistics ?", "No, cancel", "Yes, reset", callback -> {
+								if (callback) {
+									player.playSound(player.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1F, 1F);
+									for (MachineItem it : machine.getSlotMachineItems()) {
+										it.itemStats.timesWon = 0;
+									}
+									machine.setTimesUsed(0);
+									machine.save();
+									manageItems(player, machine, page);
+								} else
+									manageItems(player, machine, page);
+							}, false);
 
 						}));
 
@@ -198,7 +198,7 @@ public class MachineItemsInterractionInventory {
 									ChatContent.AQUA + "You can continue adding items by",
 									ChatContent.AQUA + "dropping them on this info icon,",
 									ChatContent.AQUA + "this will create a new page."
-									))));
+							))));
 
 						contents.set(5, 4, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(Material.PAPER), Language.translate("basic.page") + " " + (pagination.getPage() + 1))));
 
