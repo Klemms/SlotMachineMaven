@@ -1,27 +1,17 @@
 package fr.klemms.slotmachine.fr.minuskube.inv;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.logging.Level;
-
+import fr.klemms.slotmachine.SlotPlugin;
+import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryContents;
+import fr.klemms.slotmachine.fr.minuskube.inv.opener.ChestInventoryOpener;
+import fr.klemms.slotmachine.fr.minuskube.inv.opener.InventoryOpener;
+import fr.klemms.slotmachine.fr.minuskube.inv.opener.SpecialInventoryOpener;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryAction;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryDragEvent;
-import org.bukkit.event.inventory.InventoryOpenEvent;
-import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.inventory.Inventory;
@@ -29,11 +19,8 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import fr.klemms.slotmachine.SlotPlugin;
-import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryContents;
-import fr.klemms.slotmachine.fr.minuskube.inv.opener.ChestInventoryOpener;
-import fr.klemms.slotmachine.fr.minuskube.inv.opener.InventoryOpener;
-import fr.klemms.slotmachine.fr.minuskube.inv.opener.SpecialInventoryOpener;
+import java.util.*;
+import java.util.logging.Level;
 
 public class InventoryManager {
 
@@ -117,23 +104,23 @@ public class InventoryManager {
         else
             this.contents.put(p.getUniqueId(), contents);
     }
-    
+
     public void handleInventoryOpenError(SmartInventory inventory, Player player, Exception exception) {
     	inventory.close(player);
-    	
+
     	SlotPlugin.pl.getLogger().log(Level.SEVERE, "Error while opening Inventory:", exception);
     }
-    
+
     public void handleInventoryUpdateError(SmartInventory inventory, Player player, Exception exception) {
     	inventory.close(player);
-    	
+
     	SlotPlugin.pl.getLogger().log(Level.SEVERE, "Error while updating Inventory:", exception);
     }
 
     @SuppressWarnings("unchecked")
     class InvListener implements Listener {
 
-        @EventHandler(priority = EventPriority.LOW)
+        @EventHandler(priority = EventPriority.HIGHEST)
         public void onInventoryClick(InventoryClickEvent e) {
             Player p = (Player) e.getWhoClicked();
 
@@ -141,13 +128,13 @@ public class InventoryManager {
                 return;
 
             Inventory clickedInventory = e.getClickedInventory();
-            
+
             if (clickedInventory == p.getOpenInventory().getBottomInventory()) {
                 if(e.getAction() == InventoryAction.COLLECT_TO_CURSOR || e.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY) {
                     e.setCancelled(true);
                     return;
                 }
-                
+
                 if(e.getAction() == InventoryAction.NOTHING && e.getClick() != ClickType.MIDDLE) {
                     e.setCancelled(true);
                     return;
@@ -173,7 +160,7 @@ public class InventoryManager {
                 		((InventoryListener<InventoryClickEvent>) listener).accept(e);
                 	}
                 }
-                
+
                 // Removed for performance reasons
                 /*inv.getListeners().stream()
                         .filter(listener -> listener.getType() == InventoryClickEvent.class)
@@ -207,7 +194,7 @@ public class InventoryManager {
             		((InventoryListener<InventoryDragEvent>) listener).accept(e);
             	}
             }
-            
+
             // Removed for performance reasons
             /*inv.getListeners().stream()
                     .filter(listener -> listener.getType() == InventoryDragEvent.class)
@@ -228,7 +215,7 @@ public class InventoryManager {
             		((InventoryListener<InventoryOpenEvent>) listener).accept(e);
             	}
             }
-            
+
             // Removed for performance reasons
             /*inv.getListeners().stream()
                     .filter(listener -> listener.getType() == InventoryOpenEvent.class)
@@ -249,7 +236,7 @@ public class InventoryManager {
             		((InventoryListener<InventoryCloseEvent>) listener).accept(e);
             	}
             }
-            
+
             // Removed for performance reasons
             /*inv.getListeners().stream()
                     .filter(listener -> listener.getType() == InventoryCloseEvent.class)
@@ -278,7 +265,7 @@ public class InventoryManager {
             		((InventoryListener<PlayerQuitEvent>) listener).accept(e);
             	}
             }
-            
+
             // Removed for performance reasons
             /*inv.getListeners().stream()
                     .filter(listener -> listener.getType() == PlayerQuitEvent.class)
@@ -296,7 +283,7 @@ public class InventoryManager {
                 		((InventoryListener<PluginDisableEvent>) listener).accept(e);
                 	}
                 }
-                
+
                 // Removed for performance reasons
                 /*inv.getListeners().stream()
                         .filter(listener -> listener.getType() == PluginDisableEvent.class)
@@ -317,7 +304,7 @@ public class InventoryManager {
         public void run() {
             new HashMap<>(inventories).forEach((playerUUID, inv) -> {
             	Player player = Bukkit.getPlayer(playerUUID);
-            	
+
             	try {
             		inv.getProvider().update(player, contents.get(playerUUID));
             	} catch (Exception e) {
