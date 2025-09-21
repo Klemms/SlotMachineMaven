@@ -9,7 +9,6 @@ import fr.klemms.slotmachine.commands.*;
 import fr.klemms.slotmachine.events.PluginListener;
 import fr.klemms.slotmachine.exceptioncollector.ExceptionCollector;
 import fr.klemms.slotmachine.fr.minuskube.inv.InventoryManager;
-import fr.klemms.slotmachine.metrics.Metrics;
 import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
 import fr.klemms.slotmachine.utils.Util;
@@ -22,6 +21,10 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.black_ixx.playerpoints.PlayerPoints;
 import org.black_ixx.playerpoints.PlayerPointsAPI;
+import org.bstats.bukkit.Metrics;
+import org.bstats.charts.AdvancedPie;
+import org.bstats.charts.SimplePie;
+import org.bstats.charts.SingleLineChart;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -184,7 +187,7 @@ public class SlotPlugin extends JavaPlugin {
 
 		metrics = new Metrics(this, 1065);
 
-		metrics.addCustomChart(new Metrics.SimplePie("internal_version", new Callable<String>() {
+		metrics.addCustomChart(new SimplePie("internal_version", new Callable<String>() {
 
 			@Override
 			public String call() throws Exception {
@@ -193,7 +196,7 @@ public class SlotPlugin extends JavaPlugin {
 
 		}));
 
-		metrics.addCustomChart(new Metrics.SingleLineChart("times_used", new Callable<Integer>() {
+		metrics.addCustomChart(new SingleLineChart("times_used", new Callable<Integer>() {
 
 			@Override
 			public Integer call() throws Exception {
@@ -212,7 +215,7 @@ public class SlotPlugin extends JavaPlugin {
 
 		}));
 
-		metrics.addCustomChart(new Metrics.AdvancedPie("slot_machine_type", new Callable<Map<String, Integer>>() {
+		metrics.addCustomChart(new AdvancedPie("slot_machine_type", new Callable<Map<String, Integer>>() {
 
 			@Override
 			public Map<String, Integer> call() throws Exception {
@@ -234,7 +237,7 @@ public class SlotPlugin extends JavaPlugin {
 
 		}));
 
-		metrics.addCustomChart(new Metrics.SimplePie("slot_machine_language", () -> {
+		metrics.addCustomChart(new SimplePie("slot_machine_language", () -> {
 			if (Language.isValidLanguage(Config.language)) {
 				return Config.language;
 			} else {
@@ -242,7 +245,7 @@ public class SlotPlugin extends JavaPlugin {
 			}
 		}));
 
-		metrics.addCustomChart(new Metrics.SimplePie("slot_machine_language_custom", () -> Config.language));
+		metrics.addCustomChart(new SimplePie("slot_machine_language_custom", () -> Config.language));
 
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
 			Iterator<Issue> iss = issues.iterator();
