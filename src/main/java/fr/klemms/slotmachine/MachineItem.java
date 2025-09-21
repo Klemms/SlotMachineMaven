@@ -1,5 +1,6 @@
 package fr.klemms.slotmachine;
 
+import fr.klemms.slotmachine.utils.ItemStackUtil;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -17,16 +18,18 @@ public class MachineItem {
 	private int weight;
 	private List<Reward> rewards;
 	public ItemStat itemStats;
+	public boolean showAttributeModifiers;
 
 	public MachineItem(ItemStack itemStack, int weight) {
-		this(itemStack, weight, new ArrayList<Reward>(Arrays.asList(new Reward(itemStack))));
+		this(itemStack, weight, new ArrayList<Reward>(Arrays.asList(new Reward(itemStack))), true);
 	}
 
-	public MachineItem(ItemStack itemStack, int weight, List<Reward> rewards) {
+	public MachineItem(ItemStack itemStack, int weight, List<Reward> rewards, boolean showAttributeModifiers) {
 		this.itemStack = itemStack;
 		this.weight = weight;
 		this.rewards = rewards;
 		this.itemStats = new ItemStat();
+		this.showAttributeModifiers = showAttributeModifiers;
 	}
 
 	public BaseComponent[] getRewardName() {
@@ -53,16 +56,18 @@ public class MachineItem {
 			}
 		}
 
-		MachineItem newItem = new MachineItem(new ItemStack(this.itemStack), weight, newRewards);
-
-		return newItem;
+		return new MachineItem(new ItemStack(this.itemStack), weight, newRewards, showAttributeModifiers);
 	}
 
 	public String getRealName() {
 		return itemStack.getItemMeta().hasDisplayName() ? itemStack.getItemMeta().getDisplayName() : WordUtils.capitalizeFully(itemStack.getType().toString().replace('_', ' '));
 	}
 
-	public ItemStack getItemStack() {
+	public ItemStack getItemStack(boolean affectedByModifiers) {
+		if (affectedByModifiers) {
+			return ItemStackUtil.changeAttributeModifiers(new ItemStack(itemStack), showAttributeModifiers);
+		}
+
 		return itemStack;
 	}
 

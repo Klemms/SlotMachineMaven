@@ -32,17 +32,17 @@ public class SlotMachineLayout extends CommonLayout {
 		ClickableItem bluePane = ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(machine.getBackgroundItem()), " "));
 		contents.fill(bluePane);
 
-		contents.set(1, 1, ClickableItem.empty(row_0.get(0).getItemStack()));
-		contents.set(1, 3, ClickableItem.empty(row_0.get(1).getItemStack()));
-		contents.set(1, 5, ClickableItem.empty(row_0.get(2).getItemStack()));
+		contents.set(1, 1, ClickableItem.empty(row_0.get(0).getItemStack(true)));
+		contents.set(1, 3, ClickableItem.empty(row_0.get(1).getItemStack(true)));
+		contents.set(1, 5, ClickableItem.empty(row_0.get(2).getItemStack(true)));
 
-		contents.set(2, 1, ClickableItem.empty(row_1.get(0).getItemStack()));
-		contents.set(2, 3, ClickableItem.empty(row_1.get(1).getItemStack()));
-		contents.set(2, 5, ClickableItem.empty(row_1.get(2).getItemStack()));
+		contents.set(2, 1, ClickableItem.empty(row_1.get(0).getItemStack(true)));
+		contents.set(2, 3, ClickableItem.empty(row_1.get(1).getItemStack(true)));
+		contents.set(2, 5, ClickableItem.empty(row_1.get(2).getItemStack(true)));
 
-		contents.set(3, 1, ClickableItem.empty(row_2.get(0).getItemStack()));
-		contents.set(3, 3, ClickableItem.empty(row_2.get(1).getItemStack()));
-		contents.set(3, 5, ClickableItem.empty(row_2.get(2).getItemStack()));
+		contents.set(3, 1, ClickableItem.empty(row_2.get(0).getItemStack(true)));
+		contents.set(3, 3, ClickableItem.empty(row_2.get(1).getItemStack(true)));
+		contents.set(3, 5, ClickableItem.empty(row_2.get(2).getItemStack(true)));
 
 		contents.set(2, 2, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(machine.getEmphasisItem()), " ")));
 		contents.set(2, 4, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(machine.getEmphasisItem()), " ")));

@@ -1,6 +1,9 @@
 package fr.klemms.slotmachine.interraction;
 
-import fr.klemms.slotmachine.*;
+import fr.klemms.slotmachine.ChatContent;
+import fr.klemms.slotmachine.MachineItem;
+import fr.klemms.slotmachine.SlotMachine;
+import fr.klemms.slotmachine.SlotPlugin;
 import fr.klemms.slotmachine.fr.minuskube.inv.ClickableItem;
 import fr.klemms.slotmachine.fr.minuskube.inv.InventoryListener;
 import fr.klemms.slotmachine.fr.minuskube.inv.SmartInventory;
@@ -23,7 +26,7 @@ public class ItemEdit {
 	public static void editItem(Player player, SlotMachine machine, MachineItem item, int backPage) {
 		SmartInventory inv = SmartInventory.builder()
 				.manager(SlotPlugin.invManager)
-				.title("What do you want to edit ?")
+				.title("What do you want to do ?")
 				.size(5, 9)
 				.closeable(true)
 				.listener(new InventoryListener<InventoryClickEvent>(InventoryClickEvent.class, event -> {
@@ -43,14 +46,28 @@ public class ItemEdit {
 
 						contents.set(0, 1, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.INFOS), ChatContent.GOLD + "Pick what you want to edit")));
 
-						contents.set(2, 3, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.DUMBBELL), ChatContent.GOLD + "Edit Item Weight"), event -> {
+						contents.set(2, 1, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.DUMBBELL), ChatContent.GOLD + "Edit Item Weight"), event -> {
 							player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 							ChangeItemWeight.changeItemWeight(player, machine, item, backPage);
 						}));
 
-						contents.set(2, 5, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.CUSTOMIZE), ChatContent.GOLD + "Edit Rewards & Commands"), event -> {
+						contents.set(2, 3, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.CUSTOMIZE), ChatContent.GOLD + "Edit Rewards & Commands"), event -> {
 							player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 							RewardsCustomization.rewardsCustomization(player, machine, item, backPage, 0);
+						}));
+
+						contents.set(2, 7, ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.ALLAY), ChatContent.GOLD + (item.showAttributeModifiers ? "Hide Attribute Modifiers" : "Show Attribute Modifiers")), Arrays.asList(
+								ChatContent.AQUA + "Toggles showing basic attribute",
+								ChatContent.AQUA + "modifiers on the item in GUIs to",
+								ChatContent.AQUA + "make them look cleaner.",
+								"",
+								ChatContent.AQUA + "Won't affect the reward, this effect",
+								ChatContent.AQUA + "is purely cosmetic."
+						)), event -> {
+							player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+							item.showAttributeModifiers = !item.showAttributeModifiers;
+							machine.save();
+							ItemEdit.editItem(player, machine, item, backPage);
 						}));
 
 						contents.set(4, 1, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.BACK), Language.translate("basic.back")), event -> {
@@ -63,7 +80,7 @@ public class ItemEdit {
 								ChatContent.AQUA + "currently being edited"
 						))));
 
-						contents.set(4, 8, ClickableItem.empty(new ItemStack(item.getItemStack())));
+						contents.set(4, 8, ClickableItem.empty(new ItemStack(item.getItemStack(true))));
 					}
 
 					@Override

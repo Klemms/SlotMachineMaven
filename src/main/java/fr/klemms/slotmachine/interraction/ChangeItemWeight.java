@@ -164,7 +164,7 @@ public class ChangeItemWeight {
 								ChatContent.AQUA + "currently being edited"
 								))));
 
-						contents.set(4, 8, ClickableItem.empty(new ItemStack(item.getItemStack())));
+						contents.set(4, 8, ClickableItem.empty(new ItemStack(item.getItemStack(true))));
 
 					}
 

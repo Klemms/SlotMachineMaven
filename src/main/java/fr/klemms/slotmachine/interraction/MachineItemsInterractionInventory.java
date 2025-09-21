@@ -55,7 +55,7 @@ public class MachineItemsInterractionInventory {
 						List<ClickableItem> items = new ArrayList<ClickableItem>();
 
 						for (final MachineItem item : machine.getSlotMachineItems()) {
-							if (item.getItemStack() == null) {
+							if (item.getItemStack(false) == null) {
 								player.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + "An error occurred while getting this machine's items : ItemStack missing, your machine file may be corrupt, restoring a backup is recommended");
 								player.playSound(player, Sound.BLOCK_ANVIL_LAND, 1.5f, 1f);
 								contents.set(2, 4, ClickableItem.empty(
@@ -82,17 +82,17 @@ public class MachineItemsInterractionInventory {
 							isLore.add(ChatContent.DARK_AQUA + " - Times won : " + item.itemStats.timesWon);
 							if (isLore.size() > 5)
 								isLore.add("");
-							if (item.getItemStack().getItemMeta().hasLore() && item.getItemStack().getItemMeta().getLore().size() > 0) {
+							if (item.getItemStack(false).getItemMeta().hasLore() && item.getItemStack(false).getItemMeta().getLore().size() > 0) {
 								isLore.add("");
-								isLore.addAll(item.getItemStack().getItemMeta().getLore());
+								isLore.addAll(item.getItemStack(false).getItemMeta().getLore());
 							}
-							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(new ItemStack(item.getItemStack()), isLore), event -> {
+							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(new ItemStack(item.getItemStack(true)), isLore), event -> {
 								if (event.isRightClick()) {
 									player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 									if (player.getInventory().firstEmpty() < 0)
 										player.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + "You need a free slot in your inventory");
 									else {
-										player.getInventory().addItem(new ItemStack(item.getItemStack()));
+										player.getInventory().addItem(new ItemStack(item.getItemStack(false)));
 										machine.removeItem(item);
 										machine.save();
 										player.updateInventory();

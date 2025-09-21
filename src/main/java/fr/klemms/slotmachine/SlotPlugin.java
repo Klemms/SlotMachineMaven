@@ -483,8 +483,9 @@ public class SlotPlugin extends JavaPlugin {
 						yamlFile.set("items." + b + ".reward", null);
 						yamlFile.set("items." + b + ".rewardType", null);
 
-						yamlFile.set("items." + b + ".item", item.getItemStack());
+						yamlFile.set("items." + b + ".item", item.getItemStack(false));
 						yamlFile.set("items." + b + ".weight", item.getWeight());
+						yamlFile.set("items." + b + ".showAttributeModifiers", item.showAttributeModifiers);
 
 						yamlFile.set("items." + b + ".rewards", null);
 						for (int c = 0; c < item.getRewards().size(); c++) {

@@ -61,4 +61,22 @@ public class ItemStackUtil {
 	public static boolean isValidMaterial(String material) {
 		return material != null && Material.getMaterial(material) != null;
 	}
+
+
+	public static ItemStack changeAttributeModifiers(ItemStack itemStack, boolean show) {
+		ItemMeta im = itemStack.getItemMeta();
+
+		if (im == null) {
+			return itemStack;
+		}
+
+		if (show) {
+			im.removeItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+		} else {
+			im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+		}
+
+		itemStack.setItemMeta(im);
+		return (itemStack);
+	}
 }

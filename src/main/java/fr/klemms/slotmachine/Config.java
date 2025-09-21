@@ -488,14 +488,15 @@ public class Config {
                                         i++;
                                     }
                                     String item = "items." + itm;
+									boolean showAttributeModifiers = ymlFile.getBoolean(item + ".showAttributeModifiers", true);
 
                                     if (ymlFile.isSet(item + ".reward")) {
                                         MachineItem.RewardType rewardType = ymlFile.isSet(item + ".rewardType") ? MachineItem.RewardType.valueOf(ymlFile.getString(item + ".rewardType")) : null;
                                         if (rewardType != null) {
                                             if (rewardType == RewardType.ITEM) {
-                                                slotMachineItems.add(new MachineItem(ymlFile.getItemStack(item + ".item"), ymlFile.getInt(item + ".weight"), new ArrayList<Reward>(Arrays.asList(new MachineItem.Reward(ymlFile.getItemStack(item + ".reward"))))));
+                                                slotMachineItems.add(new MachineItem(ymlFile.getItemStack(item + ".item"), ymlFile.getInt(item + ".weight"), new ArrayList<Reward>(Arrays.asList(new MachineItem.Reward(ymlFile.getItemStack(item + ".reward")))), showAttributeModifiers));
                                             } else if (rewardType == RewardType.COMMAND) {
-                                                slotMachineItems.add(new MachineItem(ymlFile.getItemStack(item + ".item"), ymlFile.getInt(item + ".weight"), new ArrayList<Reward>(Arrays.asList(new MachineItem.Reward(ymlFile.getString(item + ".reward"))))));
+                                                slotMachineItems.add(new MachineItem(ymlFile.getItemStack(item + ".item"), ymlFile.getInt(item + ".weight"), new ArrayList<Reward>(Arrays.asList(new MachineItem.Reward(ymlFile.getString(item + ".reward")))), showAttributeModifiers));
                                             }
                                         } else {
                                             slotMachineItems.add(new MachineItem(ymlFile.getItemStack(item + ".item"), ymlFile.getInt(item + ".weight")));
@@ -516,7 +517,7 @@ public class Config {
                                                 SlotPlugin.pl.getLogger().log(Level.SEVERE, "Machine " + slotMachine.getMachineUUID().toString() + " has a malformed item reward (" + str + "), we're not loading this reward");
                                             }
                                         }
-                                        MachineItem it = new MachineItem(ymlFile.getItemStack(item + ".item"), ymlFile.getInt(item + ".weight"), rewards);
+                                        MachineItem it = new MachineItem(ymlFile.getItemStack(item + ".item"), ymlFile.getInt(item + ".weight"), rewards, showAttributeModifiers);
 
                                         if (ymlFile.isSet(item + ".stats.timesWon")) {
                                             it.itemStats.timesWon = ymlFile.getInt(item + ".stats.timesWon");
@@ -610,9 +611,9 @@ public class Config {
                         MachineItem.RewardType rewardType = SlotPlugin.pl.getConfig().isSet("items." + b + ".rewardType") ? MachineItem.RewardType.valueOf(SlotPlugin.pl.getConfig().getString("items." + b + ".rewardType")) : null;
                         if (rewardType != null) {
                             if (rewardType == RewardType.ITEM) {
-                                slotMachineItems.add(new MachineItem(SlotPlugin.pl.getConfig().getItemStack("items." + b + ".item"), SlotPlugin.pl.getConfig().getInt("items." + b + ".weight"), Arrays.asList(new MachineItem.Reward(SlotPlugin.pl.getConfig().getItemStack("items." + b + ".reward")))));
+                                slotMachineItems.add(new MachineItem(SlotPlugin.pl.getConfig().getItemStack("items." + b + ".item"), SlotPlugin.pl.getConfig().getInt("items." + b + ".weight"), Arrays.asList(new MachineItem.Reward(SlotPlugin.pl.getConfig().getItemStack("items." + b + ".reward"))), true));
                             } else if (rewardType == RewardType.COMMAND) {
-                                slotMachineItems.add(new MachineItem(SlotPlugin.pl.getConfig().getItemStack("items." + b + ".item"), SlotPlugin.pl.getConfig().getInt("items." + b + ".weight"), Arrays.asList(new MachineItem.Reward(SlotPlugin.pl.getConfig().getString("items." + b + ".reward")))));
+                                slotMachineItems.add(new MachineItem(SlotPlugin.pl.getConfig().getItemStack("items." + b + ".item"), SlotPlugin.pl.getConfig().getInt("items." + b + ".weight"), Arrays.asList(new MachineItem.Reward(SlotPlugin.pl.getConfig().getString("items." + b + ".reward"))), true));
                             }
                         } else {
                             slotMachineItems.add(new MachineItem(SlotPlugin.pl.getConfig().getItemStack("items." + b + ".item"), SlotPlugin.pl.getConfig().getInt("items." + b + ".weight")));
@@ -633,7 +634,7 @@ public class Config {
                             }
                         }
 
-                        slotMachineItems.add(new MachineItem(SlotPlugin.pl.getConfig().getItemStack("items." + b + ".item"), SlotPlugin.pl.getConfig().getInt("items." + b + ".weight"), rewards));
+                        slotMachineItems.add(new MachineItem(SlotPlugin.pl.getConfig().getItemStack("items." + b + ".item"), SlotPlugin.pl.getConfig().getInt("items." + b + ".weight"), rewards, true));
                     } else {
                         slotMachineItems.add(
                                 new MachineItem(

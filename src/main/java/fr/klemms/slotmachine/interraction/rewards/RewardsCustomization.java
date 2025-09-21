@@ -99,7 +99,7 @@ public class RewardsCustomization {
 							ConfirmInventory.confirmWindow(player, "Reset reward to appearance ?", "No, cancel", "Yes, reset", result -> {
 								if (result) {
 									List<MachineItem.Reward> newRewards = new ArrayList<MachineItem.Reward>();
-									newRewards.add(new MachineItem.Reward(new ItemStack(item.getItemStack())));
+									newRewards.add(new MachineItem.Reward(new ItemStack(item.getItemStack(false))));
 									item.setRewards(newRewards);
 									machine.save();
 									player.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1.5F, 1F);
@@ -118,7 +118,7 @@ public class RewardsCustomization {
 								ChatContent.GRAY + "Note that only the appearance will",
 								ChatContent.GRAY + "change, the rewards will stay."
 								), ChatContent.GOLD + "Item Appearance")));
-						contents.set(3, 1, ClickableItem.empty(new ItemStack(item.getItemStack())));
+						contents.set(3, 1, ClickableItem.empty(new ItemStack(item.getItemStack(true))));
 
 						for (int i = 0; i < (item.getRewards().size() - 5 * page) && i < 5; i++) {
 							MachineItem.Reward reward = item.getRewards().get(i + 5 * page);
@@ -257,7 +257,7 @@ public class RewardsCustomization {
 								ChatContent.AQUA + "currently being edited"
 						))));
 
-						contents.set(5, 8, ClickableItem.empty(new ItemStack(item.getItemStack())));
+						contents.set(5, 8, ClickableItem.empty(new ItemStack(item.getItemStack(true))));
 					}
 
 					@Override

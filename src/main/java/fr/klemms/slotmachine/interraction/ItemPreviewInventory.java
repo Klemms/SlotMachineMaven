@@ -1,14 +1,5 @@
 package fr.klemms.slotmachine.interraction;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
 import fr.klemms.slotmachine.ChatContent;
 import fr.klemms.slotmachine.MachineItem;
 import fr.klemms.slotmachine.SlotMachine;
@@ -23,6 +14,14 @@ import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
 import fr.klemms.slotmachine.utils.PlayerHeadsUtil;
 import fr.klemms.slotmachine.utils.Util;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class ItemPreviewInventory {
 
@@ -48,12 +47,12 @@ public class ItemPreviewInventory {
 							if (machine.showItemWeightOnPreview() || machine.showChanceOfItemOnPreview()) {
 								isLore.add(ChatContent.DARK_AQUA + " " + (machine.showItemWeightOnPreview() ? Language.translate("basic.weight") + " : " + item.getWeight() : "") + (machine.showItemWeightOnPreview() && machine.showChanceOfItemOnPreview() ? "  -  " : "") + (machine.showChanceOfItemOnPreview() ? Language.translate("basic.chance") + " : " + Util.formatNumberTwoDigits(machine.getItemChance(item) * 100) + "% " : " ")) ;
 								isLore.add("");
-								if (item.getItemStack().getItemMeta().hasLore() && item.getItemStack().getItemMeta().getLore().size() > 0)
+								if (item.getItemStack(false).getItemMeta().hasLore() && item.getItemStack(false).getItemMeta().getLore().size() > 0)
 									isLore.add("");
 							}
-							if (item.getItemStack().getItemMeta().hasLore() && item.getItemStack().getItemMeta().getLore().size() > 0)
-								isLore.addAll(item.getItemStack().getItemMeta().getLore());
-							items.add(ClickableItem.empty(ItemStackUtil.setItemStackLore(new ItemStack(item.getItemStack()), isLore)));
+							if (item.getItemStack(false).getItemMeta().hasLore() && item.getItemStack(false).getItemMeta().getLore().size() > 0)
+								isLore.addAll(item.getItemStack(false).getItemMeta().getLore());
+							items.add(ClickableItem.empty(ItemStackUtil.setItemStackLore(new ItemStack(item.getItemStack(true)), isLore)));
 						}
 						
 						pagination.setItems(items.toArray(new ClickableItem[items.size()]));

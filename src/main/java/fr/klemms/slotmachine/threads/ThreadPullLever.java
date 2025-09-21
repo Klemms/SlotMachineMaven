@@ -23,10 +23,10 @@ import java.util.logging.Level;
 
 public class ThreadPullLever extends Thread {
 
-	private SlotMachine machine;
-	private Player player;
-	private InventoryContents contents;
-	private MachinePlayCallback callback;
+	private final SlotMachine machine;
+	private final Player player;
+	private final InventoryContents contents;
+	private final MachinePlayCallback callback;
 
 	public ThreadPullLever(Player player, SlotMachine machine, InventoryContents contents, MachinePlayCallback callback) {
 		this.machine = machine;
@@ -72,15 +72,15 @@ public class ThreadPullLever extends Thread {
 					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadPlaySound(machine.getSlotmachineSpinSound(), 0.4F, 0.8F, player), 0);
 					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadPlaySound(machine.getSlotmachineSpinSound(), 0.4F, 0.9F, player), 0 + machine.getSpinSpeed());
 					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadPlaySound(machine.getSlotmachineSpinSound(), 0.4F, 1.0F, player), 0 + machine.getSpinSpeed() * 2);
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(player, machine, 1, 1, row0.get(0), contents), 0);
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(player, machine, 1, 2, row1.get(0), contents), 0);
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(player, machine, 1, 3, row2.get(0), contents), 0);
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(player, machine, 3, 1, row0.get(1), contents), 0 + machine.getSpinSpeed());
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(player, machine, 3, 2, row1.get(1), contents), 0 + machine.getSpinSpeed());
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(player, machine, 3, 3, row2.get(1), contents), 0 + machine.getSpinSpeed());
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(player, machine, 5, 1, row0.get(2), contents), 0 + machine.getSpinSpeed() * 2);
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(player, machine, 5, 2, row1.get(2), contents), 0 + machine.getSpinSpeed() * 2);
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(player, machine, 5, 3, row2.get(2), contents), 0 + machine.getSpinSpeed() * 2);
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(1, 1, row0.get(0), contents, true), 0);
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(1, 2, row1.get(0), contents, true), 0);
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(1, 3, row2.get(0), contents, true), 0);
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(3, 1, row0.get(1), contents, true), 0 + machine.getSpinSpeed());
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(3, 2, row1.get(1), contents, true), 0 + machine.getSpinSpeed());
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(3, 3, row2.get(1), contents, true), 0 + machine.getSpinSpeed());
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(5, 1, row0.get(2), contents, true), 0 + machine.getSpinSpeed() * 2);
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(5, 2, row1.get(2), contents, true), 0 + machine.getSpinSpeed() * 2);
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(5, 3, row2.get(2), contents, true), 0 + machine.getSpinSpeed() * 2);
 					machine.setPlayerRow1(player, row0);
 					machine.setPlayerRow2(player, row1);
 					try {
@@ -105,13 +105,13 @@ public class ThreadPullLever extends Thread {
 						newLine.add(0, machine.getRandomItemFromPool());
 					}
 					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadPlaySound(machine.getCsgoSpinSound(), 0.7F, 0.9F, player), 0);
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(player, machine, 1, 2, newLine.get(0), contents), 0);
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(player, machine, 2, 2, newLine.get(1), contents), 0);
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(player, machine, 3, 2, newLine.get(2), contents), 0);
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(player, machine, 4, 2, newLine.get(3), contents), 0);
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(player, machine, 5, 2, newLine.get(4), contents), 0);
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(player, machine, 6, 2, newLine.get(5), contents), 0);
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(player, machine, 7, 2, newLine.get(6), contents), 0);
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(1, 2, newLine.get(0), contents, true), 0);
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(2, 2, newLine.get(1), contents, true), 0);
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(3, 2, newLine.get(2), contents, true), 0);
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(4, 2, newLine.get(3), contents, true), 0);
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(5, 2, newLine.get(4), contents, true), 0);
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(6, 2, newLine.get(5), contents, true), 0);
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(7, 2, newLine.get(6), contents, true), 0);
 					machine.setPlayerRow0(player, newLine);
 
 					int finishTime = 0;
@@ -134,11 +134,11 @@ public class ThreadPullLever extends Thread {
 						newLine.add(0, machine.getRandomItemFromPool());
 					}
 					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadPlaySound(machine.getCsgoSpinSound(), 0.7F, 0.9F, player), 0);
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(player, machine, 2, 0, newLine.get(0), contents), 0);
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(player, machine, 2, 1, newLine.get(1), contents), 0);
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(player, machine, 2, 2, newLine.get(2), contents), 0);
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(player, machine, 2, 3, newLine.get(3), contents), 0);
-					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(player, machine, 2, 4, newLine.get(4), contents), 0);
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(2, 0, newLine.get(0), contents, true), 0);
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(2, 1, newLine.get(1), contents, true), 0);
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(2, 2, newLine.get(2), contents, true), 0);
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(2, 3, newLine.get(3), contents, true), 0);
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadMachineInvUpdate(2, 4, newLine.get(4), contents, true), 0);
 					machine.setPlayerRow0(player, newLine);
 
 					int finishTime = 0;
@@ -167,7 +167,7 @@ public class ThreadPullLever extends Thread {
 						finalMessage.append(new ComponentBuilder(" (")
 								.color(ChatColor.AQUA)
 								.append(wonItem.getRewardName())
-								.append(new ComponentBuilder(" x" + wonItem.getItemStack().getAmount()).color(ChatColor.GRAY).create())
+								.append(new ComponentBuilder(" x" + wonItem.getItemStack(false).getAmount()).color(ChatColor.GRAY).create())
 								.append(new ComponentBuilder(")").color(ChatColor.AQUA).create())
 								.create());
 					} else {
@@ -188,7 +188,7 @@ public class ThreadPullLever extends Thread {
 					finalMessage.append(new ComponentBuilder(" (")
 							.color(ChatColor.AQUA)
 							.append(wonItem.getRewardName())
-							.append(new ComponentBuilder(" x" + wonItem.getItemStack().getAmount()).color(ChatColor.GRAY).create())
+							.append(new ComponentBuilder(" x" + wonItem.getItemStack(false).getAmount()).color(ChatColor.GRAY).create())
 							.append(new ComponentBuilder(")").color(ChatColor.AQUA).create())
 							.create());
 				} else {

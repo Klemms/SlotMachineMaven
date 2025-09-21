@@ -30,13 +30,13 @@ public class CSGOLayout extends CommonLayout {
 		ClickableItem bluePane = ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(machine.getBackgroundItem()), " "));
 		contents.fill(bluePane);
 
-		contents.set(2, 1, ClickableItem.empty(row_0.get(0).getItemStack()));
-		contents.set(2, 2, ClickableItem.empty(row_0.get(1).getItemStack()));
-		contents.set(2, 3, ClickableItem.empty(row_0.get(2).getItemStack()));
-		contents.set(2, 4, ClickableItem.empty(row_0.get(3).getItemStack()));
-		contents.set(2, 5, ClickableItem.empty(row_0.get(4).getItemStack()));
-		contents.set(2, 6, ClickableItem.empty(row_0.get(5).getItemStack()));
-		contents.set(2, 7, ClickableItem.empty(row_0.get(6).getItemStack()));
+		contents.set(2, 1, ClickableItem.empty(row_0.get(0).getItemStack(true)));
+		contents.set(2, 2, ClickableItem.empty(row_0.get(1).getItemStack(true)));
+		contents.set(2, 3, ClickableItem.empty(row_0.get(2).getItemStack(true)));
+		contents.set(2, 4, ClickableItem.empty(row_0.get(3).getItemStack(true)));
+		contents.set(2, 5, ClickableItem.empty(row_0.get(4).getItemStack(true)));
+		contents.set(2, 6, ClickableItem.empty(row_0.get(5).getItemStack(true)));
+		contents.set(2, 7, ClickableItem.empty(row_0.get(6).getItemStack(true)));
 
 		contents.set(1, 4, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(machine.getEmphasisItem()), " ")));
 		contents.set(3, 4, ClickableItem.empty(ItemStackUtil.changeItemStackName(new ItemStack(machine.getEmphasisItem()), " ")));
