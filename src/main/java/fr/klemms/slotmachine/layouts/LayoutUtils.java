@@ -86,7 +86,7 @@ public class LayoutUtils {
                                 player,
                                 machine
                         ));
-                        player.playSound(player.getLocation(), machine.getErrorSound().getKey(), 1.3f, 1f);
+                        Util.playSoundPlayer(player, machine.getErrorSound(), 1.3f, 1f);
                         return false;
                     }
 

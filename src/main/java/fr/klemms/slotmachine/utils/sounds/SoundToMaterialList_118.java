@@ -1,11 +1,10 @@
 package fr.klemms.slotmachine.utils.sounds;
 
-import java.util.HashMap;
-
+import fr.klemms.slotmachine.SlotPlugin;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 
-import fr.klemms.slotmachine.SlotPlugin;
+import java.util.HashMap;
 
 public class SoundToMaterialList_118 {
 
@@ -2828,9 +2827,6 @@ public class SoundToMaterialList_118 {
 				case ITEM_SHOVEL_FLATTEN:
 					SlotPlugin.soundMaterialMap.put(sound, Material.DIAMOND_SHOVEL);
 					break;
-				/*case ITEM_SWEET_BERRIES_PICK_FROM_BUSH:
-					SlotPlugin.soundMaterialMap.put(sound, Material.SWEET_BERRIES);
-					break;*/
 				case ITEM_TOTEM_USE:
 					SlotPlugin.soundMaterialMap.put(sound, Material.TOTEM_OF_UNDYING);
 					break;

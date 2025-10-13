@@ -333,9 +333,7 @@ public abstract class SlotMachine {
 				.listener(new InventoryListener<InventoryCloseEvent>(InventoryCloseEvent.class, event -> {
 					if (!event.getPlayer().hasMetadata("slotmachine_soundremovalprevention")) {
 						if (event.getPlayer() instanceof Player) {
-							Player pl = (Player)event.getPlayer();
-
-							pl.stopSound(this.getMachineOpeningSound().getKey());
+							this.getMachineOpeningSound().stopSound((Player)event.getPlayer());
 						}
 					}
 				}))
@@ -867,6 +865,12 @@ public abstract class SlotMachine {
 	}
 
 	public void setMachineOpeningSound(SSound machineOpeningSound) {
+		if (machineOpeningSound == null) {
+			SlotPlugin.pl.getLogger().log(Level.WARNING, "Resetting Machine Opening Sound to default for machine '" + this.getMachineUUID().toString() + "'");
+			this.resetSoundMachineOpening();
+			this.save();
+			return;
+		}
 		this.machineOpeningSound = machineOpeningSound;
 	}
 
@@ -875,6 +879,12 @@ public abstract class SlotMachine {
 	}
 
 	public void setLeverSound(SSound leverSound) {
+		if (leverSound == null) {
+			SlotPlugin.pl.getLogger().log(Level.WARNING, "Resetting Lever Sound to default for machine '" + this.getMachineUUID().toString() + "'");
+			this.resetSoundLever();
+			this.save();
+			return;
+		}
 		this.leverSound = leverSound;
 	}
 
@@ -883,6 +893,12 @@ public abstract class SlotMachine {
 	}
 
 	public void setErrorSound(SSound errorSound) {
+		if (errorSound == null) {
+			SlotPlugin.pl.getLogger().log(Level.WARNING, "Resetting Error Sound to default for machine '" + this.getMachineUUID().toString() + "'");
+			this.resetSoundError();
+			this.save();
+			return;
+		}
 		this.errorSound = errorSound;
 	}
 
@@ -891,6 +907,12 @@ public abstract class SlotMachine {
 	}
 
 	public void setSlotmachineSpinSound(SSound slotmachineSpinSound) {
+		if (slotmachineSpinSound == null) {
+			SlotPlugin.pl.getLogger().log(Level.WARNING, "Resetting Spinning Sound to default for machine '" + this.getMachineUUID().toString() + "'");
+			this.resetSoundSlotMachineSpin();
+			this.save();
+			return;
+		}
 		this.slotmachineSpinSound = slotmachineSpinSound;
 	}
 
@@ -899,6 +921,12 @@ public abstract class SlotMachine {
 	}
 
 	public void setCsgoSpinSound(SSound csgoSpinSound) {
+		if (csgoSpinSound == null) {
+			SlotPlugin.pl.getLogger().log(Level.WARNING, "Resetting CSGO Spinning Sound to default for machine '" + this.getMachineUUID().toString() + "'");
+			this.resetSoundCSGOSpin();
+			this.save();
+			return;
+		}
 		this.csgoSpinSound = csgoSpinSound;
 	}
 
@@ -907,6 +935,12 @@ public abstract class SlotMachine {
 	}
 
 	public void setWinSound(SSound winSound) {
+		if (winSound == null) {
+			SlotPlugin.pl.getLogger().log(Level.WARNING, "Resetting Win Sound to default for machine '" + this.getMachineUUID().toString() + "'");
+			this.resetSoundWin();
+			this.save();
+			return;
+		}
 		this.winSound = winSound;
 	}
 
@@ -915,6 +949,12 @@ public abstract class SlotMachine {
 	}
 
 	public void setLossSound(SSound lossSound) {
+		if (lossSound == null) {
+			SlotPlugin.pl.getLogger().log(Level.WARNING, "Resetting Loss Sound to default for machine '" + this.getMachineUUID().toString() + "'");
+			this.resetSoundLoss();
+			this.save();
+			return;
+		}
 		this.lossSound = lossSound;
 	}
 

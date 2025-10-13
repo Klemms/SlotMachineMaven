@@ -12,6 +12,7 @@ import fr.klemms.slotmachine.fr.minuskube.inv.content.SlotIterator.Type;
 import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
 import fr.klemms.slotmachine.utils.PlayerHeadsUtil;
+import fr.klemms.slotmachine.utils.Util;
 import fr.klemms.slotmachine.utils.sounds.SSound;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -43,7 +44,7 @@ public class MachineSoundlistInventory {
 
 						for(final Sound sound : Sound.values())  {
 							ItemStack soundStack = new ItemStack(SlotPlugin.soundMaterialMap.containsKey(sound) ? SlotPlugin.soundMaterialMap.get(sound) : Material.NOTE_BLOCK, 1);
-							soundStack = ItemStackUtil.changeItemStackName(soundStack, sound.toString());
+							soundStack = ItemStackUtil.changeItemStackName(soundStack, Util.prettifyMCEnum(sound.name()));
 							soundStack = ItemStackUtil.setItemStackLore(soundStack, Arrays.asList(
 									ChatContent.AQUA + ChatContent.ITALIC + "Left Click to pick this sound",
 									ChatContent.AQUA + ChatContent.ITALIC + "Right Click to listen to this sound"));

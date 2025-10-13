@@ -467,13 +467,13 @@ public class SlotPlugin extends JavaPlugin {
 					yamlFile.set("leverItemActivated", slotMachine.getLeverItemActivated());
 					yamlFile.set("itemListItem", slotMachine.getItemListItem());
 
-					yamlFile.set("machineOpeningSound", slotMachine.getMachineOpeningSound().toString());
-					yamlFile.set("leverSound", slotMachine.getLeverSound().toString());
-					yamlFile.set("slotmachineSpinSound", slotMachine.getSlotmachineSpinSound().toString());
-					yamlFile.set("csgoSpinSound", slotMachine.getCsgoSpinSound().toString());
-					yamlFile.set("winSound", slotMachine.getWinSound().toString());
-					yamlFile.set("lossSound", slotMachine.getLossSound().toString());
-					yamlFile.set("errorSound", slotMachine.getErrorSound().toString());
+					yamlFile.set("machineOpeningSound", slotMachine.getMachineOpeningSound().getSaveString());
+					yamlFile.set("leverSound", slotMachine.getLeverSound().getSaveString());
+					yamlFile.set("slotmachineSpinSound", slotMachine.getSlotmachineSpinSound().getSaveString());
+					yamlFile.set("csgoSpinSound", slotMachine.getCsgoSpinSound().getSaveString());
+					yamlFile.set("winSound", slotMachine.getWinSound().getSaveString());
+					yamlFile.set("lossSound", slotMachine.getLossSound().getSaveString());
+					yamlFile.set("errorSound", slotMachine.getErrorSound().getSaveString());
 
 					yamlFile.set("coinsEngineCurrencyName", slotMachine.getCoinsEngineCurrencyName());
 

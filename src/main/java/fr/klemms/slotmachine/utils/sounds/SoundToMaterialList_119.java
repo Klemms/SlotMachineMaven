@@ -2838,9 +2838,6 @@ public class SoundToMaterialList_119 {
 				case ITEM_SHOVEL_FLATTEN:
 					SlotPlugin.soundMaterialMap.put(sound, Material.DIAMOND_SHOVEL);
 					break;
-				/*case ITEM_SWEET_BERRIES_PICK_FROM_BUSH:
-					SlotPlugin.soundMaterialMap.put(sound, Material.SWEET_BERRIES);
-					break;*/
 				case ITEM_TOTEM_USE:
 					SlotPlugin.soundMaterialMap.put(sound, Material.TOTEM_OF_UNDYING);
 					break;

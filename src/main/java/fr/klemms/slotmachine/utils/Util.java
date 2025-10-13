@@ -3,6 +3,8 @@ package fr.klemms.slotmachine.utils;
 import fr.klemms.slotmachine.utils.sounds.SSound;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.map.MinecraftFont;
@@ -120,13 +122,12 @@ public class Util {
 	}
 
 	public static boolean isValidSound(String sound) {
-		if (sound == null)
-			return false;
+        NamespacedKey key = NamespacedKey.fromString(sound);
+        if (key != null) {
+            Sound s = Registry.SOUNDS.get(key);
 
-		for(Sound sSound : Sound.values()) {
-			if (sSound.toString().equals(sound))
-				return true;
-		}
+			return s != null;
+        }
 
 		return false;
 	}
@@ -136,10 +137,10 @@ public class Util {
 	}
 
 	public static void playSoundPlayer(Player player, SSound sound, float volume, float pitch) {
-		if (sound.isCustomKey()) {
-			player.playSound(player.getLocation(), sound.getKey(), 1f, 1f);
-		} else {
-			player.playSound(player.getLocation(), sound.getKey(), volume, pitch);
-		}
+		sound.playSound(player, volume, pitch);
+	}
+
+	public static String prettifyMCEnum(String enumName) {
+		return StringUtils.capitalize(enumName.replace("_", " ").replace(".", " ").toLowerCase());
 	}
 }

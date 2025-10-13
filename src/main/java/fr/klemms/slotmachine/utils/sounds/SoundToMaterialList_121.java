@@ -261,13 +261,6 @@ public class SoundToMaterialList_121 {
 				case BLOCK_CHORUS_FLOWER_GROW:
 					SlotPlugin.soundMaterialMap.put(sound, Material.CHORUS_FRUIT);
 					break;
-                /*case BLOCK_COBWEB_BREAK:
-                case BLOCK_COBWEB_FALL:
-                case BLOCK_COBWEB_HIT:
-                case BLOCK_COBWEB_PLACE:
-                case BLOCK_COBWEB_STEP:
-					SlotPlugin.soundMaterialMap.put(sound, Material.COBWEB);
-                    break;*/
                 case BLOCK_COMPARATOR_CLICK:
 					SlotPlugin.soundMaterialMap.put(sound, Material.COMPARATOR);
 					break;
@@ -451,13 +444,6 @@ public class SoundToMaterialList_121 {
 				case BLOCK_GRINDSTONE_USE:
 					SlotPlugin.soundMaterialMap.put(sound, Material.GRINDSTONE);
 					break;
-                /*case BLOCK_HEAVY_CORE_BREAK:
-                case BLOCK_HEAVY_CORE_FALL:
-                case BLOCK_HEAVY_CORE_HIT:
-                case BLOCK_HEAVY_CORE_PLACE:
-                case BLOCK_HEAVY_CORE_STEP:
-					SlotPlugin.soundMaterialMap.put(sound, Material.HEAVY_CORE);
-                    break;*/
                 case BLOCK_HONEY_BLOCK_BREAK:
 					SlotPlugin.soundMaterialMap.put(sound, Material.HONEY_BLOCK);
 					break;
@@ -2852,9 +2838,6 @@ public class SoundToMaterialList_121 {
 				case ITEM_SHOVEL_FLATTEN:
 					SlotPlugin.soundMaterialMap.put(sound, Material.DIAMOND_SHOVEL);
 					break;
-				/*case ITEM_SWEET_BERRIES_PICK_FROM_BUSH:
-					SlotPlugin.soundMaterialMap.put(sound, Material.SWEET_BERRIES);
-					break;*/
 				case ITEM_TOTEM_USE:
 					SlotPlugin.soundMaterialMap.put(sound, Material.TOTEM_OF_UNDYING);
 					break;
@@ -4442,11 +4425,6 @@ public class SoundToMaterialList_121 {
                 case BLOCK_SPONGE_STEP:
 					SlotPlugin.soundMaterialMap.put(sound, Material.SPONGE);
                     break;
-                /*case BLOCK_TRIAL_SPAWNER_AMBIENT_OMINOUS:
-                case BLOCK_TRIAL_SPAWNER_OMINOUS_ACTIVATE:
-                case BLOCK_TRIAL_SPAWNER_ABOUT_TO_SPAWN_ITEM:
-                case BLOCK_TRIAL_SPAWNER_SPAWN_ITEM:
-                case BLOCK_TRIAL_SPAWNER_SPAWN_ITEM_BEGIN:*/
                 case BLOCK_TRIAL_SPAWNER_AMBIENT:
                 case BLOCK_TRIAL_SPAWNER_BREAK:
                 case BLOCK_TRIAL_SPAWNER_CLOSE_SHUTTER:
@@ -4491,98 +4469,6 @@ public class SoundToMaterialList_121 {
                 case ENTITY_PLAYER_TELEPORT:
 					SlotPlugin.soundMaterialMap.put(sound, Material.PLAYER_HEAD);
                     break;
-                /*case BLOCK_VAULT_REJECT_REWARDED_PLAYER:
-                case BLOCK_VAULT_ACTIVATE:
-                case BLOCK_VAULT_AMBIENT:
-                case BLOCK_VAULT_BREAK:
-                case BLOCK_VAULT_CLOSE_SHUTTER:
-                case BLOCK_VAULT_DEACTIVATE:
-                case BLOCK_VAULT_EJECT_ITEM:
-                case BLOCK_VAULT_FALL:
-                case BLOCK_VAULT_HIT:
-                case BLOCK_VAULT_INSERT_ITEM:
-                case BLOCK_VAULT_INSERT_ITEM_FAIL:
-                case BLOCK_VAULT_OPEN_SHUTTER:
-                case BLOCK_VAULT_PLACE:
-                case BLOCK_VAULT_STEP:
-					SlotPlugin.soundMaterialMap.put(sound, Material.VAULT);
-                    break;
-                case BLOCK_WET_SPONGE_DRIES:
-					SlotPlugin.soundMaterialMap.put(sound, Material.SPONGE);
-                    break;
-                case ENTITY_ARMADILLO_AMBIENT:
-                case ENTITY_ARMADILLO_BRUSH:
-                case ENTITY_ARMADILLO_DEATH:
-                case ENTITY_ARMADILLO_EAT:
-                case ENTITY_ARMADILLO_HURT:
-                case ENTITY_ARMADILLO_HURT_REDUCED:
-                case ENTITY_ARMADILLO_LAND:
-                case ENTITY_ARMADILLO_PEEK:
-                case ENTITY_ARMADILLO_ROLL:
-                case ENTITY_ARMADILLO_SCUTE_DROP:
-                case ENTITY_ARMADILLO_STEP:
-                case ENTITY_ARMADILLO_UNROLL_FINISH:
-                case ENTITY_ARMADILLO_UNROLL_START:
-					SlotPlugin.soundMaterialMap.put(sound, Material.ARMADILLO_SPAWN_EGG);
-                    break;
-                case ENTITY_BOGGED_AMBIENT:
-                case ENTITY_BOGGED_DEATH:
-                case ENTITY_BOGGED_HURT:
-                case ENTITY_BOGGED_SHEAR:
-                case ENTITY_BOGGED_STEP:
-					SlotPlugin.soundMaterialMap.put(sound, Material.BOGGED_SPAWN_EGG);
-                    break;
-                case ENTITY_BREEZE_CHARGE:
-                case ENTITY_BREEZE_DEFLECT:
-                case ENTITY_BREEZE_WHIRL:
-                case ENTITY_BREEZE_WIND_BURST:
-					SlotPlugin.soundMaterialMap.put(sound, Material.BREEZE_SPAWN_EGG);
-                    break;
-                case ENTITY_DONKEY_JUMP:
-					SlotPlugin.soundMaterialMap.put(sound, Material.DONKEY_SPAWN_EGG);
-                    break;
-                case ENTITY_MULE_JUMP:
-					SlotPlugin.soundMaterialMap.put(sound, Material.MULE_SPAWN_EGG);
-                    break;
-                case ENTITY_PARROT_IMITATE_BOGGED:
-					SlotPlugin.soundMaterialMap.put(sound, Material.PARROT_SPAWN_EGG);
-                    break;
-                case ENTITY_WIND_CHARGE_THROW:
-                case ENTITY_WIND_CHARGE_WIND_BURST:
-					SlotPlugin.soundMaterialMap.put(sound, Material.WIND_CHARGE);
-                    break;
-                case EVENT_MOB_EFFECT_BAD_OMEN:
-                case EVENT_MOB_EFFECT_RAID_OMEN:
-                case EVENT_MOB_EFFECT_TRIAL_OMEN:
-					SlotPlugin.soundMaterialMap.put(sound, Material.TOTEM_OF_UNDYING);
-                    break;
-                case ITEM_ARMOR_EQUIP_WOLF:
-                case ITEM_ARMOR_UNEQUIP_WOLF:
-					SlotPlugin.soundMaterialMap.put(sound, Material.WOLF_ARMOR);
-                    break;
-                case ITEM_MACE_SMASH_AIR:
-                case ITEM_MACE_SMASH_GROUND:
-                case ITEM_MACE_SMASH_GROUND_HEAVY:
-					SlotPlugin.soundMaterialMap.put(sound, Material.MACE);
-                    break;
-                case ITEM_OMINOUS_BOTTLE_DISPOSE:
-					SlotPlugin.soundMaterialMap.put(sound, Material.OMINOUS_BOTTLE);
-                    break;
-                case ITEM_WOLF_ARMOR_BREAK:
-                case ITEM_WOLF_ARMOR_CRACK:
-                case ITEM_WOLF_ARMOR_DAMAGE:
-                case ITEM_WOLF_ARMOR_REPAIR:
-					SlotPlugin.soundMaterialMap.put(sound, Material.WOLF_ARMOR);
-                    break;
-                case MUSIC_DISC_CREATOR:
-					SlotPlugin.soundMaterialMap.put(sound, Material.MUSIC_DISC_CREATOR);
-                    break;
-                case MUSIC_DISC_CREATOR_MUSIC_BOX:
-					SlotPlugin.soundMaterialMap.put(sound, Material.MUSIC_DISC_CREATOR_MUSIC_BOX);
-                    break;
-                case MUSIC_DISC_PRECIPICE:
-					SlotPlugin.soundMaterialMap.put(sound, Material.MUSIC_DISC_PRECIPICE);
-                    break;*/
             }
 		}
 	}
