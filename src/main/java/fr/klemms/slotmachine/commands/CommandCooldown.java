@@ -62,8 +62,9 @@ public class CommandCooldown implements CommandExecutor {
 					SMPlayerConfig sm = PlayerConfig.getSMPlayerConfig(pl, machine);
 
 					if (sm != null) {
-						if (args[2].equalsIgnoreCase("reset"))
-							sm.setCooldown(0);
+						if (args[2].equalsIgnoreCase("reset")) {
+							sm.setCooldownDuration(0);
+						}
 					}
 				}
 			}

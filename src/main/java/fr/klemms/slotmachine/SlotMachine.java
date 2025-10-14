@@ -988,41 +988,42 @@ public abstract class SlotMachine {
 	}
 
 	public void updateCooldown(Player player) {
-		int playerCooldown = this.getPlayerCooldown(player);
-		int machineCooldown = this.getCooldown();
+		SMPlayerConfig plc = PlayerConfig.getSMPlayerConfig(player, this);
+		if (plc == null)
+			return;
 
-		if (playerCooldown > 0 && playerCooldown > machineCooldown) {
-			this.setPlayerCooldown(player, machineCooldown);
+		final int machineCooldown = this.getCooldown();
+
+		if (plc.getRemainingCooldown() > machineCooldown) {
+			plc.setCooldownDuration(machineCooldown);
 		}
 	}
 
 	public boolean isPlayerInCooldown(Player player) {
-		int playerCooldown = this.getPlayerCooldown(player);
-		int machineCooldown = this.getCooldown();
+		this.updateCooldown(player);
 
-		if (playerCooldown > 0 && playerCooldown > machineCooldown) {
-			this.setPlayerCooldown(player, machineCooldown);
-			return machineCooldown > 0;
-		}
+		SMPlayerConfig plc = PlayerConfig.getSMPlayerConfig(player, this);
+		if (plc == null)
+			return false;
 
-		return playerCooldown > 0;
+		return plc.getRemainingCooldown() > 0;
 	}
 
 	public int getPlayerCooldown(Player player) {
 		SMPlayerConfig plc = PlayerConfig.getSMPlayerConfig(player, this);
 
 		if (plc != null) {
-			return plc.getCooldown();
+			return plc.getRemainingCooldown();
 		}
 
 		return 0;
 	}
 
 	public void setPlayerCooldown(Player player, int cooldown) {
-		SMPlayerConfig plc = PlayerConfig.getOrCreateSMPlayerConfig(player, this, true);
+		SMPlayerConfig smpc = PlayerConfig.getOrCreateSMPlayerConfig(player, this, true);
 
-		plc.setCooldown(cooldown);
-		plc.saveToDisk();
+		smpc.setCooldownDuration(cooldown);
+		smpc.usedNow();
 	}
 
 	public int getCooldown() {

@@ -99,10 +99,10 @@ public class SlotPlugin extends JavaPlugin {
 		invManager = new InventoryManager(this);
 		invManager.init();
 
-		if(Util.getMCVersion().startsWith("1.18")) {
+		if (Util.getMCVersion().startsWith("1.18")) {
 			this.getLogger().log(Level.INFO, "Using 1.18 Sound Mappings");
 			SoundToMaterialList_118.initList();
-		} else if(Util.getMCVersion().startsWith("1.19")) {
+		} else if (Util.getMCVersion().startsWith("1.19")) {
 			this.getLogger().log(Level.INFO, "Using 1.19 Sound Mappings");
 			SoundToMaterialList_119.initList();
 		} else {
@@ -142,7 +142,7 @@ public class SlotPlugin extends JavaPlugin {
 			Config.loadMachines(this);
 			PlayerConfig.loadPlayerConfig();
 			Clipboards.setupClipboards();
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			ExceptionCollector.sendException(this, e);
 		}
@@ -165,12 +165,12 @@ public class SlotPlugin extends JavaPlugin {
 
 		this.getServer().getPluginManager().registerEvents(new PluginListener(), this);
 
-		if(this.getServer().getPluginManager().getPlugin("CoinsEngine") != null) {
+		if (this.getServer().getPluginManager().getPlugin("CoinsEngine") != null) {
 			//TODO : Change to true when we re-enable coinsengine/gamepoints
 			SlotPlugin.isGamePointsEnabled = false;
 		}
 
-		if(this.getServer().getPluginManager().getPlugin("TokenManager") != null) {
+		if (this.getServer().getPluginManager().getPlugin("TokenManager") != null) {
 			try {
 				Class.forName("me.realized.tm.api.TMAPI");
 				SlotPlugin.oldTokenManagerWorks = true;
@@ -207,7 +207,7 @@ public class SlotPlugin extends JavaPlugin {
 				List<SlotMachine> machines = SlotMachine.getSlotMachines();
 				int result = 0;
 
-				for(SlotMachine machine : machines)
+				for (SlotMachine machine : machines)
 					result += machine.getTimesUsed();
 
 				return result;
@@ -268,26 +268,13 @@ public class SlotPlugin extends JavaPlugin {
 			}
 		}, 10 * 20, 30 * 20);
 
-		// Cooldown
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
-			if (SlotPlugin.playerConfigs != null) {
-				for (PlayerConfig plc : SlotPlugin.playerConfigs.values()) {
-					for (SMPlayerConfig smpc : plc.getMachinesConfig().values()) {
-						if (smpc.getCooldown() > 0) {
-							smpc.setCooldown(smpc.getCooldown() - 1);
-						}
-					}
-				}
-			}
-		}, 1 * 20, 1 * 20);
-
 		// Saving
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
 			if (!suspendSaving) {
-				saveCooldownsToDisk();
 				if (shouldSaveMachinesToDisk) {
 					saveMachinesToDisk(true);
 				}
+				saveCooldownsToDisk();
 			}
 		}, 10 * 20, 10 * 20);
 
@@ -324,7 +311,7 @@ public class SlotPlugin extends JavaPlugin {
 
 				Iterator<ItemStack> it = items.iterator();
 				boolean updateInventory = false;
-				while(it.hasNext()) {
+				while (it.hasNext()) {
 					ItemStack is = it.next();
 
 					if (player.getInventory().firstEmpty() >= 0) {
@@ -354,7 +341,7 @@ public class SlotPlugin extends JavaPlugin {
 		saveCooldownsToDisk();
 		saveMachinesToDisk(true);
 
-		if(Config.backupMachinesOnPluginUnload) {
+		if (Config.backupMachinesOnPluginUnload) {
 			try {
 				this.getLogger().log(Level.INFO, "Removing old backup");
 				FileUtils.deleteDirectory(this.getDataFolder().toPath().resolve("machinesLastBackup").toFile());
@@ -378,16 +365,7 @@ public class SlotPlugin extends JavaPlugin {
 
 	public static void saveCooldownsToDisk() {
 		if (SlotPlugin.playerConfigs != null) {
-			for (PlayerConfig plc : SlotPlugin.playerConfigs.values()) {
-				boolean write = false;
-				for (SMPlayerConfig smpc : plc.getMachinesConfig().values()) {
-					if (smpc.changed)
-						write = true;
-					smpc.changed = false;
-				}
-				if (write)
-					PlayerConfig.writeSpecificPlayerConfig(plc);
-			}
+			PlayerConfig.writePlayerConfig();
 		}
 	}
 
@@ -404,8 +382,8 @@ public class SlotPlugin extends JavaPlugin {
 			return;
 		}
 
-		if(Files.exists(pl.getDataFolder().toPath().resolve("machines"))) {
-			for(SlotMachine slotMachine : SlotMachine.getSlotMachines()) {
+		if (Files.exists(pl.getDataFolder().toPath().resolve("machines"))) {
+			for (SlotMachine slotMachine : SlotMachine.getSlotMachines()) {
 				if (!allMachines && !slotMachine.needsSaving()) {
 					continue;
 				}
@@ -415,23 +393,23 @@ public class SlotPlugin extends JavaPlugin {
 				yamlFile.set("saveTime", DateFormat.getDateTimeInstance().format(new Date()).toString());
 				yamlFile.set("iVersion", VERSION);
 				yamlFile.set("machineType", slotMachine.getSlotMachineType().toString());
-				if(slotMachine.getSlotMachineType() == SlotMachineType.ENTITY || slotMachine.getSlotMachineType() == SlotMachineType.ENTITY_LINK) {
-					yamlFile.set("entityUID", ((SlotMachineEntity)slotMachine).getEntityUUID().toString());
+				if (slotMachine.getSlotMachineType() == SlotMachineType.ENTITY || slotMachine.getSlotMachineType() == SlotMachineType.ENTITY_LINK) {
+					yamlFile.set("entityUID", ((SlotMachineEntity) slotMachine).getEntityUUID().toString());
 					yamlFile.set("isCitizensNPC", slotMachine.isCitizensNPC());
 
 					if (slotMachine.getSlotMachineType() == SlotMachineType.ENTITY_LINK) {
-						yamlFile.set("linkTo", ((SlotMachineEntityLink)slotMachine).getLinkTo().toString());
+						yamlFile.set("linkTo", ((SlotMachineEntityLink) slotMachine).getLinkTo().toString());
 					}
 				}
-				if(slotMachine.getSlotMachineType() == SlotMachineType.BLOCK || slotMachine.getSlotMachineType() == SlotMachineType.BLOCK_LINK) {
-					yamlFile.set("worldUID", ((SlotMachineBlock)slotMachine).getWorldUID().toString());
-					yamlFile.set("blockX", ((SlotMachineBlock)slotMachine).getBlockX());
-					yamlFile.set("blockY", ((SlotMachineBlock)slotMachine).getBlockY());
-					yamlFile.set("blockZ", ((SlotMachineBlock)slotMachine).getBlockZ());
-					yamlFile.set("locked", ((SlotMachineBlock)slotMachine).isLocked());
+				if (slotMachine.getSlotMachineType() == SlotMachineType.BLOCK || slotMachine.getSlotMachineType() == SlotMachineType.BLOCK_LINK) {
+					yamlFile.set("worldUID", ((SlotMachineBlock) slotMachine).getWorldUID().toString());
+					yamlFile.set("blockX", ((SlotMachineBlock) slotMachine).getBlockX());
+					yamlFile.set("blockY", ((SlotMachineBlock) slotMachine).getBlockY());
+					yamlFile.set("blockZ", ((SlotMachineBlock) slotMachine).getBlockZ());
+					yamlFile.set("locked", ((SlotMachineBlock) slotMachine).isLocked());
 
 					if (slotMachine.getSlotMachineType() == SlotMachineType.BLOCK_LINK) {
-						yamlFile.set("linkTo", ((SlotMachineBlockLink)slotMachine).getLinkTo().toString());
+						yamlFile.set("linkTo", ((SlotMachineBlockLink) slotMachine).getLinkTo().toString());
 					}
 				}
 				yamlFile.set("machineUUID", slotMachine.getMachineUUID().toString());
@@ -538,7 +516,7 @@ public class SlotPlugin extends JavaPlugin {
 		yamlFile.set("tokens", null);
 
 		int a = 0;
-		for(String identifier : Config.tokens.keySet()) {
+		for (String identifier : Config.tokens.keySet()) {
 			yamlFile.set("tokens." + a + ".identifier", identifier);
 			yamlFile.set("tokens." + a + ".itemstack", Config.tokens.get(identifier));
 			a++;
@@ -553,13 +531,13 @@ public class SlotPlugin extends JavaPlugin {
 
 	public static void readTokens() {
 		pl.getLogger().log(Level.INFO, "Loading Tokens");
-		if(Files.exists(pl.getDataFolder().toPath().resolve("tokens.yml"))) {
+		if (Files.exists(pl.getDataFolder().toPath().resolve("tokens.yml"))) {
 			YamlConfiguration yamlFile = YamlConfiguration.loadConfiguration(pl.getDataFolder().toPath().resolve("tokens.yml").toFile());
 
 			int tokenCount = yamlFile.getInt("tokenCount");
 			pl.getLogger().log(Level.INFO, tokenCount + " tokens found");
 
-			for(int a = 0; a < tokenCount; a++) {
+			for (int a = 0; a < tokenCount; a++) {
 				if (yamlFile.contains("tokens." + a + ".identifier") && yamlFile.contains("tokens." + a + ".itemstack")) {
 					ItemStack is = yamlFile.getItemStack("tokens." + a + ".itemstack");
 					if (Objects.requireNonNull(is).getType() == Material.AIR && Objects.requireNonNull(yamlFile.getString("tokens." + a + ".identifier")).equals("default")) {
@@ -578,7 +556,7 @@ public class SlotPlugin extends JavaPlugin {
 				}
 			}
 
-			if(tokenCount == 0 || !Config.tokens.containsKey("default")) {
+			if (tokenCount == 0 || !Config.tokens.containsKey("default")) {
 				pl.getLogger().log(Level.INFO, "Couldnt find token 'default', adding original Slot Machine token");
 				Config.tokens.put("default", new ItemStack(DEFAULT_TOKEN));
 			}

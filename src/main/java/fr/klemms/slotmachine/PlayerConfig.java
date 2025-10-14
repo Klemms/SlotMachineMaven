@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Level;
 
@@ -44,6 +45,7 @@ public class PlayerConfig {
 
 		return plc;
 	}
+
 	public static Collection<PlayerConfig> getPlayerConfigs() {
 		return SlotPlugin.playerConfigs.values();
 	}
@@ -60,31 +62,44 @@ public class PlayerConfig {
 			for (File file : detectedFiles) {
 				YamlConfiguration ymlFile = YamlConfiguration.loadConfiguration(file);
 
-				if (ymlFile.isSet("playerUUID")) {
-					PlayerConfig plc = new PlayerConfig(UUID.fromString(ymlFile.getString("playerUUID")));
-
-					if (ymlFile.contains("machines")) {
-						for (String key : ymlFile.getConfigurationSection("machines").getKeys(false)) {
-							if (ymlFile.isSet("machines." + key + ".cooldown") && ymlFile.getInt("machines." + key + ".cooldown") > 0) {
-								plc.addMachineConfig(UUID.fromString(key), new SMPlayerConfig(plc, ymlFile.getInt("machines." + key + ".cooldown")));
-							}
-						}
-
-						if (plc.getMachinesConfig().size() > 0) {
-							SlotPlugin.playerConfigs.put(plc.playerUUID, plc);
-						} else {
-							try {
-								Files.delete(file.toPath());
-							} catch (IOException e) {
-								e.printStackTrace();
-								ExceptionCollector.sendException(pl, e);
-							}
-						}
-					}
-				}
-
 				try {
+					if (ymlFile.isSet("playerUUID") && ymlFile.isString("playerUUID")) {
+						PlayerConfig plc = new PlayerConfig(UUID.fromString(ymlFile.getString("playerUUID")));
 
+						if (ymlFile.contains("version") && ymlFile.isInt("version")) {
+							switch (ymlFile.getInt("version")) {
+								case 2:
+									if (ymlFile.contains("machines")) {
+										ymlFile.getConfigurationSection("machines").getKeys(false).stream().forEach(
+												(path) -> {
+													if (!ymlFile.contains("machines." + path)) {
+														return;
+													}
+
+													Map<String, Object> obj = new HashMap<>();
+
+													ymlFile.getConfigurationSection("machines." + path).getKeys(false).forEach((key) -> obj.put(key, ymlFile.get("machines." + path + "." + key)));
+
+													if (obj.isEmpty()) {
+														return;
+													}
+
+													SMPlayerConfig smpc = SMPlayerConfig.deserialize(plc, obj);
+													plc.addMachineConfig(UUID.fromString(path), smpc);
+												}
+										);
+									}
+									break;
+								default:
+									plc.forceSave = true;
+									break;
+							}
+						} else {
+							plc.forceSave = true;
+						}
+
+						SlotPlugin.playerConfigs.put(plc.playerUUID, plc);
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 					ExceptionCollector.sendException(pl, e);
@@ -96,11 +111,19 @@ public class PlayerConfig {
 		}
 	}
 
-	public static void writePlayerConfig() {
+	public static boolean writePlayerConfig() {
+		boolean hasWritten = false;
 
+		for (PlayerConfig plc : SlotPlugin.playerConfigs.values()) {
+			if (writeSpecificPlayerConfig(plc)) {
+				hasWritten = true;
+			}
+		}
+
+		return hasWritten;
 	}
 
-	public static void writeSpecificPlayerConfig(PlayerConfig cfg) {
+	public static boolean writeSpecificPlayerConfig(PlayerConfig cfg) {
 		SlotPlugin pl = SlotPlugin.pl;
 		Path playersPath = pl.getDataFolder().toPath().resolve("players");
 
@@ -109,42 +132,55 @@ public class PlayerConfig {
 		} catch (IOException e) {
 			e.printStackTrace();
 			ExceptionCollector.sendException(pl, e);
-			return;
+			return false;
 		}
 
 		if (Files.exists(playersPath)) {
 			YamlConfiguration yamlFile = new YamlConfiguration();
 
+			yamlFile.set("version", 2);
 			yamlFile.set("playerUUID", cfg.playerUUID.toString());
 
 			boolean save = false;
 			for (UUID uuid : cfg.getMachinesConfig().keySet()) {
-				yamlFile.set("machines." + uuid.toString() + ".cooldown", cfg.getMachinesConfig().get(uuid).getCooldown());
+				final SMPlayerConfig smpc = cfg.getMachinesConfig().get(uuid);
 
-				if (cfg.getMachinesConfig().get(uuid).getCooldown() >= 60) {
+				final Map<String, Object> sSMPC = smpc.serialize();
+
+				for (String key : sSMPC.keySet()) {
+					yamlFile.set("machines." + uuid.toString() + "." + key, sSMPC.get(key));
+				}
+
+				if (smpc.changed) {
 					save = true;
+					smpc.changed = false;
 				}
 			}
 
 			try {
-				if (save)
+				if (save || cfg.forceSave) {
 					yamlFile.save(playersPath.resolve(cfg.getPlayerUUID().toString() + ".yml").toFile());
-				else if (Files.exists(playersPath.resolve(cfg.getPlayerUUID().toString() + ".yml"))) {
-					Files.delete(playersPath.resolve(cfg.getPlayerUUID().toString() + ".yml"));
+					cfg.forceSave = false;
+					return true;
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
 				ExceptionCollector.sendException(SlotPlugin.pl, e);
+				return false;
 			}
 		}
+
+		return false;
 	}
 
-	private UUID playerUUID;
-	private HashMap<UUID, SMPlayerConfig> machinesConfig;
+	private final UUID playerUUID;
+	private final HashMap<UUID, SMPlayerConfig> machinesConfig;
+	public boolean forceSave;
 
 	public PlayerConfig(UUID playerUUID) {
 		this.playerUUID = playerUUID;
 		this.machinesConfig = new HashMap<UUID, SMPlayerConfig>();
+		this.forceSave = false;
 	}
 
 	public UUID getPlayerUUID() {
@@ -157,6 +193,7 @@ public class PlayerConfig {
 
 	/**
 	 * Won't saveToDisk
+	 *
 	 * @param machineUUID
 	 * @param createIfMissing
 	 * @return
@@ -178,5 +215,19 @@ public class PlayerConfig {
 
 	public void saveToDisk() {
 		PlayerConfig.writeSpecificPlayerConfig(this);
+	}
+
+	@Override
+	public String toString() {
+		return new StringBuilder()
+				.append("{")
+				.append("forceSave: ").append(this.forceSave)
+				.append(",playerUUID: ").append(this.playerUUID)
+				.append(",machinesConfig: ")
+				.append("[")
+				.append(this.machinesConfig)
+				.append("]")
+				.append("}")
+				.toString();
 	}
 }
