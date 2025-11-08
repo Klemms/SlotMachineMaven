@@ -5,7 +5,7 @@ import org.bukkit.block.Block;
 import java.util.List;
 import java.util.UUID;
 
-public class SlotMachineBlockLink extends SlotMachineBlock {
+public class SlotMachineBlockLink extends SlotMachineBlock implements SlotMachineLink {
 
 	public static synchronized SlotMachineBlock getAllSlotMachineByBlock(Block block) {
 		List<SlotMachine> slotMachines = SlotMachine.getSlotMachinesByType(SlotMachineType.BLOCK);

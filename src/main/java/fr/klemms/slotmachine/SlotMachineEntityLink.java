@@ -3,7 +3,7 @@ package fr.klemms.slotmachine;
 import java.util.List;
 import java.util.UUID;
 
-public class SlotMachineEntityLink extends SlotMachineEntity {
+public class SlotMachineEntityLink extends SlotMachineEntity implements SlotMachineLink {
 
 	public static synchronized SlotMachineEntity getAllSlotMachineByEntityUUID(UUID entityUUID) {
 		List<SlotMachine> slotMachines = SlotMachine.getSlotMachinesByType(SlotMachineType.ENTITY);

@@ -47,12 +47,6 @@ import java.util.logging.Level;
 public class MachineInterractionInventory {
 
 	public static void manageMachine(Player player, SlotMachine machine, Entity entity, Block block, int page) {
-		if (entity == null && block == null) {
-			player.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + "Both ENTITY and BLOCK variables are null when entering manageMachine. This is not normal");
-			SlotPlugin.pl.getLogger().log(Level.SEVERE, "Both ENTITY and BLOCK variables are null when entering manageMachine. This is not normal");
-			return;
-		}
-
 		if (entity instanceof Player && !(SlotPlugin.isCitizensEnabled && CitizensAPI.getNPCRegistry().isNPC(entity))) {
 			player.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + "You can't create a machine on a player");
 			return;
@@ -147,6 +141,33 @@ public class MachineInterractionInventory {
 											)
 									)));
 
+							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.CUSTOMIZE), ChatContent.GOLD + "Edit Original Machine"),
+									Arrays.asList(
+											ChatContent.AQUA + "Opens the customization GUI",
+											ChatContent.AQUA + "of the original machine.",
+											"",
+											ChatContent.AQUA + "This allows you to edit the",
+											ChatContent.AQUA + "original machine if it's far",
+											ChatContent.AQUA + "from you or if it doesn't exist",
+											ChatContent.AQUA + "anymore."
+									)), event -> {
+								if (event.isLeftClick()) {
+									player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+
+									if (machine instanceof SlotMachineLink) {
+										SlotMachine original = ((SlotMachineLink) machine).getLink();
+
+										if (original != null) {
+											MachineInterractionInventory.manageMachine(player, original, null, null, 0);
+											return;
+										}
+										PlayerUtil.sendErrorMessage(player, "The original machine could not be found. It probably failed to load.");
+										return;
+									}
+									PlayerUtil.sendErrorMessage(player, "An error occurred : Machine is not a valid link");
+								}
+							}));
+
 							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.EARTH), ChatContent.GOLD + "Change Link"),
 									Arrays.asList(
 											ChatContent.AQUA + "Change the original Slot Machine",
@@ -161,10 +182,10 @@ public class MachineInterractionInventory {
 											player.closeInventory();
 											player.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 0.3F, 1.6F);
 											if (machine.getSlotMachineType() == SlotMachineType.ENTITY_LINK) {
-												((SlotMachineEntityLink)machine).setLinkTo(pickedSlotMachine.getMachineUUID());
+												((SlotMachineEntityLink) machine).setLinkTo(pickedSlotMachine.getMachineUUID());
 												machine.save();
-											} else if(machine.getSlotMachineType() == SlotMachineType.BLOCK_LINK) {
-												((SlotMachineBlockLink)machine).setLinkTo(pickedSlotMachine.getMachineUUID());
+											} else if (machine.getSlotMachineType() == SlotMachineType.BLOCK_LINK) {
+												((SlotMachineBlockLink) machine).setLinkTo(pickedSlotMachine.getMachineUUID());
 												machine.save();
 											}
 											player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed link");
@@ -202,31 +223,31 @@ public class MachineInterractionInventory {
 							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.INFOS), ChatContent.GOLD + "Machine Informations"), Arrays.asList(
 									ChatContent.AQUA + ChatContent.ITALIC + "Display this machine's",
 									ChatContent.AQUA + ChatContent.ITALIC + "informations in chat"
-									)), event -> {
-										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-										player.closeInventory();
-										MachineMethods.sendSlotMachineInformations(player, machine);
+							)), event -> {
+								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+								player.closeInventory();
+								MachineMethods.sendSlotMachineInformations(player, machine);
 							}));
 							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.NAME_TAG, 1), ChatContent.GOLD + "Rename"), Arrays.asList(
 									ChatContent.AQUA + ChatContent.ITALIC + "Rename this machine",
 									"",
 									ChatContent.AQUA + ChatContent.ITALIC + "Current name :",
 									ChatContent.RESET + machine.getSlotMachineName()
-									)), event -> {
-										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-										player.closeInventory();
-										PlayerUtil.resetPlayerData(player);
-										player.setMetadata("slotmachine_changename", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
-										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.rename"));
-										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
+							)), event -> {
+								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+								player.closeInventory();
+								PlayerUtil.resetPlayerData(player);
+								player.setMetadata("slotmachine_changename", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
+								player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.rename"));
+								player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
 							}));
 							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.CHEST, 1), ChatContent.GOLD + "Item Editor & Statistics"), Arrays.asList(
 									ChatContent.AQUA + ChatContent.ITALIC + " - Add and remove items",
 									ChatContent.AQUA + ChatContent.ITALIC + " - Edit items' weights",
 									ChatContent.AQUA + ChatContent.ITALIC + " - View statistics"
-									)), event -> {
-										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-										MachineItemsInterractionInventory.manageItems(player, machine, 0);
+							)), event -> {
+								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+								MachineItemsInterractionInventory.manageItems(player, machine, 0);
 							}));
 							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.GOLD_BLOCK, 1), ChatContent.GOLD + "Change Permission"), Arrays.asList(
 									ChatContent.AQUA + ChatContent.ITALIC + "Change this machine's",
@@ -234,13 +255,13 @@ public class MachineInterractionInventory {
 									"",
 									ChatContent.AQUA + ChatContent.ITALIC + "Current permission : ",
 									ChatContent.RESET + machine.getGuiPermission()
-									)), event -> {
-										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-										player.closeInventory();
-										PlayerUtil.resetPlayerData(player);
-										player.setMetadata("slotmachine_changepermission", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
-										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.changepermission"));
-										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
+							)), event -> {
+								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+								player.closeInventory();
+								PlayerUtil.resetPlayerData(player);
+								player.setMetadata("slotmachine_changepermission", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
+								player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.changepermission"));
+								player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
 							}));
 							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.PLAY_BUTTON), ChatContent.GOLD + "Change play mode"), Arrays.asList(
 									ChatContent.AQUA + ChatContent.ITALIC + "Play Mode affects the way players",
@@ -252,9 +273,9 @@ public class MachineInterractionInventory {
 									"",
 									ChatContent.AQUA + ChatContent.ITALIC + "Current Play Mode :",
 									ChatContent.DARK_PURPLE + ChatContent.ITALIC + machine.getPlayMode().title
-									)), event -> {
-										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-										PlayModePick.pickPlayMode(player, machine, 0);
+							)), event -> {
+								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+								PlayModePick.pickPlayMode(player, machine, 0);
 							}));
 							if (machine.getVisualType() != VisualType.SLOTMACHINE)
 								items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.BRICKS, 1), ChatContent.GOLD + "Change Layout"), Arrays.asList(
@@ -263,12 +284,12 @@ public class MachineInterractionInventory {
 										"",
 										ChatContent.AQUA + ChatContent.ITALIC + "Current layout :",
 										ChatContent.RESET + machine.getVisualType().name
-										)), event -> {
-											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-											machine.setVisualType(VisualType.SLOTMACHINE);
-											player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.slotmachine"));
-											machine.save();
-											manageMachine(player, machine, entity, block, pagination.getPage());
+								)), event -> {
+									player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+									machine.setVisualType(VisualType.SLOTMACHINE);
+									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.slotmachine"));
+									machine.save();
+									manageMachine(player, machine, entity, block, pagination.getPage());
 								}));
 							if (machine.getVisualType() != VisualType.CSGOWHEEL)
 								items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.STONE_BRICKS, 1), ChatContent.GOLD + "Change Layout"), Arrays.asList(
@@ -277,12 +298,12 @@ public class MachineInterractionInventory {
 										"",
 										ChatContent.AQUA + ChatContent.ITALIC + "Current layout :",
 										ChatContent.RESET + machine.getVisualType().name
-										)), event -> {
-											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-											machine.setVisualType(VisualType.CSGOWHEEL);
-											player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.csgowheel"));
-											machine.save();
-											manageMachine(player, machine, entity, block, pagination.getPage());
+								)), event -> {
+									player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+									machine.setVisualType(VisualType.CSGOWHEEL);
+									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.csgowheel"));
+									machine.save();
+									manageMachine(player, machine, entity, block, pagination.getPage());
 								}));
 							if (machine.getVisualType() != VisualType.CSGOWHEEL_VERTICAL)
 								items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.END_STONE_BRICKS, 1), ChatContent.GOLD + "Change Layout"), Arrays.asList(
@@ -291,12 +312,12 @@ public class MachineInterractionInventory {
 										"",
 										ChatContent.AQUA + ChatContent.ITALIC + "Current layout :",
 										ChatContent.RESET + machine.getVisualType().name
-										)), event -> {
-											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-											machine.setVisualType(VisualType.CSGOWHEEL_VERTICAL);
-											player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.csgowheelvertical"));
-											machine.save();
-											manageMachine(player, machine, entity, block, pagination.getPage());
+								)), event -> {
+									player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+									machine.setVisualType(VisualType.CSGOWHEEL_VERTICAL);
+									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.csgowheelvertical"));
+									machine.save();
+									manageMachine(player, machine, entity, block, pagination.getPage());
 								}));
 							if (machine.getPriceType() != PriceType.TOKEN)
 								items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.GOLD_NUGGET, 1), ChatContent.GOLD + "Change Payment"), Arrays.asList(
@@ -306,12 +327,12 @@ public class MachineInterractionInventory {
 										"",
 										ChatContent.AQUA + ChatContent.ITALIC + "Current payment :",
 										ChatContent.RESET + machine.getPriceType().name
-										)), event -> {
-											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-											machine.setPriceType(PriceType.TOKEN);
-											player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.paymenttokens"));
-											machine.save();
-											manageMachine(player, machine, entity, block, pagination.getPage());
+								)), event -> {
+									player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+									machine.setPriceType(PriceType.TOKEN);
+									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.paymenttokens"));
+									machine.save();
+									manageMachine(player, machine, entity, block, pagination.getPage());
 								}));
 							if (machine.getPriceType() != PriceType.MONEY)
 								if (SlotPlugin.econ != null) {
@@ -322,12 +343,12 @@ public class MachineInterractionInventory {
 											"",
 											ChatContent.AQUA + ChatContent.ITALIC + "Current payment :",
 											ChatContent.RESET + machine.getPriceType().name
-											)), event -> {
-												player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-												machine.setPriceType(PriceType.MONEY);
-												player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.paymentmoney"));
-												machine.save();
-												manageMachine(player, machine, entity, block, pagination.getPage());
+									)), event -> {
+										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+										machine.setPriceType(PriceType.MONEY);
+										player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.paymentmoney"));
+										machine.save();
+										manageMachine(player, machine, entity, block, pagination.getPage());
 									}));
 								} else {
 									items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.GOLD_INGOT, 1), ChatContent.GOLD + "Change Payment"), Arrays.asList(
@@ -335,10 +356,10 @@ public class MachineInterractionInventory {
 											ChatContent.RED + ChatContent.ITALIC + "plugin to pay with Money",
 											"",
 											ChatContent.AQUA + ChatContent.ITALIC + "Click to show Vault's download link"
-											)), event -> {
-												player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-												player.closeInventory();
-												player.spigot().sendMessage(new ComponentBuilder("https://dev.bukkit.org/projects/vault").color(ChatColor.AQUA).event(new ClickEvent(Action.OPEN_URL, "https://dev.bukkit.org/projects/vault")).create());
+									)), event -> {
+										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+										player.closeInventory();
+										player.spigot().sendMessage(new ComponentBuilder("https://dev.bukkit.org/projects/vault").color(ChatColor.AQUA).event(new ClickEvent(Action.OPEN_URL, "https://dev.bukkit.org/projects/vault")).create());
 									}));
 								}
 							if (machine.getPriceType() != PriceType.TOKENMANAGER && (SlotPlugin.oldTokenManagerWorks || SlotPlugin.tokenManager != null))
@@ -349,12 +370,12 @@ public class MachineInterractionInventory {
 										"",
 										ChatContent.AQUA + ChatContent.ITALIC + "Current payment :",
 										ChatContent.RESET + machine.getPriceType().name
-										)), event -> {
-											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-											machine.setPriceType(PriceType.TOKENMANAGER);
-											player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.paymenttokenmanager"));
-											machine.save();
-											manageMachine(player, machine, entity, block, pagination.getPage());
+								)), event -> {
+									player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+									machine.setPriceType(PriceType.TOKENMANAGER);
+									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.paymenttokenmanager"));
+									machine.save();
+									manageMachine(player, machine, entity, block, pagination.getPage());
 								}));
 							if (machine.getPriceType() != PriceType.GAMEPOINTS && SlotPlugin.isGamePointsEnabled)
 								items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.GHAST_TEAR, 1), ChatContent.GOLD + "Change Payment"), Arrays.asList(
@@ -364,12 +385,12 @@ public class MachineInterractionInventory {
 										"",
 										ChatContent.AQUA + ChatContent.ITALIC + "Current payment :",
 										ChatContent.RESET + machine.getPriceType().name
-										)), event -> {
-											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-											machine.setPriceType(PriceType.GAMEPOINTS);
-											player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.paymentgamepoints"));
-											machine.save();
-											manageMachine(player, machine, entity, block, pagination.getPage());
+								)), event -> {
+									player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+									machine.setPriceType(PriceType.GAMEPOINTS);
+									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.paymentgamepoints"));
+									machine.save();
+									manageMachine(player, machine, entity, block, pagination.getPage());
 								}));
 
 							if (machine.getPriceType() != PriceType.PLAYERPOINTS && SlotPlugin.playerPointsAPI != null)
@@ -396,12 +417,12 @@ public class MachineInterractionInventory {
 										"",
 										ChatContent.AQUA + ChatContent.ITALIC + "Current payment :",
 										ChatContent.RESET + machine.getPriceType().name
-										)), event -> {
-											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-											machine.setPriceType(PriceType.VOTINGPLUGIN);
-											player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "This machine will now use VotingPlugin as a currency");
-											machine.save();
-											manageMachine(player, machine, entity, block, pagination.getPage());
+								)), event -> {
+									player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+									machine.setPriceType(PriceType.VOTINGPLUGIN);
+									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "This machine will now use VotingPlugin as a currency");
+									machine.save();
+									manageMachine(player, machine, entity, block, pagination.getPage());
 								}));
 							if (machine.getPriceType() != PriceType.EXPERIENCE)
 								items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.EXPERIENCE_BOTTLE, 1), ChatContent.GOLD + "Change Payment"), Arrays.asList(
@@ -411,12 +432,12 @@ public class MachineInterractionInventory {
 										"",
 										ChatContent.AQUA + ChatContent.ITALIC + "Current payment :",
 										ChatContent.RESET + machine.getPriceType().name
-										)), event -> {
-											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-											machine.setPriceType(PriceType.EXPERIENCE);
-											player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.paymentexperience"));
-											machine.save();
-											manageMachine(player, machine, entity, block, pagination.getPage());
+								)), event -> {
+									player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+									machine.setPriceType(PriceType.EXPERIENCE);
+									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.paymentexperience"));
+									machine.save();
+									manageMachine(player, machine, entity, block, pagination.getPage());
 								}));
 							if (machine.getPriceType() == PriceType.TOKEN)
 								items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(ItemStackUtil.addGlow(new ItemStack(machine.getToken().getType(), 1)), ChatContent.GOLD + "Change Token"), Arrays.asList(
@@ -426,19 +447,19 @@ public class MachineInterractionInventory {
 										"",
 										ChatContent.AQUA + ChatContent.ITALIC + "Current Token :",
 										ChatContent.RESET + machine.getTokenIdentifier()
-										)), event -> {
-											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-											TokensInventory.showManagementScreen(player, 0, "Pick this machine's Token", "Left click to choose this Token", new TokenSelectionListener() {
+								)), event -> {
+									player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+									TokensInventory.showManagementScreen(player, 0, "Pick this machine's Token", "Left click to choose this Token", new TokenSelectionListener() {
 
-												@Override
-												public void callback(Player player, Token token) {
-													player.closeInventory();
-													player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "The Token for this Slot Machine has been changed");
-													machine.setTokenIdentifier(token.identifier);
-													machine.save();
-												}
+										@Override
+										public void callback(Player player, Token token) {
+											player.closeInventory();
+											player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "The Token for this Slot Machine has been changed");
+											machine.setTokenIdentifier(token.identifier);
+											machine.save();
+										}
 
-											}, false);
+									}, false);
 								}));
 							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.DIAMOND, 1), ChatContent.GOLD + "Change Price"), Arrays.asList(
 									ChatContent.AQUA + ChatContent.ITALIC + "Change the price to pay",
@@ -446,13 +467,13 @@ public class MachineInterractionInventory {
 									"",
 									ChatContent.AQUA + ChatContent.ITALIC + "Current price :",
 									ChatContent.RESET + machine.getPullPrice()
-									)), event -> {
-										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-										player.closeInventory();
-										PlayerUtil.resetPlayerData(player);
-										player.setMetadata("slotmachine_changeprice", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
-										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.changeprice") + " :");
-										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
+							)), event -> {
+								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+								player.closeInventory();
+								PlayerUtil.resetPlayerData(player);
+								player.setMetadata("slotmachine_changeprice", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
+								player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.changeprice") + " :");
+								player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
 							}));
 							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(machine.isAffectedByLuck() ? new ItemStack(Material.GLASS_BOTTLE, 1) : PotionUtil.makePotion(PotionEffectType.LUCK, 1200, 0, Color.GREEN), ChatContent.GOLD + "Luck Effect"), Arrays.asList(
 									ChatContent.AQUA + ChatContent.ITALIC + "Should this machine's chance to win be",
@@ -467,12 +488,12 @@ public class MachineInterractionInventory {
 									ChatContent.AQUA + ChatContent.ITALIC + "Current config :",
 									ChatContent.GREEN + "Luck : " + (Config.luckLevelToPercentConversion >= 0 ? "+" : "-") + Math.abs(Config.luckLevelToPercentConversion) + "% chance per level",
 									ChatContent.RED + "Bad Luck : " + (Config.badLuckLevelToPercentConversion >= 0 ? "+" : "-") + Math.abs(Config.badLuckLevelToPercentConversion) + "% chance per level"
-									)), event -> {
-										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-										machine.setAffectedByLuck(!machine.isAffectedByLuck());
-										player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully switched luck effect");
-										machine.save();
-										manageMachine(player, machine, entity, block, pagination.getPage());
+							)), event -> {
+								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+								machine.setAffectedByLuck(!machine.isAffectedByLuck());
+								player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully switched luck effect");
+								machine.save();
+								manageMachine(player, machine, entity, block, pagination.getPage());
 							}));
 
 							items.add(MenuItem.getMenuItem(machine, player, new MenuItemChangeChanceToWin(), state));
@@ -516,15 +537,15 @@ public class MachineInterractionInventory {
 									"",
 									ChatContent.AQUA + ChatContent.ITALIC + "Current message :",
 									ChatContent.RESET + ChatContent.translateColorCodes(machine.getFinalWinMessage())
-									)), event -> {
-										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-										player.closeInventory();
-										PlayerUtil.resetPlayerData(player);
-										player.setMetadata("slotmachine_setwinmessage", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
-										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.winmessage").replace("%winMessage%", ChatContent.RESET + machine.getWinMessage() + ChatContent.DARK_PURPLE + ChatContent.BOLD));
-										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"null\" for no message");
-										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"reset\" to reset to default message");
-										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
+							)), event -> {
+								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+								player.closeInventory();
+								PlayerUtil.resetPlayerData(player);
+								player.setMetadata("slotmachine_setwinmessage", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
+								player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.winmessage").replace("%winMessage%", ChatContent.RESET + machine.getWinMessage() + ChatContent.DARK_PURPLE + ChatContent.BOLD));
+								player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"null\" for no message");
+								player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"reset\" to reset to default message");
+								player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
 							}));
 							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.RED_BANNER, 1), ChatContent.GOLD + "Change Loss Message"), Arrays.asList(
 									ChatContent.AQUA + ChatContent.ITALIC + "Change the message players",
@@ -532,15 +553,15 @@ public class MachineInterractionInventory {
 									"",
 									ChatContent.AQUA + ChatContent.ITALIC + "Current message :",
 									ChatContent.RESET + ChatContent.translateColorCodes(machine.getFinalLossMessage())
-									)), event -> {
-										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-										player.closeInventory();
-										PlayerUtil.resetPlayerData(player);
-										player.setMetadata("slotmachine_setlossmessage", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
-										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.lossmessage").replace("%lossMessage%", ChatContent.RESET + machine.getLossMessage() + ChatContent.DARK_PURPLE + ChatContent.BOLD));
-										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"null\" for no message");
-										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"reset\" to reset to default message");
-										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
+							)), event -> {
+								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+								player.closeInventory();
+								PlayerUtil.resetPlayerData(player);
+								player.setMetadata("slotmachine_setlossmessage", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
+								player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.lossmessage").replace("%lossMessage%", ChatContent.RESET + machine.getLossMessage() + ChatContent.DARK_PURPLE + ChatContent.BOLD));
+								player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"null\" for no message");
+								player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"reset\" to reset to default message");
+								player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
 							}));
 							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.OAK_SIGN, 1), ChatContent.GOLD + "Display Won Item In Chat"), Arrays.asList(
 									ChatContent.AQUA + ChatContent.ITALIC + "Should we display the name of the",
@@ -548,12 +569,12 @@ public class MachineInterractionInventory {
 									ChatContent.AQUA + ChatContent.ITALIC + "Click to toggle",
 									"",
 									ChatContent.AQUA + ChatContent.ITALIC + "Current : " + (machine.isDisplayWonItemInChat() ? ChatContent.GREEN + Language.translate("basic.yes") : ChatContent.RED + Language.translate("basic.no"))
-									)), event -> {
-										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-										machine.setDisplayWonItemInChat(!machine.isDisplayWonItemInChat());
-										machine.save();
-										player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + (machine.isDisplayWonItemInChat() ? "Enabled" : "Disabled") + " item name in chat");
-										manageMachine(player, machine, entity, block, pagination.getPage());
+							)), event -> {
+								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+								machine.setDisplayWonItemInChat(!machine.isDisplayWonItemInChat());
+								machine.save();
+								player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + (machine.isDisplayWonItemInChat() ? "Enabled" : "Disabled") + " item name in chat");
+								manageMachine(player, machine, entity, block, pagination.getPage());
 							}));
 							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(machine.shouldBroadcastWonItem() ? ItemStackUtil.addGlow(new ItemStack(Material.BELL, 1)) : new ItemStack(Material.BELL, 1), ChatContent.GOLD + "Broadcast won item to all players"), Arrays.asList(
 									ChatContent.AQUA + ChatContent.ITALIC + "Should the won player and the won",
@@ -582,39 +603,39 @@ public class MachineInterractionInventory {
 									"",
 									ChatContent.AQUA + ChatContent.ITALIC + "Current name :",
 									ChatContent.RESET + Variables.getFormattedString(machine.getLeverTitle(), player, machine)
-									)), event -> {
-										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-										if (event.isLeftClick()) {
-											player.closeInventory();
-											PlayerUtil.resetPlayerData(player);
-											player.setMetadata("slotmachine_setlevertitle", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
-											player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.levertitle") + " :");
-											for(int a = 0; a < Variables.values().length; a++) {
-												player.sendMessage(ChatContent.AQUA + " - $" + Variables.values()[a].variableName + ChatContent.DARK_AQUA + ChatContent.ITALIC + " - " + Language.translate(Variables.values()[a].variableDescription));
-											}
-											player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.placeholderAPI"));
+							)), event -> {
+								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+								if (event.isLeftClick()) {
+									player.closeInventory();
+									PlayerUtil.resetPlayerData(player);
+									player.setMetadata("slotmachine_setlevertitle", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
+									player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.levertitle") + " :");
+									for (int a = 0; a < Variables.values().length; a++) {
+										player.sendMessage(ChatContent.AQUA + " - $" + Variables.values()[a].variableName + ChatContent.DARK_AQUA + ChatContent.ITALIC + " - " + Language.translate(Variables.values()[a].variableDescription));
+									}
+									player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.placeholderAPI"));
 
-											BaseComponent[] currentText = new ComponentBuilder(Language.translate("command.slotmachineaction.levertitle.current") + " ")
-													.color(ChatColor.DARK_PURPLE)
-													.bold(true)
-													.append(new ComponentBuilder(machine.getLeverTitle())
-															.event(new ClickEvent(Action.SUGGEST_COMMAND, machine.getLeverTitle()))
-															.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(new ComponentBuilder("Click to fill your chat box with this").create())))
-															.bold(false)
-															.italic(false)
-															.color(ChatColor.WHITE)
-															.create())
-													.create();
-											player.spigot().sendMessage(currentText);
+									BaseComponent[] currentText = new ComponentBuilder(Language.translate("command.slotmachineaction.levertitle.current") + " ")
+											.color(ChatColor.DARK_PURPLE)
+											.bold(true)
+											.append(new ComponentBuilder(machine.getLeverTitle())
+													.event(new ClickEvent(Action.SUGGEST_COMMAND, machine.getLeverTitle()))
+													.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(new ComponentBuilder("Click to fill your chat box with this").create())))
+													.bold(false)
+													.italic(false)
+													.color(ChatColor.WHITE)
+													.create())
+											.create();
+									player.spigot().sendMessage(currentText);
 
-											player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
-										} else if (event.isRightClick()) {
-											player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully reset to default");
-											machine.setLeverCustom(false);
-											machine.setPriceType(machine.getPriceType());
-											machine.save();
-											manageMachine(player, machine, entity, block, pagination.getPage());
-										}
+									player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
+								} else if (event.isRightClick()) {
+									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully reset to default");
+									machine.setLeverCustom(false);
+									machine.setPriceType(machine.getPriceType());
+									machine.save();
+									manageMachine(player, machine, entity, block, pagination.getPage());
+								}
 							}));
 
 
@@ -633,7 +654,7 @@ public class MachineInterractionInventory {
 									PlayerUtil.resetPlayerData(player);
 									player.setMetadata("slotmachine_setleverdescription", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
 									player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.leverdescription") + " :");
-									for(int a = 0; a < Variables.values().length; a++) {
+									for (int a = 0; a < Variables.values().length; a++) {
 										player.sendMessage(ChatContent.AQUA + " - $" + Variables.values()[a].variableName + ChatContent.DARK_AQUA + ChatContent.ITALIC + " - " + Language.translate(Variables.values()[a].variableDescription));
 									}
 									player.sendMessage(ChatContent.AQUA + " - $newline" + ChatContent.DARK_AQUA + ChatContent.ITALIC + " - " + Language.translate("command.slotmachineaction.leverdescription.newline"));
@@ -664,46 +685,46 @@ public class MachineInterractionInventory {
 								items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.ENDER_CHEST, 1), ChatContent.GOLD + "Disable Item Preview"), Arrays.asList(
 										ChatContent.AQUA + ChatContent.ITALIC + "Disable the Ender Chest icon",
 										ChatContent.AQUA + ChatContent.ITALIC + "on this machine's interface"
-										)), event -> {
-											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-											machine.allowContentPreview(false);
-											machine.save();
-											player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Disabled item preview");
-											manageMachine(player, machine, entity, block, pagination.getPage());
+								)), event -> {
+									player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+									machine.allowContentPreview(false);
+									machine.save();
+									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Disabled item preview");
+									manageMachine(player, machine, entity, block, pagination.getPage());
 								}));
 							else
 								items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(ItemStackUtil.addGlow(new ItemStack(Material.ENDER_CHEST, 1)), ChatContent.GOLD + "Enable Item Preview"), Arrays.asList(
 										ChatContent.AQUA + ChatContent.ITALIC + "Enable the Ender Chest icon",
 										ChatContent.AQUA + ChatContent.ITALIC + "on this machine's interface"
-										)), event -> {
-											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-											machine.allowContentPreview(true);
-											machine.save();
-											player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Enabled item preview");
-											manageMachine(player, machine, entity, block, pagination.getPage());
+								)), event -> {
+									player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+									machine.allowContentPreview(true);
+									machine.save();
+									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Enabled item preview");
+									manageMachine(player, machine, entity, block, pagination.getPage());
 								}));
 							if (machine.allowContentPreview()) {
 								if (machine.showItemWeightOnPreview())
 									items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.LIGHT_WEIGHTED_PRESSURE_PLATE, 1), ChatContent.GOLD + "Hide Item Weight"), Arrays.asList(
 											ChatContent.AQUA + ChatContent.ITALIC + "Hide the item's weight on",
 											ChatContent.AQUA + ChatContent.ITALIC + "a machine's item preview"
-											)), event -> {
-												player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-												machine.showItemWeightOnPreview(false);
-												machine.save();
-												player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Disabled item weight");
-												manageMachine(player, machine, entity, block, pagination.getPage());
+									)), event -> {
+										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+										machine.showItemWeightOnPreview(false);
+										machine.save();
+										player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Disabled item weight");
+										manageMachine(player, machine, entity, block, pagination.getPage());
 									}));
 								else
 									items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(ItemStackUtil.addGlow(new ItemStack(Material.HEAVY_WEIGHTED_PRESSURE_PLATE, 1)), ChatContent.GOLD + "Show Item Weight"), Arrays.asList(
 											ChatContent.AQUA + ChatContent.ITALIC + "Show the item's weight on",
 											ChatContent.AQUA + ChatContent.ITALIC + "a machine's item preview"
-											)), event -> {
-												player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-												machine.showItemWeightOnPreview(true);
-												machine.save();
-												player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Enabled item weight");
-												manageMachine(player, machine, entity, block, pagination.getPage());
+									)), event -> {
+										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+										machine.showItemWeightOnPreview(true);
+										machine.save();
+										player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Enabled item weight");
+										manageMachine(player, machine, entity, block, pagination.getPage());
 									}));
 
 								if (machine.showChanceOfItemOnPreview())
@@ -712,12 +733,12 @@ public class MachineInterractionInventory {
 											"",
 											ChatContent.GRAY + "Note : chance is calculated using the following equation :",
 											ChatContent.WHITE + "1 / allItemsWeight * weight * (machineChance / 100) * 100"
-											)), event -> {
-												player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-												machine.showChanceOfItemOnPreview(false);
-												machine.save();
-												player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Disabled item chance");
-												manageMachine(player, machine, entity, block, pagination.getPage());
+									)), event -> {
+										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+										machine.showChanceOfItemOnPreview(false);
+										machine.save();
+										player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Disabled item chance");
+										manageMachine(player, machine, entity, block, pagination.getPage());
 									}));
 								else
 									items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.LUCKY_BLOCK), ChatContent.GOLD + "Show Item Chance"), Arrays.asList(
@@ -725,28 +746,28 @@ public class MachineInterractionInventory {
 											"",
 											ChatContent.GRAY + "Note : chance is calculated using the following equation :",
 											ChatContent.WHITE + "1 / allItemsWeight * weight * (machineChance / 100) * 100"
-											)), event -> {
-												player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-												machine.showChanceOfItemOnPreview(true);
-												machine.save();
-												player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Enabled item chance");
-												manageMachine(player, machine, entity, block, pagination.getPage());
+									)), event -> {
+										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+										machine.showChanceOfItemOnPreview(true);
+										machine.save();
+										player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Enabled item chance");
+										manageMachine(player, machine, entity, block, pagination.getPage());
 									}));
 							}
 							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.BLUE_STAINED_GLASS, 1), ChatContent.GOLD + "Customize background & colors"), Arrays.asList(
 									ChatContent.AQUA + ChatContent.ITALIC + "Allows you to customize the",
 									ChatContent.AQUA + ChatContent.ITALIC + "background items, lever",
 									ChatContent.AQUA + ChatContent.ITALIC + "and enderchest icon"
-									)), event -> {
-										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-										MachineBackgroundCustomization.customizeBackground(player, machine);
+							)), event -> {
+								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+								MachineBackgroundCustomization.customizeBackground(player, machine);
 							}));
 							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.JUKEBOX, 1), ChatContent.GOLD + "Customize sounds"), Arrays.asList(
 									ChatContent.AQUA + ChatContent.ITALIC + "Allows you to customize all",
 									ChatContent.AQUA + ChatContent.ITALIC + "sounds played by this Slot Machine"
-									)), event -> {
-										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-										MachineSoundCustomization.customizeSounds(player, machine);
+							)), event -> {
+								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+								MachineSoundCustomization.customizeSounds(player, machine);
 							}));
 
 							items.add(MenuItem.getMenuItem(machine, player, new MenuItemChangeCooldown(), state));
@@ -771,23 +792,23 @@ public class MachineInterractionInventory {
 									items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.STONE, 1), ChatContent.GOLD + "Make Breakable"), Arrays.asList(
 											ChatContent.AQUA + ChatContent.ITALIC + "Make this block breakable",
 											ChatContent.AQUA + ChatContent.ITALIC + "You will be able to break it"
-											)), event -> {
-												player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-												machineBlock.setLocked(false);
-												player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.breakable"));
-												machine.save();
-												manageMachine(player, machine, entity, block, pagination.getPage());
+									)), event -> {
+										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+										machineBlock.setLocked(false);
+										player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.breakable"));
+										machine.save();
+										manageMachine(player, machine, entity, block, pagination.getPage());
 									}));
 								else
 									items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.BEDROCK, 1), ChatContent.GOLD + "Make Unbreakable"), Arrays.asList(
 											ChatContent.AQUA + ChatContent.ITALIC + "Make this block unbreakable",
 											ChatContent.AQUA + ChatContent.ITALIC + "No one will be able to break this block"
-											)), event -> {
-												player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-												machineBlock.setLocked(true);
-												player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.unbreakable"));
-												machine.save();
-												manageMachine(player, machine, entity, block, pagination.getPage());
+									)), event -> {
+										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+										machineBlock.setLocked(true);
+										player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.unbreakable"));
+										machine.save();
+										manageMachine(player, machine, entity, block, pagination.getPage());
 									}));
 							}
 						}
@@ -797,52 +818,52 @@ public class MachineInterractionInventory {
 								items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.ARMOR_STAND, 1), ChatContent.GOLD + "Turn on AI"), Arrays.asList(
 										ChatContent.AQUA + ChatContent.ITALIC + "Turn on this entity's AI",
 										ChatContent.AQUA + ChatContent.ITALIC + "It will start moving again"
-										)), event -> {
-											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-											livingEntity.setAI(true);
-											player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.turnonai"));
-											manageMachine(player, machine, entity, block, pagination.getPage());
+								)), event -> {
+									player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+									livingEntity.setAI(true);
+									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.turnonai"));
+									manageMachine(player, machine, entity, block, pagination.getPage());
 								}));
 							else
 								items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.ARMOR_STAND, 1), ChatContent.GOLD + "Turn off AI"), Arrays.asList(
 										ChatContent.AQUA + ChatContent.ITALIC + "Turn off this entity's AI",
 										ChatContent.AQUA + ChatContent.ITALIC + "It will stop moving"
-										)), event -> {
-											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-											livingEntity.setAI(false);
-											player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.turnoffai"));
-											manageMachine(player, machine, entity, block, pagination.getPage());
+								)), event -> {
+									player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+									livingEntity.setAI(false);
+									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.turnoffai"));
+									manageMachine(player, machine, entity, block, pagination.getPage());
 								}));
 
 							if (livingEntity.isSilent())
 								items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.NOTE_BLOCK, 1), ChatContent.GOLD + "Enable Sounds"), Arrays.asList(
 										ChatContent.AQUA + ChatContent.ITALIC + "Allow this entity to make sound"
-										)), event -> {
-											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-											livingEntity.setSilent(false);
-											player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.turnonsound"));
-											manageMachine(player, machine, entity, block, pagination.getPage());
+								)), event -> {
+									player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+									livingEntity.setSilent(false);
+									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.turnonsound"));
+									manageMachine(player, machine, entity, block, pagination.getPage());
 								}));
 							else
 								items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.NOTE_BLOCK, 1), ChatContent.GOLD + "Make Silent"), Arrays.asList(
 										ChatContent.AQUA + ChatContent.ITALIC + "Make this entity silent",
 										ChatContent.AQUA + ChatContent.ITALIC + "It will stop making any sound"
-										)), event -> {
-											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-											livingEntity.setSilent(true);
-											player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.turnoffsound"));
-											manageMachine(player, machine, entity, block, pagination.getPage());
+								)), event -> {
+									player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+									livingEntity.setSilent(true);
+									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.turnoffsound"));
+									manageMachine(player, machine, entity, block, pagination.getPage());
 								}));
 						}
 						if (entity != null) {
 							if (entity.isCustomNameVisible())
 								items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.MAP, 1), ChatContent.GOLD + "Turn Off Name Visibility"), Arrays.asList(
 										ChatContent.AQUA + ChatContent.ITALIC + "Stop showing this machine's name"
-										)), event -> {
-											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-											entity.setCustomNameVisible(false);
-											player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.turnoffname"));
-											manageMachine(player, machine, entity, block, pagination.getPage());
+								)), event -> {
+									player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+									entity.setCustomNameVisible(false);
+									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.turnoffname"));
+									manageMachine(player, machine, entity, block, pagination.getPage());
 								}));
 							else
 								items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.FILLED_MAP, 1), ChatContent.GOLD + "Turn on Name Visibility"), Arrays.asList(
@@ -851,45 +872,45 @@ public class MachineInterractionInventory {
 										"",
 										ChatContent.GRAY + "Note : This is bugged in",
 										ChatContent.GRAY + "some Minecraft versions"
-										)), event -> {
-											player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-											entity.setCustomNameVisible(true);
-											player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.turnonname"));
-											manageMachine(player, machine, entity, block, pagination.getPage());
+								)), event -> {
+									player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+									entity.setCustomNameVisible(true);
+									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.turnonname"));
+									manageMachine(player, machine, entity, block, pagination.getPage());
 								}));
 						}
 						if (!Util.getMCVersion().startsWith("1.9") && entity != null) {
 							try {
 								Method hasGravityMethod = entity.getClass().getMethod("hasGravity");
-								if((boolean) hasGravityMethod.invoke(entity)) {
+								if ((boolean) hasGravityMethod.invoke(entity)) {
 									items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.GLASS, 1), ChatContent.GOLD + "Turn Off Gravity"), Arrays.asList(
 											ChatContent.AQUA + ChatContent.ITALIC + "Disable gravity for this machine",
 											ChatContent.AQUA + ChatContent.ITALIC + "It will not fall"
-											)), event -> {
-												player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-												try {
-													entity.getClass().getMethod("setGravity", boolean.class).invoke(entity, false);
-													player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.turnoffgravity"));
-												} catch (Exception e) {
-													e.printStackTrace();
-													ExceptionCollector.sendException(SlotPlugin.pl, e);
-												}
-												manageMachine(player, machine, entity, block, pagination.getPage());
+									)), event -> {
+										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+										try {
+											entity.getClass().getMethod("setGravity", boolean.class).invoke(entity, false);
+											player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.turnoffgravity"));
+										} catch (Exception e) {
+											e.printStackTrace();
+											ExceptionCollector.sendException(SlotPlugin.pl, e);
+										}
+										manageMachine(player, machine, entity, block, pagination.getPage());
 									}));
 								} else {
 									items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.SAND, 1), ChatContent.GOLD + "Turn On Gravity"), Arrays.asList(
 											ChatContent.AQUA + ChatContent.ITALIC + "Enable gravity for this machine",
 											ChatContent.AQUA + ChatContent.ITALIC + "It will fall on the ground"
-											)), event -> {
-												player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-												try {
-													entity.getClass().getMethod("setGravity", boolean.class).invoke(entity, true);
-													player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.turnongravity"));
-												} catch (Exception e) {
-													e.printStackTrace();
-													ExceptionCollector.sendException(SlotPlugin.pl, e);
-												}
-												manageMachine(player, machine, entity, block, pagination.getPage());
+									)), event -> {
+										player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+										try {
+											entity.getClass().getMethod("setGravity", boolean.class).invoke(entity, true);
+											player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.turnongravity"));
+										} catch (Exception e) {
+											e.printStackTrace();
+											ExceptionCollector.sendException(SlotPlugin.pl, e);
+										}
+										manageMachine(player, machine, entity, block, pagination.getPage());
 									}));
 								}
 							} catch (Exception e) {
@@ -966,7 +987,8 @@ public class MachineInterractionInventory {
 					}
 
 					@Override
-					public void update(Player player, InventoryContents contents) { }
+					public void update(Player player, InventoryContents contents) {
+					}
 
 					@Override
 					public boolean disableCopyPaste() {
