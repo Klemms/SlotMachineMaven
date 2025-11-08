@@ -22,11 +22,11 @@ public class SSound {
             }
         }
 
-        if (inputSound.contains("CraftSound{") || !StringUtils.isAlphanumeric(inputSound
+        if (inputSound.startsWith("minecraft:") || inputSound.contains("CraftSound{") || !StringUtils.isAlphanumeric(inputSound
                 .replace(":", "")
                 .replace("_", "")
                 .replace(".", ""))) {
-            SlotPlugin.pl.getLogger().log(Level.WARNING, "An invalid Sound was detected : '" + inputSound + "', if this is a custom sound, their name shouldn't contain any special character other than _. This may also be due to a Spigot/Paper upgrade.");
+            SlotPlugin.pl.getLogger().log(Level.WARNING, "An invalid Sound was detected : '" + inputSound + "', if this is a custom sound, their name shouldn't contain any special character other than _. If this isn't a custom sound this may be due to a Spigot/Paper upgrade.");
             return null;
         }
 
