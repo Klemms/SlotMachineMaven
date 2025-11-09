@@ -363,7 +363,7 @@ public class Config {
                                 }
                             }
                             if (ymlFile.isSet("coinsEngineCurrency")) {
-                                slotMachine.setCoinsEngineCurrencyName(ymlFile.getString("coinsEngineCurrency"));
+                                slotMachine.setCoinsEngineCurrencyID(ymlFile.getString("coinsEngineCurrency"));
                             }
                             if (ymlFile.isSet("tokenIdentifier")) {
                                 slotMachine.setTokenIdentifier(ymlFile.getString("tokenIdentifier"));

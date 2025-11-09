@@ -20,7 +20,7 @@ public class VariablePrice implements Variable {
 			case TOKENMANAGER:
 				return String.valueOf((int)slotMachine.getPullPrice());
 			case COINSENGINE:
-				Currency currency = CoinsEngineAPI.getCurrency(slotMachine.getCoinsEngineCurrencyName());
+				Currency currency = CoinsEngineAPI.getCurrency(slotMachine.getCoinsEngineCurrencyID());
 
 				if (currency != null) {
 					return currency.format(slotMachine.getPullPrice());

@@ -4,6 +4,7 @@ import fr.klemms.slotmachine.ChatContent;
 import fr.klemms.slotmachine.PriceType;
 import fr.klemms.slotmachine.SlotMachine;
 import fr.klemms.slotmachine.SlotPlugin;
+import fr.klemms.slotmachine.interraction.GUICoinsEnginePickCurrency;
 import fr.klemms.slotmachine.translation.Language;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -28,7 +29,7 @@ public class MenuItemChangePaymentCoinsEngine extends MenuItem {
 
 	@Override
 	public List<String> getDescription(SlotMachine machine, Player player) {
-		Currency currency = CoinsEngineAPI.getCurrency(machine.getCoinsEngineCurrencyName());
+		Currency currency = machine.getCoinsEngineCurrencyID() != null ? CoinsEngineAPI.getCurrency(machine.getCoinsEngineCurrencyID()) : null;
 
 		return Arrays.asList(
 				ChatContent.AQUA + ChatContent.ITALIC + "Select a new currency",
@@ -42,11 +43,18 @@ public class MenuItemChangePaymentCoinsEngine extends MenuItem {
 	@Override
 	public void onClick(SlotMachine machine, Player player, ClickType clickType, MenuState state) {
 		if (clickType == ClickType.LEFT) {
+			Currency currency = machine.getCoinsEngineCurrencyID() != null ? CoinsEngineAPI.getCurrency(machine.getCoinsEngineCurrencyID()) : null;
+
 			player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-			machine.setPriceType(PriceType.COINSENGINE);
-			player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.paymentcoinsenginecurrency"));
-			machine.save();
-			state.reloadPage();
+			GUICoinsEnginePickCurrency.show(player, currency, (Currency newCurrency) -> {
+				if (newCurrency != null) {
+					machine.setPriceType(PriceType.COINSENGINE);
+					machine.setCoinsEngineCurrencyID(newCurrency.getId());
+					player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.paymentcoinsenginecurrency").replace("%currency%", newCurrency.getName()));
+					machine.save();
+					state.reloadPage();
+				}
+			}, 0);
 		}
 	}
 }

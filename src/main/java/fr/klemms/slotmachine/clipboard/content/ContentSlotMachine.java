@@ -1,10 +1,9 @@
 package fr.klemms.slotmachine.clipboard.content;
 
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
 import fr.klemms.slotmachine.SlotMachine;
 import fr.klemms.slotmachine.clipboard.ClipboardContent;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class ContentSlotMachine extends Content {
 
@@ -55,7 +54,7 @@ public class ContentSlotMachine extends Content {
 		outputMachine.setWinSound(inputMachine.getWinSound());
 		outputMachine.setLossSound(inputMachine.getLossSound());
 
-		outputMachine.setCoinsEngineCurrencyName(inputMachine.getCoinsEngineCurrencyName());
+		outputMachine.setCoinsEngineCurrencyID(inputMachine.getCoinsEngineCurrencyID());
 
 		ClipboardContent.ITEMLIST.contentCopier.copyContent(player, inputMachine, outputMachine);
 	}

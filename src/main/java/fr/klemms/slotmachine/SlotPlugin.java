@@ -465,7 +465,7 @@ public class SlotPlugin extends JavaPlugin {
 					yamlFile.set("lossSound", slotMachine.getLossSound().getSaveString());
 					yamlFile.set("errorSound", slotMachine.getErrorSound().getSaveString());
 
-					yamlFile.set("coinsEngineCurrency", slotMachine.getCoinsEngineCurrencyName());
+					yamlFile.set("coinsEngineCurrency", slotMachine.getCoinsEngineCurrencyID());
 
 					yamlFile.set("itemCount", null);
 					yamlFile.set("items", null);

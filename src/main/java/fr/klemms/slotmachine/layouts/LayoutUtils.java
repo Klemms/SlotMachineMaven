@@ -78,11 +78,11 @@ public class LayoutUtils {
                 }
             case COINSENGINE:
                 if(SlotPlugin.isCoinsEngineEnabled) {
-                    Currency currency = CoinsEngineAPI.getCurrency(machine.getCoinsEngineCurrencyName());
+                    Currency currency = CoinsEngineAPI.getCurrency(machine.getCoinsEngineCurrencyID());
 
                     if (currency == null) {
                         player.sendMessage(Variables.getFormattedString(
-                                Language.translate("coinsengine.invalidcurrency").replace("%currency%", machine.getCoinsEngineCurrencyName()),
+                                Language.translate("coinsengine.invalidcurrency").replace("%currency%", machine.getCoinsEngineCurrencyID()),
                                 player,
                                 machine
                         ));
