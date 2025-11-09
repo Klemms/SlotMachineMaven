@@ -43,7 +43,7 @@ public class MenuItemChangePaymentCoinsEngine extends MenuItem {
 	@Override
 	public void onClick(SlotMachine machine, Player player, ClickType clickType, MenuState state) {
 		if (clickType == ClickType.LEFT) {
-			Currency currency = machine.getCoinsEngineCurrencyID() != null ? CoinsEngineAPI.getCurrency(machine.getCoinsEngineCurrencyID()) : null;
+			Currency currency = machine.getCoinsEngineCurrencyID() != null && machine.getPriceType() == PriceType.COINSENGINE ? CoinsEngineAPI.getCurrency(machine.getCoinsEngineCurrencyID()) : null;
 
 			player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 			GUICoinsEnginePickCurrency.show(player, currency, (Currency newCurrency) -> {

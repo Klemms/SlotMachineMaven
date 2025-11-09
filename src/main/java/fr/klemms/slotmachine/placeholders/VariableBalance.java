@@ -7,6 +7,8 @@ import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.PlayerUtil;
 import me.realized.tm.api.TMAPI;
 import org.bukkit.entity.Player;
+import su.nightexpress.coinsengine.api.CoinsEngineAPI;
+import su.nightexpress.coinsengine.api.currency.Currency;
 
 public class VariableBalance implements Variable {
 
@@ -21,6 +23,16 @@ public class VariableBalance implements Variable {
 			case PLAYERPOINTS:
 				if(SlotPlugin.playerPointsAPI != null) {
 					return String.valueOf(SlotPlugin.playerPointsAPI.lookFormatted(player.getUniqueId()));
+				}
+				break;
+			case COINSENGINE:
+				if (SlotPlugin.isCoinsEngineEnabled) {
+					Currency currency = CoinsEngineAPI.getCurrency(slotMachine.getCoinsEngineCurrencyID());
+
+
+					if (currency != null) {
+						return currency.format(CoinsEngineAPI.getBalance(player, currency));
+					}
 				}
 				break;
 			case TOKEN:

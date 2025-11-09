@@ -92,7 +92,7 @@ public class LayoutUtils {
 
                     double userBalance = CoinsEngineAPI.getBalance(player, currency);
 
-                    if(userBalance >= ((int)machine.getPullPrice())) {
+                    if(userBalance >= machine.getPullPrice()) {
                         if (!testAndApplyCooldown(player, machine))
                             return false;
                         CoinsEngineAPI.removeBalance(player, currency, ((int)machine.getPullPrice()));

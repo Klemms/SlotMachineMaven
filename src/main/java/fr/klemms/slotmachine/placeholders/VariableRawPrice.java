@@ -10,6 +10,7 @@ public class VariableRawPrice implements Variable {
 	public String getVariable(Player player, SlotMachine slotMachine) {
 		switch(slotMachine.getPriceType()) {
 			case MONEY:
+			case COINSENGINE:
 				return Util.formatNumber(slotMachine.getPullPrice());
 			case EXPERIENCE:
 			case VOTINGPLUGIN:
