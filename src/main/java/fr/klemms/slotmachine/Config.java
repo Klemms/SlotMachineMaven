@@ -38,7 +38,7 @@ public class Config {
     public static volatile String noAccessDefaultString = "permission.denied";
     public static volatile String notEnoughMoneyDefaultString = "money.notenough";
     public static volatile String notEnoughTokensDefaultString = "tokens.notenough";
-    public static volatile String notEnoughGamePointsDefaultString = "gamepoints.notenough";
+    public static volatile String notEnoughCoinsEngineCurrencyDefaultString = "coinsengine.notenough";
     public static volatile String notEnoughTokensManagerDefaultString = "tokenmanager.notenough";
 
     public static volatile String defaultWinMessage = "&a&lYou Won !";
@@ -133,9 +133,9 @@ public class Config {
         if (Util.isAtLeastMC118())
             plugin.getConfig().setComments("notEnoughTokens", Arrays.asList("", "Default message when a player doesn't have enough tokens (from Slot Machine)", "Default value is to check the language file with the key 'tokens.notenough'"));
 
-        plugin.getConfig().addDefault("notEnoughGamePoints", notEnoughGamePointsDefaultString);
+        plugin.getConfig().addDefault("notEnoughCoinsEngineCurrency", notEnoughCoinsEngineCurrencyDefaultString);
         if (Util.isAtLeastMC118())
-            plugin.getConfig().setComments("notEnoughGamePoints", Arrays.asList("", "Default message when a player doesn't have enough GamePoints", "Default value is to check the language file with the key 'gamepoints.notenough'"));
+            plugin.getConfig().setComments("notEnoughCoinsEngineCurrency", Arrays.asList("", "Default message when a player doesn't have enough of a currency from CoinsEngine", "Default value is to check the language file with the key 'coinsengine.notenough'"));
 
         plugin.getConfig().addDefault("notEnoughTokensManager", notEnoughTokensManagerDefaultString);
         if (Util.isAtLeastMC118())
@@ -196,7 +196,7 @@ public class Config {
         noAccessDefaultString = SlotPlugin.pl.getConfig().getString("permissionDenied");
         notEnoughMoneyDefaultString = SlotPlugin.pl.getConfig().getString("notEnoughMoney");
         notEnoughTokensDefaultString = SlotPlugin.pl.getConfig().getString("notEnoughTokens");
-        notEnoughGamePointsDefaultString = SlotPlugin.pl.getConfig().getString("notEnoughGamePoints");
+        notEnoughCoinsEngineCurrencyDefaultString = SlotPlugin.pl.getConfig().getString("notEnoughCoinsEngineCurrency");
         notEnoughTokensManagerDefaultString = SlotPlugin.pl.getConfig().getString("notEnoughTokensManager");
         showItemName = SlotPlugin.pl.getConfig().getBoolean("showItemName");
         defaultWinMessage = SlotPlugin.pl.getConfig().getString("defaultWinMessage");
@@ -355,7 +355,15 @@ public class Config {
                                 slotMachine.setLeverCustom(ymlFile.getBoolean("customLever"));
                             }
                             if (ymlFile.isSet("priceType")) {
-                                slotMachine.setPriceType(PriceType.valueOf(ymlFile.getString("priceType")));
+                                if (ymlFile.getString("priceType").equals("GAMEPOINTS")) {
+                                    slotMachine.setPriceType(PriceType.TOKEN);
+                                    SlotPlugin.issues.add(new Issue(IssueType.CONVERSION_ISSUE, "A machine using GamePoints as currency has been converted to Tokens, please update and use CoinsEngine instead"));
+                                } else {
+                                    slotMachine.setPriceType(PriceType.valueOf(ymlFile.getString("priceType")));
+                                }
+                            }
+                            if (ymlFile.isSet("coinsEngineCurrency")) {
+                                slotMachine.setCoinsEngineCurrencyName(ymlFile.getString("coinsEngineCurrency"));
                             }
                             if (ymlFile.isSet("tokenIdentifier")) {
                                 slotMachine.setTokenIdentifier(ymlFile.getString("tokenIdentifier"));
@@ -395,9 +403,6 @@ public class Config {
                             }
                             if (ymlFile.isSet("cooldown")) {
                                 slotMachine.setCooldown(ymlFile.getInt("cooldown"));
-                            }
-                            if (ymlFile.isSet("coinsEngineCurrencyName")) {
-                                slotMachine.setCoinsEngineCurrencyName(ymlFile.getString("coinsEngineCurrencyName"));
                             }
 
                             if (ymlFile.isSet("backgroundItem")) {

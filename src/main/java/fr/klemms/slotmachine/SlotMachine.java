@@ -196,6 +196,7 @@ public abstract class SlotMachine {
 	private SSound lossSound;
 
 	private String lastFileName;
+
 	private String coinsEngineCurrencyName;
 
 	public SlotMachine(SlotMachineType slotMachineType) {
@@ -681,10 +682,10 @@ public abstract class SlotMachine {
 				this.setLeverDescription(Language.translate("slotmachine.lever.description.votingplugin"));
 			}
 		}
-		if(priceType == PriceType.GAMEPOINTS) {
+		if(priceType == PriceType.COINSENGINE) {
 			if(!this.isLeverCustom()) {
-				this.setLeverTitle(Language.translate("slotmachine.lever.title.gamepoints"));
-				this.setLeverDescription(Language.translate("slotmachine.lever.description.gamepoints"));
+				this.setLeverTitle(Language.translate("slotmachine.lever.title.coinsengine"));
+				this.setLeverDescription(Language.translate("slotmachine.lever.description.coinsengine"));
 			}
 		}
 		if(priceType == PriceType.PLAYERPOINTS) {

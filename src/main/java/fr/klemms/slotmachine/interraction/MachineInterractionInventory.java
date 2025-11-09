@@ -42,7 +42,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
 
 public class MachineInterractionInventory {
 
@@ -377,21 +376,10 @@ public class MachineInterractionInventory {
 									machine.save();
 									manageMachine(player, machine, entity, block, pagination.getPage());
 								}));
-							if (machine.getPriceType() != PriceType.GAMEPOINTS && SlotPlugin.isGamePointsEnabled)
-								items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.GHAST_TEAR, 1), ChatContent.GOLD + "Change Payment"), Arrays.asList(
-										ChatContent.AQUA + ChatContent.ITALIC + "Change this machine's",
-										ChatContent.AQUA + ChatContent.ITALIC + "payment to",
-										ChatContent.GREEN + ChatContent.ITALIC + "Game Points from GamePoints",
-										"",
-										ChatContent.AQUA + ChatContent.ITALIC + "Current payment :",
-										ChatContent.RESET + machine.getPriceType().name
-								)), event -> {
-									player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-									machine.setPriceType(PriceType.GAMEPOINTS);
-									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + Language.translate("command.slotmachineaction.paymentgamepoints"));
-									machine.save();
-									manageMachine(player, machine, entity, block, pagination.getPage());
-								}));
+
+							if (SlotPlugin.isCoinsEngineEnabled) {
+								items.add(MenuItem.getMenuItem(machine, player, new MenuItemChangePaymentCoinsEngine(), state));
+							}
 
 							if (machine.getPriceType() != PriceType.PLAYERPOINTS && SlotPlugin.playerPointsAPI != null)
 								items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.GHAST_TEAR, 1), ChatContent.GOLD + "Change Payment"), Arrays.asList(

@@ -4,7 +4,7 @@ public enum PriceType {
 
 	MONEY("Money"),
 	TOKEN("Tokens"),
-	GAMEPOINTS("GamePoints"),
+	COINSENGINE("CoinsEngine"),
 	PLAYERPOINTS("PlayerPoints"),
 	TOKENMANAGER("Tokens (TokenManager)"),
 	EXPERIENCE("Experience"),

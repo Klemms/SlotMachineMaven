@@ -1,9 +1,10 @@
 package fr.klemms.slotmachine.placeholders;
 
-import org.bukkit.entity.Player;
-
 import fr.klemms.slotmachine.SlotMachine;
 import fr.klemms.slotmachine.utils.Util;
+import org.bukkit.entity.Player;
+import su.nightexpress.coinsengine.api.CoinsEngineAPI;
+import su.nightexpress.coinsengine.api.currency.Currency;
 
 public class VariablePrice implements Variable {
 
@@ -14,11 +15,16 @@ public class VariablePrice implements Variable {
 				return Util.formatNumber(slotMachine.getPullPrice());
 			case EXPERIENCE:
 			case VOTINGPLUGIN:
-			case GAMEPOINTS:
 			case PLAYERPOINTS:
 			case TOKEN:
 			case TOKENMANAGER:
 				return String.valueOf((int)slotMachine.getPullPrice());
+			case COINSENGINE:
+				Currency currency = CoinsEngineAPI.getCurrency(slotMachine.getCoinsEngineCurrencyName());
+
+				if (currency != null) {
+					return currency.format(slotMachine.getPullPrice());
+				}
 			default:
 				return Util.formatNumber(slotMachine.getPullPrice());
 		}

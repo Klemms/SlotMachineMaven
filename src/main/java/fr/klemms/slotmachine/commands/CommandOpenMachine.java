@@ -38,8 +38,8 @@ public class CommandOpenMachine implements CommandExecutor {
 				if (slotMachine != null) {
 					if(slotMachine.playerHasPermission(player) || overridePermission) {
 						if(slotMachine.getSlotMachineItems().size() > 0) {
-							if(slotMachine.getPriceType() == PriceType.GAMEPOINTS && !SlotPlugin.isGamePointsEnabled) {
-								sender.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + Language.translate("slotmachine.access.missinggamepoints"));
+							if(slotMachine.getPriceType() == PriceType.COINSENGINE && !SlotPlugin.isCoinsEngineEnabled) {
+								sender.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + Language.translate("slotmachine.access.missingcoinsengine"));
 							} else if(slotMachine.getPriceType() == PriceType.MONEY && SlotPlugin.econ == null) {
 								sender.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + Language.translate("slotmachine.access.missingvault"));
 							} else {

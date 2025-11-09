@@ -38,6 +38,7 @@ public class Issue {
 		REWARD_EXCEPTION("An important exception occured giving a reward to a player : "),
 		WRITE_EXCEPTION("An important exception occured when saving files : "),
 		MACHINES_BACKUP("An important exception occured while making backups for your machines : "),
+		CONVERSION_ISSUE("An issue occurred while converting data : "),
 		VERSION_ISSUE("An issue occurred with the version of Slot Machine you are using : ");
 
 		public String title;

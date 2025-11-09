@@ -103,6 +103,12 @@
             <id>matteodev</id>
             <url>https://maven.devs.beer/</url>
         </repository>
+
+        <repository>
+            <id>nightexpress-releases</id>
+            <name>NightExpress's Repository</name>
+            <url>https://repo.nightexpressdev.com/releases</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -117,6 +123,13 @@
             <groupId>org.black_ixx</groupId>
             <artifactId>playerpoints</artifactId>
             <version>3.2.6</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>su.nightexpress.coinsengine</groupId>
+            <artifactId>CoinsEngine</artifactId>
+            <version>2.6.0</version>
             <scope>provided</scope>
         </dependency>
 
@@ -182,22 +195,6 @@
             <artifactId>votingplugin</artifactId>
             <version>6.19</version>
             <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>su.nightexpress</groupId>
-            <artifactId>CoinsEngine</artifactId>
-            <version>2.3.4</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/CoinsEngine-2.3.4.jar</systemPath>
-        </dependency>
-
-        <dependency>
-            <groupId>su.nexmedia</groupId>
-            <artifactId>NightCore</artifactId>
-            <version>2.6.3</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/nightcore-2.6.3.jar</systemPath>
         </dependency>
 
         <dependency>

@@ -51,8 +51,8 @@ public class MachineMethods {
 		}
 
 		if(machine.getSlotMachineItems().size() > 0) {
-			if(machine.getPriceType() == PriceType.GAMEPOINTS && !SlotPlugin.isGamePointsEnabled) {
-				player.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + Language.translate("slotmachine.access.missinggamepoints"));
+			if(machine.getPriceType() == PriceType.COINSENGINE && !SlotPlugin.isCoinsEngineEnabled) {
+				player.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + Language.translate("slotmachine.access.missingcoinsengine"));
 				return;
 			}
 			if(machine.getPriceType() == PriceType.TOKENMANAGER && !SlotPlugin.oldTokenManagerWorks && SlotPlugin.tokenManager == null) {

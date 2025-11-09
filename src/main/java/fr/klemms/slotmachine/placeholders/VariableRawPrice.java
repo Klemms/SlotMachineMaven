@@ -13,7 +13,6 @@ public class VariableRawPrice implements Variable {
 				return Util.formatNumber(slotMachine.getPullPrice());
 			case EXPERIENCE:
 			case VOTINGPLUGIN:
-			case GAMEPOINTS:
 			case PLAYERPOINTS:
 			case TOKEN:
 			case TOKENMANAGER:

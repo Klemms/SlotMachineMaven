@@ -14,8 +14,8 @@ public class CommandSlotMachineVersion implements CommandExecutor {
 		sender.sendMessage(ChatContent.AQUA + SlotPlugin.CHAT_PREFIX + "Currently detected soft-dependencies :");
 		if (SlotPlugin.econ != null)
 			sender.sendMessage(ChatContent.AQUA + SlotPlugin.CHAT_PREFIX + "- Vault");
-		if (SlotPlugin.isGamePointsEnabled)
-			sender.sendMessage(ChatContent.AQUA + SlotPlugin.CHAT_PREFIX + "- GamePoints");
+		if (SlotPlugin.isCoinsEngineEnabled)
+			sender.sendMessage(ChatContent.AQUA + SlotPlugin.CHAT_PREFIX + "- CoinsEngine");
 		if (SlotPlugin.tokenManager != null)
 			sender.sendMessage(ChatContent.AQUA + SlotPlugin.CHAT_PREFIX + "- TokenManager");
 		if (SlotPlugin.isCitizensEnabled)

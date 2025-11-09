@@ -76,13 +76,13 @@ public class LayoutUtils {
                     Util.playSoundPlayer(player, machine.getErrorSound(), 1.3f, 1f);
                     return false;
                 }
-            case GAMEPOINTS:
-                if(SlotPlugin.isGamePointsEnabled) {
+            case COINSENGINE:
+                if(SlotPlugin.isCoinsEngineEnabled) {
                     Currency currency = CoinsEngineAPI.getCurrency(machine.getCoinsEngineCurrencyName());
 
                     if (currency == null) {
                         player.sendMessage(Variables.getFormattedString(
-                                Language.translate("gamepoints.invalidcurrency").replace("%currencyName%", machine.getCoinsEngineCurrencyName()),
+                                Language.translate("coinsengine.invalidcurrency").replace("%currency%", machine.getCoinsEngineCurrencyName()),
                                 player,
                                 machine
                         ));
@@ -98,12 +98,12 @@ public class LayoutUtils {
                         CoinsEngineAPI.removeBalance(player, currency, ((int)machine.getPullPrice()));
                         return true;
                     } else {
-                        player.sendMessage(Variables.getFormattedString(Language.translate(Config.notEnoughGamePointsDefaultString), player, machine));
+                        player.sendMessage(Variables.getFormattedString(Language.translate(Config.notEnoughCoinsEngineCurrencyDefaultString).replace("%currency%", currency.getName()), player, machine));
                         Util.playSoundPlayer(player, machine.getErrorSound(), 1.3f, 1f);
                         return false;
                     }
                 } else {
-                    player.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + Language.translate("slotmachine.access.missinggamepoints"));
+                    player.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + Language.translate("slotmachine.access.missingcoinsengine"));
                     Util.playSoundPlayer(player, machine.getErrorSound(), 1.3f, 1f);
                     return false;
                 }

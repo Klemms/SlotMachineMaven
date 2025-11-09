@@ -62,14 +62,11 @@ public class SlotPlugin extends JavaPlugin {
 
 	public static InventoryManager invManager;
 
-	public static boolean isGamePointsEnabled = false;
+	public static boolean isCoinsEngineEnabled = false;
 	public static boolean isCitizensEnabled = false;
-
 	public static boolean oldTokenManagerWorks = false;
 	public static TokenManager tokenManager;
-
 	public static boolean isPlaceholderAPIEnabled = false;
-
 	public static PlayerPointsAPI playerPointsAPI;
 
 	protected static HashMap<UUID, PlayerConfig> playerConfigs;
@@ -121,14 +118,19 @@ public class SlotPlugin extends JavaPlugin {
 		}
 
 		isCitizensEnabled = Bukkit.getPluginManager().isPluginEnabled("Citizens");
-		if (isCitizensEnabled)
+		if (isCitizensEnabled) {
 			this.getLogger().log(Level.INFO, "Enabled Citizens 2 support");
+		}
 
-		if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null)
+		if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+			this.getLogger().log(Level.INFO, "Enabled PlaceholderAPI support");
 			isPlaceholderAPIEnabled = true;
+		}
 
-		if (Bukkit.getPluginManager().isPluginEnabled("PlayerPoints"))
+		if (Bukkit.getPluginManager().isPluginEnabled("PlayerPoints")) {
+			this.getLogger().log(Level.INFO, "Enabled PlayerPoints support");
 			playerPointsAPI = PlayerPoints.getInstance().getAPI();
+		}
 
 		Setup.setupLanguages(this);
 		try {
@@ -165,17 +167,19 @@ public class SlotPlugin extends JavaPlugin {
 
 		this.getServer().getPluginManager().registerEvents(new PluginListener(), this);
 
-		if (this.getServer().getPluginManager().getPlugin("CoinsEngine") != null) {
-			//TODO : Change to true when we re-enable coinsengine/gamepoints
-			SlotPlugin.isGamePointsEnabled = false;
+		if (this.getServer().getPluginManager().isPluginEnabled("CoinsEngine")) {
+			this.getLogger().log(Level.INFO, "Enabled CoinsEngine support");
+			SlotPlugin.isCoinsEngineEnabled = true;
 		}
 
-		if (this.getServer().getPluginManager().getPlugin("TokenManager") != null) {
+		if (this.getServer().getPluginManager().isPluginEnabled("TokenManager")) {
 			try {
 				Class.forName("me.realized.tm.api.TMAPI");
 				SlotPlugin.oldTokenManagerWorks = true;
+				this.getLogger().log(Level.INFO, "Enabled Old TokenManager support");
 			} catch (ClassNotFoundException e) {
 				tokenManager = (TokenManager) this.getServer().getPluginManager().getPlugin("TokenManager");
+				this.getLogger().log(Level.INFO, "Enabled TokenManager support");
 			}
 		}
 
@@ -338,6 +342,7 @@ public class SlotPlugin extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
+
 		saveCooldownsToDisk();
 		saveMachinesToDisk(true);
 
@@ -361,6 +366,13 @@ public class SlotPlugin extends JavaPlugin {
 				ExceptionCollector.sendException(SlotPlugin.pl, e);
 			}
 		}
+
+		isCoinsEngineEnabled = false;
+		isCitizensEnabled = false;
+		oldTokenManagerWorks = false;
+		tokenManager = null;
+		isPlaceholderAPIEnabled = false;
+		playerPointsAPI = null;
 	}
 
 	public static void saveCooldownsToDisk() {
@@ -453,7 +465,7 @@ public class SlotPlugin extends JavaPlugin {
 					yamlFile.set("lossSound", slotMachine.getLossSound().getSaveString());
 					yamlFile.set("errorSound", slotMachine.getErrorSound().getSaveString());
 
-					yamlFile.set("coinsEngineCurrencyName", slotMachine.getCoinsEngineCurrencyName());
+					yamlFile.set("coinsEngineCurrency", slotMachine.getCoinsEngineCurrencyName());
 
 					yamlFile.set("itemCount", null);
 					yamlFile.set("items", null);

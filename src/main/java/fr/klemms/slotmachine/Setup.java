@@ -148,6 +148,7 @@ public class Setup {
             RegisteredServiceProvider<Economy> rsp = plugin.getServer().getServicesManager().getRegistration(Economy.class);
             if(rsp != null) {
             	SlotPlugin.econ = rsp.getProvider();
+				plugin.getLogger().log(Level.INFO, "Enabled Vault support - Using Money should work");
             }
             return true;
         }
@@ -158,10 +159,9 @@ public class Setup {
 	public static boolean setupVotingPlugin(JavaPlugin plugin) {
         if (plugin.getServer().getPluginManager().getPlugin("VotingPlugin") != null) {
         	SlotPlugin.votingPlugin = VotingPluginHooks.getInstance();
-            plugin.getLogger().log(Level.INFO, "VotingPlugin support enabled");
+			plugin.getLogger().log(Level.INFO, "Enabled VotingPlugin support");
             return true;
         }
-        plugin.getLogger().log(Level.INFO, "VotingPlugin support disabled");
         return false;
     }
 }
