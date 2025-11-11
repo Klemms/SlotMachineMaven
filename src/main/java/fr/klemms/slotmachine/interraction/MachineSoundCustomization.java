@@ -45,7 +45,7 @@ public class MachineSoundCustomization {
 								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								MachineSoundlistInventory.openSoundlist(player, machine, 0, (sound) -> {
 									machine.setMachineOpeningSound(sound);
-									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + sound.toString() + "'");
+									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + sound.getPrettyName() + "'");
 									Util.playSoundPlayer(player, machine.getMachineOpeningSound(), 1.9f, 1.2f);
 									machine.save();
 								}, 1.9f, 1.2f);
@@ -86,7 +86,7 @@ public class MachineSoundCustomization {
 								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								MachineSoundlistInventory.openSoundlist(player, machine, 0, (sound) -> {
 									machine.setLeverSound(sound);
-									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + sound.toString() + "'");
+									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + sound.getPrettyName() + "'");
 									Util.playSoundPlayer(player, machine.getLeverSound(), 1.9f, 1.2f);
 									machine.save();
 								}, 1.9f, 1.2f);
@@ -127,7 +127,7 @@ public class MachineSoundCustomization {
 								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								MachineSoundlistInventory.openSoundlist(player, machine, 0, (sound) -> {
 									machine.setWinSound(sound);
-									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + sound.toString() + "'");
+									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + sound.getPrettyName() + "'");
 									Util.playSoundPlayer(player, machine.getWinSound(), 1.9f, 0.9f);
 									machine.save();
 								}, 1.9f, 0.9f);
@@ -172,7 +172,7 @@ public class MachineSoundCustomization {
 								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								MachineSoundlistInventory.openSoundlist(player, machine, 0, (sound) -> {
 									machine.setErrorSound(sound);
-									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + sound.toString() + "'");
+									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + sound.getPrettyName() + "'");
 									Util.playSoundPlayer(player, machine.getErrorSound(), 1.3f, 1f);
 									machine.save();
 								}, 1.3f, 1f);
@@ -213,7 +213,7 @@ public class MachineSoundCustomization {
 								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								MachineSoundlistInventory.openSoundlist(player, machine, 0, (sound) -> {
 									machine.setLossSound(sound);
-									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + sound.toString() + "'");
+									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + sound.getPrettyName() + "'");
 									Util.playSoundPlayer(player, machine.getLossSound(), 0.3f, 0.7f);
 									machine.save();
 								}, 0.3f, 0.7f);
@@ -258,7 +258,7 @@ public class MachineSoundCustomization {
 								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								MachineSoundlistInventory.openSoundlist(player, machine, 0, (sound) -> {
 									machine.setSlotmachineSpinSound(sound);
-									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + sound.toString() + "'");
+									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + sound.getPrettyName() + "'");
 									Util.playSoundPlayer(player, machine.getSlotmachineSpinSound(), 0.4f, 0.9f);
 									machine.save();
 								}, 0.4f, 0.9f);
@@ -303,7 +303,7 @@ public class MachineSoundCustomization {
 								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								MachineSoundlistInventory.openSoundlist(player, machine, 0, (sound) -> {
 									machine.setCsgoSpinSound(sound);
-									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + sound.toString() + "'");
+									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + sound.getPrettyName() + "'");
 									Util.playSoundPlayer(player, machine.getCsgoSpinSound(), 0.7f, 0.9f);
 									machine.save();
 								}, 0.7f, 0.9f);

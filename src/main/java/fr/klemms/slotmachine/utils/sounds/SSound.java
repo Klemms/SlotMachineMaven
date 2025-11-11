@@ -28,7 +28,7 @@ public class SSound {
             }
             SlotPlugin.pl.getLogger().log(Level.WARNING, "An invalid Sound was detected : '" + inputSound + "'.");
         }
-        
+
         return null;
     }
 
@@ -70,7 +70,7 @@ public class SSound {
         if (this.customKey != null) {
             return this.customKey;
         }
-        return Util.prettifyMCEnum(this.getSound().name());
+        return Util.prettifyMCEnum(this.getSound().getKey().getKey());
     }
 
     public Sound getSound() {
