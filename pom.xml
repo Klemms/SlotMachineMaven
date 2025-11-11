@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ovh.klemms</groupId>
     <artifactId>slotmachine</artifactId>
-    <version>6.9.0-BETA2</version>
+    <version>6.9.0-BETA3</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
