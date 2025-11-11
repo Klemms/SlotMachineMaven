@@ -9,6 +9,7 @@ import fr.klemms.slotmachine.commands.*;
 import fr.klemms.slotmachine.events.PluginListener;
 import fr.klemms.slotmachine.exceptioncollector.ExceptionCollector;
 import fr.klemms.slotmachine.fr.minuskube.inv.InventoryManager;
+import fr.klemms.slotmachine.saving.SlotMachineSave;
 import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
 import fr.klemms.slotmachine.utils.Util;
@@ -388,11 +389,14 @@ public class SlotPlugin extends JavaPlugin {
 	public static void saveMachinesToDisk(boolean allMachines) {
 		try {
 			Files.createDirectories(pl.getDataFolder().toPath().resolve("machines"));
+			Files.createDirectories(pl.getDataFolder().toPath().resolve("machines-json"));
 		} catch (IOException e) {
 			e.printStackTrace();
 			ExceptionCollector.sendException(SlotPlugin.pl, e);
 			return;
 		}
+
+		SlotMachineSave.saveAllMachines(allMachines);
 
 		if (Files.exists(pl.getDataFolder().toPath().resolve("machines"))) {
 			for (SlotMachine slotMachine : SlotMachine.getSlotMachines()) {
