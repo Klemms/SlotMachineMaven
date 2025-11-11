@@ -55,6 +55,8 @@ public class ContentSlotMachine extends Content {
 		outputMachine.setLossSound(inputMachine.getLossSound());
 
 		outputMachine.setCoinsEngineCurrencyID(inputMachine.getCoinsEngineCurrencyID());
+		outputMachine.setCommandPlay(inputMachine.getCommandPlay());
+		outputMachine.setCommandLoss(inputMachine.getCommandLoss());
 
 		ClipboardContent.ITEMLIST.contentCopier.copyContent(player, inputMachine, outputMachine);
 	}

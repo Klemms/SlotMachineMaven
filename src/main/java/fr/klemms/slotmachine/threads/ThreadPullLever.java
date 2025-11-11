@@ -207,6 +207,10 @@ public class ThreadPullLever extends Thread {
 			}
 
 			if (!hasWon && machine.hasLossMessage()) {
+				if (machine.getCommandLoss() != null) {
+					Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Variables.replaceVariable(player, machine, machine.getCommandLoss())));
+				}
+
 				Bukkit.getScheduler().scheduleSyncDelayedTask(SlotPlugin.pl, new ThreadPlaySound(machine.getLossSound(), 0.3F, 0.7F, player), 4);
 				ComponentBuilder finalMessage = new ComponentBuilder(Variables.getFormattedString(machine.getFinalLossMessage(), player, machine));
 

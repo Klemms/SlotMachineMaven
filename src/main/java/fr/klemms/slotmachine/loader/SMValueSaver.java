@@ -20,7 +20,9 @@ public class SMValueSaver {
 			new SMSaveSoundCSGOSpin(),
 			new SMSaveSoundWin(),
 			new SMSaveSoundLoss(),
-			new SMSaveSoundError()
+			new SMSaveSoundError(),
+			new SMSaveCommandOnPlay(),
+			new SMSaveCommandOnLoss()
 	);
 
 	public static void load(YamlConfiguration yaml, SlotMachine machine) {

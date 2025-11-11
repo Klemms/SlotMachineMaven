@@ -276,6 +276,10 @@ public class MachineInterractionInventory {
 								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								PlayModePick.pickPlayMode(player, machine, 0);
 							}));
+
+							items.add(MenuItem.getMenuItem(machine, player, new MenuItemCommandOnPlay(), state));
+							items.add(MenuItem.getMenuItem(machine, player, new MenuItemCommandOnLoss(), state));
+
 							if (machine.getVisualType() != VisualType.SLOTMACHINE)
 								items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.BRICKS, 1), ChatContent.GOLD + "Change Layout"), Arrays.asList(
 										ChatContent.AQUA + ChatContent.ITALIC + "Change this machine's layout to",

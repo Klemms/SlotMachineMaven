@@ -35,7 +35,7 @@ public abstract class CommonLayout implements InventoryProvider {
 		if (machine.getCooldown() > 0) {
 			lore.add("");
 			if (machine.isPlayerInCooldown(player)) {
-				lore.add(ChatContent.DARK_GRAY + "Cooldown : " + ChatContent.GRAY + ChatContent.ITALIC + machine.getPlayerCooldown(player) + "s/" + machine.getCooldown() + "s");
+				lore.add(ChatContent.DARK_GRAY + Language.translate("basic.cooldown").replace("%cooldown%", ChatContent.GRAY + ChatContent.ITALIC + machine.getPlayerCooldown(player) + "s/" + machine.getCooldown()));
 			} else {
 				lore.add(ChatContent.DARK_GRAY + Language.translate("basic.cooldown").replace("%cooldown%", ChatContent.GRAY + ChatContent.ITALIC + String.valueOf(machine.getCooldown())));
 			}
@@ -60,6 +60,11 @@ public abstract class CommonLayout implements InventoryProvider {
 								player.sendMessage(Variables.getFormattedString(Language.translate(Config.goodLuckDefaultString), player, machine));
 
 							Util.playSoundPlayer(player, machine.getLeverSound(), 1.9f, 1.2f);
+
+							if (machine.getCommandPlay() != null) {
+								Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Variables.replaceVariable(player, machine, machine.getCommandPlay()));
+							}
+
 							Bukkit.getScheduler().runTaskLaterAsynchronously(SlotPlugin.pl, new ThreadPullLever(player, machine, contents, conts -> {
 								Bukkit.getScheduler().runTask(SlotPlugin.pl, () -> {
 									machine.setPlayerRolling(player, false);

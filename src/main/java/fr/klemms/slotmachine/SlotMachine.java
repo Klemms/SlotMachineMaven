@@ -181,6 +181,9 @@ public abstract class SlotMachine {
 	private HashMap<UUID, List<MachineItem>> row_1 = new HashMap<UUID, List<MachineItem>>();
 	private HashMap<UUID, List<MachineItem>> row_2 = new HashMap<UUID, List<MachineItem>>();
 
+	private String commandPlay;
+	private String commandLoss;
+
 	private ItemStack backgroundItem;
 	private ItemStack emphasisItem;
 	private ItemStack leverItem;
@@ -1061,5 +1064,21 @@ public abstract class SlotMachine {
 
 	public void setCoinsEngineCurrencyID(String coinsEngineCurrencyID) {
 		this.coinsEngineCurrencyID = coinsEngineCurrencyID;
+	}
+
+	public String getCommandPlay() {
+		return commandPlay;
+	}
+
+	public void setCommandPlay(String commandPlay) {
+		this.commandPlay = commandPlay;
+	}
+
+	public String getCommandLoss() {
+		return commandLoss;
+	}
+
+	public void setCommandLoss(String commandLoss) {
+		this.commandLoss = commandLoss;
 	}
 }

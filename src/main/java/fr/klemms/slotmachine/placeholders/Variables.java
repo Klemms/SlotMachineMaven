@@ -15,7 +15,7 @@ public enum Variables {
 	BALANCE(new VariableBalance(), "balance", "placeholders.balance"),
 	RAW_BALANCE(new VariableRawBalance(), "rawBalance", "placeholders.rawbalance"),
 	PRICE(new VariablePrice(), "price", "placeholders.price"),
-	//RAW_PRICE(new VariableRawPrice(), "rawPrice", "placeholders.rawprice"),
+	RAW_PRICE(new VariableRawPrice(), "rawPrice", "placeholders.rawprice"),
 	ITEMS(new VariableItems(), "items", "placeholders.items"),
 	MACHINE_NAME(new VariableMachineName(), "machineName", "placeholders.machineName"),
 	PLAYER_POINTS(new VariablePlayerPoints(), "pPoints", "placeholders.playerPoints"),
