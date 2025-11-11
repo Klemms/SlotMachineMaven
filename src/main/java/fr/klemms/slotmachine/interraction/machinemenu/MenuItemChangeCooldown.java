@@ -21,7 +21,7 @@ public class MenuItemChangeCooldown extends MenuItem {
 
     @Override
     public String getTitle(SlotMachine machine, Player player) {
-        return ChatContent.GOLD + "[NEW] Set Cooldown";
+        return ChatContent.GOLD + "Set Cooldown";
     }
 
     @Override
