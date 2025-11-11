@@ -132,6 +132,15 @@ public class Util {
 		return false;
 	}
 
+	public static Sound getValidSound(String sound) {
+        NamespacedKey key = NamespacedKey.fromString(sound);
+        if (key != null) {
+            return Registry.SOUNDS.get(key);
+        }
+
+		return null;
+	}
+
 	public static boolean isValidUUID(String uuid) {
 		return uuid.matches("[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}");
 	}

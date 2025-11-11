@@ -19,6 +19,8 @@ import java.util.Arrays;
 
 public class MachineSoundCustomization {
 
+	private static final String INVALID_INPUT = ChatContent.RED + SlotPlugin.CHAT_PREFIX + "Invalid sound, this sound must be either a valid Minecraft sound, or a valid namespaced custom sound";
+
 	public static void customizeSounds(Player player, SlotMachine machine) {
 		SmartInventory inv = SmartInventory.builder()
 				.manager(SlotPlugin.invManager)
@@ -49,9 +51,9 @@ public class MachineSoundCustomization {
 								}, 1.9f, 1.2f);
 							} else if (event.isRightClick()) {
 								StringInput.inputString(player, "Custom sound input", machine.getMachineOpeningSound().getKey(), text -> {
-									SSound newSound = SSound.fromInput(text);
+									SSound newSound = SSound.fromInput(text, !Util.isValidSound(text));
 									if (newSound == null) {
-										player.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + "Invalid sound, this sound is neither a Minecraft sound nor a custom sound");
+										player.sendMessage(INVALID_INPUT);
 										player.playSound(player, Sound.ENTITY_VILLAGER_HURT, 1.3f, 1.2f);
 										return;
 									}
@@ -90,9 +92,9 @@ public class MachineSoundCustomization {
 								}, 1.9f, 1.2f);
 							} else if (event.isRightClick()) {
 								StringInput.inputString(player, "Custom sound input", machine.getLeverSound().getKey(), text -> {
-									SSound newSound = SSound.fromInput(text);
+									SSound newSound = SSound.fromInput(text, !Util.isValidSound(text));
 									if (newSound == null) {
-										player.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + "Invalid sound, this sound is neither a Minecraft sound nor a custom sound");
+										player.sendMessage(INVALID_INPUT);
 										player.playSound(player, Sound.ENTITY_VILLAGER_HURT, 1.3f, 1.2f);
 										return;
 									}
@@ -131,9 +133,9 @@ public class MachineSoundCustomization {
 								}, 1.9f, 0.9f);
 							} else if (event.isRightClick()) {
 								StringInput.inputString(player, "Custom sound input", machine.getWinSound().getKey(), text -> {
-									SSound newSound = SSound.fromInput(text);
+									SSound newSound = SSound.fromInput(text, !Util.isValidSound(text));
 									if (newSound == null) {
-										player.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + "Invalid sound, this sound is neither a Minecraft sound nor a custom sound");
+										player.sendMessage(INVALID_INPUT);
 										player.playSound(player, Sound.ENTITY_VILLAGER_HURT, 1.3f, 1.2f);
 										return;
 									}
@@ -176,9 +178,9 @@ public class MachineSoundCustomization {
 								}, 1.3f, 1f);
 							} else if (event.isRightClick()) {
 								StringInput.inputString(player, "Custom sound input", machine.getErrorSound().getKey(), text -> {
-									SSound newSound = SSound.fromInput(text);
+									SSound newSound = SSound.fromInput(text, !Util.isValidSound(text));
 									if (newSound == null) {
-										player.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + "Invalid sound, this sound is neither a Minecraft sound nor a custom sound");
+										player.sendMessage(INVALID_INPUT);
 										player.playSound(player, Sound.ENTITY_VILLAGER_HURT, 1.3f, 1.2f);
 										return;
 									}
@@ -217,9 +219,9 @@ public class MachineSoundCustomization {
 								}, 0.3f, 0.7f);
 							} else if (event.isRightClick()) {
 								StringInput.inputString(player, "Custom sound input", machine.getLossSound().getKey(), text -> {
-									SSound newSound = SSound.fromInput(text);
+									SSound newSound = SSound.fromInput(text, !Util.isValidSound(text));
 									if (newSound == null) {
-										player.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + "Invalid sound, this sound is neither a Minecraft sound nor a custom sound");
+										player.sendMessage(INVALID_INPUT);
 										player.playSound(player, Sound.ENTITY_VILLAGER_HURT, 1.3f, 1.2f);
 										return;
 									}
@@ -262,9 +264,9 @@ public class MachineSoundCustomization {
 								}, 0.4f, 0.9f);
 							} else if (event.isRightClick()) {
 								StringInput.inputString(player, "Custom sound input", machine.getSlotmachineSpinSound().getKey(), text -> {
-									SSound newSound = SSound.fromInput(text);
+									SSound newSound = SSound.fromInput(text, !Util.isValidSound(text));
 									if (newSound == null) {
-										player.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + "Invalid sound, this sound is neither a Minecraft sound nor a custom sound");
+										player.sendMessage(INVALID_INPUT);
 										player.playSound(player, Sound.ENTITY_VILLAGER_HURT, 1.3f, 1.2f);
 										return;
 									}
@@ -307,9 +309,9 @@ public class MachineSoundCustomization {
 								}, 0.7f, 0.9f);
 							} else if (event.isRightClick()) {
 								StringInput.inputString(player, "Custom sound input", machine.getCsgoSpinSound().getKey(), text -> {
-									SSound newSound = SSound.fromInput(text);
+									SSound newSound = SSound.fromInput(text, !Util.isValidSound(text));
 									if (newSound == null) {
-										player.sendMessage(ChatContent.RED + SlotPlugin.CHAT_PREFIX + "Invalid sound, this sound is neither a Minecraft sound nor a custom sound");
+										player.sendMessage(INVALID_INPUT);
 										player.playSound(player, Sound.ENTITY_VILLAGER_HURT, 1.3f, 1.2f);
 										return;
 									}

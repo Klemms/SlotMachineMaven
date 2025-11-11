@@ -9,6 +9,7 @@ import fr.klemms.slotmachine.commands.*;
 import fr.klemms.slotmachine.events.PluginListener;
 import fr.klemms.slotmachine.exceptioncollector.ExceptionCollector;
 import fr.klemms.slotmachine.fr.minuskube.inv.InventoryManager;
+import fr.klemms.slotmachine.loader.SMValueSaver;
 import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
 import fr.klemms.slotmachine.utils.Util;
@@ -55,7 +56,6 @@ public class SlotPlugin extends JavaPlugin {
 	public static Metrics metrics;
 	public static boolean supportEnding = false;
 	public static String supportMessage = "";
-	public static boolean shouldSaveMachinesToDisk = true;
 	public static boolean suspendSaving = false;
 
 	public static HashMap<Sound, Material> soundMaterialMap;
@@ -275,18 +275,13 @@ public class SlotPlugin extends JavaPlugin {
 		// Saving
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
 			if (!suspendSaving) {
-				if (shouldSaveMachinesToDisk) {
-					saveMachinesToDisk(true);
+				if (Config.debug) {
+					this.getLogger().log(Level.INFO, "Triggerred saving");
 				}
+				saveMachinesToDisk(false);
 				saveCooldownsToDisk();
 			}
 		}, 10 * 20, 10 * 20);
-
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
-			if (!suspendSaving) {
-				saveMachinesToDisk(false);
-			}
-		}, 15 * 20, 30 * 20);
 
 		// Items Giving
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
@@ -381,10 +376,6 @@ public class SlotPlugin extends JavaPlugin {
 		}
 	}
 
-	public static void saveToDisk() {
-		shouldSaveMachinesToDisk = true;
-	}
-
 	public static void saveMachinesToDisk(boolean allMachines) {
 		try {
 			Files.createDirectories(pl.getDataFolder().toPath().resolve("machines"));
@@ -457,15 +448,9 @@ public class SlotPlugin extends JavaPlugin {
 					yamlFile.set("leverItemActivated", slotMachine.getLeverItemActivated());
 					yamlFile.set("itemListItem", slotMachine.getItemListItem());
 
-					yamlFile.set("machineOpeningSound", slotMachine.getMachineOpeningSound().getSaveString());
-					yamlFile.set("leverSound", slotMachine.getLeverSound().getSaveString());
-					yamlFile.set("slotmachineSpinSound", slotMachine.getSlotmachineSpinSound().getSaveString());
-					yamlFile.set("csgoSpinSound", slotMachine.getCsgoSpinSound().getSaveString());
-					yamlFile.set("winSound", slotMachine.getWinSound().getSaveString());
-					yamlFile.set("lossSound", slotMachine.getLossSound().getSaveString());
-					yamlFile.set("errorSound", slotMachine.getErrorSound().getSaveString());
-
 					yamlFile.set("coinsEngineCurrency", slotMachine.getCoinsEngineCurrencyID());
+
+					SMValueSaver.save(yamlFile, slotMachine);
 
 					yamlFile.set("itemCount", null);
 					yamlFile.set("items", null);
@@ -515,7 +500,6 @@ public class SlotPlugin extends JavaPlugin {
 					ExceptionCollector.sendException(SlotPlugin.pl, e);
 				}
 			}
-			shouldSaveMachinesToDisk = false;
 			return;
 		}
 		pl.getLogger().log(Level.SEVERE, "Couldn't save Machines ! Please contact the developer");

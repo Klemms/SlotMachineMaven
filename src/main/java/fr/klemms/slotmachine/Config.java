@@ -4,11 +4,11 @@ import fr.klemms.slotmachine.Issue.IssueType;
 import fr.klemms.slotmachine.MachineItem.Reward;
 import fr.klemms.slotmachine.MachineItem.RewardType;
 import fr.klemms.slotmachine.exceptioncollector.ExceptionCollector;
+import fr.klemms.slotmachine.loader.SMValueSaver;
 import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.EntityUtil;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
 import fr.klemms.slotmachine.utils.Util;
-import fr.klemms.slotmachine.utils.sounds.SSound;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
@@ -211,7 +211,7 @@ public class Config {
         if (adminToolMaterial == null)
             adminToolMaterial = Material.BLAZE_ROD;
 
-        SlotPlugin.saveToDisk();
+        SlotPlugin.saveMachinesToDisk(true);
     }
 
     public static void loadMachines(JavaPlugin plugin) {
@@ -454,30 +454,7 @@ public class Config {
                                 }
                             }
 
-                            if (ymlFile.isSet("machineOpeningSound")) {
-                                slotMachine.setMachineOpeningSound(SSound.fromInput(ymlFile.getString("machineOpeningSound")));
-                            }
-                            if (ymlFile.isSet("leverSound")) {
-                                slotMachine.setLeverSound(SSound.fromInput(ymlFile.getString("leverSound")));
-                            }
-                            if (ymlFile.isSet("slotmachineSpinSound")) {
-                                slotMachine.setSlotmachineSpinSound(SSound.fromInput(ymlFile.getString("slotmachineSpinSound")));
-                            }
-                            if (ymlFile.isSet("errorSound")) {
-                                slotMachine.setErrorSound(SSound.fromInput(ymlFile.getString("errorSound")));
-                            }
-                            if (ymlFile.isSet("csgoSpinSound")) {
-                                slotMachine.setCsgoSpinSound(SSound.fromInput(ymlFile.getString("csgoSpinSound")));
-                            }
-                            if (ymlFile.isSet("winSound")) {
-                                slotMachine.setWinSound(SSound.fromInput(ymlFile.getString("winSound")));
-                            }
-                            if (ymlFile.isSet("lossSound")) {
-                                slotMachine.setLossSound(SSound.fromInput(ymlFile.getString("lossSound")));
-                            }
-                            if (ymlFile.isSet("errorSound")) {
-                                slotMachine.setErrorSound(SSound.fromInput(ymlFile.getString("errorSound")));
-                            }
+                            SMValueSaver.load(ymlFile, slotMachine);
 
                             List<MachineItem> slotMachineItems = new ArrayList<MachineItem>();
                             if (ymlFile.contains("items")) {

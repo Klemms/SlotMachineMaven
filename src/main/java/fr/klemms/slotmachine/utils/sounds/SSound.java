@@ -2,7 +2,6 @@ package fr.klemms.slotmachine.utils.sounds;
 
 import fr.klemms.slotmachine.SlotPlugin;
 import fr.klemms.slotmachine.utils.Util;
-import org.apache.commons.lang3.StringUtils;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
 import org.bukkit.Sound;
@@ -12,25 +11,25 @@ import java.util.logging.Level;
 
 public class SSound {
 
-    public static SSound fromInput(String inputSound) {
+    public static SSound fromInput(String inputSound, boolean isCustom) {
         NamespacedKey key = NamespacedKey.fromString(inputSound);
-        if (key != null) {
-            Sound s = Registry.SOUNDS.get(key);
 
-            if (s != null) {
-                return new SSound(s);
+        if (isCustom) {
+            if (key != null) {
+                return new SSound(key.toString());
             }
-        }
+        } else {
+            if (key != null) {
+                Sound s = Registry.SOUNDS.get(key);
 
-        if (inputSound.startsWith("minecraft:") || inputSound.contains("CraftSound{") || !StringUtils.isAlphanumeric(inputSound
-                .replace(":", "")
-                .replace("_", "")
-                .replace(".", ""))) {
-            SlotPlugin.pl.getLogger().log(Level.WARNING, "An invalid Sound was detected : '" + inputSound + "', if this is a custom sound, their name shouldn't contain any special character other than _. If this isn't a custom sound this may be due to a Spigot/Paper upgrade.");
-            return null;
+                if (s != null) {
+                    return new SSound(s);
+                }
+            }
+            SlotPlugin.pl.getLogger().log(Level.WARNING, "An invalid Sound was detected : '" + inputSound + "'.");
         }
-
-        return new SSound(inputSound);
+        
+        return null;
     }
 
     public Sound sound = null;
@@ -57,7 +56,7 @@ public class SSound {
             return this.customKey;
         }
 
-        return this.sound.getKey().getKey();
+        return this.sound.getKey().toString();
     }
 
     public String getName() {
