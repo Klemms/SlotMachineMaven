@@ -146,7 +146,10 @@ public class SlotPlugin extends JavaPlugin {
 			Clipboards.setupClipboards();
 		} catch (Exception e) {
 			e.printStackTrace();
+			this.getLogger().log(Level.SEVERE, "An important error occurred while loading Slot Machine, loading cannot continue.");
 			ExceptionCollector.sendException(this, e);
+			this.getPluginLoader().disablePlugin(this);
+			return;
 		}
 
 		Objects.requireNonNull(getCommand("openmachine")).setExecutor(new CommandOpenMachine());

@@ -233,8 +233,18 @@ public class Config {
                         continue;
                     }
 
-                    YamlConfiguration ymlFile = YamlConfiguration.loadConfiguration(file);
                     plugin.getLogger().log(Level.INFO, Language.translate("load.slotmachine.loading").replace("%file%", file.getName()));
+                    YamlConfiguration ymlFile;
+                    try {
+                        ymlFile = YamlConfiguration.loadConfiguration(file);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Issue.newIssue(IssueType.MACHINE_READING_ISSUE, "Machine in file " + file.getName() + " could not be loaded, see the related exception in server logs", true);
+                        SlotPlugin.pl.getLogger().log(Level.SEVERE, "Machine in file " + file.getName() + " could not be loaded, see the related exception");
+                        ExceptionCollector.sendException(plugin, e);
+                        continue;
+                    }
+
                     try {
                         if (!saveMade && (!ymlFile.contains("iVersion") || ymlFile.getInt("iVersion", 0) < SlotPlugin.VERSION)) {
                             plugin.getLogger().log(Level.INFO, "Detected Slot Machine version upgrade, making a backup of machines called : " + "MACHINES_BACKUP-UPGRADE-TO-" + SlotPlugin.VERSION);
