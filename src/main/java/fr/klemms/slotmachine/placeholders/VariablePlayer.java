@@ -9,4 +9,9 @@ public class VariablePlayer implements Variable {
 	public String getVariable(Player player, SlotMachine slotMachine) {
 		return player.getName();
 	}
+
+	@Override
+	public boolean canBeUsed() {
+		return true;
+	}
 }

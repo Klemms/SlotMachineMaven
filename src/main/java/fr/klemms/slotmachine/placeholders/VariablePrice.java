@@ -32,4 +32,9 @@ public class VariablePrice implements Variable {
 				return Util.formatNumber(slotMachine.getPullPrice());
 		}
 	}
+
+	@Override
+	public boolean canBeUsed() {
+		return true;
+	}
 }

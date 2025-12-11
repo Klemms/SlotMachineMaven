@@ -10,4 +10,9 @@ public class VariableTokens implements Variable {
 	public String getVariable(Player player, SlotMachine slotMachine) {
 		return String.valueOf(PlayerUtil.countItems(player, slotMachine.getToken()));
 	}
+
+	@Override
+	public boolean canBeUsed() {
+		return true;
+	}
 }

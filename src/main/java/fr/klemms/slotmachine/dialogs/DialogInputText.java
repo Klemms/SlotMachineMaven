@@ -21,10 +21,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-public class DialogInputCommand extends DialogHandler<StringInputCallback> {
+public class DialogInputText extends DialogHandler<StringInputCallback> {
 
-	public static final String NAMESPACE = "smdginputcommand";
-	public static final DialogInputCommand instance = new DialogInputCommand();
+	public static final String NAMESPACE = "smdginputtext";
+	public static final DialogInputText instance = new DialogInputText();
 
 	@Override
 	public String getNamespace() {
@@ -33,12 +33,12 @@ public class DialogInputCommand extends DialogHandler<StringInputCallback> {
 
 	@Override
 	public void handle(AwaitingCallbacks<StringInputCallback> ac, Player caller, JsonObject json) {
-		if (json.has("command")) {
-			ac.callback.callback(json.get("command").getAsString());
+		if (json.has("text")) {
+			ac.callback.callback(json.get("text").getAsString());
 		}
 	}
 
-	public static void open(StringInputCallback callback, Player player, String dialogTitle, String initialCommand, String bodyText, String errorString, boolean showPlaceholders, boolean canClose, boolean showPlaceholdersAPI) {
+	public static void open(StringInputCallback callback, Player player, String dialogTitle, String initialText, String bodyText, String errorString, boolean showPlaceholders, boolean canClose, boolean showPlaceholdersAPI) {
 		UUID key = UUID.randomUUID();
 
 		JsonObject json = new JsonObject();
@@ -92,17 +92,17 @@ public class DialogInputCommand extends DialogHandler<StringInputCallback> {
 						.body(body)
 						.afterAction(DialogBase.AfterAction.NONE)
 						.canCloseWithEscape(canClose)
-						.inputs(Collections.singletonList(new TextInput("command", 300, new TextComponent("Command to execute (Max length : 512) :"), true, initialCommand != null ? initialCommand : "", 512)))
+						.inputs(Collections.singletonList(new TextInput("command", 300, new TextComponent("Text (Max length : 256) :"), true, initialText != null ? initialText : "", 256)))
 		)
 				.yes(new ActionButton(new TextComponent("Done"), instance.getClickAction(key, null)))
 				.no(new ActionButton(new TextComponent("Cancel"), instance.getCloseAction(key)));
 
 		instance.awaitCallback(text -> {
-			if (text.trim().isEmpty() || (text.trim().equals("/"))) {
+			if (text.trim().isEmpty()) {
 				player.playSound(player, Sound.ENTITY_VILLAGER_HURT, 1.3f, 1.2f);
-				open(callback, player, dialogTitle, text, bodyText, "Invalid command : Command must not be empty", showPlaceholders, canClose, showPlaceholdersAPI);
+				open(callback, player, dialogTitle, text, bodyText, "Invalid text : Text can't be empty", showPlaceholders, canClose, showPlaceholdersAPI);
 			} else {
-				callback.callback(text.trim().startsWith("/") ? text.trim().substring(1) : text.trim());
+				callback.callback(text.trim());
 			}
 		}, key, player);
 

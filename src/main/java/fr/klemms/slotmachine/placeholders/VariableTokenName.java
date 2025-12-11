@@ -9,4 +9,9 @@ public class VariableTokenName implements Variable {
 	public String getVariable(Player player, SlotMachine slotMachine) {
 		return slotMachine.getTokenIdentifier();
 	}
+
+	@Override
+	public boolean canBeUsed() {
+		return true;
+	}
 }

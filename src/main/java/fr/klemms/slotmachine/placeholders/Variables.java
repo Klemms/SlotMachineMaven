@@ -26,6 +26,18 @@ public enum Variables {
 	EXPERIENCE(new VariableExperience(), "experience", "placeholders.experience"),
 	VOTINGPLUGIN(new VariableVotingPlugin(), "votingplugin", "placeholders.votingplugin");
 
+	public static List<Variables> getValidVariables() {
+		List<Variables> list = new ArrayList<Variables>();
+
+		for (Variables var : Variables.values()) {
+			if (var.variable.canBeUsed()) {
+				list.add(var);
+			}
+		}
+
+		return list;
+	}
+
 	public Variable variable;
 	public String variableName;
 	public String variableDescription;

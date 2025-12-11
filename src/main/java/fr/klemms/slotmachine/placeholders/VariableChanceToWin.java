@@ -9,4 +9,9 @@ public class VariableChanceToWin implements Variable {
 	public String getVariable(Player player, SlotMachine slotMachine) {
 		return String.valueOf(slotMachine.getChanceToWin() * 100);
 	}
+
+	@Override
+	public boolean canBeUsed() {
+		return true;
+	}
 }

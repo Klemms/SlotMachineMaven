@@ -48,4 +48,9 @@ public class VariableRawBalance implements Variable {
 
 		return "";
 	}
+
+	@Override
+	public boolean canBeUsed() {
+		return true;
+	}
 }

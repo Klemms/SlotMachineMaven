@@ -60,4 +60,9 @@ public class VariableBalance implements Variable {
 
 		return "";
 	}
+
+	@Override
+	public boolean canBeUsed() {
+		return true;
+	}
 }

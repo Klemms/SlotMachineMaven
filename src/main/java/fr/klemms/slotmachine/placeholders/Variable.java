@@ -6,4 +6,6 @@ import org.bukkit.entity.Player;
 public interface Variable {
 
 	public String getVariable(Player player, SlotMachine slotMachine);
+
+	public boolean canBeUsed();
 }

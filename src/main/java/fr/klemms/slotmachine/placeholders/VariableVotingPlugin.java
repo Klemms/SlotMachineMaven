@@ -19,4 +19,9 @@ public class VariableVotingPlugin implements Variable {
 
 		return "{VOTINGPLUGIN_NOT_INSTALLED}";
 	}
+
+	@Override
+	public boolean canBeUsed() {
+		return SlotPlugin.votingPlugin != null;
+	}
 }

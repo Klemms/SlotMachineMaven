@@ -13,4 +13,9 @@ public class VariablePlayerPoints implements Variable {
 		}
 		return "{PLAYERPOINTS_NOT_INSTALLED}";
 	}
+
+	@Override
+	public boolean canBeUsed() {
+		return SlotPlugin.playerPointsAPI != null;
+	}
 }

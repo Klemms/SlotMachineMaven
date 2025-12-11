@@ -22,4 +22,9 @@ public class VariableRawPrice implements Variable {
 				return Util.formatNumber(slotMachine.getPullPrice());
 		}
 	}
+
+	@Override
+	public boolean canBeUsed() {
+		return true;
+	}
 }

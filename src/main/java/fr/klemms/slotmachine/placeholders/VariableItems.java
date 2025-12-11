@@ -9,4 +9,9 @@ public class VariableItems implements Variable {
 	public String getVariable(Player player, SlotMachine slotMachine) {
 		return String.valueOf(slotMachine.getSlotMachineItems().size());
 	}
+
+	@Override
+	public boolean canBeUsed() {
+		return true;
+	}
 }

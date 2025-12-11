@@ -10,4 +10,9 @@ public class VariableExperience implements Variable {
 	public String getVariable(Player player, SlotMachine slotMachine) {
 		return String.valueOf(player.getLevel());
 	}
+
+	@Override
+	public boolean canBeUsed() {
+		return true;
+	}
 }

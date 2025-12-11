@@ -16,4 +16,9 @@ public class VariableTMTokens implements Variable {
 		}
 		return "{TOKENSMANAGER_NOT_INSTALLED}";
 	}
+
+	@Override
+	public boolean canBeUsed() {
+		return SlotPlugin.oldTokenManagerWorks || SlotPlugin.tokenManager != null;
+	}
 }
