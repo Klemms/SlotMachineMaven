@@ -294,10 +294,8 @@ public class RewardsCustomization {
 			player.playSound(player.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 1.5F, 2F);
 			machine.save();
 
-			DialogInfo.open(() -> {
-				player.clearDialog();
-				RewardsCustomization.rewardsCustomization(player, machine, item, backPage, page);
-			}, player, "Success", "Command successfully added", "Back", true);
+			player.clearDialog();
+			RewardsCustomization.rewardsCustomization(player, machine, item, backPage, page);
 		}, player, "Add Command Reward", initialCommand, "You can add a new command by typing it in the box below", errorString, true, true, true);
 	}
 }
