@@ -602,8 +602,10 @@ public class MachineInterractionInventory {
 									PlayerUtil.resetPlayerData(player);
 									player.setMetadata("slotmachine_setlevertitle", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
 									player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.levertitle") + " :");
-									for (int a = 0; a < Variables.values().length; a++) {
-										player.sendMessage(ChatContent.AQUA + " - $" + Variables.values()[a].variableName + ChatContent.DARK_AQUA + ChatContent.ITALIC + " - " + Language.translate(Variables.values()[a].variableDescription));
+
+									List<Variables> validVars = Variables.getValidVariables();
+									for (Variables var : validVars) {
+										player.sendMessage(ChatContent.AQUA + " - $" + var.variableName + ChatContent.DARK_AQUA + ChatContent.ITALIC + " - " + Language.translate(var.variableDescription));
 									}
 									player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.placeholderAPI"));
 
@@ -646,8 +648,10 @@ public class MachineInterractionInventory {
 									PlayerUtil.resetPlayerData(player);
 									player.setMetadata("slotmachine_setleverdescription", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
 									player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.leverdescription") + " :");
-									for (int a = 0; a < Variables.values().length; a++) {
-										player.sendMessage(ChatContent.AQUA + " - $" + Variables.values()[a].variableName + ChatContent.DARK_AQUA + ChatContent.ITALIC + " - " + Language.translate(Variables.values()[a].variableDescription));
+
+									List<Variables> validVars = Variables.getValidVariables();
+									for (Variables var : validVars) {
+										player.sendMessage(ChatContent.AQUA + " - $" + var.variableName + ChatContent.DARK_AQUA + ChatContent.ITALIC + " - " + Language.translate(var.variableDescription));
 									}
 									player.sendMessage(ChatContent.AQUA + " - $newline" + ChatContent.DARK_AQUA + ChatContent.ITALIC + " - " + Language.translate("command.slotmachineaction.leverdescription.newline"));
 

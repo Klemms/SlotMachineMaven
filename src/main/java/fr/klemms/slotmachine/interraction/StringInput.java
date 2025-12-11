@@ -39,7 +39,8 @@ public class StringInput {
 			variableLore.add(" ");
 		}
 
-		for (Variables var : Variables.values()) {
+		List<Variables> validVars = Variables.getValidVariables();
+		for (Variables var : validVars) {
 			variableLore.add(ChatContent.DARK_PURPLE + "$" + var.variableName + ChatContent.DARK_AQUA + " -> " + ChatContent.AQUA + Language.translate(var.variableDescription));
 		}
 
