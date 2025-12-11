@@ -6,12 +6,17 @@ import fr.klemms.slotmachine.MachineItem.RewardType;
 import fr.klemms.slotmachine.api.events.SlotMachineReadyEvent;
 import fr.klemms.slotmachine.clipboard.Clipboards;
 import fr.klemms.slotmachine.commands.*;
+import fr.klemms.slotmachine.dialogs.DialogHandler;
+import fr.klemms.slotmachine.dialogs.DialogInfo;
+import fr.klemms.slotmachine.dialogs.DialogInputCommand;
+import fr.klemms.slotmachine.events.DialogEvents;
 import fr.klemms.slotmachine.events.PluginListener;
 import fr.klemms.slotmachine.exceptioncollector.ExceptionCollector;
 import fr.klemms.slotmachine.fr.minuskube.inv.InventoryManager;
 import fr.klemms.slotmachine.loader.SMValueSaver;
 import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
+import fr.klemms.slotmachine.utils.LogUtils;
 import fr.klemms.slotmachine.utils.Util;
 import fr.klemms.slotmachine.utils.sounds.SoundToMaterialList_118;
 import fr.klemms.slotmachine.utils.sounds.SoundToMaterialList_119;
@@ -59,6 +64,8 @@ public class SlotPlugin extends JavaPlugin {
 	public static boolean suspendSaving = false;
 
 	public static HashMap<Sound, Material> soundMaterialMap;
+
+	public static List<DialogHandler> dialogHandlers;
 
 	public static InventoryManager invManager;
 
@@ -111,6 +118,13 @@ public class SlotPlugin extends JavaPlugin {
 		// which should be major versions as minor versions...
 		if (Util.getMCVersion().startsWith("1.20") && !Util.getMCVersion().startsWith("1.20.6") && !Util.getMCVersion().startsWith("1.20.7") && !Util.getMCVersion().startsWith("1.20.8")) {
 			this.getLogger().log(Level.SEVERE, "When on Spigot 1.20.X, it is recommended to use Spigot 1.20.6");
+		}
+
+		if (Util.canUseDialogs()) {
+			this.getLogger().log(Level.INFO, "Dialogs support detected, using Dialogs instead of AnvilGUI");
+			dialogHandlers = new ArrayList<DialogHandler>();
+			dialogHandlers.add(DialogInputCommand.instance);
+			dialogHandlers.add(DialogInfo.instance);
 		}
 
 		if (Bukkit.getPluginManager().isPluginEnabled("AdvancedEnchantments")) {
@@ -169,6 +183,9 @@ public class SlotPlugin extends JavaPlugin {
 		Setup.setupVotingPlugin(this);
 
 		this.getServer().getPluginManager().registerEvents(new PluginListener(), this);
+		if (Util.canUseDialogs()) {
+			this.getServer().getPluginManager().registerEvents(new DialogEvents(), this);
+		}
 
 		if (this.getServer().getPluginManager().isPluginEnabled("CoinsEngine")) {
 			this.getLogger().log(Level.INFO, "Enabled CoinsEngine support");
@@ -278,9 +295,7 @@ public class SlotPlugin extends JavaPlugin {
 		// Saving
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
 			if (!suspendSaving) {
-				if (Config.debug) {
-					this.getLogger().log(Level.INFO, "Triggerred saving");
-				}
+				LogUtils.debug("Triggerred saving");
 				saveMachinesToDisk(false);
 				saveCooldownsToDisk();
 			}
@@ -340,9 +355,14 @@ public class SlotPlugin extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
-
 		saveCooldownsToDisk();
 		saveMachinesToDisk(true);
+
+		if (Util.canUseDialogs()) {
+			dialogHandlers.forEach(dialog -> dialog.dispose());
+			dialogHandlers.clear();
+			dialogHandlers = null;
+		}
 
 		if (Config.backupMachinesOnPluginUnload) {
 			try {

@@ -5,6 +5,7 @@ import fr.klemms.slotmachine.SlotMachine;
 import fr.klemms.slotmachine.SlotPlugin;
 import fr.klemms.slotmachine.loader.migrators.IMigrator;
 import fr.klemms.slotmachine.loader.slotmachines.*;
+import fr.klemms.slotmachine.utils.LogUtils;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.util.Arrays;
@@ -30,9 +31,7 @@ public class SMValueSaver {
 			IMigrator<SlotMachine> migrator = loader.migrator();
 
 			if (migrator.needsMigration(yaml)) {
-				if (Config.debug) {
-					SlotPlugin.pl.getLogger().log(Level.INFO, "SLOT_MACHINE_SAVERS / Needs migration : " + loader.getClass().getName());
-				}
+				LogUtils.debug("SLOT_MACHINE_SAVERS / Needs migration : " + loader.getClass().getName());
 				migrator.migrate(yaml, machine);
 			} else {
 				loader.load(yaml, machine);

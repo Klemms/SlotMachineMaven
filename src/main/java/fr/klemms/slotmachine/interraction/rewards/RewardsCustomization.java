@@ -4,6 +4,8 @@ import fr.klemms.slotmachine.ChatContent;
 import fr.klemms.slotmachine.MachineItem;
 import fr.klemms.slotmachine.SlotMachine;
 import fr.klemms.slotmachine.SlotPlugin;
+import fr.klemms.slotmachine.dialogs.DialogInfo;
+import fr.klemms.slotmachine.dialogs.DialogInputCommand;
 import fr.klemms.slotmachine.fr.minuskube.inv.ClickableItem;
 import fr.klemms.slotmachine.fr.minuskube.inv.InventoryListener;
 import fr.klemms.slotmachine.fr.minuskube.inv.SmartInventory;
@@ -15,6 +17,7 @@ import fr.klemms.slotmachine.interraction.StringInput;
 import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.ItemStackUtil;
 import fr.klemms.slotmachine.utils.PlayerHeadsUtil;
+import fr.klemms.slotmachine.utils.Util;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -38,7 +41,7 @@ public class RewardsCustomization {
 					if (event.getCursor().getType() != Material.AIR && event.isLeftClick()) {
 						List<MachineItem.Reward> rewards = item.getRewards();
 						int slot = -1;
-						switch(event.getSlot()) {
+						switch (event.getSlot()) {
 							// Appearance Item
 							case 19:
 							case 28:
@@ -117,7 +120,7 @@ public class RewardsCustomization {
 								"",
 								ChatContent.GRAY + "Note that only the appearance will",
 								ChatContent.GRAY + "change, the rewards will stay."
-								), ChatContent.GOLD + "Item Appearance")));
+						), ChatContent.GOLD + "Item Appearance")));
 						contents.set(3, 1, ClickableItem.empty(new ItemStack(item.getItemStack(true))));
 
 						for (int i = 0; i < (item.getRewards().size() - 5 * page) && i < 5; i++) {
@@ -212,16 +215,20 @@ public class RewardsCustomization {
 											RewardsCustomization.rewardsCustomization(player, machine, item, backPage, page);
 										});
 									} else if (rewardType == MachineItem.RewardType.COMMAND) {
-										StringInput.inputString(player, "Type the command", "Check [i] for infos", text -> {
-											if (text.startsWith("/")) {
-												item.addReward(new MachineItem.Reward(text.substring(1)));
-											} else {
-												item.addReward(new MachineItem.Reward(text));
-											}
-											player.playSound(player.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 1.5F, 2F);
-											machine.save();
-											RewardsCustomization.rewardsCustomization(player, machine, item, backPage, page);
-										}, false, true);
+										if (Util.canUseDialogs()) {
+											openCommandDialog(player, machine, item, backPage, page, "", null);
+										} else {
+											StringInput.inputString(player, "Type the command", "Check [i] for infos", text -> {
+												if (text.startsWith("/")) {
+													item.addReward(new MachineItem.Reward(text.substring(1)));
+												} else {
+													item.addReward(new MachineItem.Reward(text));
+												}
+												player.playSound(player.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 1.5F, 2F);
+												machine.save();
+												RewardsCustomization.rewardsCustomization(player, machine, item, backPage, page);
+											}, false, true);
+										}
 									}
 								});
 							}));
@@ -245,7 +252,7 @@ public class RewardsCustomization {
 								ChatContent.AQUA + "Drag and Drop an item on another item",
 								ChatContent.AQUA + "to replace it, hover information icons",
 								ChatContent.AQUA + "to get a description of the item"
-								))));
+						))));
 
 						contents.set(5, 1, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.BACK), Language.translate("basic.back")), event -> {
 							player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
@@ -269,5 +276,28 @@ public class RewardsCustomization {
 				.build();
 
 		inv.open(player);
+	}
+
+	public static void openCommandDialog(Player player, SlotMachine machine, MachineItem item, int backPage, int page, String initialCommand, String errorString) {
+		DialogInputCommand.open(text -> {
+			if (text.trim().isEmpty() || (text.trim().equals("/"))) {
+				player.playSound(player, Sound.ENTITY_VILLAGER_HURT, 1.3f, 1.2f);
+				openCommandDialog(player, machine, item, backPage, page, text, "Invalid command : Command must not be empty");
+				return;
+			}
+
+			if (text.trim().startsWith("/")) {
+				item.addReward(new MachineItem.Reward(text.trim().substring(1)));
+			} else {
+				item.addReward(new MachineItem.Reward(text.trim()));
+			}
+			player.playSound(player.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 1.5F, 2F);
+			machine.save();
+
+			DialogInfo.open(() -> {
+				player.clearDialog();
+				RewardsCustomization.rewardsCustomization(player, machine, item, backPage, page);
+			}, player, "Success", "Command successfully added", "Back", true);
+		}, player, "Add Command Reward", initialCommand, "You can add a new command by typing it in the box below", errorString, true, true, true);
 	}
 }

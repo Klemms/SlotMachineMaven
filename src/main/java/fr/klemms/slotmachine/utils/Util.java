@@ -42,6 +42,7 @@ public class Util {
 
 	/**
 	 * This has flaws
+	 *
 	 * @param text
 	 * @param size
 	 * @return
@@ -70,6 +71,7 @@ public class Util {
 
 	/**
 	 * This has flaws
+	 *
 	 * @param start
 	 * @param max
 	 * @param strings
@@ -86,11 +88,11 @@ public class Util {
 	}
 
 	public static int getPages(int listSize, int pageSize) {
-		return (int)Math.ceil(listSize / pageSize) + 1;
+		return (int) Math.ceil(listSize / pageSize) + 1;
 	}
 
 	public static boolean isPageValid(int listSize, int page, double pageSize) {
-		return page >= 0 && page < ((int)Math.ceil(((double)listSize) / pageSize));
+		return page >= 0 && page < ((int) Math.ceil(((double) listSize) / pageSize));
 	}
 
 	public static boolean isAtLeastMC118() {
@@ -111,10 +113,10 @@ public class Util {
 	}
 
 	public static String formatNumber(double number) {
-		if(number >= 1000000D) {
+		if (number >= 1000000D) {
 			return String.format("%.0f", number);
 		}
-		return (number == ((int)number)) ? String.valueOf((int)number) : String.valueOf(number);
+		return (number == ((int) number)) ? String.valueOf((int) number) : String.valueOf(number);
 	}
 
 	public static String formatNumberTwoDigits(double number) {
@@ -122,21 +124,21 @@ public class Util {
 	}
 
 	public static boolean isValidSound(String sound) {
-        NamespacedKey key = NamespacedKey.fromString(sound);
-        if (key != null) {
-            Sound s = Registry.SOUNDS.get(key);
+		NamespacedKey key = NamespacedKey.fromString(sound);
+		if (key != null) {
+			Sound s = Registry.SOUNDS.get(key);
 
 			return s != null;
-        }
+		}
 
 		return false;
 	}
 
 	public static Sound getValidSound(String sound) {
-        NamespacedKey key = NamespacedKey.fromString(sound);
-        if (key != null) {
-            return Registry.SOUNDS.get(key);
-        }
+		NamespacedKey key = NamespacedKey.fromString(sound);
+		if (key != null) {
+			return Registry.SOUNDS.get(key);
+		}
 
 		return null;
 	}
@@ -151,5 +153,17 @@ public class Util {
 
 	public static String prettifyMCEnum(String enumName) {
 		return StringUtils.capitalize(enumName.replace("_", " ").replace(".", " ").toLowerCase());
+	}
+
+	public static boolean canUseDialogs() {
+		return (
+				Util.getMCVersion().startsWith("1.21.6") ||
+				Util.getMCVersion().startsWith("1.21.7") ||
+				Util.getMCVersion().startsWith("1.21.8") ||
+				Util.getMCVersion().startsWith("1.21.9") ||
+				Util.getMCVersion().startsWith("1.21.10") ||
+				Util.getMCVersion().startsWith("1.21.11") ||
+				Util.getMCVersion().startsWith("2") // Future 26.X 27.X
+		);
 	}
 }
