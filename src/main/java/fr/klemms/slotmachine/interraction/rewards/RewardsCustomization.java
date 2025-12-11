@@ -4,7 +4,6 @@ import fr.klemms.slotmachine.ChatContent;
 import fr.klemms.slotmachine.MachineItem;
 import fr.klemms.slotmachine.SlotMachine;
 import fr.klemms.slotmachine.SlotPlugin;
-import fr.klemms.slotmachine.dialogs.DialogInfo;
 import fr.klemms.slotmachine.dialogs.DialogInputCommand;
 import fr.klemms.slotmachine.fr.minuskube.inv.ClickableItem;
 import fr.klemms.slotmachine.fr.minuskube.inv.InventoryListener;
@@ -216,7 +215,14 @@ public class RewardsCustomization {
 										});
 									} else if (rewardType == MachineItem.RewardType.COMMAND) {
 										if (Util.canUseDialogs()) {
-											openCommandDialog(player, machine, item, backPage, page, "", null);
+											DialogInputCommand.open(text -> {
+												item.addReward(new MachineItem.Reward(text));
+												player.playSound(player.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 1.5F, 2F);
+												machine.save();
+
+												player.clearDialog();
+												RewardsCustomization.rewardsCustomization(player, machine, item, backPage, page);
+											}, player, "Add Command Reward", "", "You can add a new command by typing it in the box below", null, true, true, true);
 										} else {
 											StringInput.inputString(player, "Type the command", "Check [i] for infos", text -> {
 												if (text.startsWith("/")) {
@@ -276,26 +282,5 @@ public class RewardsCustomization {
 				.build();
 
 		inv.open(player);
-	}
-
-	public static void openCommandDialog(Player player, SlotMachine machine, MachineItem item, int backPage, int page, String initialCommand, String errorString) {
-		DialogInputCommand.open(text -> {
-			if (text.trim().isEmpty() || (text.trim().equals("/"))) {
-				player.playSound(player, Sound.ENTITY_VILLAGER_HURT, 1.3f, 1.2f);
-				openCommandDialog(player, machine, item, backPage, page, text, "Invalid command : Command must not be empty");
-				return;
-			}
-
-			if (text.trim().startsWith("/")) {
-				item.addReward(new MachineItem.Reward(text.trim().substring(1)));
-			} else {
-				item.addReward(new MachineItem.Reward(text.trim()));
-			}
-			player.playSound(player.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 1.5F, 2F);
-			machine.save();
-
-			player.clearDialog();
-			RewardsCustomization.rewardsCustomization(player, machine, item, backPage, page);
-		}, player, "Add Command Reward", initialCommand, "You can add a new command by typing it in the box below", errorString, true, true, true);
 	}
 }

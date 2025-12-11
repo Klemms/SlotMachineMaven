@@ -4,7 +4,6 @@ import com.google.gson.JsonObject;
 import fr.klemms.slotmachine.interraction.StringInputCallback;
 import fr.klemms.slotmachine.placeholders.Variables;
 import fr.klemms.slotmachine.translation.Language;
-import fr.klemms.slotmachine.utils.LogUtils;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -14,6 +13,7 @@ import net.md_5.bungee.api.dialog.action.ActionButton;
 import net.md_5.bungee.api.dialog.body.DialogBody;
 import net.md_5.bungee.api.dialog.body.PlainMessageBody;
 import net.md_5.bungee.api.dialog.input.TextInput;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -43,7 +43,6 @@ public class DialogInputCommand extends DialogHandler<StringInputCallback> {
 
 		JsonObject json = new JsonObject();
 		json.addProperty("key", key.toString());
-
 
 		List<DialogBody> body = new ArrayList<>();
 
@@ -92,12 +91,19 @@ public class DialogInputCommand extends DialogHandler<StringInputCallback> {
 						.body(body)
 						.afterAction(DialogBase.AfterAction.NONE)
 						.canCloseWithEscape(canClose)
-						.inputs(Collections.singletonList(new TextInput("command", 300, new TextComponent("Command to execute (Max length : 512) :"), true, initialCommand, 512)))
+						.inputs(Collections.singletonList(new TextInput("command", 300, new TextComponent("Command to execute (Max length : 512) :"), true, initialCommand != null ? initialCommand : "", 512)))
 		)
 				.yes(new ActionButton(new TextComponent("Done"), instance.getClickAction(key, null)))
 				.no(new ActionButton(new TextComponent("Cancel"), instance.getCloseAction(key)));
 
-		instance.awaitCallback(callback, key, player);
+		instance.awaitCallback(text -> {
+			if (text.trim().isEmpty() || (text.trim().equals("/"))) {
+				player.playSound(player, Sound.ENTITY_VILLAGER_HURT, 1.3f, 1.2f);
+				open(callback, player, dialogTitle, text, bodyText, "Invalid command : Command must not be empty", showPlaceholders, canClose, showPlaceholdersAPI);
+			} else {
+				callback.callback(text.trim().startsWith("/") ? text.trim().substring(1) : text.trim());
+			}
+		}, key, player);
 
 		player.showDialog(dialog);
 	}
