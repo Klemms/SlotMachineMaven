@@ -11,7 +11,7 @@ public class SoundToMaterialList_119 {
 	public static void initList() {
 		SlotPlugin.soundMaterialMap = new HashMap<Sound, Material>();
 
-		for (Sound sound : Sound.values()) {
+		/*for (Sound sound : Sound.values()) {
 			switch(sound) {
 				case AMBIENT_BASALT_DELTAS_ADDITIONS:
 				case AMBIENT_BASALT_DELTAS_LOOP:
@@ -3936,6 +3936,6 @@ public class SoundToMaterialList_119 {
 					SlotPlugin.soundMaterialMap.put(sound, Material.JUKEBOX);
 					break;
 			}
-		}
+		}*/
 	}
 }
