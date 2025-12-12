@@ -1,6 +1,7 @@
 package fr.klemms.slotmachine.events;
 
 import fr.klemms.slotmachine.*;
+import fr.klemms.slotmachine.dialogs.DialogHandler;
 import fr.klemms.slotmachine.threads.ThreadChangeEntityName;
 import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.PlayerUtil;
@@ -22,6 +23,7 @@ import org.bukkit.event.player.*;
 import org.bukkit.event.player.PlayerFishEvent.State;
 import org.bukkit.inventory.EquipmentSlot;
 
+import java.util.ListIterator;
 import java.util.UUID;
 
 public class PluginListener implements Listener {
@@ -243,6 +245,24 @@ public class PluginListener implements Listener {
 
 	@EventHandler
 	public void onPlayerQuit(PlayerQuitEvent event) {
+		if (Util.canUseDialogs()) {
+			for (DialogHandler dh : SlotPlugin.dialogHandlers) {
+				if (dh.awaitingCallbacks.size() == 0) {
+					continue;
+				}
+
+				ListIterator<DialogHandler.AwaitingCallbacks> listIterator = dh.awaitingCallbacks.listIterator();
+
+				while (listIterator.hasNext()) {
+					DialogHandler.AwaitingCallbacks ac = listIterator.next();
+
+					if (ac.callerUUID.compareTo(event.getPlayer().getUniqueId()) == 0) {
+						listIterator.remove();
+					}
+				}
+			}
+		}
+
 		if(event.getPlayer().hasMetadata("slotmachine_machineuid")) {
 			event.getPlayer().removeMetadata("slotmachine_machineuid", SlotPlugin.pl);
 			PlayerUtil.resetPlayerData(event.getPlayer());
