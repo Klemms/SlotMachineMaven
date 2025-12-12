@@ -57,7 +57,7 @@ public class MenuItemChangeLeverName extends MenuItem {
 
 				if (Util.canUseDialogs()) {
 					DialogResettableInputText.open(
-							new ResettableCallback() {
+							new ResettableCallback<String>() {
 								@Override
 								public void validateCallback(String text) {
 									machine.setLeverTitle(text);

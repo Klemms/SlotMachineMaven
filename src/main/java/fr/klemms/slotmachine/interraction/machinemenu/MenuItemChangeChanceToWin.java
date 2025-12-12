@@ -2,8 +2,14 @@ package fr.klemms.slotmachine.interraction.machinemenu;
 
 import fr.klemms.slotmachine.ChatContent;
 import fr.klemms.slotmachine.SlotMachine;
+import fr.klemms.slotmachine.dialogs.DialogInfo;
+import fr.klemms.slotmachine.dialogs.DialogResettableInputNumber;
+import fr.klemms.slotmachine.dialogs.callbacks.ResettableCallback;
 import fr.klemms.slotmachine.interraction.StringInput;
 import fr.klemms.slotmachine.utils.PlayerUtil;
+import fr.klemms.slotmachine.utils.Util;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -14,69 +20,123 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MenuItemChangeChanceToWin extends MenuItem {
-    @Override
-    public ItemStack getMaterial(SlotMachine machine, Player player) {
-        return new ItemStack(Material.LARGE_FERN, 1);
-    }
+	@Override
+	public ItemStack getMaterial(SlotMachine machine, Player player) {
+		return new ItemStack(Material.LARGE_FERN, 1);
+	}
 
-    @Override
-    public String getTitle(SlotMachine machine, Player player) {
-        return ChatContent.GOLD + "Change Chance to Win";
-    }
+	@Override
+	public String getTitle(SlotMachine machine, Player player) {
+		return ChatContent.GOLD + "Change Chance to Win";
+	}
 
-    @Override
-    public List<String> getDescription(SlotMachine machine, Player player) {
-        return Arrays.asList(
-                ChatContent.AQUA + ChatContent.ITALIC + "Change the chance players",
-                ChatContent.AQUA + ChatContent.ITALIC + "have to win",
-                "",
-                ChatContent.AQUA + ChatContent.ITALIC + "Current chance :",
-                ChatContent.RESET + (machine.getChanceToWin() * 100) + "%"
-        );
-    }
+	@Override
+	public List<String> getDescription(SlotMachine machine, Player player) {
+		return Arrays.asList(
+				ChatContent.AQUA + ChatContent.ITALIC + "Change the chance players",
+				ChatContent.AQUA + ChatContent.ITALIC + "have to win",
+				"",
+				ChatContent.AQUA + ChatContent.ITALIC + "Current chance :",
+				ChatContent.RESET + Util.formatNumberThreeDigits(machine.getChanceToWin() * 100) + "%"
+		);
+	}
 
-    @Override
-    public void onClick(SlotMachine machine, Player player, ClickType clickType, MenuState state) {
-        switch (clickType) {
-            case LEFT:
-                player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
+	@Override
+	public void onClick(SlotMachine machine, Player player, ClickType clickType, MenuState state) {
+		switch (clickType) {
+			case LEFT:
+				player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 
-                StringInput.inputString(
-                        player,
-                        "Change Chance to Win",
-                        String.valueOf(machine.getChanceToWin() * 100),
-                        text -> {
-                            if (!text.isEmpty()) {
-                                if (!NumberUtils.isParsable(text)) {
-                                    PlayerUtil.sendErrorMessage(player, "Please input a number. Decimals must be separated with a dot : .");
-                                    return;
-                                }
+				if (Util.canUseDialogs()) {
+					DialogResettableInputNumber.open(
+							new ResettableCallback<Float>() {
+								@Override
+								public void validateCallback(Float text) {
+									machine.setChanceToWin(text / 100D);
+									machine.save();
+									player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.8F, 2F);
 
-                                double number = Double.parseDouble(text);
-                                if (number < 0D || number > 100D) {
-                                    PlayerUtil.sendErrorMessage(player, "Please input a valid number : [0-100]. Decimals must be separated with a dot : .");
-                                    return;
-                                }
+									DialogInfo.open(() -> {
+												player.clearDialog();
+												state.reloadPage();
+											},
+											player,
+											"Success",
+											"Back",
+											true,
+											new ComponentBuilder("Chance to win has been successfully changed").color(ChatColor.GOLD).build(),
+											new ComponentBuilder("New chance to win :").build(),
+											new ComponentBuilder(Util.formatNumberThreeDigits(machine.getChanceToWin() * 100) + "%").build()
+									);
+								}
 
-                                player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.8F, 2F);
+								@Override
+								public void resetCallback() {
+									machine.setChanceToWin(0.4D);
+									machine.save();
+									player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.8F, 2F);
 
-                                PlayerUtil.sendSuccessMessage(player, "Successfully changed chance to win to " + number + "%");
+									DialogInfo.open(() -> {
+												player.clearDialog();
+												state.reloadPage();
+											},
+											player,
+											"Success",
+											"Back",
+											true,
+											new ComponentBuilder("Chance to win has been reset").color(ChatColor.GOLD).build(),
+											new ComponentBuilder("New chance to win :").build(),
+											new ComponentBuilder(Util.formatNumberThreeDigits(machine.getChanceToWin() * 100) + "%").build()
+									);
+								}
 
-                                machine.setChanceToWin(number / 100D);
-                                machine.save();
+								@Override
+								public void removeCallback() {}
+							},
+							player, "Change Chance to Win", (float) (machine.getChanceToWin() * 100), "Chance to win : (decimals allowed)",
+							null, 0, 100, true, true, true, false,
+							new ComponentBuilder("Change the chance for players to win.").color(ChatColor.GOLD).build(),
+							new ComponentBuilder("Value goes from 0 to 100").color(ChatColor.GOLD).italic(true).build(),
+							new ComponentBuilder("Decimals are allowed (e.g: 55.75)").color(ChatColor.GOLD).italic(true).build()
+					);
+				} else {
+					StringInput.inputString(
+							player,
+							"Change Chance to Win",
+							String.valueOf(machine.getChanceToWin() * 100),
+							text -> {
+								if (!text.isEmpty()) {
+									if (!NumberUtils.isParsable(text)) {
+										PlayerUtil.sendErrorMessage(player, "Please input a number. Decimals must be separated with a dot : .");
+										return;
+									}
 
-                                state.reloadPage();
-                            } else {
-                                PlayerUtil.sendErrorMessage(player, "Chance can't be empty");
-                            }
-                        },
-                        true,
-                        false,
-                        false,
-                        new ItemStack(Material.LARGE_FERN),
-                        new ItemStack(Material.LARGE_FERN)
-                );
-                break;
-        }
-    }
+									double number = Double.parseDouble(text);
+									if (number < 0D || number > 100D) {
+										PlayerUtil.sendErrorMessage(player, "Please input a valid number : [0-100]. Decimals must be separated with a dot : .");
+										return;
+									}
+
+									player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.8F, 2F);
+
+									PlayerUtil.sendSuccessMessage(player, "Successfully changed chance to win to " + number + "%");
+
+									machine.setChanceToWin(number / 100D);
+									machine.save();
+
+									state.reloadPage();
+								} else {
+									PlayerUtil.sendErrorMessage(player, "Chance can't be empty");
+								}
+							},
+							true,
+							false,
+							false,
+							new ItemStack(Material.LARGE_FERN),
+							new ItemStack(Material.LARGE_FERN)
+					);
+				}
+				break;
+		}
+	}
 }

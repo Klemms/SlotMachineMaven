@@ -1,8 +1,8 @@
 package fr.klemms.slotmachine.dialogs.callbacks;
 
-public interface ResettableCallback {
+public interface ResettableCallback<T> {
 
-	void validateCallback(String text);
+	void validateCallback(T text);
 
 	void resetCallback();
 

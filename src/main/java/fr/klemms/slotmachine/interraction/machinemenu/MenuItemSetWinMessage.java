@@ -47,7 +47,7 @@ public class MenuItemSetWinMessage extends MenuItem {
 		player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 
 		if (Util.canUseDialogs()) {
-			DialogResettableInputText.open(new ResettableCallback() {
+			DialogResettableInputText.open(new ResettableCallback<String>() {
 				@Override
 				public void validateCallback(String text) {
 					machine.setHasWinMessage(true);

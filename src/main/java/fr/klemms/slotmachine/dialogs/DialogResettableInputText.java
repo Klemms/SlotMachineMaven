@@ -21,7 +21,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-public class DialogResettableInputText extends DialogHandler<ResettableCallback> {
+public class DialogResettableInputText extends DialogHandler<ResettableCallback<String>> {
 
 	public static final String NAMESPACE = "smdgresettableinputtext";
 	public static final DialogResettableInputText instance = new DialogResettableInputText();
@@ -32,7 +32,7 @@ public class DialogResettableInputText extends DialogHandler<ResettableCallback>
 	}
 
 	@Override
-	public boolean handle(AwaitingCallbacks<ResettableCallback> ac, Player caller, JsonObject json) {
+	public boolean handle(AwaitingCallbacks<ResettableCallback<String>> ac, Player caller, JsonObject json) {
 		if (json.has("data")) {
 			JsonObject data = json.getAsJsonObject("data");
 			if (data.has("remove")) {
@@ -49,7 +49,7 @@ public class DialogResettableInputText extends DialogHandler<ResettableCallback>
 		return false;
 	}
 
-	public static void open(ResettableCallback callback, Player player, String dialogTitle, String initialText, String bodyText, String errorString, boolean showPlaceholders, boolean canClose, boolean showPlaceholdersAPI, boolean showReset, boolean showRemove) {
+	public static void open(ResettableCallback<String> callback, Player player, String dialogTitle, String initialText, String bodyText, String errorString, boolean showPlaceholders, boolean canClose, boolean showPlaceholdersAPI, boolean showReset, boolean showRemove) {
 		UUID key = UUID.randomUUID();
 
 		JsonObject json = new JsonObject();
@@ -123,7 +123,7 @@ public class DialogResettableInputText extends DialogHandler<ResettableCallback>
 				.exitAction(new ActionButton(Util.cancelComponent(), instance.getCloseAction(key)));
 
 		if (callback != null) {
-			instance.awaitCallback(new ResettableCallback() {
+			instance.awaitCallback(new ResettableCallback<String>() {
 				@Override
 				public void validateCallback(String text) {
 					if (text.trim().isEmpty()) {

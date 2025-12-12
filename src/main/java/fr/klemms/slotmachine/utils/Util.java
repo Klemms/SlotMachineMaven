@@ -126,6 +126,10 @@ public class Util {
 		return new DecimalFormat("###.##").format(number);
 	}
 
+	public static String formatNumberThreeDigits(double number) {
+		return new DecimalFormat("###.###").format(number);
+	}
+
 	public static boolean isValidSound(String sound) {
 		NamespacedKey key = NamespacedKey.fromString(sound);
 		if (key != null) {
