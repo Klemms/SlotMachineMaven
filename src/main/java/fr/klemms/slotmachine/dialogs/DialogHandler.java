@@ -15,7 +15,14 @@ public abstract class DialogHandler<T> {
 
 	public abstract String getNamespace();
 
-	public abstract void handle(AwaitingCallbacks<T> ac, Player caller, JsonObject json);
+	/**
+	 *
+	 * @param ac
+	 * @param caller
+	 * @param json
+	 * @return Return true to remove the AwaitingCallback, false will not remove it
+	 */
+	public abstract boolean handle(AwaitingCallbacks<T> ac, Player caller, JsonObject json);
 
 	public void dispose() {
 		LogUtils.debug("Disposing of : " + this.getClass().getName());

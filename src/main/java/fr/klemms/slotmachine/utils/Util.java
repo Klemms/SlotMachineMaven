@@ -1,6 +1,9 @@
 package fr.klemms.slotmachine.utils;
 
 import fr.klemms.slotmachine.utils.sounds.SSound;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
@@ -158,12 +161,20 @@ public class Util {
 	public static boolean canUseDialogs() {
 		return (
 				Util.getMCVersion().startsWith("1.21.6") ||
-				Util.getMCVersion().startsWith("1.21.7") ||
-				Util.getMCVersion().startsWith("1.21.8") ||
-				Util.getMCVersion().startsWith("1.21.9") ||
-				Util.getMCVersion().startsWith("1.21.10") ||
-				Util.getMCVersion().startsWith("1.21.11") ||
-				Util.getMCVersion().startsWith("2") // Future 26.X 27.X
+						Util.getMCVersion().startsWith("1.21.7") ||
+						Util.getMCVersion().startsWith("1.21.8") ||
+						Util.getMCVersion().startsWith("1.21.9") ||
+						Util.getMCVersion().startsWith("1.21.10") ||
+						Util.getMCVersion().startsWith("1.21.11") ||
+						Util.getMCVersion().startsWith("2") // Future 26.X 27.X
 		);
+	}
+
+	public static BaseComponent cancelComponent() {
+		ComponentBuilder cb = new ComponentBuilder();
+		cb.append(new ComponentBuilder("< ").color(ChatColor.GRAY).build());
+		cb.append(new ComponentBuilder("Cancel").build());
+
+		return cb.build();
 	}
 }

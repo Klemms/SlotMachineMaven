@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import fr.klemms.slotmachine.interraction.StringInputCallback;
 import fr.klemms.slotmachine.placeholders.Variables;
 import fr.klemms.slotmachine.translation.Language;
+import fr.klemms.slotmachine.utils.Util;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -32,10 +33,11 @@ public class DialogInputText extends DialogHandler<StringInputCallback> {
 	}
 
 	@Override
-	public void handle(AwaitingCallbacks<StringInputCallback> ac, Player caller, JsonObject json) {
+	public boolean handle(AwaitingCallbacks<StringInputCallback> ac, Player caller, JsonObject json) {
 		if (json.has("text")) {
 			ac.callback.callback(json.get("text").getAsString());
 		}
+		return true;
 	}
 
 	public static void open(StringInputCallback callback, Player player, String dialogTitle, String initialText, String bodyText, String errorString, boolean showPlaceholders, boolean canClose, boolean showPlaceholdersAPI) {
@@ -45,12 +47,6 @@ public class DialogInputText extends DialogHandler<StringInputCallback> {
 		json.addProperty("key", key.toString());
 
 		List<DialogBody> body = new ArrayList<>();
-
-		if (errorString != null && !errorString.isEmpty()) {
-			PlainMessageBody error = new PlainMessageBody(new ComponentBuilder(errorString).color(ChatColor.RED).build());
-			error.width(450);
-			body.add(error);
-		}
 
 		if (!showPlaceholders) {
 			PlainMessageBody base = new PlainMessageBody(new ComponentBuilder(bodyText).bold(true).color(ChatColor.GOLD).build());
@@ -86,16 +82,22 @@ public class DialogInputText extends DialogHandler<StringInputCallback> {
 			body.add(varLines);
 		}
 
+		if (errorString != null && !errorString.isEmpty()) {
+			PlainMessageBody error = new PlainMessageBody(new ComponentBuilder(errorString).color(ChatColor.RED).build());
+			error.width(450);
+			body.add(error);
+		}
+
 		ConfirmationDialog dialog = new ConfirmationDialog(
 				new DialogBase(new TextComponent(dialogTitle))
 						.pause(false)
 						.body(body)
 						.afterAction(DialogBase.AfterAction.NONE)
 						.canCloseWithEscape(canClose)
-						.inputs(Collections.singletonList(new TextInput("command", 300, new TextComponent("Text (Max length : 256) :"), true, initialText != null ? initialText : "", 256)))
+						.inputs(Collections.singletonList(new TextInput("text", 300, new TextComponent("Text (Max length : 256) :"), true, initialText != null ? initialText : "", 256)))
 		)
 				.yes(new ActionButton(new TextComponent("Done"), instance.getClickAction(key, null)))
-				.no(new ActionButton(new TextComponent("Cancel"), instance.getCloseAction(key)));
+				.no(new ActionButton(Util.cancelComponent(), instance.getCloseAction(key)));
 
 		instance.awaitCallback(text -> {
 			if (text.trim().isEmpty()) {

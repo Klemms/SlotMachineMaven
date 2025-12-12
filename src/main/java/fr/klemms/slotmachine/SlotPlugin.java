@@ -6,9 +6,7 @@ import fr.klemms.slotmachine.MachineItem.RewardType;
 import fr.klemms.slotmachine.api.events.SlotMachineReadyEvent;
 import fr.klemms.slotmachine.clipboard.Clipboards;
 import fr.klemms.slotmachine.commands.*;
-import fr.klemms.slotmachine.dialogs.DialogHandler;
-import fr.klemms.slotmachine.dialogs.DialogInfo;
-import fr.klemms.slotmachine.dialogs.DialogInputCommand;
+import fr.klemms.slotmachine.dialogs.*;
 import fr.klemms.slotmachine.events.DialogEvents;
 import fr.klemms.slotmachine.events.PluginListener;
 import fr.klemms.slotmachine.exceptioncollector.ExceptionCollector;
@@ -125,6 +123,8 @@ public class SlotPlugin extends JavaPlugin {
 			dialogHandlers = new ArrayList<DialogHandler>();
 			dialogHandlers.add(DialogInputCommand.instance);
 			dialogHandlers.add(DialogInfo.instance);
+			dialogHandlers.add(DialogInputText.instance);
+			dialogHandlers.add(DialogResettableInputText.instance);
 		}
 
 		if (Bukkit.getPluginManager().isPluginEnabled("AdvancedEnchantments")) {

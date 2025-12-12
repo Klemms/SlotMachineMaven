@@ -523,38 +523,9 @@ public class MachineInterractionInventory {
 										player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
 							}));*/
 
-							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.GREEN_BANNER, 1), ChatContent.GOLD + "Change Win Message"), Arrays.asList(
-									ChatContent.AQUA + ChatContent.ITALIC + "Change the message players",
-									ChatContent.AQUA + ChatContent.ITALIC + "will see when winning",
-									"",
-									ChatContent.AQUA + ChatContent.ITALIC + "Current message :",
-									ChatContent.RESET + ChatContent.translateColorCodes(machine.getFinalWinMessage())
-							)), event -> {
-								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-								player.closeInventory();
-								PlayerUtil.resetPlayerData(player);
-								player.setMetadata("slotmachine_setwinmessage", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
-								player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.winmessage").replace("%winMessage%", ChatContent.RESET + machine.getWinMessage() + ChatContent.DARK_PURPLE + ChatContent.BOLD));
-								player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"null\" for no message");
-								player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"reset\" to reset to default message");
-								player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
-							}));
-							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.RED_BANNER, 1), ChatContent.GOLD + "Change Loss Message"), Arrays.asList(
-									ChatContent.AQUA + ChatContent.ITALIC + "Change the message players",
-									ChatContent.AQUA + ChatContent.ITALIC + "will see when losing",
-									"",
-									ChatContent.AQUA + ChatContent.ITALIC + "Current message :",
-									ChatContent.RESET + ChatContent.translateColorCodes(machine.getFinalLossMessage())
-							)), event -> {
-								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-								player.closeInventory();
-								PlayerUtil.resetPlayerData(player);
-								player.setMetadata("slotmachine_setlossmessage", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
-								player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.lossmessage").replace("%lossMessage%", ChatContent.RESET + machine.getLossMessage() + ChatContent.DARK_PURPLE + ChatContent.BOLD));
-								player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"null\" for no message");
-								player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"reset\" to reset to default message");
-								player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
-							}));
+							items.add(MenuItem.getMenuItem(machine, player, new MenuItemSetWinMessage(), state));
+							items.add(MenuItem.getMenuItem(machine, player, new MenuItemSetLossMessage(), state));
+
 							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.OAK_SIGN, 1), ChatContent.GOLD + "Display Won Item In Chat"), Arrays.asList(
 									ChatContent.AQUA + ChatContent.ITALIC + "Should we display the name of the",
 									ChatContent.AQUA + ChatContent.ITALIC + "item the player got.",

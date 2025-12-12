@@ -15,6 +15,8 @@ import java.util.UUID;
 public class DialogEvents implements Listener {
 	@EventHandler
 	public void onCustomClick(PlayerCustomClickEvent event) {
+		//LogUtils.debug("Custom Click : " + event.getId().toString() + " // " + event.getData().toString());
+
 		if (!Util.canUseDialogs()) {
 			return;
 		}
@@ -32,14 +34,18 @@ public class DialogEvents implements Listener {
 
 						if (ac != null) {
 							LogUtils.debug("Custom Click Validated : " + event.getData().toString());
+							boolean removeAC = false;
 
 							if (obj.has("__close")) {
+								removeAC = true;
 								event.getPlayer().clearDialog();
 							} else {
-								handler.handle(ac, event.getPlayer(), obj);
+								removeAC = handler.handle(ac, event.getPlayer(), obj);
 							}
 
-							handler.awaitingCallbacks.remove(ac);
+							if (removeAC) {
+								handler.awaitingCallbacks.remove(ac);
+							}
 							break;
 						}
 					}
