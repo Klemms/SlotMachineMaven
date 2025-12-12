@@ -79,13 +79,15 @@ public class DialogResettableInputNumber extends DialogHandler<ResettableCallbac
 			actionButtons.add(new ActionButton(new ComponentBuilder("Remove").build(), instance.getClickAction(key, obj)).width(100));
 		}
 
+		String correctValue = allowDecimals ? String.valueOf(initialValue) : String.valueOf((int) initialValue);
+
 		MultiActionDialog dialog = new MultiActionDialog(
 				new DialogBase(new TextComponent(dialogTitle))
 						.pause(false)
 						.body(dialogs)
 						.afterAction(DialogBase.AfterAction.NONE)
 						.canCloseWithEscape(canClose)
-						.inputs(Collections.singletonList(new TextInput("number", 300, new TextComponent(inputLabel), true, java.lang.String.valueOf(initialValue), 16))),
+						.inputs(Collections.singletonList(new TextInput("number", 300, new TextComponent(inputLabel), true, correctValue, 16))),
 				actionButtons.toArray(new ActionButton[actionButtons.size()])
 		)
 				.columns(3)
