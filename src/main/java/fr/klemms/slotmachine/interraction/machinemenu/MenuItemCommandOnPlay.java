@@ -18,7 +18,7 @@ import java.util.List;
 public class MenuItemCommandOnPlay extends MenuItem {
 	@Override
 	public ItemStack getMaterial(SlotMachine machine, Player player) {
-		return new ItemStack(Material.COMMAND_BLOCK, 1);
+		return new ItemStack(PlayerHeadsUtil.COMMAND_BLOCK);
 	}
 
 	@Override

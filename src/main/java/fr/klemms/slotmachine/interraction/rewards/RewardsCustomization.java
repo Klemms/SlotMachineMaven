@@ -154,15 +154,26 @@ public class RewardsCustomization {
 										}
 									}
 								} else if (event.isLeftClick() && reward.rewardType == MachineItem.RewardType.COMMAND) {
-									StringInput.inputString(player, "Edit the command", reward.commandReward, text -> {
-										if (text.startsWith("/")) {
-											reward.commandReward = text.substring(1);
-										} else {
+									if (Util.canUseDialogs()) {
+										DialogInputCommand.open(text -> {
 											reward.commandReward = text;
-										}
-										machine.save();
-										RewardsCustomization.rewardsCustomization(player, machine, item, backPage, page);
-									}, true, true);
+											machine.save();
+											player.playSound(player.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 1.5F, 2F);
+
+											player.clearDialog();
+											RewardsCustomization.rewardsCustomization(player, machine, item, backPage, page);
+										}, player, "Edit the command", reward.commandReward, "You can edit the command in the box below", null, true, true, true);
+									} else {
+										StringInput.inputString(player, "Edit the command", reward.commandReward, text -> {
+											if (text.startsWith("/")) {
+												reward.commandReward = text.substring(1);
+											} else {
+												reward.commandReward = text;
+											}
+											machine.save();
+											RewardsCustomization.rewardsCustomization(player, machine, item, backPage, page);
+										}, true, true);
+									}
 								}
 							}));
 
@@ -193,11 +204,22 @@ public class RewardsCustomization {
 										}
 									}
 								} else if (event.isLeftClick() && reward.rewardType == MachineItem.RewardType.COMMAND) {
-									StringInput.inputString(player, "Edit the command", reward.commandReward, text -> {
-										reward.commandReward = text;
-										machine.save();
-										RewardsCustomization.rewardsCustomization(player, machine, item, backPage, page);
-									}, true, true);
+									if (Util.canUseDialogs()) {
+										DialogInputCommand.open(text -> {
+											reward.commandReward = text;
+											machine.save();
+											player.playSound(player.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 1.5F, 2F);
+
+											player.clearDialog();
+											RewardsCustomization.rewardsCustomization(player, machine, item, backPage, page);
+										}, player, "Edit the command", reward.commandReward, "You can edit the command in the box below", null, true, true, true);
+									} else {
+										StringInput.inputString(player, "Edit the command", reward.commandReward, text -> {
+											reward.commandReward = text;
+											machine.save();
+											RewardsCustomization.rewardsCustomization(player, machine, item, backPage, page);
+										}, true, true);
+									}
 								}
 							}));
 						}

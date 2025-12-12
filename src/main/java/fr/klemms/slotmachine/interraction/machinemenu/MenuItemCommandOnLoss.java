@@ -18,7 +18,7 @@ import java.util.List;
 public class MenuItemCommandOnLoss extends MenuItem {
 	@Override
 	public ItemStack getMaterial(SlotMachine machine, Player player) {
-		return new ItemStack(Material.REPEATING_COMMAND_BLOCK, 1);
+		return new ItemStack(PlayerHeadsUtil.REPEATING_COMMAND_BLOCK);
 	}
 
 	@Override

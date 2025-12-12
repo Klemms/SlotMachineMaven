@@ -41,7 +41,7 @@ public class AddRewardChoice {
 							callback.callback(MachineItem.RewardType.ITEM);
 						}));
 
-						contents.set(2, 5, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(Material.COMMAND_BLOCK), ChatContent.GOLD + "Add a command reward"), event -> {
+						contents.set(2, 5, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.COMMAND_BLOCK), ChatContent.GOLD + "Add a command reward"), event -> {
 							player.playSound(player.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 2F, 2F);
 							callback.callback(MachineItem.RewardType.COMMAND);
 						}));
