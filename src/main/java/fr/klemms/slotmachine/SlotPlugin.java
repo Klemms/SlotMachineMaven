@@ -88,11 +88,11 @@ public class SlotPlugin extends JavaPlugin {
 
 		this.getLogger().log(Level.INFO, "Detected Minecraft version " + Util.getMCVersion());
 		this.getLogger().log(Level.INFO, "Slot Machine version " + this.getDescription().getVersion() + " (" + VERSION + ") for " + MC_FOR);
-		if (Util.getMCVersion().startsWith("1.7") || Util.getMCVersion().startsWith("1.8") || Util.getMCVersion().startsWith("1.9") ||
-				Util.getMCVersion().startsWith("1.10") || Util.getMCVersion().startsWith("1.11") || Util.getMCVersion().startsWith("1.12")
-				|| Util.getMCVersion().startsWith("1.13") || Util.getMCVersion().startsWith("1.14") || Util.getMCVersion().startsWith("1.15")
-				|| Util.getMCVersion().startsWith("1.16") || Util.getMCVersion().startsWith("1.17")) {
-			this.getLogger().log(Level.SEVERE, "This version of Slot Machine can only work on Spigot 1.18 or greater");
+		if (!Util.getMCVersion().startsWith("1.21.6") && !Util.getMCVersion().startsWith("1.21.7") && !Util.getMCVersion().startsWith("1.21.8")
+				&& !Util.getMCVersion().startsWith("1.21.9") && !Util.getMCVersion().startsWith("1.21.10") && !Util.getMCVersion().startsWith("1.21.11")
+				&& !Util.getMCVersion().startsWith("2")
+		) {
+			this.getLogger().log(Level.SEVERE, "This version of Slot Machine can only work on Spigot 1.21.6 or greater");
 			Config.backupMachinesOnPluginUnload = false;
 			Bukkit.getPluginManager().disablePlugin(this);
 			return;
