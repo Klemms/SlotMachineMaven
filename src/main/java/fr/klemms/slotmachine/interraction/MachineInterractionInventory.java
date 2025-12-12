@@ -12,7 +12,6 @@ import fr.klemms.slotmachine.fr.minuskube.inv.content.Pagination;
 import fr.klemms.slotmachine.fr.minuskube.inv.content.SlotIterator.Type;
 import fr.klemms.slotmachine.interraction.machinemenu.*;
 import fr.klemms.slotmachine.interraction.providers.CopyPastableProvider;
-import fr.klemms.slotmachine.placeholders.Variables;
 import fr.klemms.slotmachine.tokens.Token;
 import fr.klemms.slotmachine.tokens.TokenSelectionListener;
 import fr.klemms.slotmachine.tokens.TokensInventory;
@@ -20,12 +19,9 @@ import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.*;
 import net.citizensnpcs.api.CitizensAPI;
 import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ClickEvent.Action;
 import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -554,100 +550,9 @@ public class MachineInterractionInventory {
 								manageMachine(player, machine, entity, block, pagination.getPage());
 							}));
 
-							// TODO: Re-implement later
-							/*items.add(MenuItem.getMenuItem(machine, player, new MenuItemChangeLeverName(), state));
-							items.add(MenuItem.getMenuItem(machine, player, new MenuItemChangeLeverDescription(), state));*/
+							items.add(MenuItem.getMenuItem(machine, player, new MenuItemChangeLeverName(), state));
+							items.add(MenuItem.getMenuItem(machine, player, new MenuItemChangeLeverDescription(), state));
 
-							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(ItemStackUtil.addGlow(new ItemStack(Material.TRIPWIRE_HOOK, 1)), ChatContent.GOLD + "Change Lever Name"), Arrays.asList(
-									ChatContent.AQUA + ChatContent.ITALIC + "Change the lever's name",
-									"",
-									ChatContent.RED + "Right Click" + ChatContent.AQUA + ChatContent.ITALIC + " to reset to ",
-									ChatContent.AQUA + ChatContent.ITALIC + "default name and description",
-									"",
-									ChatContent.AQUA + ChatContent.ITALIC + "Current name :",
-									ChatContent.RESET + Variables.getFormattedString(machine.getLeverTitle(), player, machine)
-							)), event -> {
-								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-								if (event.isLeftClick()) {
-									player.closeInventory();
-									PlayerUtil.resetPlayerData(player);
-									player.setMetadata("slotmachine_setlevertitle", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
-									player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.levertitle") + " :");
-
-									List<Variables> validVars = Variables.getValidVariables();
-									for (Variables var : validVars) {
-										player.sendMessage(ChatContent.AQUA + " - $" + var.variableName + ChatContent.DARK_AQUA + ChatContent.ITALIC + " - " + Language.translate(var.variableDescription));
-									}
-									player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.placeholderAPI"));
-
-									BaseComponent[] currentText = new ComponentBuilder(Language.translate("command.slotmachineaction.levertitle.current") + " ")
-											.color(ChatColor.DARK_PURPLE)
-											.bold(true)
-											.append(new ComponentBuilder(machine.getLeverTitle())
-													.event(new ClickEvent(Action.SUGGEST_COMMAND, machine.getLeverTitle()))
-													.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(new ComponentBuilder("Click to fill your chat box with this").create())))
-													.bold(false)
-													.italic(false)
-													.color(ChatColor.WHITE)
-													.create())
-											.create();
-									player.spigot().sendMessage(currentText);
-
-									player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
-								} else if (event.isRightClick()) {
-									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully reset to default");
-									machine.setLeverCustom(false);
-									machine.setPriceType(machine.getPriceType());
-									machine.save();
-									manageMachine(player, machine, entity, block, pagination.getPage());
-								}
-							}));
-
-
-							List<String> leverDescLore = new ArrayList<String>();
-							leverDescLore.add(ChatContent.AQUA + ChatContent.ITALIC + "Change the lever's description");
-							leverDescLore.add("");
-							leverDescLore.add(ChatContent.RED + "Right Click" + ChatContent.AQUA + ChatContent.ITALIC + " to reset to ");
-							leverDescLore.add(ChatContent.AQUA + ChatContent.ITALIC + "default name and description");
-							leverDescLore.add("");
-							leverDescLore.add(ChatContent.AQUA + ChatContent.ITALIC + "Current description :");
-							leverDescLore.addAll(Variables.getFormattedStrings(machine.getLeverDescription(), player, machine));
-							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.TRIPWIRE_HOOK, 1), ChatContent.GOLD + "Change Lever Description"), leverDescLore), event -> {
-								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-								if (event.isLeftClick()) {
-									player.closeInventory();
-									PlayerUtil.resetPlayerData(player);
-									player.setMetadata("slotmachine_setleverdescription", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
-									player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.leverdescription") + " :");
-
-									List<Variables> validVars = Variables.getValidVariables();
-									for (Variables var : validVars) {
-										player.sendMessage(ChatContent.AQUA + " - $" + var.variableName + ChatContent.DARK_AQUA + ChatContent.ITALIC + " - " + Language.translate(var.variableDescription));
-									}
-									player.sendMessage(ChatContent.AQUA + " - $newline" + ChatContent.DARK_AQUA + ChatContent.ITALIC + " - " + Language.translate("command.slotmachineaction.leverdescription.newline"));
-
-									BaseComponent[] currentText = new ComponentBuilder(Language.translate("command.slotmachineaction.leverdescription.current") + " ")
-											.color(ChatColor.DARK_PURPLE)
-											.bold(true)
-											.append(new ComponentBuilder(machine.getLeverDescription())
-													.event(new ClickEvent(Action.SUGGEST_COMMAND, machine.getLeverDescription()))
-													.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(new ComponentBuilder("Click to fill your chat box with this").create())))
-													.bold(false)
-													.italic(false)
-													.color(ChatColor.WHITE)
-													.create())
-											.create();
-									player.spigot().sendMessage(currentText);
-
-									player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
-								} else if (event.isRightClick()) {
-									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully reset to default");
-									machine.setLeverCustom(false);
-									machine.setPriceType(machine.getPriceType());
-									machine.save();
-									manageMachine(player, machine, entity, block, pagination.getPage());
-								}
-							}));
 							if (machine.allowContentPreview())
 								items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.ENDER_CHEST, 1), ChatContent.GOLD + "Disable Item Preview"), Arrays.asList(
 										ChatContent.AQUA + ChatContent.ITALIC + "Disable the Ender Chest icon",

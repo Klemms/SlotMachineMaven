@@ -37,7 +37,9 @@ public class DialogInfo extends DialogHandler<SimpleCallback> {
 
 		List<DialogBody> dialogs = new ArrayList<DialogBody>();
 		Arrays.stream(body).forEach(baseComponent -> {
-			dialogs.add(new PlainMessageBody(baseComponent));
+			PlainMessageBody msg = new PlainMessageBody(baseComponent);
+			msg.width(500);
+			dialogs.add(msg);
 		});
 
 		NoticeDialog dialog = new NoticeDialog(
