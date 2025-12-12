@@ -104,7 +104,7 @@ public class DialogResettableInputText extends DialogHandler<ResettableCallback<
 		if (showRemove) {
 			JsonObject obj = new JsonObject();
 			obj.addProperty("remove", true);
-			actionButtons.add(new ActionButton(new ComponentBuilder("Remove message").build(), instance.getClickAction(key, obj)).width(100));
+			actionButtons.add(new ActionButton(new ComponentBuilder("Remove").build(), instance.getClickAction(key, obj)).width(100));
 		}
 
 		MultiActionDialog dialog = new MultiActionDialog(
