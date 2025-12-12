@@ -55,7 +55,7 @@ public class SlotPlugin extends JavaPlugin {
 	public static Economy econ = null;
 	public static VotingPluginHooks votingPlugin = null;
 	public static final String BRANCH = "release";
-	public static final int VERSION = 88;
+	public static final int VERSION = 89;
 	public static Metrics metrics;
 	public static boolean supportEnding = false;
 	public static String supportMessage = "";
