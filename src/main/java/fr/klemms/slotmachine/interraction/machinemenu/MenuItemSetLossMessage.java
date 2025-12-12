@@ -105,7 +105,7 @@ public class MenuItemSetLossMessage extends MenuItem {
 					);
 
 				}
-			}, player, "Change Loss Message", machine.hasLossMessage() ? machine.getFinalLossMessage() : machine.getLossMessage(), "", null, true, true, true, true, true);
+			}, player, "Change Loss Message", machine.hasLossMessage() ? machine.getFinalLossMessage() : machine.getLossMessage(), null, true, true, true, true, true);
 		} else {
 			player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 			player.closeInventory();

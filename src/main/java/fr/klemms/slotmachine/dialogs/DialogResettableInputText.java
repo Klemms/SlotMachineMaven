@@ -6,6 +6,7 @@ import fr.klemms.slotmachine.placeholders.Variables;
 import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.Util;
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.dialog.DialogBase;
@@ -16,10 +17,7 @@ import net.md_5.bungee.api.dialog.body.PlainMessageBody;
 import net.md_5.bungee.api.dialog.input.TextInput;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class DialogResettableInputText extends DialogHandler<ResettableCallback<String>> {
 
@@ -49,24 +47,23 @@ public class DialogResettableInputText extends DialogHandler<ResettableCallback<
 		return false;
 	}
 
-	public static void open(ResettableCallback<String> callback, Player player, String dialogTitle, String initialText, String bodyText, String errorString, boolean showPlaceholders, boolean canClose, boolean showPlaceholdersAPI, boolean showReset, boolean showRemove) {
+	public static void open(ResettableCallback<String> callback, Player player, String dialogTitle, String initialText, String errorString, boolean showPlaceholders, boolean canClose, boolean showPlaceholdersAPI, boolean showReset, boolean showRemove, BaseComponent... bodies) {
 		UUID key = UUID.randomUUID();
 
 		JsonObject json = new JsonObject();
 		json.addProperty("key", key.toString());
 
-		List<DialogBody> body = new ArrayList<>();
-
-		if (!showPlaceholders) {
-			PlainMessageBody base = new PlainMessageBody(new ComponentBuilder(bodyText).bold(true).color(ChatColor.GOLD).build());
-			base.width(300);
-			body.add(base);
-		}
+		List<DialogBody> dialogs = new ArrayList<>();
+		Arrays.stream(bodies).forEach(baseComponent -> {
+			PlainMessageBody msg = new PlainMessageBody(baseComponent);
+			msg.width(300);
+			dialogs.add(msg);
+		});
 
 		if (showPlaceholders) {
 			PlainMessageBody base = new PlainMessageBody(new ComponentBuilder("Valid placeholders :").bold(true).color(ChatColor.GOLD).build());
 			base.width(300);
-			body.add(base);
+			dialogs.add(base);
 
 			ComponentBuilder variables = new ComponentBuilder();
 			List<Variables> validVars = Variables.getValidVariables();
@@ -88,13 +85,13 @@ public class DialogResettableInputText extends DialogHandler<ResettableCallback<
 
 			PlainMessageBody varLines = new PlainMessageBody(variables.build());
 			varLines.width(600);
-			body.add(varLines);
+			dialogs.add(varLines);
 		}
 
 		if (errorString != null && !errorString.isEmpty()) {
 			PlainMessageBody error = new PlainMessageBody(new ComponentBuilder(errorString).color(ChatColor.RED).build());
 			error.width(450);
-			body.add(error);
+			dialogs.add(error);
 		}
 
 		List<ActionButton> actionButtons = new ArrayList<>();
@@ -113,7 +110,7 @@ public class DialogResettableInputText extends DialogHandler<ResettableCallback<
 		MultiActionDialog dialog = new MultiActionDialog(
 				new DialogBase(new TextComponent(dialogTitle))
 						.pause(false)
-						.body(body)
+						.body(dialogs)
 						.afterAction(DialogBase.AfterAction.NONE)
 						.canCloseWithEscape(canClose)
 						.inputs(Collections.singletonList(new TextInput("text", 300, new TextComponent("Text (Max length : 256) :"), true, initialText != null ? initialText : "", 256))),
@@ -127,7 +124,7 @@ public class DialogResettableInputText extends DialogHandler<ResettableCallback<
 				@Override
 				public void validateCallback(String text) {
 					if (text.trim().isEmpty()) {
-						open(callback, player, dialogTitle, text, bodyText, "Invalid text : Text can't be empty", showPlaceholders, canClose, showPlaceholdersAPI, showReset, showRemove);
+						open(callback, player, dialogTitle, text, "Invalid text : Text can't be empty", showPlaceholders, canClose, showPlaceholdersAPI, showReset, showRemove, bodies);
 					} else {
 						callback.validateCallback(text.trim());
 					}

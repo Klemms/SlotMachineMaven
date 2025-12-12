@@ -105,7 +105,7 @@ public class MenuItemSetWinMessage extends MenuItem {
 					);
 
 				}
-			}, player, "Change Win Message", machine.hasWinMessage() ? machine.getFinalWinMessage() : machine.getWinMessage(), "", null, true, true, true, true, true);
+			}, player, "Change Win Message", machine.hasWinMessage() ? machine.getFinalWinMessage() : machine.getWinMessage(), null, true, true, true, true, true);
 		} else {
 			player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 			player.closeInventory();

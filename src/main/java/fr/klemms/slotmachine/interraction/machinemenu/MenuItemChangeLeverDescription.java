@@ -105,8 +105,7 @@ public class MenuItemChangeLeverDescription extends MenuItem {
 								public void removeCallback() {
 								}
 							},
-							player, "Change Lever Description", machine.getLeverDescription(), "",
-							null, true, true, true, true, false
+							player, "Change Lever Description", machine.getLeverDescription(), null, true, true, true, true, false
 					);
 				} else {
 					player.closeInventory();

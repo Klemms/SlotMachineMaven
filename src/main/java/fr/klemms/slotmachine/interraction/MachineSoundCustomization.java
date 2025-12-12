@@ -1,6 +1,10 @@
 package fr.klemms.slotmachine.interraction;
 
 import fr.klemms.slotmachine.*;
+import fr.klemms.slotmachine.dialogs.DialogInfo;
+import fr.klemms.slotmachine.dialogs.DialogResettableInputText;
+import fr.klemms.slotmachine.dialogs.callbacks.ResettableCallback;
+import fr.klemms.slotmachine.dialogs.callbacks.SoundCallback;
 import fr.klemms.slotmachine.fr.minuskube.inv.ClickableItem;
 import fr.klemms.slotmachine.fr.minuskube.inv.SmartInventory;
 import fr.klemms.slotmachine.fr.minuskube.inv.content.InventoryContents;
@@ -10,6 +14,8 @@ import fr.klemms.slotmachine.utils.ItemStackUtil;
 import fr.klemms.slotmachine.utils.PlayerHeadsUtil;
 import fr.klemms.slotmachine.utils.Util;
 import fr.klemms.slotmachine.utils.sounds.SSound;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -20,6 +26,7 @@ import java.util.Arrays;
 public class MachineSoundCustomization {
 
 	private static final String INVALID_INPUT = ChatContent.RED + SlotPlugin.CHAT_PREFIX + "Invalid sound, this sound must be either a valid Minecraft sound, or a valid namespaced custom sound";
+	private static final String NEW_INVALID_INPUT = "Invalid sound : This sound must be either a valid Minecraft sound or a valid namespaced custom sound";
 
 	public static void customizeSounds(Player player, SlotMachine machine) {
 		SmartInventory inv = SmartInventory.builder()
@@ -50,19 +57,33 @@ public class MachineSoundCustomization {
 									machine.save();
 								}, 1.9f, 1.2f);
 							} else if (event.isRightClick()) {
-								StringInput.inputString(player, "Custom sound input", machine.getMachineOpeningSound().getKey(), text -> {
-									SSound newSound = SSound.fromInput(text, !Util.isValidSound(text));
-									if (newSound == null) {
-										player.sendMessage(INVALID_INPUT);
-										player.playSound(player, Sound.ENTITY_VILLAGER_HURT, 1.3f, 1.2f);
-										return;
-									}
-									machine.setMachineOpeningSound(newSound);
-									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + newSound.getPrettyName() + "'");
-									Util.playSoundPlayer(player, machine.getMachineOpeningSound(), 1.9f, 1.2f);
-									machine.save();
-									customizeSounds(player, machine);
-								}, true, false);
+								if (Util.canUseDialogs()) {
+									showInputSelection(sound -> {
+										machine.setMachineOpeningSound(sound);
+										Util.playSoundPlayer(player, machine.getMachineOpeningSound(), 1.9f, 1.2f);
+										machine.save();
+										showSuccess(player, machine, sound, false);
+									}, () -> {
+										machine.resetSoundMachineOpening();
+										Util.playSoundPlayer(player, machine.getMachineOpeningSound(), 1.9f, 1.2f);
+										machine.save();
+										showSuccess(player, machine, machine.getMachineOpeningSound(), true);
+									}, player, machine.getMachineOpeningSound().getKey(), null, "Machine Interaction Sound");
+								} else {
+									StringInput.inputString(player, "Custom sound input", machine.getMachineOpeningSound().getKey(), text -> {
+										SSound newSound = SSound.fromInput(text, !Util.isValidSound(text));
+										if (newSound == null) {
+											player.sendMessage(INVALID_INPUT);
+											player.playSound(player, Sound.ENTITY_VILLAGER_HURT, 1.3f, 1.2f);
+											return;
+										}
+										machine.setMachineOpeningSound(newSound);
+										player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + newSound.getPrettyName() + "'");
+										Util.playSoundPlayer(player, machine.getMachineOpeningSound(), 1.9f, 1.2f);
+										machine.save();
+										customizeSounds(player, machine);
+									}, true, false);
+								}
 							}
 						}));
 						contents.set(3, 1, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(Material.BARRIER), ChatContent.RED + "Reset this sound"), event -> {
@@ -91,19 +112,33 @@ public class MachineSoundCustomization {
 									machine.save();
 								}, 1.9f, 1.2f);
 							} else if (event.isRightClick()) {
-								StringInput.inputString(player, "Custom sound input", machine.getLeverSound().getKey(), text -> {
-									SSound newSound = SSound.fromInput(text, !Util.isValidSound(text));
-									if (newSound == null) {
-										player.sendMessage(INVALID_INPUT);
-										player.playSound(player, Sound.ENTITY_VILLAGER_HURT, 1.3f, 1.2f);
-										return;
-									}
-									machine.setLeverSound(newSound);
-									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + newSound.getPrettyName() + "'");
-									Util.playSoundPlayer(player, machine.getLeverSound(), 1.9f, 1.2f);
-									machine.save();
-									customizeSounds(player, machine);
-								}, true, false);
+								if (Util.canUseDialogs()) {
+									showInputSelection(sound -> {
+										machine.setLeverSound(sound);
+										Util.playSoundPlayer(player, machine.getLeverSound(), 1.9f, 1.2f);
+										machine.save();
+										showSuccess(player, machine, sound, false);
+									}, () -> {
+										machine.resetSoundLever();
+										Util.playSoundPlayer(player, machine.getLeverSound(), 1.9f, 1.2f);
+										machine.save();
+										showSuccess(player, machine, machine.getLeverSound(), true);
+									}, player, machine.getLeverSound().getKey(), null, "Lever Sound");
+								} else {
+									StringInput.inputString(player, "Custom sound input", machine.getLeverSound().getKey(), text -> {
+										SSound newSound = SSound.fromInput(text, !Util.isValidSound(text));
+										if (newSound == null) {
+											player.sendMessage(INVALID_INPUT);
+											player.playSound(player, Sound.ENTITY_VILLAGER_HURT, 1.3f, 1.2f);
+											return;
+										}
+										machine.setLeverSound(newSound);
+										player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + newSound.getPrettyName() + "'");
+										Util.playSoundPlayer(player, machine.getLeverSound(), 1.9f, 1.2f);
+										machine.save();
+										customizeSounds(player, machine);
+									}, true, false);
+								}
 							}
 						}));
 						contents.set(3, 2, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(Material.BARRIER), ChatContent.RED + "Reset this sound"), event -> {
@@ -132,19 +167,33 @@ public class MachineSoundCustomization {
 									machine.save();
 								}, 1.9f, 0.9f);
 							} else if (event.isRightClick()) {
-								StringInput.inputString(player, "Custom sound input", machine.getWinSound().getKey(), text -> {
-									SSound newSound = SSound.fromInput(text, !Util.isValidSound(text));
-									if (newSound == null) {
-										player.sendMessage(INVALID_INPUT);
-										player.playSound(player, Sound.ENTITY_VILLAGER_HURT, 1.3f, 1.2f);
-										return;
-									}
-									machine.setWinSound(newSound);
-									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + newSound.getPrettyName() + "'");
-									Util.playSoundPlayer(player, machine.getWinSound(), 1.9f, 0.9f);
-									machine.save();
-									customizeSounds(player, machine);
-								}, true, false);
+								if (Util.canUseDialogs()) {
+									showInputSelection(sound -> {
+										machine.setWinSound(sound);
+										Util.playSoundPlayer(player, machine.getWinSound(), 1.9f, 1.2f);
+										machine.save();
+										showSuccess(player, machine, sound, false);
+									}, () -> {
+										machine.resetSoundWin();
+										Util.playSoundPlayer(player, machine.getWinSound(), 1.9f, 1.2f);
+										machine.save();
+										showSuccess(player, machine, machine.getWinSound(), true);
+									}, player, machine.getWinSound().getKey(), null, "Win Sound");
+								} else {
+									StringInput.inputString(player, "Custom sound input", machine.getWinSound().getKey(), text -> {
+										SSound newSound = SSound.fromInput(text, !Util.isValidSound(text));
+										if (newSound == null) {
+											player.sendMessage(INVALID_INPUT);
+											player.playSound(player, Sound.ENTITY_VILLAGER_HURT, 1.3f, 1.2f);
+											return;
+										}
+										machine.setWinSound(newSound);
+										player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + newSound.getPrettyName() + "'");
+										Util.playSoundPlayer(player, machine.getWinSound(), 1.9f, 0.9f);
+										machine.save();
+										customizeSounds(player, machine);
+									}, true, false);
+								}
 							}
 						}));
 						contents.set(3, 3, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(Material.BARRIER), ChatContent.RED + "Reset this sound"), event -> {
@@ -164,7 +213,7 @@ public class MachineSoundCustomization {
 								ChatContent.AQUA + "The sound played when errors occur",
 								ChatContent.AQUA + "such as when the machine is stil on",
 								ChatContent.AQUA + "cooldown for the player"
-								)), event -> {
+						)), event -> {
 							Util.playSoundPlayer(player, machine.getErrorSound(), 1.3f, 1f);
 						}));
 						contents.set(2, 4, ClickableItem.of(ItemStackUtil.addLoreLines(ItemStackUtil.changeItemStackName(new ItemStack(Material.NOTE_BLOCK, 3), machine.getErrorSound().getPrettyName()), "", ChatContent.AQUA + "Left Click : Select new Minecraft sound", "", ChatContent.AQUA + "Right Click : Type custom sound"), event -> {
@@ -177,19 +226,33 @@ public class MachineSoundCustomization {
 									machine.save();
 								}, 1.3f, 1f);
 							} else if (event.isRightClick()) {
-								StringInput.inputString(player, "Custom sound input", machine.getErrorSound().getKey(), text -> {
-									SSound newSound = SSound.fromInput(text, !Util.isValidSound(text));
-									if (newSound == null) {
-										player.sendMessage(INVALID_INPUT);
-										player.playSound(player, Sound.ENTITY_VILLAGER_HURT, 1.3f, 1.2f);
-										return;
-									}
-									machine.setErrorSound(newSound);
-									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + newSound.getPrettyName() + "'");
-									Util.playSoundPlayer(player, machine.getErrorSound(), 1.3f, 1f);
-									machine.save();
-									customizeSounds(player, machine);
-								}, true, false);
+								if (Util.canUseDialogs()) {
+									showInputSelection(sound -> {
+										machine.setErrorSound(sound);
+										Util.playSoundPlayer(player, machine.getErrorSound(), 1.9f, 1.2f);
+										machine.save();
+										showSuccess(player, machine, sound, false);
+									}, () -> {
+										machine.resetSoundError();
+										Util.playSoundPlayer(player, machine.getErrorSound(), 1.9f, 1.2f);
+										machine.save();
+										showSuccess(player, machine, machine.getErrorSound(), true);
+									}, player, machine.getErrorSound().getKey(), null, "Error Sound");
+								} else {
+									StringInput.inputString(player, "Custom sound input", machine.getErrorSound().getKey(), text -> {
+										SSound newSound = SSound.fromInput(text, !Util.isValidSound(text));
+										if (newSound == null) {
+											player.sendMessage(INVALID_INPUT);
+											player.playSound(player, Sound.ENTITY_VILLAGER_HURT, 1.3f, 1.2f);
+											return;
+										}
+										machine.setErrorSound(newSound);
+										player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + newSound.getPrettyName() + "'");
+										Util.playSoundPlayer(player, machine.getErrorSound(), 1.3f, 1f);
+										machine.save();
+										customizeSounds(player, machine);
+									}, true, false);
+								}
 							}
 						}));
 						contents.set(3, 4, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(Material.BARRIER), ChatContent.RED + "Reset this sound"), event -> {
@@ -218,19 +281,33 @@ public class MachineSoundCustomization {
 									machine.save();
 								}, 0.3f, 0.7f);
 							} else if (event.isRightClick()) {
-								StringInput.inputString(player, "Custom sound input", machine.getLossSound().getKey(), text -> {
-									SSound newSound = SSound.fromInput(text, !Util.isValidSound(text));
-									if (newSound == null) {
-										player.sendMessage(INVALID_INPUT);
-										player.playSound(player, Sound.ENTITY_VILLAGER_HURT, 1.3f, 1.2f);
-										return;
-									}
-									machine.setLossSound(newSound);
-									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + newSound.getPrettyName() + "'");
-									Util.playSoundPlayer(player, machine.getLossSound(), 0.3f, 0.7f);
-									machine.save();
-									customizeSounds(player, machine);
-								}, true, false);
+								if (Util.canUseDialogs()) {
+									showInputSelection(sound -> {
+										machine.setLossSound(sound);
+										Util.playSoundPlayer(player, machine.getLossSound(), 1.9f, 1.2f);
+										machine.save();
+										showSuccess(player, machine, sound, false);
+									}, () -> {
+										machine.resetSoundLoss();
+										Util.playSoundPlayer(player, machine.getLossSound(), 1.9f, 1.2f);
+										machine.save();
+										showSuccess(player, machine, machine.getLossSound(), true);
+									}, player, machine.getLossSound().getKey(), null, "Loss Sound");
+								} else {
+									StringInput.inputString(player, "Custom sound input", machine.getLossSound().getKey(), text -> {
+										SSound newSound = SSound.fromInput(text, !Util.isValidSound(text));
+										if (newSound == null) {
+											player.sendMessage(INVALID_INPUT);
+											player.playSound(player, Sound.ENTITY_VILLAGER_HURT, 1.3f, 1.2f);
+											return;
+										}
+										machine.setLossSound(newSound);
+										player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + newSound.getPrettyName() + "'");
+										Util.playSoundPlayer(player, machine.getLossSound(), 0.3f, 0.7f);
+										machine.save();
+										customizeSounds(player, machine);
+									}, true, false);
+								}
 							}
 						}));
 						contents.set(3, 5, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(Material.BARRIER), ChatContent.RED + "Reset this sound"), event -> {
@@ -250,9 +327,9 @@ public class MachineSoundCustomization {
 								ChatContent.AQUA + "The sound items make when spinning",
 								ChatContent.AQUA + "in a Slot Machine with the default",
 								ChatContent.AQUA + "'Slot Machine' layout"
-								)), event -> {
-									Util.playSoundPlayer(player, machine.getSlotmachineSpinSound(), 0.4f, 0.9f);
-								}));
+						)), event -> {
+							Util.playSoundPlayer(player, machine.getSlotmachineSpinSound(), 0.4f, 0.9f);
+						}));
 						contents.set(2, 6, ClickableItem.of(ItemStackUtil.addLoreLines(ItemStackUtil.changeItemStackName(new ItemStack(Material.NOTE_BLOCK, 5), machine.getSlotmachineSpinSound().getPrettyName()), "", ChatContent.AQUA + "Left Click : Select new Minecraft sound", "", ChatContent.AQUA + "Right Click : Type custom sound"), event -> {
 							if (event.isLeftClick()) {
 								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
@@ -263,19 +340,33 @@ public class MachineSoundCustomization {
 									machine.save();
 								}, 0.4f, 0.9f);
 							} else if (event.isRightClick()) {
-								StringInput.inputString(player, "Custom sound input", machine.getSlotmachineSpinSound().getKey(), text -> {
-									SSound newSound = SSound.fromInput(text, !Util.isValidSound(text));
-									if (newSound == null) {
-										player.sendMessage(INVALID_INPUT);
-										player.playSound(player, Sound.ENTITY_VILLAGER_HURT, 1.3f, 1.2f);
-										return;
-									}
-									machine.setSlotmachineSpinSound(newSound);
-									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + newSound.getPrettyName() + "'");
-									Util.playSoundPlayer(player, machine.getSlotmachineSpinSound(), 0.4f, 0.9f);
-									machine.save();
-									customizeSounds(player, machine);
-								}, true, false);
+								if (Util.canUseDialogs()) {
+									showInputSelection(sound -> {
+										machine.setSlotmachineSpinSound(sound);
+										Util.playSoundPlayer(player, machine.getSlotmachineSpinSound(), 1.9f, 1.2f);
+										machine.save();
+										showSuccess(player, machine, sound, false);
+									}, () -> {
+										machine.resetSoundSlotMachineSpin();
+										Util.playSoundPlayer(player, machine.getSlotmachineSpinSound(), 1.9f, 1.2f);
+										machine.save();
+										showSuccess(player, machine, machine.getSlotmachineSpinSound(), true);
+									}, player, machine.getSlotmachineSpinSound().getKey(), null, "Slot Machine Layout Sound");
+								} else {
+									StringInput.inputString(player, "Custom sound input", machine.getSlotmachineSpinSound().getKey(), text -> {
+										SSound newSound = SSound.fromInput(text, !Util.isValidSound(text));
+										if (newSound == null) {
+											player.sendMessage(INVALID_INPUT);
+											player.playSound(player, Sound.ENTITY_VILLAGER_HURT, 1.3f, 1.2f);
+											return;
+										}
+										machine.setSlotmachineSpinSound(newSound);
+										player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + newSound.getPrettyName() + "'");
+										Util.playSoundPlayer(player, machine.getSlotmachineSpinSound(), 0.4f, 0.9f);
+										machine.save();
+										customizeSounds(player, machine);
+									}, true, false);
+								}
 							}
 						}));
 						contents.set(3, 6, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(Material.BARRIER), ChatContent.RED + "Reset this sound"), event -> {
@@ -295,9 +386,9 @@ public class MachineSoundCustomization {
 								ChatContent.AQUA + "The sound items make when spinning",
 								ChatContent.AQUA + "in a Slot Machine with a CSGO-like",
 								ChatContent.AQUA + "layout"
-								)), event -> {
-									Util.playSoundPlayer(player, machine.getCsgoSpinSound(), 0.7f, 0.9f);
-								}));
+						)), event -> {
+							Util.playSoundPlayer(player, machine.getCsgoSpinSound(), 0.7f, 0.9f);
+						}));
 						contents.set(2, 7, ClickableItem.of(ItemStackUtil.addLoreLines(ItemStackUtil.changeItemStackName(new ItemStack(Material.NOTE_BLOCK, 6), machine.getCsgoSpinSound().getPrettyName()), "", ChatContent.AQUA + "Left Click : Select new Minecraft sound", "", ChatContent.AQUA + "Right Click : Type custom sound"), event -> {
 							if (event.isLeftClick()) {
 								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
@@ -308,19 +399,33 @@ public class MachineSoundCustomization {
 									machine.save();
 								}, 0.7f, 0.9f);
 							} else if (event.isRightClick()) {
-								StringInput.inputString(player, "Custom sound input", machine.getCsgoSpinSound().getKey(), text -> {
-									SSound newSound = SSound.fromInput(text, !Util.isValidSound(text));
-									if (newSound == null) {
-										player.sendMessage(INVALID_INPUT);
-										player.playSound(player, Sound.ENTITY_VILLAGER_HURT, 1.3f, 1.2f);
-										return;
-									}
-									machine.setCsgoSpinSound(newSound);
-									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + newSound.getPrettyName() + "'");
-									Util.playSoundPlayer(player, machine.getCsgoSpinSound(), 0.7f, 0.9f);
-									machine.save();
-									customizeSounds(player, machine);
-								}, true, false);
+								if (Util.canUseDialogs()) {
+									showInputSelection(sound -> {
+										machine.setCsgoSpinSound(sound);
+										Util.playSoundPlayer(player, machine.getCsgoSpinSound(), 1.9f, 1.2f);
+										machine.save();
+										showSuccess(player, machine, sound, false);
+									}, () -> {
+										machine.resetSoundCSGOSpin();
+										Util.playSoundPlayer(player, machine.getCsgoSpinSound(), 1.9f, 1.2f);
+										machine.save();
+										showSuccess(player, machine, machine.getCsgoSpinSound(), true);
+									}, player, machine.getCsgoSpinSound().getKey(), null, "CS:GO Layout Sound");
+								} else {
+									StringInput.inputString(player, "Custom sound input", machine.getCsgoSpinSound().getKey(), text -> {
+										SSound newSound = SSound.fromInput(text, !Util.isValidSound(text));
+										if (newSound == null) {
+											player.sendMessage(INVALID_INPUT);
+											player.playSound(player, Sound.ENTITY_VILLAGER_HURT, 1.3f, 1.2f);
+											return;
+										}
+										machine.setCsgoSpinSound(newSound);
+										player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully changed sound to '" + newSound.getPrettyName() + "'");
+										Util.playSoundPlayer(player, machine.getCsgoSpinSound(), 0.7f, 0.9f);
+										machine.save();
+										customizeSounds(player, machine);
+									}, true, false);
+								}
 							}
 						}));
 						contents.set(3, 7, ClickableItem.of(ItemStackUtil.changeItemStackName(new ItemStack(Material.BARRIER), ChatContent.RED + "Reset this sound"), event -> {
@@ -356,21 +461,21 @@ public class MachineSoundCustomization {
 								ChatContent.AQUA + "",
 								ChatContent.GRAY + "Note : Sounds pitch and volume are",
 								ChatContent.GRAY + "not customizable"
-								))));
+						))));
 
 						contents.set(0, 6, ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.BARRIER), ChatContent.RED + "Reset to default"), Arrays.asList(
 								ChatContent.GRAY + "Resets all sound customization",
 								ChatContent.GRAY + "to default values"
-							)), event -> {
-								ConfirmInventory.confirmWindow(player, "Reset all sounds to default ?", "No, cancel", "Yes, reset", callback -> {
-									if (callback) {
-										player.playSound(player.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1F, 1F);
-										machine.resetSoundCustomization();
-										player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully reset all sounds to default");
-										machine.save();
-									}
-									customizeSounds(player, machine);
-								}, false);
+						)), event -> {
+							ConfirmInventory.confirmWindow(player, "Reset all sounds to default ?", "No, cancel", "Yes, reset", callback -> {
+								if (callback) {
+									player.playSound(player.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1F, 1F);
+									machine.resetSoundCustomization();
+									player.sendMessage(ChatContent.GREEN + SlotPlugin.CHAT_PREFIX + "Successfully reset all sounds to default");
+									machine.save();
+								}
+								customizeSounds(player, machine);
+							}, false);
 
 						}));
 
@@ -393,5 +498,52 @@ public class MachineSoundCustomization {
 				.build();
 
 		inv.open(player);
+	}
+
+	static void showInputSelection(SoundCallback callback, SimpleCallback reset, Player player, String initialText, String errorText, String soundType) {
+		DialogResettableInputText.open(
+				new ResettableCallback<String>() {
+					@Override
+					public void validateCallback(String text) {
+						SSound newSound = SSound.fromInput(text, !Util.isValidSound(text));
+
+						if (newSound == null) {
+							player.playSound(player, Sound.ENTITY_VILLAGER_HURT, 1.3f, 1.2f);
+							showInputSelection(callback, reset, player, initialText, NEW_INVALID_INPUT, soundType);
+							return;
+						}
+
+						callback.callback(newSound);
+					}
+
+					@Override
+					public void resetCallback() {
+						reset.callback();
+					}
+
+					@Override
+					public void removeCallback() {
+					}
+				},
+				player, "Custom sound input", initialText, errorText, false, true, false, true, false,
+				new ComponentBuilder("Changing sound : ").color(ChatColor.GOLD)
+						.append(new ComponentBuilder(soundType).italic(true).color(ChatColor.AQUA).build())
+						.build()
+		);
+	}
+
+	static void showSuccess(Player player, SlotMachine machine, SSound sound, boolean isReset) {
+		DialogInfo.open(() -> {
+					player.clearDialog();
+					customizeSounds(player, machine);
+				},
+				player,
+				"Success",
+				"Back",
+				true,
+				new ComponentBuilder(isReset ? "Sound has been reset." : "Sound has been successfully changed.").color(ChatColor.GOLD).build(),
+				new ComponentBuilder("New sound name :").build(),
+				new ComponentBuilder(sound.getPrettyName()).build()
+		);
 	}
 }
