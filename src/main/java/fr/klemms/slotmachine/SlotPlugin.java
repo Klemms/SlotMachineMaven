@@ -126,6 +126,7 @@ public class SlotPlugin extends JavaPlugin {
 			dialogHandlers.add(DialogInputText.instance);
 			dialogHandlers.add(DialogResettableInputText.instance);
 			dialogHandlers.add(DialogResettableInputNumber.instance);
+			dialogHandlers.add(DialogInputNumber.instance);
 		}
 
 		if (Bukkit.getPluginManager().isPluginEnabled("AdvancedEnchantments")) {

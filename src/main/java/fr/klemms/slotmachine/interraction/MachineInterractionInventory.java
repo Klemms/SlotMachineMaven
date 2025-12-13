@@ -30,7 +30,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.Nullable;
 
@@ -428,20 +427,9 @@ public class MachineInterractionInventory {
 
 									}, false);
 								}));
-							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.DIAMOND, 1), ChatContent.GOLD + "Change Price"), Arrays.asList(
-									ChatContent.AQUA + ChatContent.ITALIC + "Change the price to pay",
-									ChatContent.AQUA + ChatContent.ITALIC + "to use this machine",
-									"",
-									ChatContent.AQUA + ChatContent.ITALIC + "Current price :",
-									ChatContent.RESET + machine.getPullPrice()
-							)), event -> {
-								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-								player.closeInventory();
-								PlayerUtil.resetPlayerData(player);
-								player.setMetadata("slotmachine_changeprice", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
-								player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.changeprice") + " :");
-								player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
-							}));
+
+							items.add(MenuItem.getMenuItem(machine, player, new MenuItemChangePrice(), state));
+
 							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(machine.isAffectedByLuck() ? new ItemStack(Material.GLASS_BOTTLE, 1) : PotionUtil.makePotion(PotionEffectType.LUCK, 1200, 0, Color.GREEN), ChatContent.GOLD + "Luck Effect"), Arrays.asList(
 									ChatContent.AQUA + ChatContent.ITALIC + "Should this machine's chance to win be",
 									ChatContent.AQUA + ChatContent.ITALIC + "affected by Minecraft's luck potion effect",
