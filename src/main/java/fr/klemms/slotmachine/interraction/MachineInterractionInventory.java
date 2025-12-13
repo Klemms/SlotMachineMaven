@@ -226,20 +226,6 @@ public class MachineInterractionInventory {
 
 							items.add(MenuItem.getMenuItem(machine, player, new MenuItemRename(), state));
 
-							/*items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.NAME_TAG, 1), ChatContent.GOLD + "Rename"), Arrays.asList(
-									ChatContent.AQUA + ChatContent.ITALIC + "Rename this machine",
-									"",
-									ChatContent.AQUA + ChatContent.ITALIC + "Current name :",
-									ChatContent.RESET + machine.getSlotMachineName()
-							)), event -> {
-								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-								player.closeInventory();
-								PlayerUtil.resetPlayerData(player);
-								player.setMetadata("slotmachine_changename", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
-								player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.rename"));
-								player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
-							}));*/
-
 							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.CHEST, 1), ChatContent.GOLD + "Item Editor & Statistics"), Arrays.asList(
 									ChatContent.AQUA + ChatContent.ITALIC + " - Add and remove items",
 									ChatContent.AQUA + ChatContent.ITALIC + " - Edit items' weights",
@@ -248,20 +234,9 @@ public class MachineInterractionInventory {
 								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
 								MachineItemsInterractionInventory.manageItems(player, machine, 0);
 							}));
-							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(Material.GOLD_BLOCK, 1), ChatContent.GOLD + "Change Permission"), Arrays.asList(
-									ChatContent.AQUA + ChatContent.ITALIC + "Change this machine's",
-									ChatContent.AQUA + ChatContent.ITALIC + "permission",
-									"",
-									ChatContent.AQUA + ChatContent.ITALIC + "Current permission : ",
-									ChatContent.RESET + machine.getGuiPermission()
-							)), event -> {
-								player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);
-								player.closeInventory();
-								PlayerUtil.resetPlayerData(player);
-								player.setMetadata("slotmachine_changepermission", new FixedMetadataValue(SlotPlugin.pl, machine.getMachineUUID().toString()));
-								player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + Language.translate("command.slotmachineaction.changepermission"));
-								player.sendMessage(ChatContent.DARK_PURPLE + ChatContent.BOLD + "Type \"cancel\" to cancel");
-							}));
+
+							items.add(MenuItem.getMenuItem(machine, player, new MenuItemChangePermission(), state));
+
 							items.add(ClickableItem.of(ItemStackUtil.setItemStackLore(ItemStackUtil.changeItemStackName(new ItemStack(PlayerHeadsUtil.PLAY_BUTTON), ChatContent.GOLD + "Change play mode"), Arrays.asList(
 									ChatContent.AQUA + ChatContent.ITALIC + "Play Mode affects the way players",
 									ChatContent.AQUA + ChatContent.ITALIC + "interact with this machine, it can",

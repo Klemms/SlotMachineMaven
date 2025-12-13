@@ -15,6 +15,7 @@ import net.md_5.bungee.api.dialog.action.ActionButton;
 import net.md_5.bungee.api.dialog.body.DialogBody;
 import net.md_5.bungee.api.dialog.body.PlainMessageBody;
 import net.md_5.bungee.api.dialog.input.TextInput;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -47,7 +48,7 @@ public class DialogResettableInputText extends DialogHandler<ResettableCallback<
 		return false;
 	}
 
-	public static void open(ResettableCallback<String> callback, Player player, String dialogTitle, String initialText, String errorString, boolean showPlaceholders, boolean canClose, boolean showPlaceholdersAPI, boolean showReset, boolean showRemove, BaseComponent... bodies) {
+	public static void open(ResettableCallback<String> callback, Player player, String dialogTitle, String initialText, String errorString, boolean showPlaceholders, boolean canClose, boolean showPlaceholdersAPI, boolean showReset, boolean showRemove, boolean alphaOnly, BaseComponent... bodies) {
 		UUID key = UUID.randomUUID();
 
 		JsonObject json = new JsonObject();
@@ -123,11 +124,17 @@ public class DialogResettableInputText extends DialogHandler<ResettableCallback<
 			instance.awaitCallback(new ResettableCallback<String>() {
 				@Override
 				public void validateCallback(String text) {
-					if (text.trim().isEmpty()) {
-						open(callback, player, dialogTitle, text, "Invalid text : Text can't be empty", showPlaceholders, canClose, showPlaceholdersAPI, showReset, showRemove, bodies);
+					String errorMessage = null;
+
+					if (alphaOnly && !StringUtils.isAlpha(text)) {
+						errorMessage = "Invalid text : Only alphabetic characters are allowed";
+					} else if (text.trim().isEmpty()) {
+						errorMessage = "Invalid text : Text can't be empty";
 					} else {
 						callback.validateCallback(text.trim());
+						return;
 					}
+					open(callback, player, dialogTitle, text, errorMessage, showPlaceholders, canClose, showPlaceholdersAPI, showReset, showRemove, alphaOnly, bodies);
 				}
 
 				@Override

@@ -104,7 +104,7 @@ public class MenuItemChangeLeverName extends MenuItem {
 								public void removeCallback() {
 								}
 							},
-							player, "Change Lever Name", machine.getLeverTitle(), null, true, true, true, true, false
+							player, "Change Lever Name", machine.getLeverTitle(), null, true, true, true, true, false, false
 					);
 				} else {
 					player.closeInventory();
