@@ -348,7 +348,7 @@ public class SoundToMaterialList_119 {
 				case BLOCK_FIRE_EXTINGUISH:
 					SlotPlugin.soundMaterialMap.put(sound, Material.FLINT_AND_STEEL);
 					break;
-				case BLOCK_FROGLIGHT_BREAK:
+				/*case BLOCK_FROGLIGHT_BREAK:
 				case BLOCK_FROGLIGHT_FALL:
 				case BLOCK_FROGLIGHT_HIT:
 				case BLOCK_FROGLIGHT_PLACE:
@@ -362,7 +362,7 @@ public class SoundToMaterialList_119 {
 				case BLOCK_FROGSPAWN_PLACE:
 				case BLOCK_FROGSPAWN_STEP:
 					SlotPlugin.soundMaterialMap.put(sound, Material.FROGSPAWN);
-					break;
+					break;*/
 				case BLOCK_FUNGUS_BREAK:
 					SlotPlugin.soundMaterialMap.put(sound, Material.CRIMSON_FUNGUS);
 					break;
@@ -3220,13 +3220,13 @@ public class SoundToMaterialList_119 {
 				case BLOCK_LARGE_AMETHYST_BUD_PLACE:
 					SlotPlugin.soundMaterialMap.put(sound, Material.LARGE_AMETHYST_BUD);
 					break;
-				case BLOCK_MANGROVE_ROOTS_BREAK:
+				/*case BLOCK_MANGROVE_ROOTS_BREAK:
 				case BLOCK_MANGROVE_ROOTS_FALL:
 				case BLOCK_MANGROVE_ROOTS_HIT:
 				case BLOCK_MANGROVE_ROOTS_PLACE:
 				case BLOCK_MANGROVE_ROOTS_STEP:
 					SlotPlugin.soundMaterialMap.put(sound, Material.MANGROVE_ROOTS);
-					break;
+					break;*/
 				case BLOCK_MEDIUM_AMETHYST_BUD_BREAK:
 					SlotPlugin.soundMaterialMap.put(sound, Material.MEDIUM_AMETHYST_BUD);
 					break;
@@ -3632,7 +3632,7 @@ public class SoundToMaterialList_119 {
 				case MUSIC_OVERWORLD_STONY_PEAKS:
 					SlotPlugin.soundMaterialMap.put(sound, Material.STONE);
 					break;
-				case BLOCK_MUDDY_MANGROVE_ROOTS_BREAK:
+				/*case BLOCK_MUDDY_MANGROVE_ROOTS_BREAK:
 					SlotPlugin.soundMaterialMap.put(sound, Material.MANGROVE_ROOTS);
 					break;
 				case BLOCK_MUDDY_MANGROVE_ROOTS_FALL:
@@ -3934,7 +3934,7 @@ public class SoundToMaterialList_119 {
 					break;
 				case MUSIC_OVERWORLD_SWAMP:
 					SlotPlugin.soundMaterialMap.put(sound, Material.JUKEBOX);
-					break;
+					break;*/
 			}
 		}
 	}
