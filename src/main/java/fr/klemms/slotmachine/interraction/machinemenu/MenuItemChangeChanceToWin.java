@@ -8,8 +8,8 @@ import fr.klemms.slotmachine.dialogs.callbacks.ResettableCallback;
 import fr.klemms.slotmachine.interraction.StringInput;
 import fr.klemms.slotmachine.utils.PlayerUtil;
 import fr.klemms.slotmachine.utils.Util;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -57,16 +57,16 @@ public class MenuItemChangeChanceToWin extends MenuItem {
 									player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.8F, 2F);
 
 									DialogInfo.open(() -> {
-												player.clearDialog();
+												player.closeDialog();
 												state.reloadPage();
 											},
 											player,
 											"Success",
 											"Back",
 											true,
-											new ComponentBuilder("Chance to win has been successfully changed").color(ChatColor.GOLD).build(),
-											new ComponentBuilder("New chance to win :").build(),
-											new ComponentBuilder(Util.formatNumberThreeDigits(machine.getChanceToWin() * 100) + "%").build()
+											Component.text("Chance to win has been successfully changed").color(ChatContent.TEX_GOLD),
+											Component.text("New chance to win :"),
+											Component.text(Util.formatNumberThreeDigits(machine.getChanceToWin() * 100) + "%")
 									);
 								}
 
@@ -77,27 +77,28 @@ public class MenuItemChangeChanceToWin extends MenuItem {
 									player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.8F, 2F);
 
 									DialogInfo.open(() -> {
-												player.clearDialog();
+												player.closeDialog();
 												state.reloadPage();
 											},
 											player,
 											"Success",
 											"Back",
 											true,
-											new ComponentBuilder("Chance to win has been reset").color(ChatColor.GOLD).build(),
-											new ComponentBuilder("New chance to win :").build(),
-											new ComponentBuilder(Util.formatNumberThreeDigits(machine.getChanceToWin() * 100) + "%").build()
+											Component.text("Chance to win has been reset").color(ChatContent.TEX_GOLD),
+											Component.text("New chance to win :"),
+											Component.text(Util.formatNumberThreeDigits(machine.getChanceToWin() * 100) + "%")
 									);
 								}
 
 								@Override
-								public void removeCallback() {}
+								public void removeCallback() {
+								}
 							},
 							player, "Change Chance to Win", (float) (machine.getChanceToWin() * 100), "Chance to win : (decimals allowed)",
 							null, 0, 100, true, true, true, false,
-							new ComponentBuilder("Change the chance for players to win.").color(ChatColor.GOLD).build(),
-							new ComponentBuilder("Value goes from 0 to 100").color(ChatColor.GOLD).italic(true).build(),
-							new ComponentBuilder("Decimals are allowed (e.g: 55.75)").color(ChatColor.GOLD).italic(true).build()
+							Component.text("Change the chance for players to win.").color(ChatContent.TEX_GOLD),
+							Component.text("Value goes from 0 to 100").color(ChatContent.TEX_GOLD).decorate(TextDecoration.ITALIC),
+							Component.text("Decimals are allowed (e.g: 55.75)").color(ChatContent.TEX_GOLD).decorate(TextDecoration.ITALIC)
 					);
 				} else {
 					StringInput.inputString(

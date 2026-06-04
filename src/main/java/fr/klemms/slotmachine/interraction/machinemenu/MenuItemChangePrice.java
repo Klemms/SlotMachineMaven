@@ -9,8 +9,8 @@ import fr.klemms.slotmachine.placeholders.Variables;
 import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.PlayerUtil;
 import fr.klemms.slotmachine.utils.Util;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -59,25 +59,25 @@ public class MenuItemChangePrice extends MenuItem {
 								player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.8F, 2F);
 
 								DialogInfo.open(() -> {
-											player.clearDialog();
+											player.closeDialog();
 											state.reloadPage();
 										},
 										player,
 										"Success",
 										"Back",
 										true,
-										new ComponentBuilder("Price has been successfully changed").color(ChatColor.GOLD).build(),
-										new ComponentBuilder("New price :").build(),
-										new ComponentBuilder(String.valueOf(machine.getPullPrice())).build(),
-										new ComponentBuilder("Formatted price (as it will appear with $price placeholder) :").build(),
-										new ComponentBuilder(Variables.PRICE.variable.getVariable(player, machine)).build()
+										Component.text("Price has been successfully changed").color(ChatContent.TEX_GOLD),
+										Component.text("New price :"),
+										Component.text(String.valueOf(machine.getPullPrice())),
+										Component.text("Formatted price (as it will appear with $price placeholder) :"),
+										Component.text(Variables.PRICE.variable.getVariable(player, machine))
 								);
 							},
 							player, "Change Price", (float) (machine.getPullPrice()), "Price : (decimals allowed)",
-							null, 1, Integer.MAX_VALUE, true, true, false,
-							new ComponentBuilder("Change the price players will pay to play.").color(ChatColor.GOLD).build(),
-							new ComponentBuilder("Minimum value is 0").color(ChatColor.GOLD).italic(true).build(),
-							new ComponentBuilder("A value of 0 means free").color(ChatColor.GOLD).italic(true).build()
+							null, 0, Integer.MAX_VALUE, true, true, false,
+							Component.text("Change the price players will pay to play.").color(ChatContent.TEX_GOLD),
+							Component.text("Minimum value is 0").color(ChatContent.TEX_GOLD).decorate(TextDecoration.ITALIC),
+							Component.text("A value of 0 means free").color(ChatContent.TEX_GOLD).decorate(TextDecoration.ITALIC)
 					);
 				} else {
 					player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);

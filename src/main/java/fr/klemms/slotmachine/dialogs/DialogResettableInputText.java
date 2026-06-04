@@ -1,20 +1,21 @@
 package fr.klemms.slotmachine.dialogs;
 
 import com.google.gson.JsonObject;
+import fr.klemms.slotmachine.ChatContent;
 import fr.klemms.slotmachine.dialogs.callbacks.ResettableCallback;
 import fr.klemms.slotmachine.placeholders.Variables;
 import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.Util;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.dialog.DialogBase;
-import net.md_5.bungee.api.dialog.MultiActionDialog;
-import net.md_5.bungee.api.dialog.action.ActionButton;
-import net.md_5.bungee.api.dialog.body.DialogBody;
-import net.md_5.bungee.api.dialog.body.PlainMessageBody;
-import net.md_5.bungee.api.dialog.input.TextInput;
+import io.papermc.paper.dialog.Dialog;
+import io.papermc.paper.registry.data.dialog.ActionButton;
+import io.papermc.paper.registry.data.dialog.DialogBase;
+import io.papermc.paper.registry.data.dialog.body.DialogBody;
+import io.papermc.paper.registry.data.dialog.input.DialogInput;
+import io.papermc.paper.registry.data.dialog.type.DialogType;
+import net.kyori.adventure.key.Key;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.entity.Player;
 
@@ -22,12 +23,12 @@ import java.util.*;
 
 public class DialogResettableInputText extends DialogHandler<ResettableCallback<String>> {
 
-	public static final String NAMESPACE = "smdgresettableinputtext";
+	public static final String NAMESPACE = "slotmachine:dialog_resetttable_input_text";
 	public static final DialogResettableInputText instance = new DialogResettableInputText();
 
 	@Override
-	public String getNamespace() {
-		return NAMESPACE;
+	public Key getNamespace() {
+		return Key.key(NAMESPACE);
 	}
 
 	@Override
@@ -48,77 +49,92 @@ public class DialogResettableInputText extends DialogHandler<ResettableCallback<
 		return false;
 	}
 
-	public static void open(ResettableCallback<String> callback, Player player, String dialogTitle, String initialText, String errorString, boolean showPlaceholders, boolean canClose, boolean showPlaceholdersAPI, boolean showReset, boolean showRemove, boolean alphaOnly, BaseComponent... bodies) {
+	public static void open(ResettableCallback<String> callback, Player player, String dialogTitle, String initialText, String errorString, boolean showPlaceholders, boolean canClose, boolean showPlaceholdersAPI, boolean showReset, boolean showRemove, boolean alphaOnly, TextComponent... bodies) {
 		UUID key = UUID.randomUUID();
 
-		JsonObject json = new JsonObject();
-		json.addProperty("key", key.toString());
-
-		List<DialogBody> dialogs = new ArrayList<>();
-		Arrays.stream(bodies).forEach(baseComponent -> {
-			PlainMessageBody msg = new PlainMessageBody(baseComponent);
-			msg.width(300);
-			dialogs.add(msg);
+		List<DialogBody> body = new ArrayList<>();
+		Arrays.stream(bodies).forEach(textComponent -> {
+			body.add(DialogBody.plainMessage(
+					textComponent,
+					300
+			));
 		});
 
 		if (showPlaceholders) {
-			PlainMessageBody base = new PlainMessageBody(new ComponentBuilder("Valid placeholders :").bold(true).color(ChatColor.GOLD).build());
-			base.width(300);
-			dialogs.add(base);
+			body.add(DialogBody.plainMessage(
+					Component.text("Valid placeholders :").decorate(TextDecoration.BOLD).color(ChatContent.TEX_GOLD),
+					300
+			));
 
-			ComponentBuilder variables = new ComponentBuilder();
+			TextComponent comp = Component.text("");
 			List<Variables> validVars = Variables.getValidVariables();
 			for (Variables var : validVars) {
-				variables.append(
-						new ComponentBuilder()
-								.append(new ComponentBuilder("$" + var.variableName).color(ChatColor.LIGHT_PURPLE).build())
-								.append(new ComponentBuilder(" -> ").build())
-								.append(new ComponentBuilder(Language.translate(var.variableDescription)).color(ChatColor.GRAY).build())
-								.build()
-				);
-				variables.append("\n");
+
+				comp = comp.append(Component.text("").append(
+						Component.text("$" + var.variableName).color(ChatContent.TEX_PINK),
+						Component.text(" -> "),
+						Component.text(Language.translate(var.variableDescription)).color(ChatContent.TEX_GRAY)
+				)).appendNewline();
 			}
+
+			body.add(DialogBody.plainMessage(comp, 600));
 
 			if (showPlaceholdersAPI) {
-				variables.append("\n");
-				variables.append(new ComponentBuilder(Language.translate("command.slotmachineaction.placeholderAPI")).italic(true).color(ChatColor.YELLOW).build());
+				body.add(DialogBody.plainMessage(
+						Component.text(Language.translate("command.slotmachineaction.placeholderAPI"))
+								.decorate(TextDecoration.ITALIC)
+								.color(ChatContent.TEX_YELLOW),
+						600
+				));
 			}
-
-			PlainMessageBody varLines = new PlainMessageBody(variables.build());
-			varLines.width(600);
-			dialogs.add(varLines);
 		}
 
 		if (errorString != null && !errorString.isEmpty()) {
-			PlainMessageBody error = new PlainMessageBody(new ComponentBuilder(errorString).color(ChatColor.RED).build());
-			error.width(450);
-			dialogs.add(error);
+			body.add(DialogBody.plainMessage(
+					Component.text(errorString)
+							.color(ChatContent.TEX_RED),
+					450
+			));
 		}
 
 		List<ActionButton> actionButtons = new ArrayList<>();
-		actionButtons.add(new ActionButton(new ComponentBuilder("Done").color(ChatColor.GREEN).build(), instance.getClickAction(key, null)).width(100));
+		actionButtons.add(ActionButton.builder(Component.text("Done").color(ChatContent.TEX_GREEN)).width(100).action(instance.getClickAction(key, null)).build());
 		if (showReset) {
 			JsonObject obj = new JsonObject();
 			obj.addProperty("reset", true);
-			actionButtons.add(new ActionButton(new ComponentBuilder("Reset to default").build(), instance.getClickAction(key, obj)).width(100));
+			actionButtons.add(ActionButton.builder(Component.text("Reset to default")).width(100).action(instance.getClickAction(key, obj)).build());
 		}
 		if (showRemove) {
 			JsonObject obj = new JsonObject();
 			obj.addProperty("remove", true);
-			actionButtons.add(new ActionButton(new ComponentBuilder("Remove").build(), instance.getClickAction(key, obj)).width(100));
+			actionButtons.add(ActionButton.builder(Component.text("Remove")).width(100).action(instance.getClickAction(key, obj)).build());
 		}
 
-		MultiActionDialog dialog = new MultiActionDialog(
-				new DialogBase(new TextComponent(dialogTitle))
+		Dialog dialog = Dialog.create(builder -> builder.empty()
+				.base(DialogBase.builder(Component.text(dialogTitle))
 						.pause(false)
-						.body(dialogs)
-						.afterAction(DialogBase.AfterAction.NONE)
+						.body(body)
+						.afterAction(DialogBase.DialogAfterAction.NONE)
 						.canCloseWithEscape(canClose)
-						.inputs(Collections.singletonList(new TextInput("text", 300, new TextComponent("Text (Max length : 256) :"), true, initialText != null ? initialText : "", 256))),
-				actionButtons.toArray(new ActionButton[actionButtons.size()])
-		)
-				.columns(3)
-				.exitAction(new ActionButton(Util.cancelComponent(), instance.getCloseAction(key)));
+						.inputs(Collections.singletonList(
+								DialogInput.text(
+										"text",
+										300,
+										Component.text("Text (Max length : 256) :"),
+										true,
+										initialText != null ? initialText : "",
+										256,
+										null
+								)
+						))
+						.build()
+				)
+				.type(DialogType.multiAction(
+						actionButtons,
+						ActionButton.builder(Util.cancelNeoComponent()).action(instance.getCloseAction(key)).build(),
+						3
+				))
+		);
 
 		if (callback != null) {
 			instance.awaitCallback(new ResettableCallback<String>() {

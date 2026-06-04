@@ -10,6 +10,7 @@ import fr.klemms.slotmachine.placeholders.Variables;
 import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.PlayerUtil;
 import fr.klemms.slotmachine.utils.Util;
+import net.kyori.adventure.text.Component;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -66,16 +67,16 @@ public class MenuItemChangeLeverName extends MenuItem {
 									player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.8F, 2F);
 
 									DialogInfo.open(() -> {
-												player.clearDialog();
+												player.closeDialog();
 												state.reloadPage();
 											},
 											player,
 											"Success",
 											"Back",
 											true,
-											new ComponentBuilder("Lever name has been successfully changed").color(ChatColor.GOLD).build(),
-											new ComponentBuilder("New lever name :").build(),
-											new ComponentBuilder(ChatContent.translateColorCodes(machine.getLeverTitle())).build()
+											Component.text("Lever name has been successfully changed").color(ChatContent.TEX_GOLD),
+											Component.text("New lever name :"),
+											Component.text(ChatContent.translateColorCodes(machine.getLeverTitle()))
 									);
 								}
 
@@ -87,16 +88,16 @@ public class MenuItemChangeLeverName extends MenuItem {
 									player.playSound(player.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1F, 1F);
 
 									DialogInfo.open(() -> {
-												player.clearDialog();
+												player.closeDialog();
 												state.reloadPage();
 											},
 											player,
 											"Success",
 											"Back",
 											true,
-											new ComponentBuilder("Lever name has been reset").color(ChatColor.GOLD).build(),
-											new ComponentBuilder("New lever name :").build(),
-											new ComponentBuilder(ChatContent.translateColorCodes(machine.getLeverTitle())).build()
+											Component.text("Lever name has been reset").color(ChatContent.TEX_GOLD),
+											Component.text("New lever name :"),
+											Component.text(ChatContent.translateColorCodes(machine.getLeverTitle()))
 									);
 								}
 

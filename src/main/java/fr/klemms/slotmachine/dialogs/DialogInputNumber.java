@@ -1,19 +1,19 @@
 package fr.klemms.slotmachine.dialogs;
 
 import com.google.gson.JsonObject;
+import fr.klemms.slotmachine.ChatContent;
 import fr.klemms.slotmachine.dialogs.callbacks.NumberInputCallback;
 import fr.klemms.slotmachine.interraction.StringInputCallback;
 import fr.klemms.slotmachine.utils.Util;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.dialog.ConfirmationDialog;
-import net.md_5.bungee.api.dialog.DialogBase;
-import net.md_5.bungee.api.dialog.action.ActionButton;
-import net.md_5.bungee.api.dialog.body.DialogBody;
-import net.md_5.bungee.api.dialog.body.PlainMessageBody;
-import net.md_5.bungee.api.dialog.input.TextInput;
+import io.papermc.paper.dialog.Dialog;
+import io.papermc.paper.registry.data.dialog.ActionButton;
+import io.papermc.paper.registry.data.dialog.DialogBase;
+import io.papermc.paper.registry.data.dialog.body.DialogBody;
+import io.papermc.paper.registry.data.dialog.input.DialogInput;
+import io.papermc.paper.registry.data.dialog.type.DialogType;
+import net.kyori.adventure.key.Key;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -22,12 +22,12 @@ import java.util.*;
 
 public class DialogInputNumber extends DialogHandler<StringInputCallback> {
 
-	public static final String NAMESPACE = "smdginputnumber";
+	public static final String NAMESPACE = "slotmachine:dialog_input_number";
 	public static final DialogInputNumber instance = new DialogInputNumber();
 
 	@Override
-	public String getNamespace() {
-		return NAMESPACE;
+	public Key getNamespace() {
+		return Key.key(NAMESPACE);
 	}
 
 	@Override
@@ -39,37 +39,50 @@ public class DialogInputNumber extends DialogHandler<StringInputCallback> {
 		return false;
 	}
 
-	public static void open(NumberInputCallback callback, Player player, String dialogTitle, float initialValue, String inputLabel, String errorString, int min, int max, boolean allowDecimals, boolean canClose, boolean allowNegative, BaseComponent... bodies) {
+	public static void open(NumberInputCallback callback, Player player, String dialogTitle, float initialValue, String inputLabel, String errorString, int min, int max, boolean allowDecimals, boolean canClose, boolean allowNegative, TextComponent... bodies) {
 		UUID key = UUID.randomUUID();
 
-		JsonObject json = new JsonObject();
-		json.addProperty("key", key.toString());
-
-		List<DialogBody> dialogs = new ArrayList<>();
+		List<DialogBody> body = new ArrayList<>();
 		Arrays.stream(bodies).forEach(baseComponent -> {
-			PlainMessageBody msg = new PlainMessageBody(baseComponent);
-			msg.width(300);
-			dialogs.add(msg);
+			body.add(DialogBody.plainMessage(
+					baseComponent,
+					300
+			));
 		});
 
 		if (errorString != null && !errorString.isEmpty()) {
-			PlainMessageBody error = new PlainMessageBody(new ComponentBuilder(errorString).color(ChatColor.RED).build());
-			error.width(450);
-			dialogs.add(error);
+			body.add(DialogBody.plainMessage(
+					Component.text(errorString).color(ChatContent.TEX_RED),
+					450
+			));
 		}
 
 		String correctValue = allowDecimals ? String.valueOf(initialValue) : String.valueOf((int) initialValue);
 
-		ConfirmationDialog dialog = new ConfirmationDialog(
-				new DialogBase(new TextComponent(dialogTitle))
+		Dialog dialog = Dialog.create(builder -> builder.empty()
+				.base(DialogBase.builder(Component.text(dialogTitle))
 						.pause(false)
-						.body(dialogs)
-						.afterAction(DialogBase.AfterAction.NONE)
+						.body(body)
+						.afterAction(DialogBase.DialogAfterAction.NONE)
 						.canCloseWithEscape(canClose)
-						.inputs(Collections.singletonList(new TextInput("number", 300, new TextComponent(inputLabel), true, correctValue, 16)))
-		)
-				.yes(new ActionButton(new TextComponent("Done"), instance.getClickAction(key, null)))
-				.no(new ActionButton(Util.cancelComponent(), instance.getCloseAction(key)));
+						.inputs(Collections.singletonList(
+								DialogInput.text(
+										"number",
+										300,
+										Component.text(inputLabel),
+										true,
+										correctValue,
+										16,
+										null
+								)
+						))
+						.build()
+				)
+				.type(DialogType.confirmation(
+						ActionButton.builder(Component.text("Done")).action(instance.getClickAction(key, null)).build(),
+						ActionButton.builder(Util.cancelNeoComponent()).action(instance.getCloseAction(key)).build()
+				))
+		);
 
 		if (callback != null) {
 			instance.awaitCallback(text -> {

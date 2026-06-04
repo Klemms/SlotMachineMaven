@@ -9,8 +9,8 @@ import fr.klemms.slotmachine.interraction.StringInput;
 import fr.klemms.slotmachine.utils.PlayerHeadsUtil;
 import fr.klemms.slotmachine.utils.PlayerUtil;
 import fr.klemms.slotmachine.utils.Util;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -55,21 +55,21 @@ public class MenuItemChangeCooldown extends MenuItem {
 							new ResettableCallback<Float>() {
 								@Override
 								public void validateCallback(Float text) {
-									machine.setCooldown((int)(float)text);
+									machine.setCooldown((int) (float) text);
 									machine.save();
 									player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.8F, 2F);
 
 									DialogInfo.open(() -> {
-												player.clearDialog();
+												player.closeDialog();
 												state.reloadPage();
 											},
 											player,
 											"Success",
 											"Back",
 											true,
-											new ComponentBuilder("Cooldown has been successfully changed").color(ChatColor.GOLD).build(),
-											new ComponentBuilder("New cooldown :").build(),
-											new ComponentBuilder(machine.getCooldown() + "s").build()
+											Component.text("Cooldown has been successfully changed").color(ChatContent.TEX_GOLD),
+											Component.text("New cooldown :"),
+											Component.text(machine.getCooldown() + "s")
 									);
 								}
 
@@ -80,16 +80,16 @@ public class MenuItemChangeCooldown extends MenuItem {
 									player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.8F, 2F);
 
 									DialogInfo.open(() -> {
-												player.clearDialog();
+												player.closeDialog();
 												state.reloadPage();
 											},
 											player,
 											"Success",
 											"Back",
 											true,
-											new ComponentBuilder("Cooldown has been reset").color(ChatColor.GOLD).build(),
-											new ComponentBuilder("New cooldown :").build(),
-											new ComponentBuilder(machine.getCooldown() + "s").build()
+											Component.text("Cooldown has been reset").color(ChatContent.TEX_GOLD),
+											Component.text("New cooldown :"),
+											Component.text(machine.getCooldown() + "s")
 									);
 								}
 
@@ -99,9 +99,9 @@ public class MenuItemChangeCooldown extends MenuItem {
 							},
 							player, "Change Cooldown", (float) (machine.getCooldown()), "Cooldown : (in seconds, integer)",
 							null, 0, Integer.MAX_VALUE, false, true, true, false,
-							new ComponentBuilder("Change the cooldown players need to wait after playing.").color(ChatColor.GOLD).build(),
-							new ComponentBuilder("A value of 0 means no cooldown").color(ChatColor.GOLD).italic(true).build(),
-							new ComponentBuilder("Cooldown is in seconds").color(ChatColor.GOLD).italic(true).build()
+							Component.text("Change the cooldown players need to wait after playing.").color(ChatContent.TEX_GOLD),
+							Component.text("A value of 0 means no cooldown").color(ChatContent.TEX_GOLD).decorate(TextDecoration.ITALIC),
+							Component.text("Cooldown is in seconds").color(ChatContent.TEX_GOLD).decorate(TextDecoration.ITALIC)
 					);
 				} else {
 					StringInput.inputString(

@@ -9,8 +9,7 @@ import fr.klemms.slotmachine.dialogs.callbacks.ResettableCallback;
 import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.PlayerUtil;
 import fr.klemms.slotmachine.utils.Util;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -55,16 +54,16 @@ public class MenuItemSetWinMessage extends MenuItem {
 					machine.save();
 
 					DialogInfo.open(() -> {
-								player.clearDialog();
+								player.closeDialog();
 								state.reloadPage();
 							},
 							player,
 							"Success",
 							"Back",
 							true,
-							new ComponentBuilder("Win message has been successfully changed").color(ChatColor.GOLD).build(),
-							new ComponentBuilder("New win message :").build(),
-							new ComponentBuilder(ChatContent.translateColorCodes(machine.getFinalWinMessage())).build()
+							Component.text("Win message has been successfully changed").color(ChatContent.TEX_GOLD),
+							Component.text("New win message :"),
+							Component.text(ChatContent.translateColorCodes(machine.getFinalWinMessage()))
 					);
 				}
 
@@ -75,16 +74,16 @@ public class MenuItemSetWinMessage extends MenuItem {
 					machine.save();
 
 					DialogInfo.open(() -> {
-								player.clearDialog();
+								player.closeDialog();
 								state.reloadPage();
 							},
 							player,
 							"Success",
 							"Back",
 							true,
-							new ComponentBuilder("Win message has been successfully reset to default").color(ChatColor.GOLD).build(),
-							new ComponentBuilder("New win message :").build(),
-							new ComponentBuilder(ChatContent.translateColorCodes(machine.getFinalWinMessage())).build()
+							Component.text("Win message has been successfully reset to default").color(ChatContent.TEX_GOLD),
+							Component.text("New win message :"),
+							Component.text(ChatContent.translateColorCodes(machine.getFinalWinMessage()))
 					);
 				}
 
@@ -94,14 +93,14 @@ public class MenuItemSetWinMessage extends MenuItem {
 					machine.save();
 
 					DialogInfo.open(() -> {
-								player.clearDialog();
+								player.closeDialog();
 								state.reloadPage();
 							},
 							player,
 							"Success",
 							"Back",
 							true,
-							new ComponentBuilder("Win message has been removed").color(ChatColor.GOLD).build()
+							Component.text("Win message has been removed").color(ChatContent.TEX_GOLD)
 					);
 
 				}

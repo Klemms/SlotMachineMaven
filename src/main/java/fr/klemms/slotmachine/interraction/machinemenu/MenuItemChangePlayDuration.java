@@ -8,8 +8,8 @@ import fr.klemms.slotmachine.dialogs.callbacks.ResettableCallback;
 import fr.klemms.slotmachine.interraction.StringInput;
 import fr.klemms.slotmachine.utils.PlayerUtil;
 import fr.klemms.slotmachine.utils.Util;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -60,16 +60,16 @@ public class MenuItemChangePlayDuration extends MenuItem {
 									player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.8F, 2F);
 
 									DialogInfo.open(() -> {
-												player.clearDialog();
+												player.closeDialog();
 												state.reloadPage();
 											},
 											player,
 											"Success",
 											"Back",
 											true,
-											new ComponentBuilder("Play duration has been successfully changed").color(ChatColor.GOLD).build(),
-											new ComponentBuilder("New duration :").build(),
-											new ComponentBuilder(machine.getSecondsBeforePrize() + "s").build()
+											Component.text("Play duration has been successfully changed").color(ChatContent.TEX_GOLD),
+											Component.text("New duration :"),
+											Component.text(machine.getSecondsBeforePrize() + "s")
 									);
 								}
 
@@ -80,16 +80,16 @@ public class MenuItemChangePlayDuration extends MenuItem {
 									player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.8F, 2F);
 
 									DialogInfo.open(() -> {
-												player.clearDialog();
+												player.closeDialog();
 												state.reloadPage();
 											},
 											player,
 											"Success",
 											"Back",
 											true,
-											new ComponentBuilder("Play duration has been reset").color(ChatColor.GOLD).build(),
-											new ComponentBuilder("New duration :").build(),
-											new ComponentBuilder(machine.getSecondsBeforePrize() + "s").build()
+											Component.text("Play duration has been reset").color(ChatContent.TEX_GOLD),
+											Component.text("New duration :"),
+											Component.text(machine.getSecondsBeforePrize() + "s")
 									);
 								}
 
@@ -99,9 +99,9 @@ public class MenuItemChangePlayDuration extends MenuItem {
 							},
 							player, "Change Play Duration", (float) (machine.getSecondsBeforePrize()), "Duration : (in seconds, integer)",
 							null, 1, Integer.MAX_VALUE, false, true, true, false,
-							new ComponentBuilder("Change the duration that the machine \"spins\" for.").color(ChatColor.GOLD).build(),
-							new ComponentBuilder("Minimum is 1 second").color(ChatColor.GOLD).italic(true).build(),
-							new ComponentBuilder("Duration is in seconds").color(ChatColor.GOLD).italic(true).build()
+							Component.text("Change the duration that the machine \"spins\" for.").color(ChatContent.TEX_GOLD),
+							Component.text("Minimum is 1 second").color(ChatContent.TEX_GOLD).decorate(TextDecoration.ITALIC),
+							Component.text("Duration is in seconds").color(ChatContent.TEX_GOLD).decorate(TextDecoration.ITALIC)
 					);
 				} else {
 					StringInput.inputString(

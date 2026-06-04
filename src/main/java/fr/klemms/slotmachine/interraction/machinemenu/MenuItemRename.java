@@ -10,8 +10,7 @@ import fr.klemms.slotmachine.dialogs.callbacks.ResettableCallback;
 import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.PlayerUtil;
 import fr.klemms.slotmachine.utils.Util;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
@@ -69,16 +68,16 @@ public class MenuItemRename extends MenuItem {
 									player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.8F, 2F);
 
 									DialogInfo.open(() -> {
-												player.clearDialog();
+												player.closeDialog();
 												state.reloadPage();
 											},
 											player,
 											"Success",
 											"Back",
 											true,
-											new ComponentBuilder("Machine name has been successfully changed.").color(ChatColor.GOLD).build(),
-											new ComponentBuilder("New name :").build(),
-											new ComponentBuilder(machine.getSlotMachineName()).build()
+											Component.text("Machine name has been successfully changed.").color(ChatContent.TEX_GOLD),
+											Component.text("New name :"),
+											Component.text(machine.getSlotMachineName())
 									);
 								}
 
@@ -101,21 +100,21 @@ public class MenuItemRename extends MenuItem {
 									player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.8F, 2F);
 
 									DialogInfo.open(() -> {
-												player.clearDialog();
+												player.closeDialog();
 												state.reloadPage();
 											},
 											player,
 											"Success",
 											"Back",
 											true,
-											new ComponentBuilder("Machine name has been reset.").color(ChatColor.GOLD).build(),
-											new ComponentBuilder("New name :").build(),
-											new ComponentBuilder(machine.getSlotMachineName()).build()
+											Component.text("Machine name has been reset.").color(ChatContent.TEX_GOLD),
+											Component.text("New name :"),
+											Component.text(machine.getSlotMachineName())
 									);
 								}
 							},
 							player, "Rename Machine", machine.getSlotMachineName(), null, false, true, false, false, true, false,
-							new ComponentBuilder("Color codes can be used.").color(ChatColor.GOLD).build()
+							Component.text("Color codes can be used.").color(ChatContent.TEX_GOLD)
 					);
 				} else {
 					player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);

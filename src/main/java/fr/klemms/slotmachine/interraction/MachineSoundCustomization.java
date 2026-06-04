@@ -14,8 +14,8 @@ import fr.klemms.slotmachine.utils.ItemStackUtil;
 import fr.klemms.slotmachine.utils.PlayerHeadsUtil;
 import fr.klemms.slotmachine.utils.Util;
 import fr.klemms.slotmachine.utils.sounds.SSound;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -526,24 +526,23 @@ public class MachineSoundCustomization {
 					}
 				},
 				player, "Custom sound input", initialText, errorText, false, true, false, true, false, true,
-				new ComponentBuilder("Changing sound : ").color(ChatColor.GOLD)
-						.append(new ComponentBuilder(soundType).italic(true).color(ChatColor.AQUA).build())
-						.build()
+				Component.text("Changing sound : ").color(ChatContent.TEX_GOLD)
+						.append(Component.text(soundType).decorate(TextDecoration.ITALIC).color(ChatContent.TEX_AQUA))
 		);
 	}
 
 	static void showSuccess(Player player, SlotMachine machine, SSound sound, boolean isReset) {
 		DialogInfo.open(() -> {
-					player.clearDialog();
+					player.closeDialog();
 					customizeSounds(player, machine);
 				},
 				player,
 				"Success",
 				"Back",
 				true,
-				new ComponentBuilder(isReset ? "Sound has been reset." : "Sound has been successfully changed.").color(ChatColor.GOLD).build(),
-				new ComponentBuilder("New sound name :").build(),
-				new ComponentBuilder(sound.getPrettyName()).build()
+				Component.text(isReset ? "Sound has been reset." : "Sound has been successfully changed.").color(ChatContent.TEX_GOLD),
+				Component.text("New sound name :"),
+				Component.text(sound.getPrettyName())
 		);
 	}
 }

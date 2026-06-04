@@ -9,8 +9,8 @@ import fr.klemms.slotmachine.dialogs.callbacks.ResettableCallback;
 import fr.klemms.slotmachine.translation.Language;
 import fr.klemms.slotmachine.utils.PlayerUtil;
 import fr.klemms.slotmachine.utils.Util;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -60,18 +60,18 @@ public class MenuItemChangePermission extends MenuItem {
 									player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.8F, 2F);
 
 									DialogInfo.open(() -> {
-												player.clearDialog();
+												player.closeDialog();
 												state.reloadPage();
 											},
 											player,
 											"Success",
 											"Back",
 											true,
-											new ComponentBuilder("Machine permission has been successfully changed.").color(ChatColor.GOLD).build(),
-											new ComponentBuilder("New permission :").build(),
-											new ComponentBuilder("slotmachine.access.")
-													.append(new ComponentBuilder(newPerm).color(ChatColor.AQUA).build())
-													.build()
+											Component.text("Machine permission has been successfully changed.").color(ChatContent.TEX_GOLD),
+											Component.text("New permission :"),
+											Component.text("slotmachine.access.").append(
+													Component.text(newPerm).color(ChatContent.TEX_AQUA)
+											)
 									);
 								}
 
@@ -82,33 +82,30 @@ public class MenuItemChangePermission extends MenuItem {
 									player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.8F, 2F);
 
 									DialogInfo.open(() -> {
-												player.clearDialog();
+												player.closeDialog();
 												state.reloadPage();
 											},
 											player,
 											"Success",
 											"Back",
 											true,
-											new ComponentBuilder("Machine permission has been reset.").color(ChatColor.GOLD).build(),
-											new ComponentBuilder("New permission :").build(),
-											new ComponentBuilder("slotmachine.access.default").build()
+											Component.text("Machine permission has been reset.").color(ChatContent.TEX_GOLD),
+											Component.text("New permission :"),
+											Component.text("slotmachine.access.default")
 									);
 								}
 
 								@Override
-								public void removeCallback() {}
+								public void removeCallback() {
+								}
 							},
 							player, "Change Permission", machine.getGuiPermission().replace("slotmachine.access.", ""),
 							null, false, true, false, true, false, true,
-							new ComponentBuilder().color(ChatColor.GOLD)
-									.append(new ComponentBuilder("The new permission will automatically begin with ").build())
-									.append(new ComponentBuilder("slotmachine.access.").color(ChatColor.AQUA).build())
-									.build(),
-							new ComponentBuilder().color(ChatColor.GOLD)
-									.append(new ComponentBuilder("Type in the box below the permission you want after ").build())
-									.append(new ComponentBuilder("slotmachine.access.").color(ChatColor.AQUA).build())
-									.build(),
-							new ComponentBuilder("Note : Only alphabetic characters are allowed").italic(true).color(ChatColor.GRAY).build()
+							Component.text("The new permission will automatically begin with ").color(ChatContent.TEX_GOLD)
+									.append(Component.text("slotmachine.access.").color(ChatContent.TEX_AQUA)),
+							Component.text("Type in the box below the permission you want after ").color(ChatContent.TEX_GOLD)
+									.append(Component.text("slotmachine.access.").color(ChatContent.TEX_AQUA)),
+							Component.text("Note : Only alphabetic characters are allowed").color(ChatContent.TEX_GRAY).decorate(TextDecoration.ITALIC)
 					);
 				} else {
 					player.playSound(player.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1F, 1F);

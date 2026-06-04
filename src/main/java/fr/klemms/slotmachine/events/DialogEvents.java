@@ -1,53 +1,61 @@
 package fr.klemms.slotmachine.events;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import fr.klemms.slotmachine.SlotPlugin;
 import fr.klemms.slotmachine.dialogs.DialogHandler;
 import fr.klemms.slotmachine.utils.LogUtils;
 import fr.klemms.slotmachine.utils.Util;
+import io.papermc.paper.connection.PlayerGameConnection;
+import io.papermc.paper.dialog.DialogResponseView;
+import io.papermc.paper.event.player.PlayerCustomClickEvent;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerCustomClickEvent;
 
 import java.util.UUID;
 
 public class DialogEvents implements Listener {
 	@EventHandler
 	public void onCustomClick(PlayerCustomClickEvent event) {
-		//LogUtils.debug("Custom Click : " + event.getId().toString() + " // " + event.getData().toString());
+		LogUtils.debug("Custom Click : " + event.getIdentifier().asString() + " // " + event.getDialogResponseView().toString());
 
-		if (!Util.canUseDialogs()) {
+		if (!Util.canUseDialogs() || !(event.getCommonConnection() instanceof PlayerGameConnection)) {
 			return;
 		}
 
+		Player player = ((PlayerGameConnection) event.getCommonConnection()).getPlayer();
+
 		for (DialogHandler handler : SlotPlugin.dialogHandlers) {
-			if (handler.getNamespace().equals(event.getId().getKey())) {
-				JsonElement json = event.getData();
+			if (handler.getNamespace().equals(event.getIdentifier())) {
+				DialogResponseView view = event.getDialogResponseView();
 
-				if (json != null && json.isJsonObject()) {
-					JsonObject obj = json.getAsJsonObject();
+				if (view == null) {
+					return;
+				}
 
-					if (obj.has("key")) {
-						UUID key = UUID.fromString(obj.get("key").getAsString());
-						DialogHandler.AwaitingCallbacks ac = handler.getAwaitingCallback(event.getPlayer(), key);
+				LogUtils.debug("JSON string : " + view.payload().string());
+				JsonObject json = JsonParser.parseString(view.payload().string()).getAsJsonObject();
 
-						if (ac != null) {
-							LogUtils.debug("Custom Click Validated : " + event.getData().toString());
-							boolean removeAC = false;
+				if (json.has("key")) {
+					UUID key = UUID.fromString(json.get("key").getAsString());
+					DialogHandler.AwaitingCallbacks ac = handler.getAwaitingCallback(player, key);
 
-							if (obj.has("__close")) {
-								removeAC = true;
-								event.getPlayer().clearDialog();
-							} else {
-								removeAC = handler.handle(ac, event.getPlayer(), obj);
-							}
+					if (ac != null) {
+						LogUtils.debug("Custom Click Validated : " + view.payload().string());
+						boolean removeAC = false;
 
-							if (removeAC) {
-								handler.awaitingCallbacks.remove(ac);
-							}
-							break;
+						if (json.has("__close")) {
+							removeAC = true;
+							player.closeDialog();
+						} else {
+							removeAC = handler.handle(ac, player, json);
 						}
+
+						if (removeAC) {
+							handler.awaitingCallbacks.remove(ac);
+						}
+						break;
 					}
 				}
 			}

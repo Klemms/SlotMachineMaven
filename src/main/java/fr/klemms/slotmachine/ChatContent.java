@@ -1,13 +1,14 @@
 package fr.klemms.slotmachine;
 
+import net.kyori.adventure.text.format.TextColor;
+import net.md_5.bungee.api.ChatColor;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import net.md_5.bungee.api.ChatColor;
 
 public class ChatContent {
 
@@ -33,11 +34,28 @@ public class ChatContent {
 	public static final String UNDERLINE = "\u00A7n";
 	public static final String ITALIC = "\u00A7o";
 	public static final String RESET = "\u00A7r";
-	
+
+	public static final TextColor TEX_BLACK = TextColor.fromHexString("#000000");
+	public static final TextColor TEX_DARK_BLUE = TextColor.fromHexString("#0000AA");
+	public static final TextColor TEX_DARK_GREEN = TextColor.fromHexString("#00AA00");
+	public static final TextColor TEX_DARK_AQUA = TextColor.fromHexString("#00AAAA");
+	public static final TextColor TEX_DARK_RED = TextColor.fromHexString("#AA0000");
+	public static final TextColor TEX_DARK_PURPLE = TextColor.fromHexString("#AA00AA");
+	public static final TextColor TEX_GOLD = TextColor.fromHexString("#FFAA00");
+	public static final TextColor TEX_GRAY = TextColor.fromHexString("#AAAAAA");
+	public static final TextColor TEX_DARK_GRAY = TextColor.fromHexString("#555555");
+	public static final TextColor TEX_BLUE = TextColor.fromHexString("#5555FF");
+	public static final TextColor TEX_GREEN = TextColor.fromHexString("#55FF55");
+	public static final TextColor TEX_AQUA = TextColor.fromHexString("#55FFFF");
+	public static final TextColor TEX_RED = TextColor.fromHexString("#FF5555");
+	public static final TextColor TEX_PINK = TextColor.fromHexString("#FF55FF");
+	public static final TextColor TEX_YELLOW = TextColor.fromHexString("#FFFF55");
+	public static final TextColor TEX_WHITE = TextColor.fromHexString("#FFFFFF");
+
 	public static String translateColorCodes(String string) {
 		List<String> matches = new ArrayList<String>();
 		Matcher m = Pattern.compile("(&#[a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9])").matcher(string);
-		
+
 		while(m.find()) {
 			ChatColor color = null;
 			try {
@@ -48,7 +66,7 @@ public class ChatContent {
 			}
 			string = string.replace(m.group(), color.toString());
 		}
-		
+
 		return string
 				.replace("&0", ChatContent.BLACK)
 				.replace("&1", ChatContent.DARK_BLUE)

@@ -160,7 +160,7 @@ public class RewardsCustomization {
 											machine.save();
 											player.playSound(player.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 1.5F, 2F);
 
-											player.clearDialog();
+											player.closeDialog();
 											RewardsCustomization.rewardsCustomization(player, machine, item, backPage, page);
 										}, player, "Edit the command", reward.commandReward, "You can edit the command in the box below", null, true, true, true);
 									} else {
@@ -210,7 +210,7 @@ public class RewardsCustomization {
 											machine.save();
 											player.playSound(player.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 1.5F, 2F);
 
-											player.clearDialog();
+											player.closeDialog();
 											RewardsCustomization.rewardsCustomization(player, machine, item, backPage, page);
 										}, player, "Edit the command", reward.commandReward, "You can edit the command in the box below", null, true, true, true);
 									} else {
@@ -242,7 +242,7 @@ public class RewardsCustomization {
 												player.playSound(player.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 1.5F, 2F);
 												machine.save();
 
-												player.clearDialog();
+												player.closeDialog();
 												RewardsCustomization.rewardsCustomization(player, machine, item, backPage, page);
 											}, player, "Add Command Reward", "", "You can add a new command by typing it in the box below", null, true, true, true);
 										} else {

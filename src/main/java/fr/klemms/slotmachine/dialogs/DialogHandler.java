@@ -2,7 +2,9 @@ package fr.klemms.slotmachine.dialogs;
 
 import com.google.gson.JsonObject;
 import fr.klemms.slotmachine.utils.LogUtils;
-import net.md_5.bungee.api.dialog.action.CustomClickAction;
+import io.papermc.paper.registry.data.dialog.action.DialogAction;
+import net.kyori.adventure.key.Key;
+import net.kyori.adventure.nbt.api.BinaryTagHolder;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -13,7 +15,7 @@ public abstract class DialogHandler<T> {
 
 	public List<AwaitingCallbacks<T>> awaitingCallbacks = new ArrayList<AwaitingCallbacks<T>>();
 
-	public abstract String getNamespace();
+	public abstract Key getNamespace();
 
 	/**
 	 *
@@ -38,26 +40,22 @@ public abstract class DialogHandler<T> {
 		this.awaitingCallbacks.add(ac);
 	}
 
-	public CustomClickAction getClickAction(UUID key, JsonObject json) {
-		CustomClickAction cca = new CustomClickAction(this.getNamespace());
-
+	public DialogAction.CustomClickAction getClickAction(UUID key, JsonObject json) {
 		JsonObject obj = new JsonObject();
 		obj.addProperty("key", key.toString());
-		obj.add("data", json);
-		cca.additions(obj);
+		if (json != null) {
+			obj.add("data", json);
+		}
 
-		return cca;
+		return DialogAction.customClick(this.getNamespace(), BinaryTagHolder.binaryTagHolder(obj.toString()));
 	}
 
-	public CustomClickAction getCloseAction(UUID key) {
-		CustomClickAction cca = new CustomClickAction(this.getNamespace());
-
+	public DialogAction.CustomClickAction getCloseAction(UUID key) {
 		JsonObject obj = new JsonObject();
 		obj.addProperty("key", key.toString());
 		obj.addProperty("__close", true);
-		cca.additions(obj);
 
-		return cca;
+		return DialogAction.customClick(this.getNamespace(), BinaryTagHolder.binaryTagHolder(obj.toString()));
 	}
 
 	public AwaitingCallbacks<T> getAwaitingCallback(Player caller, UUID key) {
