@@ -1,6 +1,9 @@
 package fr.klemms.slotmachine.utils;
 
+import fr.klemms.slotmachine.ChatContent;
 import fr.klemms.slotmachine.utils.sounds.SSound;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -112,7 +115,7 @@ public class Util {
 	}
 
 	public static String getMCVersion() {
-		return Bukkit.getBukkitVersion().split("-")[0];
+		return Bukkit.getMinecraftVersion();
 	}
 
 	public static String formatNumber(double number) {
@@ -180,5 +183,12 @@ public class Util {
 		cb.append(new ComponentBuilder("Cancel").build());
 
 		return cb.build();
+	}
+
+	public static TextComponent cancelNeoComponent() {
+		return Component.text("").append(
+				Component.text("< ").color(ChatContent.TEX_GRAY),
+				Component.text("Cancel")
+		);
 	}
 }
