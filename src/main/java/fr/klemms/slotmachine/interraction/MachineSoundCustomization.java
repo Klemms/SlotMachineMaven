@@ -525,7 +525,7 @@ public class MachineSoundCustomization {
 					public void removeCallback() {
 					}
 				},
-				player, "Custom sound input", initialText, errorText, false, true, false, true, false, true,
+				player, "Custom sound input", initialText, errorText, false, true, false, true, false, false,
 				Component.text("Changing sound : ").color(ChatContent.TEX_GOLD)
 						.append(Component.text(soundType).decorate(TextDecoration.ITALIC).color(ChatContent.TEX_AQUA))
 		);
