@@ -5,6 +5,7 @@ import fr.klemms.slotmachine.Issue.IssueType;
 import fr.klemms.slotmachine.MachineItem.RewardType;
 import fr.klemms.slotmachine.api.events.SlotMachineReadyEvent;
 import fr.klemms.slotmachine.brigadier.CommandGiveTokens;
+import fr.klemms.slotmachine.brigadier.CommandOpenMachine;
 import fr.klemms.slotmachine.clipboard.Clipboards;
 import fr.klemms.slotmachine.commands.*;
 import fr.klemms.slotmachine.dialogs.*;
@@ -171,10 +172,11 @@ public class SlotPlugin extends JavaPlugin {
 		}
 
 		this.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, commands -> {
+			commands.registrar().register(new CommandOpenMachine().register().build());
 			commands.registrar().register(new CommandGiveTokens().register().build());
 		});
 
-		Objects.requireNonNull(getCommand("openmachine")).setExecutor(new CommandOpenMachine());
+		//Objects.requireNonNull(getCommand("openmachine")).setExecutor(new CommandOpenMachine());
 		Objects.requireNonNull(getCommand("tpmachine")).setExecutor(new CommandTPMachine());
 		//Objects.requireNonNull(getCommand("givetokens")).setExecutor(new CommandGiveTokens());
 		Objects.requireNonNull(getCommand("slotmachineversion")).setExecutor(new CommandSlotMachineVersion());

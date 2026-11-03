@@ -9,18 +9,16 @@ commands:
     slotmachineversion:
         description: Tells you Slot Machine's version
         usage: /slotmachineversion
-    openmachine:
-        description: Opens a Slot Machine for a player
-        usage: /openmachine <Player Name> <Machine UUID> [true/false | true to override the machine's permission]
-        permission: slotmachine.openmachine
-        permission-message: You do not have permission
+#    openmachine:
+#        description: Opens a Slot Machine for a player
+#        usage: /openmachine <Player Name> <Machine UUID> [true/false | true to override the machine's permission]
     tpmachine:
         description: Teleports a machine to you, at the same exact position
         usage: /tpmachine <Entity UUID>
         permission: slotmachine.tpmachine
         permission-message: You do not have permission
-    givetokens:
-        description: Gives the player the amount of tokens, omitting or mistyping the Token ID will bring up a UI that lets you pick the Token you want
+#    givetokens:
+#        description: Gives the player the amount of tokens, omitting or mistyping the Token ID will bring up a UI that lets you pick the Token you want
     slotmachinetoken:
         description: Helps you manage your tokens
         usage: /slotmachinetoken list OR /slotmachinetoken add <unique name (lower case, one word)>
