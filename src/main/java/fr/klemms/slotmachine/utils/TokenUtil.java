@@ -8,13 +8,21 @@ import java.util.List;
 
 public class TokenUtil {
 
+	public static Token getToken(String tokenId) {
+		if (Config.tokens.containsKey(tokenId)) {
+			return new Token(tokenId, Config.tokens.get(tokenId));
+		}
+
+		return null;
+	}
+
 	public static List<Token> getTokenList() {
 		List<Token> tokens = new ArrayList<Token>();
-		
+
 		for(String identifier : Config.tokens.keySet()) {
 			tokens.add(new Token(identifier, Config.tokens.get(identifier)));
 		}
-		
+
 		return tokens;
 	}
 }
