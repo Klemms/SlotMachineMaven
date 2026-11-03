@@ -6,6 +6,7 @@ import fr.klemms.slotmachine.MachineItem.RewardType;
 import fr.klemms.slotmachine.api.events.SlotMachineReadyEvent;
 import fr.klemms.slotmachine.brigadier.CommandGiveTokens;
 import fr.klemms.slotmachine.brigadier.CommandOpenMachine;
+import fr.klemms.slotmachine.brigadier.CommandSlotMachineTokens;
 import fr.klemms.slotmachine.brigadier.CommandTPMachine;
 import fr.klemms.slotmachine.clipboard.Clipboards;
 import fr.klemms.slotmachine.commands.*;
@@ -176,13 +177,10 @@ public class SlotPlugin extends JavaPlugin {
 			commands.registrar().register(new CommandOpenMachine().register().build());
 			commands.registrar().register(new CommandGiveTokens().register().build());
 			commands.registrar().register(new CommandTPMachine().register().build());
+			commands.registrar().register(new CommandSlotMachineTokens().register().build());
 		});
 
-		//Objects.requireNonNull(getCommand("openmachine")).setExecutor(new CommandOpenMachine());
-		//Objects.requireNonNull(getCommand("tpmachine")).setExecutor(new CommandTPMachine());
-		//Objects.requireNonNull(getCommand("givetokens")).setExecutor(new CommandGiveTokens());
 		Objects.requireNonNull(getCommand("slotmachineversion")).setExecutor(new CommandSlotMachineVersion());
-		Objects.requireNonNull(getCommand("slotmachinetoken")).setExecutor(new CommandSlotMachineTokens());
 		Objects.requireNonNull(getCommand("smsavetodisk")).setExecutor(new CommandSMSaveToDisk());
 		Objects.requireNonNull(getCommand("smcooldown")).setExecutor(new CommandCooldown());
 		Objects.requireNonNull(getCommand("smreload")).setExecutor(new CommandReloadMachines());
